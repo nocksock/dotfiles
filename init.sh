@@ -1,8 +1,8 @@
 #!/bin/bash
 
-ln -s dotvim/vim ~/.vim
-ln -s dotvim/vimrc ~/.vimrc
-ln -s dottmux/tmux.conf ~/.tmux.conf
-ln -s dotzsh/zsh ~/.zsh
-ln -s dotzsh/zshrc ~/.zshrc
+ln -s dotfiles/dotvim/vim ~/.vim
+ln -s dotfiles/dotvim/vimrc ~/.vimrc
+ln -s dotfiles/dottmux/tmux.conf ~/.tmux.conf
+ln -s dotfiles/dotzsh/zsh ~/.zsh
+ln -s dotfiles/dotzsh/zshrc ~/.zshrc
 ln -s oh-my-zsh ~/.oh-my-zsh
