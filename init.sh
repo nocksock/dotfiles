@@ -12,3 +12,4 @@ git submodule update;
 cd dotvim;
 git submodule init;
 git submodule update;
+mkdir tmp tmp/undo tmp/swap tmp/backup
