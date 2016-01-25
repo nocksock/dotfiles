@@ -6,7 +6,7 @@
 	url = https://github.com/noxoc/dottmux
 [submodule "dotzsh"]
 	path = dotzsh
-	url = https://github.com/noxoc/dotzsh
+	url = git@github.com:noxoc/dotzsh.git
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh/
