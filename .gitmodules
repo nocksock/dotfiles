@@ -1,3 +1,12 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh/
+[submodule "dotvim"]
+	path = dotvim
+	url = wgh:noxoc/dotvim
+[submodule "dottmux"]
+	path = dottmux
+	url = wgh:noxoc/dottmux
+[submodule "dotzsh"]
+	path = dotzsh
+	url = wgh:noxoc/dotzsh
