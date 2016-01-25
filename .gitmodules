@@ -3,10 +3,10 @@
 	url = https://github.com/robbyrussell/oh-my-zsh/
 [submodule "dotvim"]
 	path = dotvim
-	url = wgh:noxoc/dotvim
+	url = https://github.com/noxoc/dotvim
 [submodule "dottmux"]
 	path = dottmux
-	url = wgh:noxoc/dottmux
+	url = https://github.com/noxoc/dottmux
 [submodule "dotzsh"]
 	path = dotzsh
-	url = wgh:noxoc/dotzsh
+	url = https://github.com/noxoc/dotzsh
