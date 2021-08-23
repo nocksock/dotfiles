@@ -1,9 +1,11 @@
-# dotFiles
+# Dotfiles
+
 These are *some* of my dotfiles, personal configuration… things. ʕ •ᴥ•ʔ
 
-    git clone --recursive https://github.com/noxoc/dotfiles.git
+    git clone https://github.com/nocksock/dotfiles.git
     cd dotfiles
-    sh init.sh
+    sh setup.sh
 
 To install vim plugins
+
     vim +PluginInstall
