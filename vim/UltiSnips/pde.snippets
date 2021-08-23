@@ -1,0 +1,57 @@
+snippet setup "setup w/ pdf export" i
+import processing.pdf.*;
+
+boolean savePDF = false;
+
+void setup() {
+	size(displayWidth, displayHeight);
+	smooth();
+	$1
+}
+
+void draw() {
+	if(savePDF) {
+		beginRecord(PDF, timestamp()+"-wip.pdf"); 
+		setup();
+	}
+
+	$0
+
+	if(savePDF) {
+		savePDF = false;
+		endRecord();
+	}
+}
+
+
+void mousePressed() {
+	savePDF = true;
+}
+
+String timestamp() {
+	return year()+"-"+month()+"-"+day()+" "+hour()+":"+minute();
+}
+endsnippet
+
+snippet setup "setup minimal" i
+void setup(){
+	size(800, 600, OPENGL);
+	smooth();
+}
+
+void draw(){
+	$0
+}
+endsnippet
+
+snippet for "for complex" i
+for(${1:int} ${2:i}${3: = ${4:0}};$2 ${5:< $6};${7:$2++}) {
+	$0;
+}
+endsnippet
+
+snippet pm "pushMatrix()"
+pushMatrix();
+$0
+popMatrix();
+endsnippet
