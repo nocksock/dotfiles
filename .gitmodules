@@ -1,12 +1,3 @@
-[submodule "dotvim"]
-	path = dotvim
-	url = https://github.com/noxoc/dotvim
-[submodule "dottmux"]
-	path = dottmux
-	url = https://github.com/noxoc/dottmux
-[submodule "dotzsh"]
-	path = dotzsh
-	url = https://github.com/noxoc/dotzsh
-[submodule "zsh/zsh-autosuggestions"]
-	path = zsh/zsh-autosuggestions
+[submodule ".zsh/zsh-autosuggestions"]
+	path = .zsh/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
