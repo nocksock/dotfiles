@@ -1,16 +1,11 @@
 #!/bin/bash
 
-ln -s dotfiles/dotvim/vim ~/.vim
-ln -s dotfiles/dotvim/vimrc ~/.vimrc
+ln -s vim ~/.vim
+ln -s vimrc ~/.vimrc
+ln -s tmux.conf ~/.tmux.conf
+ln -s zsh ~/.zsh
+ln -s zshrc ~/.zshrc
 
-ln -s dotfiles/dottmux/tmux.conf ~/.tmux.conf
-ln -s dotfiles/dotzsh/zsh ~/.zsh
-ln -s dotfiles/dotzsh/zshrc ~/.zshrc
-ln -s dotfiles/oh-my-zsh ~/.oh-my-zsh
-
-git submodule init;
-git submodule update;
-cd dotvim;
 git submodule init;
 git submodule update;
 
