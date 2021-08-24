@@ -17,38 +17,38 @@ filetype off
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'mileszs/ack.vim'
-Plug 'Raimondi/delimitMate'
-Plug 'scrooloose/syntastic'
-Plug 'tomasr/molokai'
-Plug 'kien/ctrlp.vim'
-Plug 'sjl/gundo.vim' " undo tree
-Plug 'airblade/vim-gitgutter'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
-Plug 'jiangmiao/auto-pairs'
+Plug 'mileszs/ack.vim'                                                          " Fast, simple search via ack
+Plug 'Raimondi/delimitMate'                                                     " provides insert mode auto-completion for quotes, parens, brackets, etc.
+Plug 'scrooloose/syntastic'                                                     " syntax chacking for a bunch of languages
+Plug 'kien/ctrlp.vim'                                                           " fuzzy file finder
+Plug 'sjl/gundo.vim'                                                            " undo tree
+Plug 'airblade/vim-gitgutter'                                                   " shows git diff markers in the sign column and stages/previews/undoes hunks and partial hunks.
+Plug 'tpope/vim-commentary'                                                     " comment stuff out and back in via gc/gcc
+Plug 'tpope/vim-fugitive'                                                       " a git wrapper in vim
+Plug 'tpope/vim-repeat'                                                         " enable repeating supported plugin maps with `.`
+Plug 'tpope/vim-surround'                                                       " quoting/parenthesizing made simple
+Plug 'tpope/vim-vinegar'                                                        " improved netrw for file browsing
+Plug 'jiangmiao/auto-pairs'                                                     " auto insert/delete brackets, parens, quotes etc
+Plug 'godlygeek/tabular'                                                        " align text at character
+Plug 'tomasr/molokai'                                                           " favorite theme
 
 " LSP
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-" glorious 
-Plug 'jparise/vim-graphql'
+" glorious web dev
 Plug 'leafgarland/typescript-vim'
 Plug 'mattn/emmet-vim', {'for': 'html'}
 Plug 'othree/html5.vim', {'for' : 'html'}
 Plug 'pangloss/vim-javascript', {'for' : ['javascript']}
 Plug 'peitalin/vim-jsx-typescript'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+
+Plug 'jparise/vim-graphql'                                                      " syntax highlighting in graphql`` template literals
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }            " syntaxi highlighting in styled()`` template literals
 
 " Coc
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " code completion etc
 
 call plug#end()
 
