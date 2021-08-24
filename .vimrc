@@ -174,16 +174,6 @@ nnoremap zh mzzt10<c-u>`z " zoom to head level
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" Same when jumping around
-nnoremap g; g;zz
-nnoremap g, g,zz
-
-" disable cursor keys to force myself to use hjkl
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-
 " press jk to Esc - much faster while typing
 inoremap jk <ESC>
 
@@ -206,10 +196,10 @@ map <c-x> <C-w><c-x>
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 function! AppendModeline()
-  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d cc=80 ft=%s:",
-        \ &tabstop, &shiftwidth, &textwidth, &ft)
-  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
+    let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d cc=80 ft=%s:",
+                \ &tabstop, &shiftwidth, &textwidth, &ft)
+    let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+    call append(line("$"), l:modeline)
 endfunction
 
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
@@ -243,24 +233,24 @@ endif
 " .HTML"{{{
 " fold current tag
 augroup ft_html
-	au!
-	au FileType html setlocal foldmethod=syntax
-	au Filetype html setlocal noexpandtab
-  au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+    au!
+    au FileType html setlocal foldmethod=syntax
+    au Filetype html setlocal noexpandtab
+    au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
 augroup END
 " }}}
 " .CSS "{{{
 augroup ft_css
-  au!
-  au BufNewFile,BufRead *.less setlocal filetype=less
-  au BufNewFile,BufREad *.scss setlocal filetype=sass
+    au!
+    au BufNewFile,BufRead *.less setlocal filetype=less
+    au BufNewFile,BufREad *.scss setlocal filetype=sass
 
-  au Filetype sass,less,css setlocal foldmethod=marker
-  au Filetype sass,less,css setlocal foldmarker={,}
-  au Filetype sass,less,css setlocal omnifunc=csscomplete#CompleteCSS
-  au Filetype sass,less,css setlocal iskeyword+=-
+    au Filetype sass,less,css setlocal foldmethod=marker
+    au Filetype sass,less,css setlocal foldmarker={,}
+    au Filetype sass,less,css setlocal omnifunc=csscomplete#CompleteCSS
+    au Filetype sass,less,css setlocal iskeyword+=-
 
-  au BufNewFile,BufRead *.scss,*.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+    au BufNewFile,BufRead *.scss,*.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
 augroup END
 " }}}
 " au
@@ -272,26 +262,24 @@ augroup ft_vim
 augroup END
 
 let g:coc_global_extensions = [
-  \ 'coc-tsserver'
-  \ ]
+            \ 'coc-tsserver'
+            \ ]
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-  let g:coc_global_extensions += ['coc-prettier']
+    let g:coc_global_extensions += ['coc-prettier']
 endif
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-  let g:coc_global_extensions += ['coc-eslint']
+    let g:coc_global_extensions += ['coc-eslint']
 endif
 
-nnoremap <silent> K :call CocAction('doHover')<CR>
-
 if executable('typescript-language-server')
-	au User lsp_setup call lsp#register_server({
-				\ 'name': 'javascript support using typescript-language-server',
-				\ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-				\ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
-				\ 'whitelist': ['javascript', 'javascript.jsx', 'javascriptreact']
-				\ })
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'javascript support using typescript-language-server',
+                \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+                \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+                \ 'whitelist': ['javascript', 'javascript.jsx', 'javascriptreact']
+                \ })
 endif
 
 function! s:on_lsp_buffer_enabled() abort
@@ -324,26 +312,19 @@ augroup lsp_install
 augroup END
 
 augroup ft_javascript
-	au!
-	au BufNewFile,BufRead .jshintrc setlocal filetype=javascript
-	au BufNewFile,BufRead Gruntfile setlocal filetype=javascript
-
-	au FileType javascript setlocal foldmethod=marker
-	au FileType javascript setlocal foldmarker={,}
-
-  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-
-	" only show invisble characters in normal mode. just trying to see if i like
-	" that
-	au FileType javascript :au InsertLeave *.js setlocal nolist
-	au FileType javascript :au InsertEnter *.js setlocal list
+    au!
+    au FileType javascript setlocal foldmethod=marker
+    au FileType javascript setlocal foldmarker={,}
+    au FileType javascript nnoremap <silent> K :call CocAction('doHover')<CR>
+    au FileType javascript :au InsertLeave *.js setlocal nolist
+    au FileType javascript :au InsertEnter *.js setlocal list
 augroup END
 " }}}
 " .PDE Processing {{{
 augroup ft_pde
-	au BufNewFile,BufRead *.pde setlocal filetype=java
-	au Filetype java nnoremap <Leader>bb :!processing-java --run --sketch=$(pwd) --output=$(pwd)/tmp --force<CR>
-	au Filetype java nnoremap <Leader>bf :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force<CR>
+    au BufNewFile,BufRead *.pde setlocal filetype=java
+    au Filetype java nnoremap <Leader>bb :!processing-java --run --sketch=$(pwd) --output=$(pwd)/tmp --force<CR>
+    au Filetype java nnoremap <Leader>bf :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force<CR>
 augroup END
 " }}}
 " }}}
@@ -352,10 +333,10 @@ nnoremap <c-b> :CtrlPBuffer<cr>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.?(git|hg|svn|bower_components|node_modules)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+            \ 'dir':  '\v[\/]\.?(git|hg|svn|bower_components|node_modules)$',
+            \ 'file': '\v\.(exe|so|dll)$',
+            \ 'link': 'some_bad_symbolic_links',
+            \ }
 "}}}
 " NERD Tree{{{
 nnoremap <c-b> :NERDTreeToggle<CR>
@@ -371,17 +352,20 @@ map <c-s> :w<cr>
 imap <C-_> <esc>mzgcc`zi
 map <c-_>/ mzgcc`z
 
+" fugitive
+map <leader>gg :Git<cr>
+
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
     au!
     au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \     execute 'normal! g`"zvzz' |
+                \ endif
 augroup END
 
 if file_readable(".vim")
-	source .vim
-	echom ".vim sourced"
+    source .vim
+    echom ".vim sourced"
 endif
 "}}}
