@@ -5,6 +5,7 @@ alias -g G='| grep'
 
 alias -g L='| less'
 alias ..='cd ..'
+alias tower='open . -a Tower'
 
 # Avoid rm mistakes  with trash-cli:
 # 	https://github.com/sindresorhus/trash-cli

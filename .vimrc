@@ -1,17 +1,12 @@
 " encoding: utf 8
-" remap  sv :source $MYVIMRC
-" :echo "sourced .vimrc"
 "
-"
-" Welcome to my crib.
+" This is my messy .vimrc
 "
 " Author: Nils Riedemann
+" Website: https://bleepbloop.studio/
+" Repository: https://github.com/nocksock/dotfiles
 
-" Plug Stuff {{{
-" needed for init
-"
-" Load vim-plug
-
+" Plugins {{{
 set nocompatible
 
 if empty(glob("~/.vim/autoload/plug.vim"))
@@ -24,54 +19,52 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mileszs/ack.vim'
 Plug 'Raimondi/delimitMate'
-Plug 'nosami/Omnisharp', {'for' : 'cs'}
-Plug 'mxw/vim-jsx', {'for' : [ 'javascript' ]}
 Plug 'scrooloose/syntastic'
 Plug 'tomasr/molokai'
 Plug 'kien/ctrlp.vim'
-Plug 'SirVer/ultisnips'
-Plug 'mattn/emmet-vim', {'for': 'html'}
-Plug 'othree/html5.vim', {'for' : 'html'}
-Plug 'pangloss/vim-javascript', {'for' : ['javascript']}
-Plug 'evidens/vim-twig', {'for' : 'twig'}
-Plug 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim' " undo tree
 Plug 'airblade/vim-gitgutter'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'shougo/neocomplete.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'bling/vim-airline'
 Plug 'jiangmiao/auto-pairs'
+
+" LSP
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+" glorious 
+Plug 'jparise/vim-graphql'
+Plug 'leafgarland/typescript-vim'
+Plug 'mattn/emmet-vim', {'for': 'html'}
+Plug 'othree/html5.vim', {'for' : 'html'}
+Plug 'pangloss/vim-javascript', {'for' : ['javascript']}
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+
+" Coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
 filetype plugin indent on
 "}}}
-
-set t_Co=256 " term colors
-set encoding=utf-8
-
-" Airline config {{{
-let g:airline_powerline_fonts = 0
-let g:airline_theme='powerlineish'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#branch#enabled = 1
-" }}}
-" Basic Options"{{{ "
+" Basic Options {{{
 let mapleader = "\<space>"
 let maplocalleader = "\\"
 
+set t_Co=256 " term colors
+set encoding=utf-8
 set number
 set relativenumber
 set shiftround " When at 3 spaces and I hit >>, go to 4, not 5.
 set foldmethod=marker
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
-set history=500 " keep 500 lines of command line history
 set clipboard=unnamed
 set ruler " show the cursor position all the time
 set showcmd " display incomplete commands
@@ -86,7 +79,6 @@ set backupdir=/tmp
 set directory=/tmp " Don't clutter my dirs up with swp and tmp files
 set autoread
 set synmaxcol=160
-set guioptions-=T
 set laststatus=2  " Always show status line.
 set gdefault
 set autoindent
@@ -94,15 +86,20 @@ set visualbell
 set formatoptions=qrn1
 set undofile
 set shell=/bin/zsh
+set foldenable
+set foldlevelstart=4
+set foldnestmax=10
 let g:user_zen_leader_key = '<c-y>'
 set t_ut=
-
+set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪
+set backupskip=/tmp/*,/private/tmp/* " Make Vim able to edit crontab files again.
+" }}}
 " Tabs, spaces, wrapping {{{
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set noexpandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set nowrap
+set expandtab
 set textwidth=80
 set formatoptions=qrn1
 " }}}
@@ -136,6 +133,7 @@ augroup trailing
 augroup END
 
 " }}}
+
 " Highlight the status line
 highlight StatusLine ctermfg=blue ctermbg=black
 
@@ -144,13 +142,6 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 syntax on
 "}}}
-"  Listchars
-set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪
-
-" Better Completion
-set complete=.,w,b,u,t
-set completeopt=longest,menuone,preview
-
 " Wildmenu "{{{
 set wildmode=longest,list,full
 set wildmenu
@@ -159,56 +150,40 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 "}}}
-
-" Make Vim able to edit crontab files again.
-set backupskip=/tmp/*,/private/tmp/*"
-" Save when losing focus
-command! W :w
-augroup global_autocommands
-	autocmd!
-	au FocusLost * :wa
-	" Resize splits when the window is resized
-	au VimResized * exe "normal! \<c-w>="
-augroup END
-"}}}
 " Search Options"{{{
-nnoremap / /\v
-vnoremap / /\v
 set ignorecase
 set smartcase
 set incsearch
 set showmatch
 set hlsearch
+nnoremap / /\v
+vnoremap / /\v
 nnoremap <leader><space> :noh<cr>
 "}}}
 " Movement "{{{
+nnoremap zh mzzt10<c-u>`z " zoom to head level
+
 " Keep search matches in the middle of the window
 nnoremap n nzzzv
 nnoremap N Nzzzv
-
-" Easier to type, and I never use the default behavior.
-noremap H ^
-noremap L g_
-
-" Use the damn hjkl keys
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-
-" Faster Esc
-inoremap jk <ESC>
 
 " Same when jumping around
 nnoremap g; g;zz
 nnoremap g, g,zz
 
+" disable cursor keys to force myself to use hjkl
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+" press jk to Esc - much faster while typing
+inoremap jk <ESC>
+
 " highlight last inserted text
 nnoremap gV `[v`]
-
 " }}}
 " Window Management "{{{
-
 " Easy window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
@@ -217,9 +192,8 @@ map <C-l> <C-w>l
 map <leader>w <C-w>v<C-w>l
 map <C-t> <esc>:tabnew<CR>
 map <c-x> <C-w><c-x>
-
 "}}}
-" Modeline Magic"{{{
+" Modeline Magic {{{
 " Taken from: http://vim.wikia.com/wiki/Modeline_magic
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
@@ -251,13 +225,6 @@ if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
 " }}}
-" Folding {{{
-
-set foldenable
-set foldlevelstart=10
-set foldnestmax=10
-
-" }}}
 " load local .vim if present {{{
 let b:thisdir=expand("%:p:h")
 let b:vim=b:thisdir."/.vim"
@@ -275,15 +242,6 @@ augroup ft_html
   au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
 augroup END
 " }}}
-augroup ft_hbs
-	au!
-	au BufNewFile,BufRead *.hbs setlocal filetype=handlebars.html
-	au BufNewFile,BufRead *.handlebars setlocal filetype=handlebars.html
-augroup END
-augroup ft_mustache
-	au!
-	au BufNewFile,BufRead *.mustache setlocal filetype=mustache.html
-augroup END
 " .CSS "{{{
 augroup ft_css
   au!
@@ -298,16 +256,60 @@ augroup ft_css
   au BufNewFile,BufRead *.scss,*.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
 augroup END
 " }}}
-" .RB Ruby {{{
+" .JS JavaScript {{{
 
-augroup ft_ruby
+let g:coc_global_extensions = [
+  \ 'coc-tsserver'
+  \ ]
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+endif
+
+nnoremap <silent> K :call CocAction('doHover')<CR>
+
+if executable('typescript-language-server')
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'javascript support using typescript-language-server',
+				\ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+				\ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+				\ 'whitelist': ['javascript', 'javascript.jsx', 'javascriptreact']
+				\ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    inoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    inoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
     au!
-    au BufNewfile,BufRead *.thor,Guardfile setlocal filetype=ruby
-    au Filetype ruby set et
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-" }}}
-" .JS JavaScript {{{
 augroup ft_javascript
 	au!
 	au BufNewFile,BufRead .jshintrc setlocal filetype=javascript
@@ -330,40 +332,10 @@ augroup ft_pde
 	au Filetype java nnoremap <Leader>bb :!processing-java --run --sketch=$(pwd) --output=$(pwd)/tmp --force<CR>
 	au Filetype java nnoremap <Leader>bf :!processing-java --present --sketch=$(pwd) --output=$(pwd)/tmp --force<CR>
 augroup END
-"}}}
-" .MD Markdown {{{
-augroup ft_markdown
-	au!
-	au BufNewFile,BufRead *.m*down setlocal filetype=markdown
-	au BufNewFile,BufRead *.md setlocal filetype=markdown
-
-  au FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
-
-	" Use <localleader>1/2/3 to add headings.
-	au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
-	au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
-	au Filetype markdown nnoremap <buffer> <localleader>3 I### <ESC>
-augroup END
-" }}}
-" HELP {{{
-augroup ft_help
-	au!
-	" au FileType help nnoremap q :close<cr>
-augroup END
 " }}}
 " }}}
-" Mappings for plugins and convenience {{{
-
-" make text uppercase
-inoremap <c-u> <esc>zviwUea
-
-" make current line a comment
-imap <c-c> <esc>mzgcc`z
-
-" zoom to head level
-nnoremap zh mzzt10<c-u>`z
+" CTRLP {{{
 nnoremap <c-b> :CtrlPBuffer<cr>
-
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrlp_custom_ignore = {
@@ -371,110 +343,12 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+"}}}
+" Miscellaneous {{{
 
-" omnisharp {{{
-"
-augroup ft_csharp
-	au!
-
-	au FileType cs setlocal omnifunc=OmniSharp#Complete
-	au FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuildAsync<cr>
-	au FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-
-	au BufWritePost *.cs call OmniSharp#AddToProject()
-augroup END
-
-let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
-" let g:OmniSharp_typeLookupInPreview = 1
-let g:omnicomplete_fetch_documentation=1
-
-autocmd FileType cs set splitbelow
-" }}}
-
-" neocomplete {{{
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
-let g:neocomplete#enable_refresh_always = 0
-let g:echodoc_enable_at_startup = 1
-let g:neocomplete#enable_insert_char_pre = 1
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  " return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-
-" syntastic {{{
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_javascript_checkers = ['jsxhint']
-" }}}
-
-let g:tlist_javascript_settings = 'javascript;s:string;a:array;o:object;f:function'
-let g:UltiSnipsEditSplit = 'vertical'
-
-" Toggle "keep current line centered" mode
-nnoremap <leader>c :let &scrolloff=999-&scrolloff<cr>
-
-" 'in next()' textobject
-vnoremap <silent> in( :<C-U>normal! f(vi(<cr>
-onoremap <silent> in( :<C-U>normal! f(vi(<cr>
-
-" Tabular
-if exists(":Tabularize")
-  nnoremap <Leader>a= :Tabularize /=<CR>
-  vnoremap <Leader>a= :Tabularize /=<CR>
-  nnoremap <Leader>a: :Tabularize /:<CR>
-  vnoremap <Leader>a: :Tabularize /:<CR>
-endif
-
-" git issue stuff
-nnoremap <Leader>gg :Gstatus<cr>
-nnoremap <Leader>gp :Dispatch! git push<cr>
-nnoremap <Leader>gi :Dispatch gh issue
-nnoremap <Leader>gii :Dispatch gh issue<cr>
-nnoremap <Leader>gin :Dispatch gh issue -lA noxoc<cr>
-
-" clean up trailing whitespaces
-nnoremap <leader>ws :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>ww :%s/\s\+$//e<cr> :%s/\n\{3,}/\r\r/e<cr>
-
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>:echo "sourced .vimrc"<cr>
-
-" Gundo
-nnoremap <F5> :GundoToggle<CR>
-
-" }}}
+" commenting
+imap <C-_> <esc>mzgcc`zi
+map <c-_>/ mzgcc`z
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
@@ -485,9 +359,8 @@ augroup line_return
         \ endif
 augroup END
 
-nnoremap <leader>s :mksession<cr>
-
 if file_readable(".vim")
 	source .vim
 	echom ".vim sourced"
 endif
+"}}}
