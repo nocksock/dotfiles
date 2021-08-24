@@ -30,7 +30,13 @@ Plug 'tpope/vim-surround'                                                       
 Plug 'tpope/vim-vinegar'                                                        " improved netrw for file browsing
 Plug 'jiangmiao/auto-pairs'                                                     " auto insert/delete brackets, parens, quotes etc
 Plug 'godlygeek/tabular'                                                        " align text at character
-Plug 'tomasr/molokai'                                                           " favorite theme
+Plug 'preservim/nerdtree'                                                       " The tree explorer
+
+" themes
+Plug 'tomasr/molokai'
+Plug 'sainnhe/sonokai'
+Plug 'morhetz/gruvbox'
+Plug 'ayu-theme/ayu-vim'
 
 " LSP
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -108,20 +114,19 @@ set formatoptions=qrn1
 "Invisible character colors
 highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
-let g:molokai_original = 1
-let g:rehash256 = 1
-set background=dark
-colors molokai
+
+" Important for colors to work properly
+if has('termguicolors')
+    set termguicolors
+endif
+
+" The configuration options should be placed before `colorscheme sonokai`.
+" let g:sonokai_style = 'andromeda'
+colorscheme gruvbox
+let g:gruvbox_contrast_dark="hard"
 
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v', 100)
-
-if has("gui_running")
-  set guifont=Envy\ Code\ R:h16
-  set columns=150
-  set lines=45
-  set fuoptions=maxvert,maxhorz
-endif
 
 " Trailing whitespace {{{
 " Only shown when not in insert mode so I don't go insane.
@@ -343,6 +348,10 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+"}}}
+" NERD Tree{{{
+nnoremap <c-b> :NERDTreeToggle<CR>
+nnoremap <c-f> :NERDTreeFind<CR>
 "}}}
 " Miscellaneous {{{
 
