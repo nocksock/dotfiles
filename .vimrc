@@ -20,8 +20,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'mileszs/ack.vim'                                                          " Fast, simple search via ack
 Plug 'Raimondi/delimitMate'                                                     " provides insert mode auto-completion for quotes, parens, brackets, etc.
 Plug 'scrooloose/syntastic'                                                     " syntax chacking for a bunch of languages
-Plug 'kien/ctrlp.vim'                                                           " fuzzy file finder
-Plug 'sjl/gundo.vim'                                                            " undo tree
+Plug 'kien/ctrlp.vim'                                                           " fast fuzzy file finder
+Plug 'sjl/gundo.vim'                                                            " undo tree - who needs version control, when you have vim?
 Plug 'airblade/vim-gitgutter'                                                   " shows git diff markers in the sign column and stages/previews/undoes hunks and partial hunks.
 Plug 'tpope/vim-commentary'                                                     " comment stuff out and back in via gc/gcc
 Plug 'tpope/vim-fugitive'                                                       " a git wrapper in vim
@@ -37,6 +37,7 @@ Plug 'tomasr/molokai'
 Plug 'sainnhe/sonokai'
 Plug 'morhetz/gruvbox'
 Plug 'ayu-theme/ayu-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 " LSP
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -45,9 +46,9 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " glorious web dev
 Plug 'leafgarland/typescript-vim'
-Plug 'mattn/emmet-vim', {'for': 'html'}
-Plug 'othree/html5.vim', {'for' : 'html'}
-Plug 'pangloss/vim-javascript', {'for' : ['javascript']}
+Plug 'mattn/emmet-vim'
+Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
 
 Plug 'jparise/vim-graphql'                                                      " syntax highlighting in graphql`` template literals
@@ -122,8 +123,9 @@ endif
 
 " The configuration options should be placed before `colorscheme sonokai`.
 " let g:sonokai_style = 'andromeda'
-colorscheme gruvbox
 let g:gruvbox_contrast_dark="hard"
+colorscheme ayu
+set background=dark
 
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v', 100)
@@ -261,7 +263,13 @@ augroup ft_css
   au BufNewFile,BufRead *.scss,*.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
 augroup END
 " }}}
+" au
 " .JS JavaScript {{{
+
+augroup ft_vim
+    au!
+    au FileType vim nnoremap <c-e> :exe getline('.')<cr>
+augroup END
 
 let g:coc_global_extensions = [
   \ 'coc-tsserver'
@@ -354,6 +362,10 @@ nnoremap <c-b> :NERDTreeToggle<CR>
 nnoremap <c-f> :NERDTreeFind<CR>
 "}}}
 " Miscellaneous {{{
+map <leader>ev :e ~/dotfiles/.vimrc<CR>
+
+" keep muscle memory for saving often
+map <c-s> :w<cr>
 
 " commenting
 imap <C-_> <esc>mzgcc`zi
