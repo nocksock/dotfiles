@@ -267,6 +267,8 @@ augroup ft_vim
     au!
     au FileType vim nnoremap <c-e> :exe getline('.')<cr>
 augroup END
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 let g:coc_global_extensions = [
             \ 'coc-tsserver'
