@@ -84,6 +84,7 @@ set cursorline
 set showmode
 set splitbelow
 set list
+set mouse=a " enable scrolling and selecting with mouse
 set backupdir=/tmp
 set directory=/tmp " Don't clutter my dirs up with swp and tmp files
 set autoread
