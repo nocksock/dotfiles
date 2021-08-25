@@ -353,6 +353,7 @@ map <leader>ft :Lex<cr>:vertical resize 25<cr>
 " }}}
 " Miscellaneous {{{
 map <leader>ev :e ~/dotfiles/.vimrc<CR>
+map <leader>; :terminal ++rows=15<cr>
 
 " keep muscle memory for saving often
 map <c-s> :w<cr>
