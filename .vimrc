@@ -325,7 +325,6 @@ augroup ft_javascript
     au!
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
-    au FileType javascript nnoremap <silent> K :call CocAction('doHover')<CR>
     au FileType javascript :au InsertLeave *.js setlocal nolist
     au FileType javascript :au InsertEnter *.js setlocal list
 augroup END
