@@ -261,12 +261,13 @@ augroup ft_css
 augroup END
 " }}}
 " au
-" .JS JavaScript {{{
-
+" .vimrc {{{
 augroup ft_vim
     au!
     au FileType vim nnoremap <c-e> :exe getline('.')<cr>
 augroup END
+" }}}
+" .JS JavaScript {{{
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
