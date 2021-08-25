@@ -20,17 +20,19 @@ call plug#begin('~/.vim/plugged')
 Plug 'mileszs/ack.vim'                                                          " Fast, simple search via ack
 Plug 'Raimondi/delimitMate'                                                     " provides insert mode auto-completion for quotes, parens, brackets, etc.
 Plug 'scrooloose/syntastic'                                                     " syntax chacking for a bunch of languages
-Plug 'kien/ctrlp.vim'                                                           " fast fuzzy file finder
 Plug 'sjl/gundo.vim'                                                            " undo tree - who needs version control, when you have vim?
 Plug 'airblade/vim-gitgutter'                                                   " shows git diff markers in the sign column and stages/previews/undoes hunks and partial hunks.
 Plug 'tpope/vim-commentary'                                                     " comment stuff out and back in via gc/gcc
 Plug 'tpope/vim-fugitive'                                                       " a git wrapper in vim
 Plug 'tpope/vim-repeat'                                                         " enable repeating supported plugin maps with `.`
 Plug 'tpope/vim-surround'                                                       " quoting/parenthesizing made simple
-Plug 'tpope/vim-vinegar'                                                        " improved netrw for file browsing
 Plug 'jiangmiao/auto-pairs'                                                     " auto insert/delete brackets, parens, quotes etc
 Plug 'godlygeek/tabular'                                                        " align text at character
 Plug 'preservim/nerdtree'                                                       " The tree explorer
+" File Navigation
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                             " fzf <3 rip ctrlp
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-vinegar'                                                        " improved netrw for file browsing
 
 " themes
 Plug 'tomasr/molokai'
@@ -328,20 +330,20 @@ augroup ft_pde
 augroup END
 " }}}
 " }}}
-" CTRLP {{{
-nnoremap <c-b> :CtrlPBuffer<cr>
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.?(git|hg|svn|bower_components|node_modules)$',
-            \ 'file': '\v\.(exe|so|dll)$',
-            \ 'link': 'some_bad_symbolic_links',
-            \ }
-"}}}
-" NERD Tree{{{
-nnoremap <c-b> :NERDTreeToggle<CR>
-nnoremap <c-f> :NERDTreeFind<CR>
-"}}}
+" FZF {{{
+" After years of CTRL-P, FZF takes the stage due to its file preview and faster
+" speed, usage etcpp.
+if isdirectory('./.git') 
+    map <c-p> :GFiles<CR>
+endif
+
+map <leader>ff :GFiles<cr>
+map <leader>fr :History<cr>
+map <leader>fb :Buffers<cr>
+map <leader>fs :Lines<cr>
+map <leader>ft :Lex<cr>:vertical resize 25<cr>
+
+" }}}
 " Miscellaneous {{{
 map <leader>ev :e ~/dotfiles/.vimrc<CR>
 
