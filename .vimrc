@@ -18,17 +18,20 @@ filetype off
 call plug#begin('~/.vim/plugged')
 
 Plug 'mileszs/ack.vim'                                                          " Fast, simple search via ack
-Plug 'Raimondi/delimitMate'                                                     " provides insert mode auto-completion for quotes, parens, brackets, etc.
+"Plug 'Raimondi/delimitMate'                                                     " provides insert mode auto-completion for quotes, parens, brackets, etc.
 Plug 'scrooloose/syntastic'                                                     " syntax chacking for a bunch of languages
-Plug 'sjl/gundo.vim'                                                            " undo tree - who needs version control, when you have vim?
-Plug 'airblade/vim-gitgutter'                                                   " shows git diff markers in the sign column and stages/previews/undoes hunks and partial hunks.
 Plug 'tpope/vim-commentary'                                                     " comment stuff out and back in via gc/gcc
-Plug 'tpope/vim-fugitive'                                                       " a git wrapper in vim
 Plug 'tpope/vim-repeat'                                                         " enable repeating supported plugin maps with `.`
 Plug 'tpope/vim-surround'                                                       " quoting/parenthesizing made simple
-Plug 'jiangmiao/auto-pairs'                                                     " auto insert/delete brackets, parens, quotes etc
+"Plug 'jiangmiao/auto-pairs'                                                     " auto insert/delete brackets, parens, quotes etc
 Plug 'godlygeek/tabular'                                                        " align text at character
-Plug 'preservim/nerdtree'                                                       " The tree explorer
+Plug 'editorconfig/editorconfig-vim'                                            " Parse .editorconfig
+
+" File History, Versioning
+Plug 'sjl/gundo.vim'                                                            " undo tree - who needs version control, when you have vim?
+Plug 'airblade/vim-gitgutter'                                                   " shows git diff markers in the sign column and stages/previews/undoes hunks and partial hunks.
+Plug 'tpope/vim-fugitive'                                                       " a git wrapper in vim
+
 " File Navigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                             " fzf <3 rip ctrlp
 Plug 'junegunn/fzf.vim'
@@ -39,23 +42,24 @@ Plug 'morhetz/gruvbox'
 Plug 'ayu-theme/ayu-vim'
 Plug 'arcticicestudio/nord-vim'
 
-" LSP
+" LSP and autocomplete
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " code completion etc
 
-" glorious web dev
+" Making web dev bareable
 Plug 'leafgarland/typescript-vim'
-Plug 'mattn/emmet-vim'
-Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'mattn/emmet-vim'                                                          " h1{emmet is awesome}+ul>li{It is!}*3
+Plug 'othree/html5.vim'
 
-Plug 'jparise/vim-graphql'                                                      " syntax highlighting in graphql`` template literals
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }            " syntaxi highlighting in styled()`` template literals
+Plug 'MaxMEllon/vim-jsx-pretty'                                                 " Better syntax highlighting for jsx
+Plug 'HerringtonDarkholme/yats.vim'                                             " Yet Another TypeScript Syntax
+Plug 'jparise/vim-graphql'                                                      " syntax hilighting in graphql`` template literals
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }            " syntax hilighting in styled`` template literals
 
-" Coc
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " code completion etc
 
 call plug#end()
 
