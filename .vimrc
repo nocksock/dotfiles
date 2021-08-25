@@ -34,12 +34,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                             
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-vinegar'                                                        " improved netrw for file browsing
 
-" themes
-Plug 'tomasr/molokai'
-Plug 'sainnhe/sonokai'
+" Themes
 Plug 'morhetz/gruvbox'
 Plug 'ayu-theme/ayu-vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'arcticicestudio/nord-vim'
 
 " LSP
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -119,16 +117,18 @@ set formatoptions=qrn1
 highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
 
-" Important for colors to work properly
-if has('termguicolors')
-    set termguicolors
-endif
-
-" The configuration options should be placed before `colorscheme sonokai`.
-" let g:sonokai_style = 'andromeda'
-let g:gruvbox_contrast_dark="hard"
-colorscheme ayu
+" Theme configs
+set termguicolors
 set background=dark
+let g:gruvbox_contrast_dark="hard"
+let ayucolors="mirage"
+
+let g:indentLine_char = '|'
+let g:indentLine_first_char = 'x'
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_setColors = 0
+
+colorscheme ayu
 
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v', 100)
