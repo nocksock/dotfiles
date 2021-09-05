@@ -43,6 +43,12 @@ function tmn() {
 	tmux -u new -s ${PWD##*/}
 }
 
+function p() {
+    project=$(ls ~/projects/ | fzf --reverse)
+    cd ~/projects/$project
+    vim
+}
+
 function git-grouped-log () { # {{{
   while read -r -u 9 since name
   do
@@ -61,6 +67,7 @@ function git-grouped-log () { # {{{
     echo
   done 9< <(git log --no-merges --format=$'%cd %cn' --date=short | sort --unique --reverse)
 } # }}}
+
 # gbr: git branches fuzzy finder {{{
 gbr() {
   local branches branch
