@@ -172,7 +172,7 @@ set showmatch
 set hlsearch
 nnoremap / /\v
 vnoremap / /\v
-nnoremap <leader><space> :noh<cr>
+nnoremap <leader><space> :GFiles<cr>
 "}}}
 " Movement "{{{
 nnoremap zh mzzt10<c-u>`z " zoom to head level
@@ -189,27 +189,11 @@ nnoremap gV `[v`]
 " }}}
 " Window Management "{{{
 " Easy window navigation
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-map <leader>w <C-w>v<C-w>l
+" map <C-h> <C-w>h
+" map <C-j> <C-w>j
+" map <C-k> <C-w>k
+" map <C-l> <C-w>l
 map <C-t> <esc>:tabnew<CR>
-map <c-x> <C-w><c-x>
-"}}}
-" Modeline Magic {{{
-" Taken from: http://vim.wikia.com/wiki/Modeline_magic
-" Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" files.
-function! AppendModeline()
-    let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d cc=80 ft=%s:",
-                \ &tabstop, &shiftwidth, &textwidth, &ft)
-    let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-    call append(line("$"), l:modeline)
-endfunction
-
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 "}}}
 " Backups {{{
 set undodir=~/.vim/tmp/undo//     " undo files
@@ -344,11 +328,13 @@ if isdirectory('./.git')
     map <c-p> :GFiles<CR>
 endif
 
+
+" File Bindings (FZF and file browser)
 map <leader>ff :GFiles<cr>
 map <leader>fr :History<cr>
 map <leader>fb :Buffers<cr>
 map <leader>fs :Lines<cr>
-map <leader>ft :Lex<cr>:vertical resize 25<cr>
+map <leader>ft :15Lex<cr>
 
 " }}}
 " Miscellaneous {{{
@@ -362,8 +348,19 @@ map <c-s> :w<cr>
 imap <C-_> <esc>mzgcc`zi
 map <c-_>/ mzgcc`z
 
-" fugitive
+" quickfix bindings
+nnoremap <leader>] :cnext<cr>
+nnoremap <leader>[ :cprev<cr>
+
+" Git bindings
 map <leader>gg :Git<cr>
+
+" Coc Bindings
+map <leader>ca :CocAction<cr>
+
+"  Theme light/dark switch
+map <leader>tl :let ayucolor="light"<cr>:colors ayu<cr>
+map <leader>td :let ayucolor="mirage"<cr>:colors ayu<cr>
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
