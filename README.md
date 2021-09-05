@@ -14,6 +14,7 @@ the VS Code goodness, back into vim.
 
 - Vim
 - Tmux
+- Starship
 - A recent node version to have the JS autocomplete things working.
 
 ## Installation
@@ -42,5 +43,4 @@ vim +PluginInstall
 I occasionaly start `nvim`, and there seem to be no issues. I know only little
 about `nvim`, and intend to check it out at some point. Right now this is more
 about vim.
-
 
