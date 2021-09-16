@@ -107,9 +107,9 @@ set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪
 set backupskip=/tmp/*,/private/tmp/* " Make Vim able to edit crontab files again.
 " }}}
 " Tabs, spaces, wrapping {{{
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set nowrap
 set expandtab
 set textwidth=80
