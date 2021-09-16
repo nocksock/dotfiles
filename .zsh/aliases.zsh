@@ -26,6 +26,7 @@ alias tmux="TERM=screen-256color-bce tmux"
 
 # git
 alias gss='git status -s'
+alias gs='vim +:Git status'
 alias o='open'
 alias oo='open .'
 
