@@ -2,30 +2,108 @@
 
 # README ------------------------------------------------------------------------
 #
-# $ boil
+# # $ boil
 # 
-# A simple boilerplate generator. This is not meant for public usage - at least
-# not yet. A lot will change, all the time. 
+# A simple boilerplate generator. 
+#
+# ## Contents
+#
+# - README
+# - Intentions
+# - Tasks and Ideas
+# - Help and Usage
+# - Main Script
+# - Parsing flags
+# - Boil
+#
+# ## Intention:
+#
+# - create boilerplate for common dev scenarios
+# - look up things for basic bash scripting
+# - single file
+#
+# This is not meant for public usage - at least not yet. A lot will change, all
+# the time. Apart from that, it's also meant as a kind of lookup for
+# bash-scripting in a real-life scenario.
+#
+# This file may get large, but my goal is to keep all of it in a single file.
+# Makes looking up things much easier.
 #
 #
-# Some ideas:
+# ## Tasks and Ideas:
 #
-# TODO: -cra 
-#   option to run yarn create react-app [--templaet=typescript]
+# Just some things I might add, fix or improve in the future.
+#
+# TODO -ts|--typescript: Auto add Types 
+#
+#   Auto installs @types for defined dependencies
+#
+#
+# TODO -cra:  create react app before installing deps
+#
+#   Option to run yarn create react-app [--templaet=typescript]. Depencencies
+#   will be installed afterwards.
+#
 #   eg: $ boil foobar -cra -ts
 #
-# TODO -p|--parcel
-#   add basic parcel setup wit hindex.html, main.js. Maybe better to be done
+#
+# TODO -p|--parcel: Add Parcel
+#
+#   Add basic parcel setup wit hindex.html, main.js. Maybe better to be done
 #   with templates?
 #
-# TODO -ts|--typescript
-#   auto installs @types for defined dependencies
+# TODO -gh|--github: Create repository on github
 #
-# TODO -t|--template name: 
-#     use a template [plates/$template_dir]/template-[name]
+#   Could take an argument for private/public - private being default.
 #
+#   eg: $ boil foobar -cra -ts -gh public
+#
+#
+# TODO -t|--template name:  Add Template support
+#
+#   Use a template from [plates/$template_dir]/template-[name]. A template
+#   might/may include a node_modules folder and it'll be assumed to contain all
+#   the dependencies, without requiring a `yarn install`. So it' basically a cp
+#   -R and replaces some kind of placerholder $BOIL_NAME or something like that.
+#
+#   Dependencies passed via -a or -d will be installed afterwards.
+#
+#
+# TODO making && work:
+#
+#   Atm something like `boil foobar -ts && vim` does not work. 
+#
+#
+# TODO add tests
+#
+#   I always wondered how to write tests for bash scripts. this seems like
+#   a good case for an exercise.
+#
+#
+# LICENSE 
+#
+# Copyright 2021 Nils Riedemann
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 display_help() {
+  echo 
   echo "Usage: $0 [name] [dependencies...]"
   echo "  $0 [project-name] [flags ...]"
   echo 
@@ -50,6 +128,9 @@ display_help() {
   echo 
   echo "  -n, --dry"
   echo "      dry run. don't actually create the files"
+  echo 
+  echo "  -e, --edit"
+  echo "      edit this file"
   echo
   echo
   echo "Example:"
@@ -60,6 +141,13 @@ display_help() {
   exit 1;
 }
 
+# Open editor to quickly edit this file
+if [[ $1 = "-e" || $1 = "--edit" ]]; then
+  # tbh, I have ZERO idea how tty works and why this < thing >  is neede.
+  $EDITOR $0 < `tty` > `tty` 
+  exit 1;
+fi
+
 if [ $# -eq 0 ]
 then
   display_help 
@@ -67,27 +155,81 @@ then
 fi
 
 
+#
+# TODO: Properly cd into new directory
+#
+#   This is a bit of an odd one.
+#
+#   In order to keep cd working, this file is not actually run, but sourced. So
+#   it runs in the session of the caller. The downside is: it exposed all
+#   variables i guess. So I'm not sure about this approach yet - don't even know
+#   if it works as expected, just keeping it here for future reference:
+#
+# (return 0 2>/dev/null) && sourced=1 || sourced=0
+# if [[ $sourced = 0 ]]; then
+#   source $0 
+# fi
+# exit
+
+
 
 # Main Script starts here ------------------------------------------------------
 
-project_name=$1
-project_dir=~/projects/$1
+
+# all non-temp variables that this scripts uses are defined here
+create_gh_repo=""
 dependencies=""
 dev_dependencies=""
-yarn_args=""
-yarn_add_command="yarn add"
 dry=false
+initial_call="$0 $@"
 prefer_offline=true
+project_dir=~/projects/$1
+project_name=$1
+script_args="$@"
+script_name=("$(basename "$0")")
 use_typescript=false
+yarn_add_command="yarn add"
+yarn_args=""
 
+
+
+# Helper functions -------------------------------------------------------------
+
+# runs a command only if dry is false
+function run() {
+  cmd=$@
+  echo "running: $cmd"
+
+  if [[ $dry = false ]]; then
+    $cmd
+  fi
+}
+
+function write() {
+  filename=$1
+  content=${@:2} # all arguments after the second one
+
+  echo "writing: $filename"
+  echo " $content"
+
+  if [[ $dry = false ]]; then
+    # Wrapping it in quotes keeps newlines intact
+    echo "$content" > $filename
+  fi
+}
+
+
+
+# project name validation ------------------------------------------------------
+
+# Check whether the project name is a valid folder name
 if ! [[ $project_name =~ ^[0-9a-zA-Z._-]+$ ]]; then
-  # Checks whether valid characters exist
   echo "Error:"
   echo "  $project_name is not a valid folder name";
   exit
 fi
 
-# Check the first character
+# Check the first character to prevent myself from forgetting the project name
 _project_name=$(echo $project_name | cut -c1-1)
 if ! [[ $_project_name =~ ^[0-9a-zA-Z.]+$ ]]; then
   echo "Error:"
@@ -95,7 +237,7 @@ if ! [[ $_project_name =~ ^[0-9a-zA-Z.]+$ ]]; then
   exit
 fi
 
-
+# boil does not handle existing directories
 if [[ -d $project_dir ]] ; then
   echo "Error:"
   echo "  directory $project_dir already exists"
@@ -104,6 +246,15 @@ fi
 
 shift # make $2 the new $1
 
+
+
+# parsing the flags ------------------------------------------------------------
+
+# TODO: rewrite using getopts
+#
+#   Although this seems to be a rather common way of doing this. I wonder if
+#   there's a reason besides knowing about getopts.
+#
 while [ $# -ne 0 ]
 do
   case "$1" in
@@ -112,7 +263,7 @@ do
         display_help
         exit 1
       fi 
-      dev_dependencies+=" ${2/,/ }"
+      dev_dependencies+=" ${2//,/ }" # replace commas with space
       shift
       ;;
 
@@ -121,9 +272,19 @@ do
         display_help
         exit 1
       fi 
-      dependencies+=" ${2/,/ }"
+      dependencies+=" ${2//,/ }" # replace commas with space
       shift
       ;;
+
+    "-gh" | "--github")
+      create_gh_repo="private"
+
+      if [ "$2" = "public" ]; then
+        create_gh_repo="public"
+        shift
+      fi 
+      ;;
+
 
     "-ts" | "--typescript")
       use_typescript=true
@@ -162,38 +323,67 @@ fi
 
 if [[ $dependencies || $dev_dependencies ]]; then
   yarn_add_command+=" $yarn_args"
-  echo "adding dependencies using: $yarn_add_command"
 fi
-
 
 # Setup done, actually boil the project ----------------------------------------
 
-echo "$dry"
+run mkdir $project_dir
+run cd $project_dir
 
-if [[ $dry = true ]]; then
-  # ... or actually don't.
-  #
-  # TODO: use something like `run mkdir $project_dir` and check for dry within
-  #       the run function
 
-  echo "Hint: dry run, nothing changed"
-  exit 1;
+
+# Yarn -------------------------------------------------------------------------
+
+run yarn init --yes # run command is a helper function defined earlier
+
+# Run the yarn command and install the dependencies
+run $yarn_add_command
+
+
+
+# Git --------------------------------------------------------------------------
+
+# prefill .gitignore
+ignore=$(cat <<END
+node_modules
+.DS_Store
+build
+dist
+END
+)
+
+# using run with >> doesn't work as intended, hence the write helper
+write .gitignore $ignore 
+
+run git init 
+run git add .
+run git commit -m "\"creating new boilerplate using: $script_name $script_args\""
+
+if [[ $create_gh_repo = "private" ]]; then
+  run gh create repo -p
 fi
 
-mkdir $project_dir
-cd $project_dir
+if [[ $create_gh_repo = "public" ]]; then
+  run gh create repo
+fi
 
-echo 'node_modules' >> .gitignore
-echo '.DS_Store' >> .gitignore
-echo 'build' >> .gitignore
-echo 'dist' >> .gitignore
+if [[ $create_gh_repo != "" ]]; then
+  run git push -u origin main
+fi
 
-git init 
-git add .
-git commit -m "initial commit"
+echo
+echo "Done. Happy hacking."
 
-yarn init --yes
-$yarn_add_command
 
-# This will make the upper shell cd into $project_dir:
+if [[ $dry = true ]]; then
+  echo
+  echo "Hint: dry run, nothing changed"
+fi
+
+# TODO: find another way to make "upper" shell cd into folder
+# 
+#   This will make the "upper" shell cd into $project_dir:
+#   How ever this will make "exit" not work" as expected
+#
+
 $SHELL 
