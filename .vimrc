@@ -407,6 +407,9 @@ map <leader>ca :CocAction<cr>
 map <leader>tl :let ayucolor="light"<cr>:colors ayu<cr>
 map <leader>td :let ayucolor="mirage"<cr>:colors ayu<cr>
 
+" Disable highlight
+map <leader>th :nohl<cr>
+
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
     au!
