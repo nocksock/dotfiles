@@ -46,7 +46,6 @@ function tmn() {
 function p() {
     project=$(ls ~/projects/ | fzf --reverse)
     cd ~/projects/$project
-    vim
 }
 
 function git-grouped-log () { # {{{
