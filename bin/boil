@@ -1,0 +1,189 @@
+#!/bin/bash
+
+# README:
+#
+# # boil
+# 
+# A simple boilerplate generator.
+#
+
+
+# Some ideas:
+#
+# TODO: option to add default parcel setup
+# TODO: option to boil create react app
+# TODO: option to boil basic npm package?
+#
+
+display_help() {
+  echo "Usage: $0 [name] [dependencies...]"
+  echo "  $0 [project-name] [flags ...]"
+  echo 
+  echo "options:"
+  echo "  -h"
+  echo "      shows this help"
+  echo
+  echo "  -a, --add"
+  echo "      comma separated List of packages to install. Will be passed to yarn via add"
+  echo
+  echo "  -d, --dev"
+  echo "      comma separated List of packages to install as dev dependencies. Will be passed to yarn via -D"
+  echo
+  echo "  -react, --create-react"
+  echo "      Add basic typescript devDependencies"
+  echo
+  echo "  -ts, --typescript"
+  echo "      Add basic typescript devDependencies"
+  echo
+  echo "  -O, --prefer-online"
+  echo "      ask yarn not to prefer offline installs. This install the most recent version."
+  echo 
+  echo "  -n, --dry"
+  echo "      dry run. don't actually create the files"
+  echo
+  echo
+  echo "Example:"
+  echo "  $0 test-my-project -a ramda -d tap,@types/ramda"
+  echo
+  echo 
+
+  exit 1;
+}
+
+if [ $# -eq 0 ]
+then
+  display_help 
+  exit 1
+fi
+
+
+
+# Main Script starts here ------------------------------------------------------
+
+project_name=$1
+project_dir=~/projects/$1
+dependencies=""
+dev_dependencies=""
+yarn_args=""
+yarn_add_command="yarn add"
+dry=false
+prefer_offline=true
+use_typescript=false
+
+if ! [[ $project_name =~ ^[0-9a-zA-Z._-]+$ ]]; then
+  # Checks whether valid characters exist
+  echo "Error:"
+  echo "  $project_name is not a valid folder name";
+  exit
+fi
+
+# Check the first character
+_project_name=$(echo $project_name | cut -c1-1)
+if ! [[ $_project_name =~ ^[0-9a-zA-Z.]+$ ]]; then
+  echo "Error:"
+  echo "  Project name $project_name starts with an invalid character.";
+  exit
+fi
+
+
+if [[ -d $project_dir ]] ; then
+  echo "Error:"
+  echo "  directory $project_dir already exists"
+  exit 1
+fi
+
+shift # make $2 the new $1
+
+while [ $# -ne 0 ]
+do
+  case "$1" in
+    "-d" | "--dev")
+      if [ "$2" = "" ]; then
+        display_help
+        exit 1
+      fi 
+      dev_dependencies+=" ${2/,/ }"
+      shift
+      ;;
+
+    "-a" | "--add")
+      if [ "$2" = "" ]; then
+        display_help
+        exit 1
+      fi 
+      dependencies+=" ${2/,/ }"
+      shift
+      ;;
+
+    "-ts" | "--typescript")
+      use_typescript=true
+      dependencies+=" typescript"
+      dev_dependencies+=" ts-node"
+      ;;
+
+    "-O" | "--online")
+      prefer_offline=false
+      ;;
+
+    "-n" | "--dry")
+      dry=true
+      ;;
+
+    *)
+      echo "unknown option: $1"
+      display_help
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+if [[ $dependencies ]]; then
+  yarn_args+=" $dependencies"
+fi
+
+if [[ $dev_dependencies ]]; then
+  yarn_args+=" -D $dev_dependencies"
+fi
+
+if [[ $prefer_offline ]]; then
+  yarn_args+=" --prefer-offline"
+fi
+
+if [[ $dependencies || $dev_dependencies ]]; then
+  yarn_add_command+=" $yarn_args"
+  echo "adding dependencies using: $yarn_add_command"
+fi
+
+
+# Setup done, actually boil the project ----------------------------------------
+
+echo "$dry"
+
+if [[ $dry = true ]]; then
+  # ... or actually don't.
+  #
+  # TODO: use something like `run mkdir $project_dir` and check for dry within
+  #       the run function
+
+  echo "Hint: dry run, nothing changed"
+  exit 1;
+fi
+
+mkdir $project_dir
+cd $project_dir
+
+echo 'node_modules' >> .gitignore
+echo '.DS_Store' >> .gitignore
+echo 'build' >> .gitignore
+echo 'dist' >> .gitignore
+
+git init 
+git add .
+git commit -m "initial commit"
+
+yarn init --yes
+$yarn_add_command
+
+# This will make the upper shell cd into $project_dir:
+$SHELL 

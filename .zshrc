@@ -26,6 +26,9 @@ export DENO_INSTALL="/Users/riedemann/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 export CDPATH=".:$HOME:$HOME/development:$HOME/development/projects"
 
+# TODO: maybe using something like $DOTDIR?
+export PATH="$HOME/dotfiles/bin:$PATH"
+
 # export DOOMDIR="$HOME/emacs-doom-config/"
 
 export PATH="$HOME/.poetry/bin:$PATH"
