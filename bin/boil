@@ -1,18 +1,28 @@
 #!/bin/bash
 
-# README:
+# README ------------------------------------------------------------------------
 #
-# # boil
+# $ boil
 # 
-# A simple boilerplate generator.
+# A simple boilerplate generator. This is not meant for public usage - at least
+# not yet. A lot will change, all the time. 
 #
-
-
+#
 # Some ideas:
 #
-# TODO: option to add default parcel setup
-# TODO: option to boil create react app
-# TODO: option to boil basic npm package?
+# TODO: -cra 
+#   option to run yarn create react-app [--templaet=typescript]
+#   eg: $ boil foobar -cra -ts
+#
+# TODO -p|--parcel
+#   add basic parcel setup wit hindex.html, main.js. Maybe better to be done
+#   with templates?
+#
+# TODO -ts|--typescript
+#   auto installs @types for defined dependencies
+#
+# TODO -t|--template name: 
+#     use a template [plates/$template_dir]/template-[name]
 #
 
 display_help() {
