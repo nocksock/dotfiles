@@ -238,7 +238,7 @@ nnoremap gV `[v`]
 " map <C-j> <C-w>j
 " map <C-k> <C-w>k
 " map <C-l> <C-w>l
-map <C-t> <esc>:tabnew<CR>
+noremap <C-t> <esc>:tabnew<CR>
 "}}}
 " Backups {{{
 set undodir=~/.vim/tmp/undo//     " undo files
@@ -375,40 +375,41 @@ endif
 
 
 " File Bindings (FZF and file browser)
-map <leader>ff :GFiles<cr>
-map <leader>fr :History<cr>
-map <leader>fb :Buffers<cr>
-map <leader>fs :Lines<cr>
-map <leader>ft :15Lex<cr>
+noremap <leader>ff :GFiles<cr>
+noremap <leader>fr :History<cr>
+noremap <leader>fb :Buffers<cr>
+noremap <leader>fl :Lines<cr>
+noremap <leader>ft :15Lex<cr>
+noremap <leader>fs :w<cr>
 
 " }}}
 " Miscellaneous {{{
-map <leader>ev :e ~/dotfiles/.vimrc<CR>
-map <leader>; :terminal ++rows=15<cr>
+noremap <leader>ev :e ~/dotfiles/.vimrc<CR>
+noremap <leader>; :terminal ++rows=15<cr>
 
 " keep muscle memory for saving often
-map <c-s> :w<cr>
+noremap <c-s> :w<cr>
 
 " commenting
 imap <C-_> <esc>mzgcc`zi
 map <c-_>/ mzgcc`z
 
 " quickfix bindings
-nnoremap <leader>] :cnext<cr>
+noremap <leader>] :cnext<cr>
 nnoremap <leader>[ :cprev<cr>
 
 " Git bindings
-map <leader>gg :Git<cr>
+noremap <leader>gg :Git<cr>
 
 " Coc Bindings
-map <leader>ca :CocAction<cr>
+noremap <leader>ca :CocAction<cr>
 
 "  Theme light/dark switch
 map <leader>tl :let ayucolor="light"<cr>:colors ayu<cr>
 map <leader>td :let ayucolor="mirage"<cr>:colors ayu<cr>
+" clear highlight
+noremap <leader>ch :nohl<cr>
 
-" Disable highlight
-map <leader>th :nohl<cr>
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
