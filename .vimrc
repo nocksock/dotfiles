@@ -404,9 +404,20 @@ noremap <leader>gg :Git<cr>
 " Coc Bindings
 noremap <leader>ca :CocAction<cr>
 
-"  Theme light/dark switch
-map <leader>tl :let ayucolor="light"<cr>:colors ayu<cr>
-map <leader>td :let ayucolor="mirage"<cr>:colors ayu<cr>
+" Theme light/dark switch
+let ayucolor="dark"
+
+function! ToggleLight(mode)
+  if a:mode == "light" 
+    set background=dark
+    return "dark"
+  else 
+    set background=light
+    return "light"
+  endif
+endfunction
+
+noremap <leader>tt :let ayucolor=ToggleLight(ayucolor)<cr>:colors ayu<cr>
 " clear highlight
 noremap <leader>ch :nohl<cr>
 
