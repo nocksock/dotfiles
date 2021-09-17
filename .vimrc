@@ -384,7 +384,9 @@ noremap <leader>fs :w<cr>
 
 " }}}
 " Miscellaneous {{{
+" edit and auto source vim file
 noremap <leader>ev :e ~/dotfiles/.vimrc<CR>
+autocmd! bufwritepost .vimrc source %
 noremap <leader>; :terminal ++rows=15<cr>
 
 " keep muscle memory for saving often
