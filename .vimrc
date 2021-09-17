@@ -424,6 +424,12 @@ noremap <leader>tt :let ayucolor=ToggleLight(ayucolor)<cr>:colors ayu<cr>
 " clear highlight
 noremap <leader>ch :nohl<cr>
 
+" clear popups
+" because sometimes a netrw gets stuck on screen.
+noremap <leader>cp :call popup_clear()<cr>
+
+" Clear popups and highlights
+noremap <leader>cc :nohl<cr>:call popup_clear()<cr>
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
