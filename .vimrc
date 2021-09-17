@@ -366,6 +366,7 @@ augroup ft_pde
 augroup END
 " }}}
 " }}}
+
 " FZF {{{
 " After years of CTRL-P, FZF takes the stage due to its file preview and faster
 " speed, usage etcpp.
@@ -373,8 +374,8 @@ if isdirectory('./.git')
     map <c-p> :GFiles<CR>
 endif
 
+" Miscellaneous {{{
 
-" File Bindings (FZF and file browser)
 noremap <leader>ff :GFiles<cr>
 noremap <leader>fr :History<cr>
 noremap <leader>fb :Buffers<cr>
@@ -382,11 +383,11 @@ noremap <leader>fl :Lines<cr>
 noremap <leader>ft :15Lex<cr>
 noremap <leader>fs :w<cr>
 
-" }}}
-" Miscellaneous {{{
 " edit and auto source vim file
 noremap <leader>ev :e ~/dotfiles/.vimrc<CR>
 autocmd! bufwritepost .vimrc source %
+
+" open terminal at the bottom
 noremap <leader>; :terminal ++rows=15<cr>
 
 " keep muscle memory for saving often
@@ -423,6 +424,7 @@ function! ToggleLight(mode)
 endfunction
 
 noremap <leader>tt :let ayucolor=ToggleLight(ayucolor)<cr>:colors ayu<cr>
+
 " clear highlight
 noremap <leader>ch :nohl<cr>
 
@@ -447,3 +449,4 @@ if file_readable(".vim")
     echom ".vim sourced"
 endif
 "}}}
+
