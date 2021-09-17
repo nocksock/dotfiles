@@ -391,8 +391,11 @@ noremap <leader>; :terminal ++rows=15<cr>
 noremap <c-s> :w<cr>
 
 " commenting
-imap <C-_> <esc>mzgcc`zi
-map <c-_>/ mzgcc`z
+" NOTE: for some reason vim registers c-/ as c-_
+" TODO: properly keep cursor position based on comment syntax # vs //
+imap <c-_> <esc>mzgcc`zl
+nmap <c-_> mzgcc`zl
+vmap <c-_> mzgc`zgv
 
 " quickfix bindings
 noremap <leader>] :cnext<cr>
