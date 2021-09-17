@@ -1,6 +1,5 @@
 #!/bin/bash
-
-# README ------------------------------------------------------------------------
+# README ------------------------------------------------------------------- {{{
 #
 # # $ boil
 # 
@@ -30,7 +29,7 @@
 # Makes looking up things much easier.
 #
 #
-# ## Tasks and Ideas:
+# ## Tasks and Ideas: {{{
 #
 # Just some things I might add, fix or improve in the future.
 #
@@ -80,7 +79,8 @@
 #   a good case for an exercise.
 #
 #
-# LICENSE 
+#}}}
+# LICENSE {{{
 #
 # Copyright 2021 Nils Riedemann
 #
@@ -101,6 +101,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+#}}}
+#}}}
+# Help and Usage ----------------------------------------------------------- {{{
 
 display_help() {
   echo 
@@ -141,41 +144,23 @@ display_help() {
   exit 1;
 }
 
+# showing help no arguments were given
+if [ $# -eq 0 ]
+then
+  display_help 
+  exit 1
+fi
+#}}}
+# Quickly edit boil file --------------------------------------------------- {{{
 # Open editor to quickly edit this file
 if [[ $1 = "-e" || $1 = "--edit" ]]; then
   # tbh, I have ZERO idea how tty works and why this < thing >  is neede.
   $EDITOR $0 < `tty` > `tty` 
   exit 1;
 fi
-
-if [ $# -eq 0 ]
-then
-  display_help 
-  exit 1
-fi
-
-
-#
-# TODO: Properly cd into new directory
-#
-#   This is a bit of an odd one.
-#
-#   In order to keep cd working, this file is not actually run, but sourced. So
-#   it runs in the session of the caller. The downside is: it exposed all
-#   variables i guess. So I'm not sure about this approach yet - don't even know
-#   if it works as expected, just keeping it here for future reference:
-#
-# (return 0 2>/dev/null) && sourced=1 || sourced=0
-# if [[ $sourced = 0 ]]; then
-#   source $0 
-# fi
-# exit
-
-
-
-# Main Script starts here ------------------------------------------------------
-
-
+# }}}
+# Main Script -------------------------------------------------------------- {{{
+# Variables ---------------------------------------------------------------- {{{
 # all non-temp variables that this scripts uses are defined here
 create_gh_repo=""
 dependencies=""
@@ -190,10 +175,8 @@ script_name=("$(basename "$0")")
 use_typescript=false
 yarn_add_command="yarn add"
 yarn_args=""
-
-
-
-# Helper functions -------------------------------------------------------------
+#}}}
+# Helper functions --------------------------------------------------------- {{{
 
 # runs a command only if dry is false
 function run() {
@@ -218,9 +201,8 @@ function write() {
   fi
 }
 
-
-
-# project name validation ------------------------------------------------------
+#}}}
+# project name validation -------------------------------------------------- {{{
 
 # Check whether the project name is a valid folder name
 if ! [[ $project_name =~ ^[0-9a-zA-Z._-]+$ ]]; then
@@ -246,9 +228,8 @@ fi
 
 shift # make $2 the new $1
 
-
-
-# parsing the flags ------------------------------------------------------------
+#}}}
+# parsing the flags ------------------------------------------------------------{{{
 
 # TODO: rewrite using getopts
 #
@@ -324,24 +305,22 @@ fi
 if [[ $dependencies || $dev_dependencies ]]; then
   yarn_add_command+=" $yarn_args"
 fi
-
-# Setup done, actually boil the project ----------------------------------------
+#}}}
+# Setup done, actually boil the project ------------------------------------ {{{
 
 run mkdir $project_dir
 run cd $project_dir
 
 
-
-# Yarn -------------------------------------------------------------------------
+# Yarn --------------------------------------------------------------------- {{{
 
 run yarn init --yes # run command is a helper function defined earlier
 
 # Run the yarn command and install the dependencies
 run $yarn_add_command
 
-
-
-# Git --------------------------------------------------------------------------
+#}}}
+# Git ---------------------------------------------------------------------- {{{
 
 # prefill .gitignore
 ignore=$(cat <<END
@@ -379,11 +358,29 @@ if [[ $dry = true ]]; then
   echo
   echo "Hint: dry run, nothing changed"
 fi
-
+#}}}
+#}}}
+# Keep previous cd --------------------------------------------------------- {{{
 # TODO: find another way to make "upper" shell cd into folder
 # 
 #   This will make the "upper" shell cd into $project_dir:
 #   How ever this will make "exit" not work" as expected
-#
 
-$SHELL 
+# TODO: Properly cd into new directory
+#
+#   This is a bit of an odd one.
+#
+#   In order to keep cd working, this file is not actually run, but sourced. So
+#   it runs in the session of the caller. The downside is: it exposed all
+#   variables i guess. So I'm not sure about this approach yet - don't even know
+#   if it works as expected, just keeping it here for future reference:
+#
+# (return 0 2>/dev/null) && sourced=1 || sourced=0
+# if [[ $sourced = 0 ]]; then
+#   source $0 
+# fi
+# exit
+
+$SHELL #}}}
+# }}}
+
