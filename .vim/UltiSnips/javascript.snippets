@@ -4,6 +4,53 @@ function(${1}) {
 }
 endsnippet
 
-snippet cl "console.log" i
-console.log($0);
+snippet clg "console.log" i
+console.log($0)
+endsnippet
+
+post_expand "vim.command('call timer_start(0, {-> feedkeys(\"\ezt4k4jR\", \"in\")})')"
+snippet //-- "Section Divider with folds" b
+// ---$1---------------------------------------------------------------------- {
+$0
+
+// }
+endsnippet
+
+post_expand "vim.command('call timer_start(0, {-> feedkeys(\"\eR\", \"in\")})')"
+snippet //- "Section Divider" b
+// ---$1----------------------------------------------------------------------
+$0
+
+endsnippet
+
+snippet req "const req" i
+const ${2:{${3:$1}}} = require('${1}');
+endsnippet
+
+snippet vtoc
+${1:Text}`!p snip.rv = (80-2*len(t[1]))*' '+ '-'.join(t[1].lower().split(' '))`
+endsnippet
+
+snippet wafn
+() => ${VISUAL:inside text/;//g}</tag>
+endsnippet
+
+snippet it "Create a new test block" b
+it('should ${1}', () => {
+	$0
+})
+endsnippet
+
+snippet desc "Description" b
+describe('${1}', () => {
+	it$0
+})
+endsnippet
+
+snippet cafn "define a new function via arrow" b
+const $1 = ($2) => $0
+endsnippet
+
+snippet afn "define a new function via arrow"
+($1) => $0
 endsnippet
