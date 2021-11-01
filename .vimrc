@@ -206,6 +206,13 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 "}}}
 
+" -- netrw config ---------------------------------------------------------- {{{
+
+" gx to open links
+nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
+
+" }}}
+
 " Search Options"{{{
 set ignorecase
 set smartcase

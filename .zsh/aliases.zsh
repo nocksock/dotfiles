@@ -6,6 +6,18 @@ alias -g G='| grep'
 alias -g L='| less'
 alias ..='cd ..'
 alias tower='open . -a Tower'
+alias fh='history 1 | fzf'
+
+# sometimes I might want to append to a path of some other function,
+# this way I don't have to remember sed syntax - and deal with escaping of
+# slashes.
+# eg.:
+#     $ npm get prefix | append /bin
+#     /Users/the-user/.nvm/versions/node/v16.7.0/bin
+append()
+{
+  sed "s/$/${1/\//\\/}/g"
+}
 
 # Avoid rm mistakes  with trash-cli:
 # 	https://github.com/sindresorhus/trash-cli
@@ -68,8 +80,8 @@ function git-grouped-log () { # {{{
   done 9< <(git log --no-merges --format=$'%cd %cn' --date=short | sort --unique --reverse)
 } # }}}
 
-# gbr: git branches fuzzy finder {{{
-gbr() {
+# fbr: fuzzy find branch {{{
+fbr() {
   local branches branch
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" |
