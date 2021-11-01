@@ -515,6 +515,10 @@ endfunction
 
 noremap <leader>tt :let ayucolor=ToggleLight(ayucolor)<cr>:colors ayu<cr>
 
+" search for word under cursor - without jumping to next or adding a jump in the
+" jumplist. Useful in combination with cgn.
+nnoremap * :keepjumps normal! mi*`i<CR>
+
 " clear highlight
 noremap <leader>ch :nohl<cr>
 
