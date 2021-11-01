@@ -73,45 +73,38 @@ filetype plugin indent on
 let mapleader = "\<space>"
 let maplocalleader = "\\"
 
-set t_Co=256                                             " term colors
-set encoding=utf-8
-set relativenumber                                       " show relative line numbers numbers
-set shiftround                                           " When at 3 spaces and I hit >>, go to 4, not 5.
-set foldmethod=marker
+set autoindent                                           " Copy indent from current line when creating a new line                    "
+set autoread                                             " auto re-read file when it changed outside of vim, but not inside
 set backspace=indent,eol,start                           " allow backspacing over everything in insert mode
-set clipboard=unnamed
-set ruler                                                " show the cursor position all the time
-set showcmd                                              " display incomplete commands
-set autoindent
-set breakindent
-set showmatch
-set cursorline                                           " Highlight the line of in which the cursor is present
-set showmode
-set splitbelow
-set list                                                 " Show invisible characters                            "
-set mouse=a                                              " enable scrolling and selecting with mouse
 set backupdir=/tmp
+set backupskip=/tmp/*,/private/tmp/*                     " Make Vim able to edit crontab files again.
+set breakindent                                          " wrapped lines appear indendet
+set clipboard=unnamed                                    " using * as default register - which makes system wide copy paste possible
 set directory=/tmp                                       " Don't clutter my dirs up with swp and tmp files
-set autoread
-set synmaxcol=500                                        " Until which column vim parses syntax
-set laststatus=2                                         " Always show status line.
-set gdefault
-set autoindent
-set visualbell
-set formatoptions=qrn1
-set undofile
-set shell=/bin/zsh
+set encoding=utf-8
 set foldenable
 set foldlevelstart=4
+set foldmethod=marker
 set foldnestmax=10
-let g:user_zen_leader_key = '<c-y>'
-set t_ut=
+set formatoptions=qrn1
+set gdefault " add g flag by default for :substitutions
+set laststatus=2                                         " Always show status line.
+set list                                                 " Show invisible characters                                                 "
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪
-set backupskip=/tmp/*,/private/tmp/*                     " Make Vim able to edit crontab files again.
-
-" }}}
-
-" Tabs, spaces, wrapping {{{
+set mouse=a                                              " enable scrolling and selecting with mouse
+set nocursorline                                         " Highlight the line of in which the cursor is present (or not)
+set relativenumber                                       " show relative line numbers numbers
+set ruler                                                " show the cursor position all the time
+set shell=/bin/zsh " set default shell for :shell
+set shiftround                                           " When at 3 spaces and I hit >>, go to 4, not 5.
+set showcmd                                              " display incomplete commands
+set showmatch                                            " Highlight matching bracket
+set showmode                                             " Show mode (insert, visual etc) on the last line
+set splitbelow                                           " When on, splitting a window will put the new window below the current one
+set synmaxcol=500                                        " Until which column vim parses syntax
+set t_Co=256                                             " term colors
+set t_ut=
+set undofile
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -119,6 +112,7 @@ set nowrap
 set expandtab
 set textwidth=80
 set formatoptions=qrn1
+
 " }}}
 
 " Colors and Scheme "{{{
