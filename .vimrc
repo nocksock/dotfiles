@@ -18,7 +18,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mileszs/ack.vim'                                                          " Fast, simple search via ack
 " Plug 'Raimondi/delimitMate'                                                     " provides insert mode auto-completion for quotes, parens, brackets, etc.
-Plug 'scrooloose/syntastic'                                                     " syntax chacking for a bunch of languages
+Plug 'scrooloose/syntastic'                                                     " syntax checking for a bunch of languages
 Plug 'tpope/vim-commentary'                                                     " comment stuff out and back in via gc/gcc
 Plug 'tpope/vim-repeat'                                                         " enable repeating supported plugin maps with `.`
 Plug 'tpope/vim-surround'                                                       " quoting/parenthesizing made simple
