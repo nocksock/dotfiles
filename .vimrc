@@ -478,8 +478,8 @@ nnoremap <leader>[ :cprev<cr>
 noremap <leader>gg :Git<cr>
 
 " Coc Bindings
-noremap <leader>coa :CocAction<cr>
-noremap <leader>coi :call CocAction('runCommand', 'editor.action.organizeImport')
+noremap <leader>ca :CocAction<cr>
+noremap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " Theme light/dark switch
 let ayucolor="dark"
