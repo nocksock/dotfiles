@@ -292,6 +292,12 @@ augroup ft_html
 augroup END
 " }}}
 
+" .NJK {{{
+augroup ft_njk
+  au!
+  au BufNewFile,BufRead *.njk setlocal filetype=html
+" }}}
+
 " .CSS "{{{
 augroup ft_css
     au!
