@@ -64,9 +64,6 @@ Plug 'iamcco/coc-tailwindcss',
 
 Plug 'zoubin/vim-gotofile', { 'for': 'javascript' }                             " cursor on an import expression, gf will bring me to the main file of a node_module
 
-" Python
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-
 call plug#end()
 
 filetype plugin indent on
@@ -421,16 +418,6 @@ if executable('rls')
     \ 'whitelist': ['rust'],
     \ })
 endif
-"}}}
-
-" .PY Python {{{
-" if executable('pyls')
-"   au User lsp_setup call lsp#register_server({
-"     \ 'name': 'pyls',
-"     \ 'cmd': {server_info->['pyls']},
-"     \ 'whitelist': ['python'],
-"     \ })
-" endif
 "}}}
 
 " .PDE Processing {{{
