@@ -453,6 +453,8 @@ noremap <leader>ss :Ag<cr>
 ""}}}
 " -- quick edits (prefix: e) ----------------------------------------------- {{{
 noremap <leader>ev :tabnew ~/dotfiles/.vimrc<CR>
+noremap <leader>ez :tabnew ~/dotfiles/.zshrc<CR>
+noremap <leader>et :tabnew ~/dotfiles/.tmux.conf<CR>
 noremap <leader>es :UltiSnipsEdit<CR>
 ""}}}
 
