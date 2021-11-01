@@ -40,10 +40,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-vinegar'                                                        " improved netrw for file browsing
 
 " Themes
-Plug 'morhetz/gruvbox'
-Plug 'ayu-theme/ayu-vim'
-Plug 'arcticicestudio/nord-vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'ayu-theme/ayu-vim'                                                        " has a nice dark and light theme
 
 " LSP and autocomplete
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -135,17 +132,14 @@ highlight SpecialKey guifg=#4a4a59
 
 " Theme configs
 set termguicolors
-set background=dark
-let g:gruvbox_contrast_dark="hard"
-let ayucolors="mirage"
 
 let g:indentLine_char = '|'
 let g:indentLine_first_char = 'x'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
 
+let g:ayucolor="mirage"
 colorscheme ayu
-
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v', 100)
 
