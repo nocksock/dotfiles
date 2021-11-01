@@ -215,6 +215,9 @@ nnoremap zh mzzt10<c-u>`z " zoom to head level
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+" C-R in visual mode to replace selected text
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
 " press jk to Esc - much faster while typing
 inoremap jk <ESC>
 
