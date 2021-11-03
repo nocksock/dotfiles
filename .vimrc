@@ -105,6 +105,7 @@ set synmaxcol=500                                        " Until which column vi
 set t_Co=256                                             " term colors
 set t_ut=
 set undofile
+set updatetime=1000                                      " how often to write swapfiles - some plugins, eg git-gutter use this for their update interval too
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
