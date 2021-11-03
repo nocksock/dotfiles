@@ -64,7 +64,7 @@ zstyle ':omz:update' frequency 13
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git brew aliases dash fzf gh npm npx nvm rust golang tmux vi-mode vim-interaction)
+plugins=(git brew aliases dash fzf gh npm nvm tmux)
 export NVM_AUTOLOAD=1
 
 # User configuration
