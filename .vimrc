@@ -93,7 +93,7 @@ set list                                                 " Show invisible charac
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪
 set mouse=a                                              " enable scrolling and selecting with mouse
 set nocursorline                                         " Highlight the line of in which the cursor is present (or not)
-set relativenumber                                       " show relative line numbers numbers
+set nu! rnu!                                             " show *HYBRID* line numbers, relative line numbers + current line number
 set ruler                                                " show the cursor position all the time
 set shell=/bin/zsh " set default shell for :shell
 set shiftround                                           " When at 3 spaces and I hit >>, go to 4, not 5.
