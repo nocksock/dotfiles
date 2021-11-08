@@ -57,7 +57,7 @@ function tmn() {
 }
 
 function p() {
-    project=$(ls ~/projects/ | fzf --reverse)
+    project=$(ls ~/projects/ | fzf --reverse -q ${1:-''})
     cd ~/projects/$project
 }
 
