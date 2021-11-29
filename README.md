@@ -14,8 +14,7 @@ the VS Code goodness, back into vim.
 
 - Vim
 - Tmux
-- Starship
-- A recent node version to have the JS autocomplete things working.
+- Oh-My-ZSH
 
 ## Installation
 
