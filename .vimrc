@@ -196,6 +196,7 @@ call plug#begin('~/.vim/plugged')
 source ~/.vim/plugins/auto-pairs.vim
 source ~/.vim/plugins/ayu.vim
 source ~/.vim/plugins/closetag.vim
+source ~/.vim/plugins/blamer.vim
 source ~/.vim/plugins/coc.vim
 source ~/.vim/plugins/commentary.vim
 source ~/.vim/plugins/editorconfig.vim
