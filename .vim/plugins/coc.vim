@@ -3,20 +3,25 @@ Plug 'antoinemadec/coc-fzf'
 
 let g:coc_global_extensions = [
     \ 'coc-css',
+    \ 'coc-deno',
     \ 'coc-emmet',
     \ 'coc-eslint',
     \ 'coc-git',
+    \ 'coc-go',
     \ 'coc-html',
+    \ 'coc-jest',
     \ 'coc-json',
+    \ 'coc-yank',
     \ 'coc-pairs',
-    \ 'coc-phpls',
     \ 'coc-php-cs-fixer',
+    \ 'coc-phpls',
+    \ 'coc-rls',
     \ 'coc-sh',
     \ 'coc-snippets',
     \ 'coc-sql',
     \ 'coc-svg',
-    \ 'https://github.com/rodrigore/coc-tailwind-intellisense',
     \ 'coc-tsserver',
+    \ 'https://github.com/rodrigore/coc-tailwind-intellisense',
 \ ]
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -118,4 +123,30 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
+" show CocList via Fzf
 nmap <leader>l :CocFzfList<cr>
+
+" coc-jest {{{
+" Run jest for current project
+command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
+
+" Run jest for current file
+command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
+
+" Run jest for current test
+nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR>
+
+" Init jest in current cwd, require global jest command exists
+command! JestInit :call CocAction('runCommand', 'jest.init')
+" }}}
+
+" coc-yank {{{
+" show yanks list
+" TODO: show yanks via CocFzfList
+nnoremap <silent> <space>yl  :<C-u>CocList -A --normal yank<cr>
+
+" clean yanks
+nnoremap <silent> <space>yc  :CocCommand yank.clean
+" }}}
+
+
