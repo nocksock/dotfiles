@@ -127,9 +127,11 @@ nnoremap gV `[v`]
 " -- quick edits (prefix: e) ----------------------------------------------- {{{
 noremap <leader>ev :tabnew ~/dotfiles/.vimrc<CR>
 noremap <leader>ez :tabnew ~/dotfiles/.zshrc<CR>
+noremap <leader>ea :tabnew ~/.vim/plugged/ayu-vim/colors/ayu.vim<CR>
 noremap <leader>et :tabnew ~/dotfiles/.tmux.conf<CR>
 noremap <leader>ec :tabnew ~/dotfiles/.vim/coc-settings.json<CR>
 noremap <leader>es :UltiSnipsEdit<CR>
+noremap <leader>rr :source ~/.vimrc<CR>:echom "vim reloaded"<cr>
 ""}}}
 
 " -- miscallaneous --------------------------------------------------------- {{{
