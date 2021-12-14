@@ -1,4 +1,5 @@
-Plug 'ayu-theme/ayu-vim'                                                        " has a nice dark and light theme
+" has a nice dark and light theme
+Plug 'nocksock/ayu-vim'
 
 " Theme light/dark switch
 let ayucolor="dark"
