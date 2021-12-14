@@ -11,6 +11,7 @@ let g:coc_global_extensions = [
     \ 'coc-html',
     \ 'coc-jest',
     \ 'coc-json',
+    \ 'coc-jsref',
     \ 'coc-yank',
     \ 'coc-pairs',
     \ 'coc-php-cs-fixer',
@@ -66,14 +67,13 @@ nmap <silent> <leader>hp <Plug>(coc-git-prevchunk)
 " apply autofix to problem on the current line.
 nmap <leader>am  <plug>(coc-format-selected)
 xmap <leader>am  <plug>(coc-format-selected)
-nmap <leader>ca  <Plug>(coc-codeaction)
+nmap <leader>ca  <Plug>(coc-codeaction-cursor)
 nmap <leader>cf  <plug>(coc-fix-current)
 nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>ga  <Plug>(coc-codeaction-line)
 
 " Map function and class text objects
