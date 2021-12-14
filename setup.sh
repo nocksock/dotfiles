@@ -9,6 +9,7 @@ ln -s $DOT_DIR/.vimrc ~/.vimrc
 ln -s $DOT_DIR/.tmux.conf ~/.tmux.conf
 ln -s $DOT_DIR/.zsh ~/.zsh
 ln -s $DOT_DIR/.zshrc ~/.zshrc
+ln -s $DOT_DIR/.oh-my-zsh/custom ~/.oh-my-zsh/custom
 
 git submodule init;
 git submodule update;
