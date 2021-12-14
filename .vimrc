@@ -267,3 +267,10 @@ augroup Mkdir
   autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
 augroup END
 " }}}
+
+" file types {{{
+augroup ft_zsh_theme
+    au!
+    au BufNewFile,BufRead *.zsh-theme setlocal filetype=zsh
+augroup END
+" }}}
