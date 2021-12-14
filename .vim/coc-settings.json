@@ -1,3 +1,20 @@
 {
-  "tailwindCSS.headwind.runOnSave": false,
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.enableMessage": "jump",
+  "diagnostic.errorSign": "✖",
+  "diagnostic.warningSign": "⚠",
+  "diagnostic.infoSign": "•",
+  "diagnostic.hintSign": "•",
+  "intelephense.format.enable": true,
+  "phpls.path": "/usr/local/bin/intelephense",
+  "git.enableGutters": true,
+  "git.addedSign.text": "┃",
+  "git.changedSign.text": "┃",
+  "git.removedSign.text": "▁",
+  "git.topRemovedSign.text": "▔",
+  "git.changeRemovedSign.text": "▔",
+  "tailwindCSS.validate": true,
+  "tailwindCSS.emmetCompletions": true
 }
