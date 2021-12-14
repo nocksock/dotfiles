@@ -27,7 +27,7 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="c"
 
 
 PROMPT=$'\n'
-PROMPT+=" %{$FG[189]%}%~ %{$reset_color%}$(zsh_bleep_gitstatus)"
+PROMPT+=' %{$FG[189]%}%~ %{$reset_color%}$(zsh_bleep_gitstatus)'
 PROMPT+=$'\n'
-PROMPT+="%(?:%{$FG[241]%}➜ :%{$FG[196]%}➜ )%{$reset_color%}"
+PROMPT+='%(?:%{$FG[241]%}➜ :%{$FG[196]%}➜ )%{$reset_color%}'
 
