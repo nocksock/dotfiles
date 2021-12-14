@@ -99,7 +99,6 @@ nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
 
 nmap <leader>Q :bufdo bdelete<cr>
-map gf :edit <cfile><cr>
 
 " Go to last active tab
 au TabLeave * let g:lasttab = tabpagenr()
