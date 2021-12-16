@@ -33,7 +33,7 @@ set hidden                                               " enable hidden buffers
 set hlsearch
 set ignorecase
 set incsearch
-set laststatus=2                                         " Always show status line.
+" set laststatus=1                                         " Always show status line.
 set list                                                 " Show invisible characters                                                                         "
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪
 set mouse=a                                              " enable scrolling and selecting with mouse
@@ -98,7 +98,10 @@ noremap <leader>0 :tablast<cr>
 nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
 
-nmap <leader>Q :bufdo bdelete<cr>
+nmap <leader>bd :bd<cr>
+nmap <leader>bp :bp<cr>
+nmap <leader>bn :bn<cr>
+nmap <leader>ba :e #<cr>
 
 " Go to last active tab
 au TabLeave * let g:lasttab = tabpagenr()
@@ -127,7 +130,6 @@ nnoremap gV `[v`]
 " -- quick edits (prefix: e) ----------------------------------------------- {{{
 noremap <leader>ev :tabnew ~/dotfiles/.vimrc<CR>
 noremap <leader>ez :tabnew ~/dotfiles/.zshrc<CR>
-noremap <leader>ea :tabnew ~/.vim/plugged/ayu-vim/colors/ayu.vim<CR>
 noremap <leader>et :tabnew ~/dotfiles/.tmux.conf<CR>
 noremap <leader>ec :tabnew ~/dotfiles/.vim/coc-settings.json<CR>
 noremap <leader>es :UltiSnipsEdit<CR>
@@ -143,6 +145,9 @@ imap ,, <Esc>A,<Esc>
 " Reselect visual selection after indenting
 vnoremap < <gv
 vnoremap > >gv
+
+" open file under cursor, even if not existing
+map gf :edit <cfile><cr>
 
 " gx to open links
 nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
@@ -165,6 +170,14 @@ noremap <leader>tf :15Lex<cr>
 
 " open terminal at the bottom
 noremap <leader>; :terminal ++rows=15<cr>
+
+" delete without yanking
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" replace currently selected text with default register
+" without yanking it
+vnoremap <leader>p "_dP
 
 " keep muscle memory for saving often
 noremap <c-s> :w<cr>
@@ -196,7 +209,6 @@ call plug#begin('~/.vim/plugged')
 " blow up and gets as messy as it did several times in the past. It does slow 
 " down bootup by a handful of ms I guess. but it's a good trade atm.
 source ~/.vim/plugins/auto-pairs.vim
-source ~/.vim/plugins/ayu.vim
 source ~/.vim/plugins/closetag.vim
 source ~/.vim/plugins/blamer.vim
 source ~/.vim/plugins/coc.vim
@@ -214,34 +226,16 @@ source ~/.vim/plugins/repeat.vim
 source ~/.vim/plugins/surround.vim
 source ~/.vim/plugins/table-mode.vim
 source ~/.vim/plugins/tabular.vim
+source ~/.vim/plugins/plug.vim
+source ~/.vim/plugins/vCoolor.vim
+source ~/.vim/plugins/colors.vim
 source ~/.vim/plugins/ultisnips.vim
 source ~/.vim/plugins/vinegar.vim
+source ~/.vim/plugins/statusline.vim
 source ~/.vim/plugins/zoom-toggle.vim
 
 call plug#end()
-"}}}
-
-" -- Colorscheme ----------------------------------------------------------- {{{
-colorscheme ayu
-
-"Invisible character colors
-highlight NonText guifg=#4a4a59
-highlight SpecialKey guifg=#4a4a59
-
-" " Theme configs
-" let g:indentLine_char = '|'
-" let g:indentLine_first_char = 'x'
-" let g:indentLine_showFirstIndentLevel = 1
-" let g:indentLine_setColors = 0
-
-highlight ColorColumn ctermbg=red
-
-call matchadd('ColorColumn', '\%81v', 100)
-
-function! TransparentBG() 
-  " making background transparent so iterm transparency is working
-  highlight Normal guibg=NONE ctermbg=NONE 
-endfunction
+doautocmd User PlugLoaded
 "}}}
 
 " -- Config Meta ----------------------------------------------------------- {{{

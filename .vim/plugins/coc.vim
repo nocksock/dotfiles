@@ -1,4 +1,6 @@
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" https://github.com/antoinemadec/coc-fzf
 Plug 'antoinemadec/coc-fzf'
 
 let g:coc_global_extensions = [
@@ -18,18 +20,19 @@ let g:coc_global_extensions = [
     \ 'coc-phpls',
     \ 'coc-rls',
     \ 'coc-sh',
-    \ 'coc-snippets',
     \ 'coc-sql',
     \ 'coc-svg',
     \ 'coc-tsserver',
     \ 'https://github.com/rodrigore/coc-tailwind-intellisense',
 \ ]
 
-" Use tab for trigger completion with characters ahead and navigate.
+" Make <tab> used for trigger completion, completion confirm, snippet expand and
+" jump like VSCode
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
@@ -124,7 +127,13 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " show CocList via Fzf
-nmap <leader>l :CocFzfList<cr>
+nmap <leader>ll :CocFzfList<cr>
+nmap <leader>la :CocFzfList actions<cr>
+nmap <leader>lc :CocFzfList commands<cr>
+nmap <leader>lo :CocFzfList outline<cr>
+nmap <leader>ls :CocFzfList snippets<cr>
+nmap <leader>ld :CocFzfList diagnostics<cr>
+nmap <leader>lr :CocFzfList resume<cr>
 
 " coc-jest {{{
 " Run jest for current project
@@ -148,5 +157,4 @@ nnoremap <silent> <space>yl  :<C-u>CocList -A --normal yank<cr>
 " clean yanks
 nnoremap <silent> <space>yc  :CocCommand yank.clean
 " }}}
-
 

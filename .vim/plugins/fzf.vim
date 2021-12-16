@@ -4,8 +4,12 @@ Plug 'junegunn/fzf.vim'
 " git branches etc
 Plug 'stsewd/fzf-checkout.vim' 
 
+
 let g:fzf_layout = { 'up': '~90%', 'window': { 'width': 0.8, 'height': 0.8, 'yoffset':0.5, 'xoffset': 0.5 } }
+let g:fzf_preview_window = ['up:50%', 'ctrl-/']
+
 let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+
 
 command! FF call fzf#run(fzf#wrap({'source' : 'find .'}))
 
@@ -26,6 +30,7 @@ noremap <leader>ft :Tags<cr>
 noremap <leader>hh :Helptags<cr>
 noremap <leader>ss :Ag<cr>
 noremap <leader>bb :Buffers<cr>
+noremap <leader>sn :Snippets<cr>
 nmap <leader>gb :GBranches<cr>
 
 " muscle memory keeper for vscode moments
