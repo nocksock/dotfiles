@@ -13,9 +13,9 @@ the VS Code goodness, back into vim most of them provided by COC.
 ## Essential Requirements
 
 - Vim
-  - + node
-  - + fzf
-  - + rg
+  + node
+  + fzf
+  + rg
 - Tmux
 - Oh-My-ZSH
 
