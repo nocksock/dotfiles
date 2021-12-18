@@ -1,5 +1,7 @@
 - defaults:
-    relink: true
+    link:
+      relink: true
+      create: true
 
 - clean:
     ~/:
@@ -10,6 +12,7 @@
     ~/.vimrc: .vimrc
     ~/.tmux.conf: .tmux.conf
     ~/.config/kitty/kitty.conf: kitty.conf
+    ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/.oh-my-zsh/custom: omz-custom
 
 - create:
