@@ -1,12 +1,20 @@
-" encoding: utf 8
 "
-" This is my messy .vimrc
+" This is my kind of messy but also very large .vimrc
 "
 " Author: Nils Riedemann
 " Website: https://bleepbloop.studio/
 " Repository: https://github.com/nocksock/dotfiles
+"
+" ------------------------------------------------------------------------------
 
 " -- Plugins --------------------------------------------------------------- {{{
+" I use a LOT of plugins. Some I consider essential, and some I only use in rare
+" occasions.
+"
+" I tried using the structure, where you'd have a .vim file for each plugin and
+" configure each plugin there, with keymaps and all. But in the end I didn't
+" find it as quick as just jumping around this file with markers, and having key
+" mappings in different files didn't give me the overview I hoped it'd give.
 
 " install plug-vim if not present {{{
 
@@ -20,16 +28,57 @@ call plug#begin('~/.vim/plugged')
 
 " }}}
 
+" Stable essentials
+"
+" These are small plugins that I have been using for years now and often forget
+" are not even part of vim. Most of them just add behaviour that works passive
+" and requires little to no config and do not rely on external programs.
+
+" vinegar {{{
+
+" improved netrw for file browsing. fun fact: it's one of the plugins that made
+" me stick to vim back in the day for the first time.
+Plug 'tpope/vim-vinegar'
+
+" }}}
+" git: fugitive and rhubarb {{{
+
+" a git wrapper in vim
+Plug 'tpope/vim-fugitive'
+
+" specials for github
+Plug 'tpope/vim-rhubarb'
+
+""}}}
+" repeat {{{
+
+" makes . even more powerful by adding suppor for plugins
+Plug 'tpope/vim-repeat'
+
+" }}}
+" surround {{{
+
+" quoting/parenthesizing made simple. Extends functionality of S
+Plug 'tpope/vim-surround'
+
+" }}}
+" ultisnips {{{
+
+" current snippet handler of choice. has some features that coc-snippets won't
+" or cannot implement.
+Plug 'SirVer/ultisnips'
+
+" }}}
+" commentary {{{
+
+" comment stuff out and back in via gc/gcc
+Plug 'tpope/vim-commentary'
+
+" }}}
 " auto pairs {{{
 
 " auto insert/delete brackets, parens, quotes etc
 Plug 'jiangmiao/auto-pairs'
-
-" }}}
-" git blamer {{{
-
-" A git blame plugin for neovim inspired by VS Code's GitLens plugin
-Plug 'APZelos/blamer.nvim'
 
 " }}}
 " vim closetag {{{
@@ -37,8 +86,7 @@ Plug 'APZelos/blamer.nvim'
 " automatically close tags
 Plug 'alvan/vim-closetag'                                                       " Autoclose HTML Tags - with some smartness
 
-" }}}
-" vim closetag config {{{
+" config {{{
 
 " filenames like *.xml, *.html, *.xhtml, ...
 " These are the file extensions where this plugin is enabled.
@@ -83,7 +131,28 @@ let g:closetag_shortcut = '>'
 "
 let g:closetag_close_shortcut = '<leader>>'
 ""}}}
+
+" }}}
+" emmet {{{
+
+" h1{emmet is awesome}+ul>li{It is!}*3
+Plug 'mattn/emmet-vim'
+let g:user_zen_leader_key = '<c-y>'
+
+" }}}
+
+" Current Core Workflow Plugins
+"
+" these pretty much define how I mostly work within vim right now, but require
+" extensive configuration and rely on external dependencies that might not be
+" available/installable on some machines
+
 " coc {{{
+" LSP is one of the best things in recent years or so. While the builtin version
+" is great, some coc-extensions are just crazy good and are things I otherwise
+" would miss from VS Code (eg. jsref to toggle implicit and explicit return
+" statements for arrow functions). Also it feels like coc just works better
+" out-of-the-box atm than LSP.
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
@@ -149,50 +218,17 @@ command! JestInit :call CocAction('runCommand', 'jest.init')
 
 
 "}}}
-" vim-commentary {{{
-
-" comment stuff out and back in via gc/gcc
-Plug 'tpope/vim-commentary'
-
-" }}}
-" .editorconfig {{{
-
-" loadsd settings from .editoconfig if present
-Plug 'editorconfig/editorconfig-vim'
-
-" }}}
-" emmet {{{
-
-" h1{emmet is awesome}+ul>li{It is!}*3
-Plug 'mattn/emmet-vim'
-let g:user_zen_leader_key = '<c-y>'
-
-" }}}
-" eunuch {{{
-
-" Vim sugar for the UNIX shell commands that need it the most. Like:
-"   :Delete, :Move, :Chmod
-Plug 'tpope/vim-eunuch'
-
-" }}}
-" floaterm {{{
-
-Plug 'voldikss/vim-floaterm'
-let g:floaterm_keymap_new = '<c-\>;'
-
-" }}}
-" git: fugitive and rhubarb {{{
-
-" a git wrapper in vim
-Plug 'tpope/vim-fugitive'
-
-" specials for github
-Plug 'tpope/vim-rhubarb'
-
-""}}}
 " FZF {{{
+" FZF is one of those things, that "just make sense"". I've been using CTRL-P
+" before that for years to fuzzy find files, but FZF seems much faster (using
+" rg/ag in the back) and it has an interface that can be used for other things
+" than file finding.
+"
+" I'd consider it almost a stable essential for me at this point, but it has an
+" external dependency fzf so it doesn't quite fit along the other ones and also
+" requires a lot of configuration and key mapping.
 
-" fzf <3 rip ctrlp
+" fzf <3 rip ctrl-p
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
@@ -214,53 +250,27 @@ command! -bang -nargs=? -complete=dir AllFiles
     \ call fzf#run(fzf#wrap('allfiles', fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
 
 ""}}}
-" gundo {{{
 
-" undo tree - who needs version control, when you have vim?
-Plug 'sjl/gundo.vim'
-
-" }}}
-" styled components {{{
-
-" syntax hilighting in styled`` template literals
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-let g:vim_jsx_pretty_highlight_close_tag = 1
-
-" }}}
-" Polyglot {{{
-" A collection of language packs for Vim.
+" Niceties
 "
-" Adds about 10ms of loading time, but more comfortable than adding all the
-" languages myself - and makes peeking into unknown languages easier.
-"
-" includes plugins that I previously had installed manually, like:
-" html5.vim, vim-graphql, vim-ledger, yats, vim-javascript
+" just some nice things that I could easily do without.
 
-" disabling needs to happen before loading. The included syntax highlights don't
-" provide the level of control i'd like to have, so i'm currently using my own
-let g:polyglot_disabled = ['python.plugin']
+" git blamer {{{
 
-Plug 'sheerun/vim-polyglot'
-
-""}}}
-" repeat {{{
-
-" makes . even more powerful by adding suppor for plugins
-Plug 'tpope/vim-repeat'
+" A git blame plugin for neovim inspired by VS Code's GitLens plugin
+Plug 'APZelos/blamer.nvim'
 
 " }}}
-" surround {{{
+" .editorconfig {{{
 
-" quoting/parenthesizing made simple. Extends functionality of S
-Plug 'tpope/vim-surround'
+" loadsd settings from .editoconfig if present
+Plug 'editorconfig/editorconfig-vim'
 
 " }}}
-" python {{{
+" floaterm {{{
 
-" This is my custom python-vim fork. I don't agree with some of the highlight
-" groups and wanted more control of some specifics for my custom colorscheme.
-" using a relative path makes it easier to adjust and test things on the fly.
-Plug '~/projects/python-vim'
+Plug 'voldikss/vim-floaterm'
+let g:floaterm_keymap_new = '<c-\>;'
 
 " }}}
 " table mode {{{
@@ -276,18 +286,53 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'godlygeek/tabular'
 
 " }}}
-" ultisnips {{{
+" eunuch {{{
 
-" current snippet handler of choice. has some features that coc-snippets won't
-" or cannot implement.
-Plug 'SirVer/ultisnips'
+" Vim sugar for the UNIX shell commands that need it the most. Like:
+"   :Delete, :Move, :Chmod
+Plug 'tpope/vim-eunuch'
 
 " }}}
-" vinegar {{{
+" gundo {{{
 
-" improved netrw for file browsing. fun fact: it's one of the plugins that made
-" me stick to vim back in the day for the first time.
-Plug 'tpope/vim-vinegar'
+" undo tree - who needs version control, when you have vim?
+Plug 'sjl/gundo.vim'
+
+" }}}
+" styled components {{{
+
+" syntax hilighting in styled`` template literals
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+let g:vim_jsx_pretty_highlight_close_tag = 1
+
+" }}}
+
+" Colors, syntax and themes
+"
+" These make vim and syntax highlighting look nice.
+
+"" Polyglot {{{
+" A collection of language packs for Vim.
+"
+" Adds about 10ms of loading time, but more comfortable than adding all the
+" languages myself - and makes peeking into unknown languages easier.
+"
+" includes plugins that I previously had installed manually, like:
+" html5.vim, vim-graphql, vim-ledger, yats, vim-javascript
+
+" disabling needs to happen before loading. The included syntax highlights don't
+" provide the level of control i'd like to have, so i'm currently using my own
+let g:polyglot_disabled = ['python.plugin']
+
+Plug 'sheerun/vim-polyglot'
+
+""}}}
+" python {{{
+
+" This is my custom python-vim fork. I don't agree with some of the highlight
+" groups and wanted more control of some specifics for my custom colorscheme.
+" using a relative path makes it easier to adjust and test things on the fly.
+Plug '~/projects/python-vim'
 
 " }}}
 " bloop {{{
@@ -440,7 +485,7 @@ set undofile
 
 " }}}
 
-" -- custom functions and command definitions ------------------------------ {{{
+" -- Custom functions and command definitions ------------------------------ {{{
 
 function! SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
@@ -465,6 +510,8 @@ endfunction
 " }}}
 
 " -- Key Mappings ---------------------------------------------------------- {{{
+" This is a messy mess. I will find a nicer way of structuring them at some
+" point, but for now losely grouping them will do.
 
 " Window Management "{{{
 
@@ -743,7 +790,7 @@ augroup END
 
 " }}}
 
-" -- file types ------------------------------------------------------------{{{
+" -- File Type Specifcs ---------------------------------------------------- {{{
 
 " -- javascript ------------------------------------------------------------ {{{
 
@@ -761,7 +808,6 @@ augroup ft_javascript
 augroup END
 
 ""}}}
-
 " -- zsh-------------------------------------------------------------------- {{{
 
 augroup ft_zsh
@@ -770,7 +816,6 @@ augroup ft_zsh
 augroup END
 
 ""}}}
-
 " -- vimrc ----------------------------------------------------------------- {{{
 
 augroup ft_vimrc
