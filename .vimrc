@@ -311,7 +311,7 @@ let g:vim_jsx_pretty_highlight_close_tag = 1
 "
 " These make vim and syntax highlighting look nice.
 
-"" Polyglot {{{
+" Polyglot {{{
 " A collection of language packs for Vim.
 "
 " Adds about 10ms of loading time, but more comfortable than adding all the
@@ -347,59 +347,47 @@ Plug '~/projects/bloop-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 
-function! LightlineReload()
-  call lightline#init()
-  call lightline#colorscheme()
-  call lightline#update()
-endfunction
+let g:lightline = {
+      \   'colorscheme': 'bloop',
+      \   'active': {
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
+      \     'right': [['filetype', 'percent', 'lineinfo']],
+      \   },
+      \   'component': {
+      \     'path': '%<%f'
+      \   },
+      \   'component_function': {
+      \     'gitbranch': 'gitbranch#name',
+      \     'cocstatus': 'coc#status'
+      \   },
+      \   'mode_map': {
+      \     'n' : 'N',
+      \     'i' : 'I',
+      \     'R' : 'R',
+      \     'v' : 'v',
+      \     'V' : 'V',
+      \     "\<C-v>": 'B',
+      \     'c' : 'C',
+      \     's' : 's',
+      \     'S' : 'S',
+      \     "\<C-s>": 'S',
+      \     't': '$'
+      \   }
+      \ }
 
-fun! CustomizeLightline()
-  let g:lightline = {
-        \   'colorscheme': 'bloop',
-        \   'active': {
-        \     'left': [ [ 'mode', 'paste' ],
-        \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
-        \     'right': [['filetype', 'percent', 'lineinfo']],
-        \   },
-        \   'component': {
-        \     'path': '%<%f'
-        \   },
-        \   'component_function': {
-        \     'gitbranch': 'gitbranch#name',
-        \     'cocstatus': 'coc#status'
-        \   },
-        \   'mode_map': {
-        \     'n' : 'N',
-        \     'i' : 'I',
-        \     'R' : 'R',
-        \     'v' : 'v',
-        \     'V' : 'V',
-        \     "\<C-v>": 'B',
-        \     'c' : 'C',
-        \     's' : 's',
-        \     'S' : 'S',
-        \     "\<C-s>": 'S',
-        \     't': '$'
-        \   }
-        \ }
-
-  let g:lightline.subseparator = { 'left': '', 'right': '' }
-  call LightlineReload()
-endfun
+let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 augroup user_lightline
   au!
   au User CocStatusChange,CocDiagnosticChange call lightline#update()
-  au User PlugLoaded call CustomizeLightline()
 augroup END
 
 " }}}
 
 call plug#end()
 
-doautocmd User PlugLoaded
-
-"}}}
+" }}}
 
 " -- Basic options --------------------------------------------------------- {{{
 let mapleader = "\<space>"
@@ -487,6 +475,14 @@ set undofile
 
 " -- Custom functions and command definitions ------------------------------ {{{
 
+" reload lightline entirely - useful when changing its configuration
+function! LightlineReload()
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
+endfunction
+
+" get some of the highlight groups for the current cursor position
 function! SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
