@@ -507,12 +507,116 @@ endfunction
 
 " -- Key Mappings ---------------------------------------------------------- {{{
 " This is a messy mess. I will find a nicer way of structuring them at some
-" point, but for now losely grouping them will do.
+" point, but for now losely grouping them will do. Trying to come up with
+" a cohesive system loosely based around prefixes and scopes.
 
-" Window Management "{{{
+" b: Buffers {{{
 
-" Adding a bunch of ways to change tab to see which one sticks
+nmap <leader>bd :bd<cr>
+nmap <leader>bp :bp<cr>
+nmap <leader>bn :bn<cr>
+nmap <leader>ba :e #<cr>
+
+" }}}
+" c: Code actions {{{
+
+" apply autofix to problem on the current line.
+nmap <leader>am  <plug>(coc-format-selected)
+nmap <leader>ca  <Plug>(coc-codeaction-cursor)
+nmap <leader>cf  <plug>(coc-fix-current)
+nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
+nnoremap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
+
+" Symbol renaming.
+nmap <leader>cn <Plug>(coc-rename)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>ga  <Plug>(coc-codeaction-line)
+
+" }}}
+" d: diagnostics {{{
+
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> <leader>di <Plug>(coc-diagnostic-info)
+nmap <silent> <leader>dn <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>dp <Plug>(coc-diagnostic-next)
+
+" Use `[g` and `]g` to navigate diagnostics.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" }}}
+" e: edit {{{
+
+noremap <leader>ev :tabnew ~/dotfiles/.vimrc<CR>
+noremap <leader>ez :tabnew ~/dotfiles/.zshrc<CR>
+noremap <leader>et :tabnew ~/dotfiles/.tmux.conf<CR>
+noremap <leader>ec :tabnew ~/dotfiles/.vim/coc-settings.json<CR>
+noremap <leader>es :UltiSnipsEdit<CR>
+noremap <leader>rr :source ~/.vimrc<CR>
+
+" }}}
+" f, FZF {{{
+" IDEA: maybe <prefix><prefix> as a rule to trigger fzf?
+
+nnoremap <leader><space> :Files<cr>
+nnoremap <leader>fa :AllFiles<cr>
+nnoremap <leader>fb :Buffers<cr>
+nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fg :GBranches<cr>
+nnoremap <leader>fh :Helptags<cr>
+nnoremap <leader>fl :Lines<cr>
+nnoremap <leader>fn :Snippets<cr>
+nnoremap <leader>fr :History<cr>
+nnoremap <leader>fs :Ag<cr>
+nnoremap <leader>ft :Tags<cr>
+
+" muscle memory keeper for vscode moments
+nnoremap <c-p> :Files<cr>
+
+" }}}
+" g: goto {{{
+
+" gx to open links
+nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" }}}
+" h: Hunks {{{
+
+nmap <silent> <leader>hn <Plug>(coc-git-nextchunk)
+nmap <silent> <leader>hp <Plug>(coc-git-prevchunk)
+
+" }}}
+" l: Lists {{{
+
+" show CocList via Fzf
+nmap <leader>ll :CocFzfList<cr>
+nmap <leader>la :CocFzfList actions<cr>
+nmap <leader>lc :CocFzfList commands<cr>
+nmap <leader>lo :CocFzfList outline<cr>
+nmap <leader>ls :CocFzfList snippets<cr>
+nmap <leader>ld :CocFzfList diagnostics<cr>
+nmap <leader>lr :CocFzfList resume<cr>
+nmap <leader>ly :CocFzfList yank<cr>
+
+" }}}
+" t, Tabs {{{
+
 nnoremap <C-t> <esc>:tabnew<cr>
+
+nnoremap <leader>tn :tabnext<cr>
+nnoremap <leader>tp :tabprevious<cr>
+nnoremap <leader>tf :tabfirst<cr>
+nnoremap <leader>tl :tablast<cr>
+
 noremap <leader>1 1gt
 noremap <leader>2 2gt
 noremap <leader>3 3gt
@@ -522,57 +626,36 @@ noremap <leader>6 6gt
 noremap <leader>7 7gt
 noremap <leader>8 8gt
 noremap <leader>9 9gt
-noremap <leader>0 :tablast<cr>
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
-
-nmap <leader>bd :bd<cr>
-nmap <leader>bp :bp<cr>
-nmap <leader>bn :bn<cr>
-nmap <leader>ba :e #<cr>
-
-nmap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 
 " Go to last active tab
 au TabLeave * let g:lasttab = tabpagenr()
 
 nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
-tnoremap      <c-\>   <C-\><C-n>:FloatermToggle<CR>
-nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
 
-"}}}
-" coc {{{
+" }}}
 
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> <leader>di <Plug>(coc-diagnostic-info)
-nmap <silent> <leader>dn <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>dp <Plug>(coc-diagnostic-next)
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Autocomplete {{{
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" Make <tab> used for trigger completion, completion confirm, snippet expand and
+" jump like VSCode
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-" git hunks
-nmap <silent> <leader>hn <Plug>(coc-git-nextchunk)
-nmap <silent> <leader>hp <Plug>(coc-git-prevchunk)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" apply autofix to problem on the current line.
-nmap <leader>am  <plug>(coc-format-selected)
-xmap <leader>am  <plug>(coc-format-selected)
-nmap <leader>ca  <Plug>(coc-codeaction-cursor)
-nmap <leader>cf  <plug>(coc-fix-current)
-nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>ga  <Plug>(coc-codeaction-line)
+""}}}
+" Movements and text objects {{{
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -585,78 +668,6 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-
-" show CocList via Fzf
-nmap <leader>ll :CocFzfList<cr>
-nmap <leader>la :CocFzfList actions<cr>
-nmap <leader>lc :CocFzfList commands<cr>
-nmap <leader>lo :CocFzfList outline<cr>
-nmap <leader>ls :CocFzfList snippets<cr>
-nmap <leader>ld :CocFzfList diagnostics<cr>
-nmap <leader>lr :CocFzfList resume<cr>
-nmap <leader>ly :CocFzfList yank<cr>
-
-" show yanks list
-nnoremap <silent> <space>yl  :<C-u>CocFzfList yank<cr>
-
-" clean yanks
-nnoremap <silent> <space>yc  :CocCommand yank.clean
-
-nnoremap <silent> <leader>pp :w<cr>:CocCommand prettier.formatFile<cr>
-
-" Make <tab> used for trigger completion, completion confirm, snippet expand and
-" jump like VSCode
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" Run jest for current test
-nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR>
-
-""}}}
-" FZF {{{{
-
-
-nnoremap <leader><space> :Files<cr>
-nnoremap <leader>ff :Files<cr>
-nnoremap <leader>fa :AllFiles<cr>
-noremap <leader>fr :History<cr>
-noremap <leader>fl :Lines<cr>
-noremap <leader>ft :Tags<cr>
-noremap <leader>hh :Helptags<cr>
-noremap <leader>ss :Ag<cr>
-noremap <leader>bb :Buffers<cr>
-noremap <leader>sn :Snippets<cr>
-nmap <leader>gb :GBranches<cr>
-
-" muscle memory keeper for vscode moments
-noremap <c-p> :Files<cr>
-
-" }}}}
-" Movements {{{
 " zoom to head level with a bit of context
 nnoremap zh mzzt5<c-u>`z
 
@@ -671,23 +682,38 @@ nnoremap N Nzzzv
 " C-R in visual mode to replace selected text
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
+" highlight last inserted text
+nnoremap gV `[v`]
+
+" }}}
+" Miscallaneous {{{
+
+" toggle floaterm
+tnoremap      <c-\>   <C-\><C-n>:FloatermToggle<CR>
+nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
+
 " press jk to Esc - much faster while typing
 inoremap jk <ESC>
 
-" highlight last inserted text
-nnoremap gV `[v`]
-" }}}
-" quick edits (prefix: e) {{{
+" Run jest for current test
+nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR>
 
-noremap <leader>ev :tabnew ~/dotfiles/.vimrc<CR>
-noremap <leader>ez :tabnew ~/dotfiles/.zshrc<CR>
-noremap <leader>et :tabnew ~/dotfiles/.tmux.conf<CR>
-noremap <leader>ec :tabnew ~/dotfiles/.vim/coc-settings.json<CR>
-noremap <leader>es :UltiSnipsEdit<CR>
-noremap <leader>rr :source ~/.vimrc<CR>
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-""}}}
-" miscallaneous {{{
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
+" delete trailing spaces
+nmap <leader>dts mz:%s/ \+$//<cr>`z<cr>
+
+" clean yanks
+nnoremap <silent> <space>yc  :CocCommand yank.clean
 
 " Easy insertion of a trailing ; or , from insert mode
 imap ;; <Esc>A;<Esc>
@@ -699,9 +725,6 @@ vnoremap > >gv
 
 " open file under cursor, even if not existing
 " map gf :edit <cfile><cr>
-
-" gx to open links
-nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
 
 " clear highlight
 noremap <leader>ch :nohl<cr>
@@ -753,7 +776,6 @@ noremap <leader>gg :Git<cr>
 
 noremap <leader>gl :BlamerToggle<cr>
 " }}}
-
 " }}}
 
 " -- Config Meta ----------------------------------------------------------- {{{
