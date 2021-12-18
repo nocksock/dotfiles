@@ -1,5 +1,5 @@
 "
-" This is my kind of messy but also very large .vimrc
+" This is my messy but also very large .vimrc
 "
 " Author: Nils Riedemann
 " Website: https://bleepbloop.studio/
@@ -402,35 +402,33 @@ set backupskip=/tmp/*,/private/tmp/*                     " Make Vim able to edit
 set breakindent                                          " wrapped lines appear indendet
 set clipboard=unnamed                                    " using * as default register - which makes system wide copy paste possible
 set encoding=utf-8
-set expandtab
+set expandtab                                            " use spaces for indentation by default
 set foldenable
-set foldlevelstart=4
-set foldmethod=marker
+set foldlevelstart=2  " default for how many folds levels should be open
+set foldmethod=marker  " use markers (tripple curly braces unless changed) for folding
 set foldnestmax=10
-set formatoptions=qrn1
 set formatoptions=qrn1
 set gdefault                                             " add g flag by default for :substitutions
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
 set hlsearch
 set ignorecase
-set noincsearch
+set noincsearch                                          " disable incremental search that would make vim jump around while typing. Kinda got disoriented by it
 set laststatus=2                                         " Always show status line.
 set list                                                 " Show invisible characters                                                                         "
-set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪
+set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪ " define characters for invisible characters
 set mouse=a                                              " enable scrolling and selecting with mouse
 set nocursorline                                         " Highlight the line of in which the cursor is present (or not)
 set noswapfile                                           " It's 2012, Vim.
-set nowrap
+set nowrap                                               " don't wrap text around when the window is too small
 set nu rnu                                               " show *HYBRID* line numbers, relative line numbers + current line number
 set ruler                                                " show the cursor position all the time
 set shell=/bin/zsh                                       " set default shell for :shell
 set shiftround                                           " When at 3 spaces and I hit >>, go to 4, not 5.
 set shiftwidth=2
 set showcmd                                              " display incomplete commands
-set showmatch
 set showmatch                                            " Highlight matching bracket
 set noshowmode                                           " Don't show mode (insert, visual etc) on the last line. Is handled by lightline
-set smartcase
+set smartcase                                            " ignore 'ignorecase' when search contains uppercase characters
 set softtabstop=2
 set splitbelow                                           " When on, splitting a window will put the new window below the current one
 set synmaxcol=500                                        " Until which column vim parses syntax
@@ -788,8 +786,8 @@ if (filereadable(b:vim))
     echom "loaded local .vim"
 endif
 
-" edit and auto source vim file
-autocmd! bufwritepost .vimrc source %
+" Auto source vim file when saved
+autocmd! BufWritePost .vimrc source %
 
 " Make Vim return to the same line when reopening a file.
 augroup line_return
