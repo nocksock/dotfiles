@@ -743,14 +743,6 @@ noremap <leader>tf :15Lex<cr>
 " open terminal at the bottom
 noremap <leader>; :terminal ++rows=15<cr>
 
-" delete without yanking
-nnoremap <leader>d "_d
-vnoremap <leader>d "_d
-
-" replace currently selected text with default register
-" without yanking it
-vnoremap <leader>p "_dP
-
 " keep muscle memory for saving often
 noremap <c-s> :w<cr>
 inoremap <c-s> <esc>:w<cr>i
