@@ -132,7 +132,7 @@ font:
 colors:
   # Default colors
   primary:
-    background: '#0E1012'
+    background: '#0A1424'
     foreground: '#fafaff'
 
     # Bright and dim foreground colors
@@ -668,6 +668,9 @@ colors:
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
 key_bindings:
+    # makes CTRL-6 work properly in vim
+  - { key: Key6 , mods: Control , chars: "\x1e" }
+  - { key: N    , mods: Command , action: CreateNewWindow }
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
@@ -773,7 +776,6 @@ key_bindings:
   #- { key: M,              mods: Command,                    action: Minimize              }
   #- { key: Q,              mods: Command,                    action: Quit                  }
   #- { key: W,              mods: Command,                    action: Quit                  }
-  - { key: N,              mods: Command,                    action: CreateNewWindow      }
   #- { key: F,              mods: Command|Control,            action: ToggleFullscreen      }
   #- { key: F,              mods: Command, mode: ~Search,     action: SearchForward         }
   #- { key: B,              mods: Command, mode: ~Search,     action: SearchBackward        }
