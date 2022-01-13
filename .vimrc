@@ -674,9 +674,6 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" zoom to head level with a bit of context
-nnoremap zh mzzt5<c-u>`z
-
 " motion: select all or the inside of folds
 xnoremap az [zo]z
 xnoremap iz [zjo]zk
