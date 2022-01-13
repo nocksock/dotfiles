@@ -180,6 +180,8 @@ let g:coc_global_extensions = [
     \   'https://github.com/rodrigore/coc-tailwind-intellisense',
     \ ]
 
+let g:coc_disable_transparent_cursor = 1
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
