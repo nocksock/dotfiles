@@ -74,7 +74,8 @@ export EDITOR='vim' # used for commits and such
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# TODO: Maybe use $PATH in front for better readability?
+export DOTDIR="/Users/nilsriedemann/dotfiles"
+
 export PATH="/usr/local/bin:$PATH" # some apps put there stuff here (eg vscode, mullvad)
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
@@ -83,10 +84,9 @@ export PATH="$HOME/.emacs.d/bin:$PATH"
 export PATH="$DENO_INSTALL/bin:$PATH"
 export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
-export PATH="~/dotfiles/bin/:$PATH"
+export PATH="$DOTDIR/bin/:$PATH"
 
 export CDPATH=".:$HOME:$HOME/development:$HOME/development/projects"
-export DOTDIR="/Users/nilsriedemann/dotfiles"
 
 # PyEnv, but not doing any python atm
 eval "$(pyenv init --path)"
