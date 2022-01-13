@@ -329,6 +329,9 @@ let g:polyglot_disabled = ['python.plugin']
 Plug 'sheerun/vim-polyglot'
 
 ""}}}
+" prisma {{{
+Plug 'pantharshit00/vim-prisma'
+" }}}
 " python {{{
 
 " This is my custom python-vim fork. I don't agree with some of the highlight
