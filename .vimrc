@@ -396,6 +396,7 @@ call plug#end()
 
 " -- Basic options --------------------------------------------------------- {{{
 let mapleader = "\<space>"
+let maplocalleader = ","
 
 set autoindent                                           " Copy indent from current line when creating a new line                                            "
 set autoread                                             " auto re-read file when it changed outside of vim, but not inside
