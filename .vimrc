@@ -68,6 +68,10 @@ Plug 'tpope/vim-surround'
 " or cannot implement.
 Plug 'SirVer/ultisnips'
 
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+
 " }}}
 " commentary {{{
 
