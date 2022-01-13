@@ -561,7 +561,6 @@ noremap <leader>rr :source ~/.vimrc<CR>
 " f, FZF {{{
 " IDEA: maybe <prefix><prefix> as a rule to trigger fzf?
 
-nnoremap <leader><space> :Files<cr>
 nnoremap <leader>fa :AllFiles<cr>
 nnoremap <leader>fb :Buffers<cr>
 nnoremap <leader>ff :Files<cr>
@@ -572,9 +571,6 @@ nnoremap <leader>fn :Snippets<cr>
 nnoremap <leader>fr :History<cr>
 nnoremap <leader>fs :Ag<cr>
 nnoremap <leader>ft :Tags<cr>
-
-" muscle memory keeper for vscode moments
-nnoremap <c-p> :Files<cr>
 
 " }}}
 " g: goto {{{
@@ -602,10 +598,9 @@ nmap <leader>ll :CocFzfList<cr>
 nmap <leader>la :CocFzfList actions<cr>
 nmap <leader>lc :CocFzfList commands<cr>
 nmap <leader>lo :CocFzfList outline<cr>
-nmap <leader>ls :CocFzfList snippets<cr>
+nmap <leader>ls :Snippets<cr>
 nmap <leader>ld :CocFzfList diagnostics<cr>
 nmap <leader>lr :CocFzfList resume<cr>
-nmap <leader>ly :CocFzfList yank<cr>
 
 " }}}
 " t, Tabs {{{
@@ -685,9 +680,16 @@ nnoremap gV `[v`]
 " }}}
 " Miscallaneous {{{
 
+" muscle memory keeper for vscode moments
+nnoremap <c-p> :Files<cr>
+nnoremap <leader><space> :Files<cr>
+
 " toggle floaterm
 tnoremap      <c-\>   <C-\><C-n>:FloatermToggle<CR>
 nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
+
+" search vor visually selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " press jk to Esc - much faster while typing
 inoremap jk <ESC>
@@ -806,6 +808,27 @@ augroup ft_javascript
     au FileType javascript setlocal foldmarker={,}
     au FileType javascript :au InsertLeave *.js setlocal nolist
     au FileType javascript :au InsertEnter *.js setlocal list
+    au BufNewFile,BufRead *.js set filetype=javascript.jsx
+    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+
+    au FileType javascript nmap <localleader>s :e %:r:r.stories.jsx<cr>
+    au FileType javascript nmap <localleader>t :e %:r:r.spec.jsx<cr>
+    au FileType javascript nmap <localleader>m :e %:r:r.jsx<cr>
+augroup END
+
+""}}}
+" -- typescriptreact-------------------------------------------------------- {{{
+
+augroup ft_typescriptreact
+  au!
+  au FileType <silent>:UltiSnipsAddFileType typescriptreact.javascript
+  au FileType <silent>:UltiSnipsAddFileType typescript.javascript
+  au BufNewFile,BufRead *.ts set filetype=typescript
+  au BufNewFile,BufRead *.tsx set filetype=typescriptreact
+
+  au FileType typescriptreact nmap <localleader>s :e %:r:r.stories.tsx<cr>
+  au FileType typescriptreact nmap <localleader>t :e %:r:r.spec.tsx<cr>
+  au FileType typescriptreact nmap <localleader>m :e %:r:r.tsx<cr>
 augroup END
 
 ""}}}
