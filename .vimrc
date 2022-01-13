@@ -433,6 +433,7 @@ set shell=/bin/zsh                                       " set default shell for
 set shiftround                                           " When at 3 spaces and I hit >>, go to 4, not 5.
 set shiftwidth=2
 set showcmd                                              " display incomplete commands
+set scrolloff=2                                          " always have 2 lines more visible when reaching top/end of a window when scrolling
 set showmatch                                            " Highlight matching bracket
 set noshowmode                                           " Don't show mode (insert, visual etc) on the last line. Is handled by lightline
 set smartcase                                            " ignore 'ignorecase' when search contains uppercase characters
