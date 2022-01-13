@@ -411,7 +411,7 @@ set clipboard=unnamed                                    " using * as default re
 set encoding=utf-8
 set expandtab                                            " use spaces for indentation by default
 set foldenable
-set foldlevelstart=2  " default for how many folds levels should be open
+set foldlevelstart=1  " default for how many folds levels should be open
 set foldmethod=marker  " use markers (tripple curly braces unless changed) for folding
 set foldnestmax=10
 set formatoptions=qrn1
