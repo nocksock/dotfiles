@@ -715,9 +715,6 @@ vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(
 " delete trailing spaces
 nmap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 
-" clean yanks
-nnoremap <silent> <space>yc  :CocCommand yank.clean
-
 " Easy insertion of a trailing ; or , from insert mode
 imap ;; <Esc>A;<Esc>
 imap ,, <Esc>A,<Esc>
@@ -731,9 +728,6 @@ vnoremap > >gv
 
 " clear highlight
 noremap <leader>ch :nohl<cr>
-
-" clear popups, because sometimes a netrw gets stuck on screen.
-noremap <leader>cp :call popup_clear()<cr>
 
 " Clear popups and highlights
 noremap <leader>cc :nohl<cr>:call popup_clear()<cr>
