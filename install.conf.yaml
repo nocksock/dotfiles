@@ -11,8 +11,9 @@
     ~/.zshrc: .zshrc
     ~/.vimrc: .vimrc
     ~/.tmux.conf: .tmux.conf
-    ~/.config/kitty/kitty.conf: kitty.conf
-    ~/.config/alacritty/alacritty.yml: alacritty.yml
+    ~/.config:
+      glob: true
+      path: .config/*
     ~/.oh-my-zsh/custom: omz-custom
 
 - create:

@@ -168,7 +168,7 @@ let g:coc_global_extensions = [
     \   'coc-svg',
     \   'coc-php-cs-fixer',
     \   'coc-sql',
-    \   'https://github.com/rodrigore/coc-tailwind-intellisense',
+    \   'coc-prettier',
     \   'coc-go',
     \   'coc-rls',
     \   'coc-pyright',
@@ -398,7 +398,7 @@ set autoread                                             " auto re-read file whe
 set backspace=indent,eol,start                           " allow backspacing over everything in insert mode
 set backup                                               " enable backups
 set backupdir=/tmp
-set backupdir=~/.vim/tmp/backup//                        " backups
+set backupdir=~/.vim/tmp/backup/                         " backups
 set backupskip=/tmp/*,/private/tmp/*                     " Make Vim able to edit crontab files again.
 set breakindent                                          " wrapped lines appear indendet
 set clipboard=unnamed                                    " using * as default register - which makes system wide copy paste possible
@@ -554,6 +554,7 @@ noremap <leader>ev :tabnew ~/dotfiles/.vimrc<CR>
 noremap <leader>ez :tabnew ~/dotfiles/.zshrc<CR>
 noremap <leader>et :tabnew ~/dotfiles/.tmux.conf<CR>
 noremap <leader>ec :tabnew ~/dotfiles/.vim/coc-settings.json<CR>
+noremap <leader>ea :tabnew ~/dotfiles/alacritty.yml<CR>
 noremap <leader>es :UltiSnipsEdit<CR>
 noremap <leader>rr :source ~/.vimrc<CR>
 

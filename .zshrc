@@ -74,7 +74,8 @@ export EDITOR='vim' # used for commits and such
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-export DOTDIR="/Users/nilsriedemann/dotfiles"
+export DOTDIR="$HOME/dotfiles"
+export PYENV_ROOT="$HOME/.pyenv"
 
 export PATH="/usr/local/bin:$PATH" # some apps put there stuff here (eg vscode, mullvad)
 export PATH="/opt/homebrew/bin:$PATH"
@@ -85,6 +86,9 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 export PATH="$DOTDIR/bin/:$PATH"
+export PATH="$PYENV_ROOT/bin/:$PATH"
+export PATH="/usr/local/cuda-11.6/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
 
 export CDPATH=".:$HOME:$HOME/development:$HOME/development/projects"
 

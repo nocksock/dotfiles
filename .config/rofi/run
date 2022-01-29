@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+rofi -show combi -combi-modi "window,drun,run,ssh,rofi-power-menu"
