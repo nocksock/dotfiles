@@ -21,6 +21,7 @@ Mod=Mod1    # Use alt as the main modifier
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
+hc keybind $Mod-q close
 hc keybind $Mod-Return spawn alacritty # use your $TERMINAL with xterm as fallback
 hc keybind $Mod-d spawn ~/rofi_run # use your $TERMINAL with xterm as fallback
 
@@ -115,7 +116,7 @@ hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
-hc set focus_follows_mouse true
+hc set focus_follows_mouse false
 
 # theme
 hc attr theme.reset 1
@@ -127,7 +128,7 @@ hc set frame_bg_transparent on
 hc set frame_border_active_color '#393455'
 hc set frame_border_normal_color '#101010'
 hc set frame_border_width 1
-hc set frame_gap 6
+hc set frame_gap 0
 hc set frame_padding 0
 hc set frame_transparent_width 0
 hc set mouse_recenter_gap 0
@@ -135,39 +136,40 @@ hc set smart_frame_surroundings on
 hc set smart_window_surroundings off
 hc set window_gap 6
 
-hc attr theme.title_height 14
-hc attr theme.title_font 'JetBrains Mono:pixelsize=14'  # example using Xft
-# hc attr theme.title_color '#1C1A23'
-# hc attr theme.title_font '-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*'
-hc attr theme.padding_top 4  # space below the title's baseline (i.e. text depth)
+hc attr theme.title_when never
+# hc attr theme.title_height 0
+# hc attr theme.title_font 'JetBrains Mono:pixelsize=14'  # example using Xft
+# hc attr theme.padding_top 4  # space below the title's baseline (i.e. text depth)
+# hc attr theme.active.title_color '#F8F8F2'
 hc attr theme.active.color '#C82763'
 hc attr theme.tab_height 20
 hc attr theme.tab_color green
 hc attr theme.tab_title_color red
 hc attr theme.active.tab_outer_width 10
-hc attr theme.normal.color '#454545'
-hc attr theme.urgent.color orange
+hc attr theme.normal.color '#101010'
+hc attr theme.normal.title_color '#444444'
+hc attr theme.urgent.color '#ff0000'
 hc attr theme.inner_width 2
 hc attr theme.inner_color black
 hc attr theme.border_width 3
 
-hc attr theme.floating.border_width 4
+# hc attr theme.floating.padding_top 0
+hc attr theme.floating.padding 2
 hc attr theme.floating.outer_width 1
-hc attr theme.floating.outer_color black
+hc attr theme.floating.inner_width 4
+hc attr theme.floating.tab_height 30
+hc attr theme.floating.border_width 2
+hc attr theme.floating.inner_color black
 
 hc attr theme.active.outer_color yellow
 hc attr theme.active.inner_color black
 hc attr theme.active.outer_color orange
-
-hc attr theme.background_color '#FF00Ff'
-
 
 # rules
 hc unrule -F
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
 hc rule focus=on # normally focus new clients
 hc rule floatplacement=smart
-#hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
@@ -175,6 +177,10 @@ hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 hc set tree_style '╾│ ├└╼─┐'
+
+hc rule class~'1Password' floating=on
+hc rule class~'Preferences' floating=on
+hc rule class~'Blender' tag='2'
 
 # unlock, just to be sure
 hc unlock
@@ -186,12 +192,12 @@ hc unlock
 
 
 # find the panel
-panel=~/.config/herbstluftwm/panel.sh
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(hc list_monitors | cut -d: -f1) ; do
-    # start it on each monitor
-    "$panel" "$monitor" &
-done
+# panel=~/.config/herbstluftwm/panel.sh
+# [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
+# for monitor in $(hc list_monitors | cut -d: -f1) ; do
+#     # start it on each monitor
+#     "$panel" "$monitor" &
+# done
 
 ~/.config/polybar/bloop/launch.sh
 
