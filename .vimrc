@@ -301,8 +301,7 @@ Plug 'sjl/gundo.vim'
 " styled components {{{
 
 " syntax hilighting in styled`` template literals
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-let g:vim_jsx_pretty_highlight_close_tag = 1
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 " }}}
 
