@@ -11,10 +11,12 @@
     ~/.zshrc: .zshrc
     ~/.vimrc: .vimrc
     ~/.tmux.conf: .tmux.conf
+    ~/.oh-my-zsh/custom: omz-custom
     ~/.config:
       glob: true
       path: .config/*
-    ~/.oh-my-zsh/custom: omz-custom
+      exclude: [.config/polybar]
+    ~/.config/polybar/bloop: .config/polybar/bloop
 
 - create:
   - ~/.vim/undo-history
