@@ -832,6 +832,7 @@ augroup ft_typescriptreact
   au FileType typescriptreact :UltiSnipsAddFiletypes typescript.javascript
   au BufNewFile,BufRead *.ts set filetype=typescript
   au BufNewFile,BufRead *.tsx set filetype=typescriptreact
+  au FileType typescriptreact set foldmethod=syntax
 
   au FileType typescriptreact nmap <localleader>s :e %:r:r.stories.tsx<cr>
   au FileType typescriptreact nmap <localleader>t :e %:r:r.spec.tsx<cr>
