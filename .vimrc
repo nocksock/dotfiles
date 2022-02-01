@@ -521,14 +521,16 @@ nmap <leader>ba :e #<cr>
 " c: Code actions {{{
 
 " apply autofix to problem on the current line.
-nmap <leader>am  <plug>(coc-format-selected)
 nmap <leader>ca  <Plug>(coc-codeaction-cursor)
-nmap <leader>cf  <plug>(coc-fix-current)
 nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
 nnoremap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
 
 " Symbol renaming.
-nmap <leader>cn <Plug>(coc-rename)
+nmap <leader>cr <Plug>(coc-rename)
+
+" Chunks
+nmap <silent> <leader>cu :CocCommand git.chunkUndo<cr>
+nmap <silent> <leader>cs :CocCommand git.chunkStage<cr>
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
@@ -543,9 +545,9 @@ nmap <silent> <leader>di <Plug>(coc-diagnostic-info)
 nmap <silent> <leader>dn <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>dp <Plug>(coc-diagnostic-next)
 
-" Use `[g` and `]g` to navigate diagnostics.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Use `[d` and `]d` to navigate diagnostics.
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
 " }}}
 " e: edit {{{
@@ -585,12 +587,6 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " }}}
-" h: Hunks {{{
-
-nmap <silent> <leader>hn <Plug>(coc-git-nextchunk)
-nmap <silent> <leader>hp <Plug>(coc-git-prevchunk)
-
-" }}}
 " l: Lists {{{
 
 " show CocList via Fzf
@@ -598,7 +594,7 @@ nmap <leader>ll :CocFzfList<cr>
 nmap <leader>la :CocFzfList actions<cr>
 nmap <leader>lc :CocFzfList commands<cr>
 nmap <leader>lo :CocFzfList outline<cr>
-nmap <leader>ls :Snippets<cr>
+nmap <leader>ls :CocList symbols<cr>
 nmap <leader>ld :CocFzfList diagnostics<cr>
 nmap <leader>lr :CocFzfList resume<cr>
 
@@ -656,6 +652,22 @@ xmap ic <Plug>(coc-classobj-i)
 omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
+
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
 
 " motion: select all or the inside of folds
 xnoremap az [zo]z
