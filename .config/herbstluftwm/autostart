@@ -13,19 +13,22 @@ xsetroot -solid '#000000'
 # remove all existing keybindings
 hc keyunbind --all
 
-# keybindings
+# keybindings {{{
 # if you have a super key you will be much happier with Mod set to Mod4
-Mod=Mod1    # Use alt as the main modifier
-#Mod=Mod4   # Use the super key as the main modifier
+# Mod=Mod1    # Use alt as the main modifier
+Mod=Mod4   # Use the super key as the main modifier
 
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
-hc keybind $Mod-q close
+hc keybind $Mod-w close # macos muscle memory
+#}}}
+# spawn applications {{{
 hc keybind $Mod-Return spawn alacritty # use your $TERMINAL with xterm as fallback
 hc keybind $Mod-d spawn ~/rofi_run # use your $TERMINAL with xterm as fallback
-
-# basic movement in tiling and floating mode
+hc keybind $Mod-Control-4 spawn ~/bin/clipscrot
+#}}}
+# basic movement in tiling and floating mode {{{
 # focusing clients
 hc keybind $Mod-Left  focus left
 hc keybind $Mod-Down  focus down
@@ -35,8 +38,8 @@ hc keybind $Mod-h     focus left
 hc keybind $Mod-j     focus down
 hc keybind $Mod-k     focus up
 hc keybind $Mod-l     focus right
-
-# moving clients in tiling and floating mode
+#}}}
+# moving clients in tiling and floating mode{{{
 hc keybind $Mod-Shift-Left  shift left
 hc keybind $Mod-Shift-Down  shift down
 hc keybind $Mod-Shift-Up    shift up
@@ -45,15 +48,15 @@ hc keybind $Mod-Shift-h     shift left
 hc keybind $Mod-Shift-j     shift down
 hc keybind $Mod-Shift-k     shift up
 hc keybind $Mod-Shift-l     shift right
-
-# splitting frames
+#}}}
+# splitting frames {{{
 # create an empty frame at the specified direction
 hc keybind $Mod-u       split   bottom  0.5
 hc keybind $Mod-o       split   right   0.5
 # let the current frame explode into subframes
 hc keybind $Mod-Control-space split explode
-
-# resizing frames and floating clients
+#}}}
+# resizing frames and floating clients {{{
 resizestep=0.02
 hc keybind $Mod-Control-h       resize left +$resizestep
 hc keybind $Mod-Control-j       resize down +$resizestep
@@ -63,8 +66,8 @@ hc keybind $Mod-Control-Left    resize left +$resizestep
 hc keybind $Mod-Control-Down    resize down +$resizestep
 hc keybind $Mod-Control-Up      resize up +$resizestep
 hc keybind $Mod-Control-Right   resize right +$resizestep
-
-# tags
+#}}}
+# tags {{{
 tag_names=( {1..9} )
 tag_keys=( {1..9} 0 )
 
@@ -78,15 +81,19 @@ for i in "${!tag_names[@]}" ; do
     fi
 done
 
-# cycle through tags
+# cycle through tags {{{
 hc keybind $Mod-period use_index +1 --skip-visible
 hc keybind $Mod-comma  use_index -1 --skip-visible
-
-# layouting
+#}}}
+#}}}
+# layouting {{{
 hc keybind $Mod-r remove
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
+#}}}
+# minimize windows {{{
+
 hc keybind $Mod-Shift-m set_attr clients.focus.minimized true
 # restore all minimized windows of the focused tag
 hc keybind $Mod-Ctrl-m foreach CLIENT clients. \
@@ -103,22 +110,24 @@ hc keybind $Mod-space                                                           
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
+#}}}
+# mouse {{{
 
-# mouse
 hc mouseunbind --all
 hc mousebind $Mod-Button1 move
 hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
 
-# focus
+#}}}
+# focus {{{
 hc keybind $Mod-BackSpace   cycle_monitor
 hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
 hc set focus_follows_mouse false
-
-# theme
+#}}}
+# theme {{{
 hc attr theme.reset 1
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
@@ -128,7 +137,7 @@ hc set frame_bg_transparent on
 hc set frame_border_active_color '#393455'
 hc set frame_border_normal_color '#101010'
 hc set frame_border_width 1
-hc set frame_gap 0
+hc set frame_gap 6
 hc set frame_padding 0
 hc set frame_transparent_width 0
 hc set mouse_recenter_gap 0
@@ -136,10 +145,10 @@ hc set smart_frame_surroundings on
 hc set smart_window_surroundings off
 hc set window_gap 6
 
-hc attr theme.title_when never
-# hc attr theme.title_height 0
-# hc attr theme.title_font 'JetBrains Mono:pixelsize=14'  # example using Xft
-# hc attr theme.padding_top 4  # space below the title's baseline (i.e. text depth)
+hc attr theme.title_when always
+hc attr theme.title_height 20
+hc attr theme.title_font 'JetBrains Mono:pixelsize=14'  # example using Xft
+hc attr theme.padding_top 4  # space below the title's baseline (i.e. text depth)
 # hc attr theme.active.title_color '#F8F8F2'
 hc attr theme.active.color '#C82763'
 hc attr theme.tab_height 20
@@ -164,14 +173,13 @@ hc attr theme.floating.inner_color black
 hc attr theme.active.outer_color yellow
 hc attr theme.active.inner_color black
 hc attr theme.active.outer_color orange
-
-# rules
+#}}}
+# rules {{{
 hc unrule -F
-#hc rule class=XTerm tag=3 # move all xterms to tag 3
+
 hc rule focus=on # normally focus new clients
 hc rule floatplacement=smart
-# give focus to most common terminals
-#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
@@ -181,16 +189,14 @@ hc set tree_style '╾│ ├└╼─┐'
 hc rule class~'1Password' floating=on
 hc rule class~'Preferences' floating=on
 hc rule class~'Blender' tag='2'
+hc rule class~'Volume Control' floating=on
+#}}}
 
 # unlock, just to be sure
 hc unlock
 
-# do multi monitor setup here, e.g.:
-# hc set_monitors 1280x1024+0+0 1280x1024+1280+0
-# or simply:
-# hc detect_monitors
-
-
+# panel {{{
+# disabled, using polybar instead
 # find the panel
 # panel=~/.config/herbstluftwm/panel.sh
 # [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
@@ -198,7 +204,14 @@ hc unlock
 #     # start it on each monitor
 #     "$panel" "$monitor" &
 # done
+#}}}
 
+# launch polybar
 ~/.config/polybar/bloop/launch.sh
 
+# set xmodmap
+# TODO: is this even necesseary or does it happen automatically?
 xmodmap ~/.Xmodmap
+
+# set wallpaper
+~/.fehbg
