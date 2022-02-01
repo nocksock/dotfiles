@@ -71,6 +71,7 @@ Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
 
 " }}}
 " commentary {{{
@@ -165,6 +166,7 @@ let g:coc_global_extensions = [
     \   'coc-json',
     \   'coc-jsref',
     \   'coc-pairs',
+    \   'coc-snippets',
     \   'coc-svg',
     \   'coc-php-cs-fixer',
     \   'coc-sql',
@@ -827,8 +829,8 @@ augroup END
 
 augroup ft_typescriptreact
   au!
-  au FileType <silent>:UltiSnipsAddFileType typescriptreact.javascript
-  au FileType <silent>:UltiSnipsAddFileType typescript.javascript
+  au FileType typescriptreact :UltiSnipsAddFiletypes typescriptreact.javascript
+  au FileType typescriptreact :UltiSnipsAddFiletypes typescript.javascript
   au BufNewFile,BufRead *.ts set filetype=typescript
   au BufNewFile,BufRead *.tsx set filetype=typescriptreact
 
