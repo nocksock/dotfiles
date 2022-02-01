@@ -12,6 +12,7 @@
     ~/.vimrc: .vimrc
     ~/.tmux.conf: .tmux.conf
     ~/.config/kitty/kitty.conf: kitty.conf
+    ~/.config/nvim/UltiSnips: .vim/UltiSnips
     ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/.oh-my-zsh/custom: omz-custom
 
