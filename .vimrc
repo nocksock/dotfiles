@@ -71,6 +71,7 @@ Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
 
 " }}}
 " commentary {{{
@@ -165,6 +166,7 @@ let g:coc_global_extensions = [
     \   'coc-json',
     \   'coc-jsref',
     \   'coc-pairs',
+    \   'coc-snippets',
     \   'coc-svg',
     \   'coc-php-cs-fixer',
     \   'coc-sql',
@@ -299,8 +301,7 @@ Plug 'sjl/gundo.vim'
 " styled components {{{
 
 " syntax hilighting in styled`` template literals
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-let g:vim_jsx_pretty_highlight_close_tag = 1
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 " }}}
 
@@ -405,7 +406,7 @@ set clipboard=unnamed                                    " using * as default re
 set encoding=utf-8
 set expandtab                                            " use spaces for indentation by default
 set foldenable
-set foldlevelstart=1  " default for how many folds levels should be open
+set foldlevelstart=2  " default for how many folds levels should be open
 set foldmethod=marker  " use markers (tripple curly braces unless changed) for folding
 set foldnestmax=10
 set formatoptions=qrn1
@@ -521,14 +522,16 @@ nmap <leader>ba :e #<cr>
 " c: Code actions {{{
 
 " apply autofix to problem on the current line.
-nmap <leader>am  <plug>(coc-format-selected)
 nmap <leader>ca  <Plug>(coc-codeaction-cursor)
-nmap <leader>cf  <plug>(coc-fix-current)
 nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
 nnoremap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
 
 " Symbol renaming.
-nmap <leader>cn <Plug>(coc-rename)
+nmap <leader>cr <Plug>(coc-rename)
+
+" Chunks
+nmap <silent> <leader>cu :CocCommand git.chunkUndo<cr>
+nmap <silent> <leader>cs :CocCommand git.chunkStage<cr>
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
@@ -543,9 +546,9 @@ nmap <silent> <leader>di <Plug>(coc-diagnostic-info)
 nmap <silent> <leader>dn <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>dp <Plug>(coc-diagnostic-next)
 
-" Use `[g` and `]g` to navigate diagnostics.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Use `[d` and `]d` to navigate diagnostics.
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
 " }}}
 " e: edit {{{
@@ -586,12 +589,6 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " }}}
-" h: Hunks {{{
-
-nmap <silent> <leader>hn <Plug>(coc-git-nextchunk)
-nmap <silent> <leader>hp <Plug>(coc-git-prevchunk)
-
-" }}}
 " l: Lists {{{
 
 " show CocList via Fzf
@@ -599,7 +596,7 @@ nmap <leader>ll :CocFzfList<cr>
 nmap <leader>la :CocFzfList actions<cr>
 nmap <leader>lc :CocFzfList commands<cr>
 nmap <leader>lo :CocFzfList outline<cr>
-nmap <leader>ls :Snippets<cr>
+nmap <leader>ls :CocList symbols<cr>
 nmap <leader>ld :CocFzfList diagnostics<cr>
 nmap <leader>lr :CocFzfList resume<cr>
 
@@ -657,6 +654,22 @@ xmap ic <Plug>(coc-classobj-i)
 omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
+
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
 
 " motion: select all or the inside of folds
 xnoremap az [zo]z
@@ -816,10 +829,11 @@ augroup END
 
 augroup ft_typescriptreact
   au!
-  au FileType <silent>:UltiSnipsAddFileType typescriptreact.javascript
-  au FileType <silent>:UltiSnipsAddFileType typescript.javascript
+  au FileType typescriptreact :UltiSnipsAddFiletypes typescriptreact.javascript
+  au FileType typescriptreact :UltiSnipsAddFiletypes typescript.javascript
   au BufNewFile,BufRead *.ts set filetype=typescript
   au BufNewFile,BufRead *.tsx set filetype=typescriptreact
+  au FileType typescriptreact set foldmethod=syntax
 
   au FileType typescriptreact nmap <localleader>s :e %:r:r.stories.tsx<cr>
   au FileType typescriptreact nmap <localleader>t :e %:r:r.spec.tsx<cr>
@@ -840,6 +854,15 @@ augroup END
 augroup ft_vimrc
   autocmd!
   autocmd FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
+augroup END
+
+""}}}
+
+" -- local .env files ------------------------------------------------------ {{{
+
+augroup ft_env
+  au!
+  au BufNewFile,BufRead *.env.local set filetype=sh
 augroup END
 
 ""}}}

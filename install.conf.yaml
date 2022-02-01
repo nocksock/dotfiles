@@ -11,6 +11,7 @@
     ~/.zshrc: .zshrc
     ~/.vimrc: .vimrc
     ~/.tmux.conf: .tmux.conf
+    ~/.config/nvim/UltiSnips: .vim/UltiSnips
     ~/.oh-my-zsh/custom: omz-custom
     ~/.config:
       glob: true
