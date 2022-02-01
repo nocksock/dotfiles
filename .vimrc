@@ -857,4 +857,13 @@ augroup END
 
 ""}}}
 
+" -- local .env files ------------------------------------------------------ {{{
+
+augroup ft_env
+  au!
+  au BufNewFile,BufRead *.env.local set filetype=sh
+augroup END
+
+""}}}
+
 " }}}
