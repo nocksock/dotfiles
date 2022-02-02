@@ -40,6 +40,8 @@ call plug#begin('~/.vim/plugged')
 " me stick to vim back in the day for the first time.
 Plug 'tpope/vim-vinegar'
 
+let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
+
 " }}}
 " git: fugitive and rhubarb {{{
 
