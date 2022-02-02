@@ -388,6 +388,23 @@ augroup END
 
 " }}}
 
+" Trials
+"
+" PlugIns I'm just trying out
+
+" smooth scroll {{{
+" gives scrolling down/up via <c-u>/<c-d> a fast transition that makes it easier
+" to follow along - especially for non-vimmers watching.
+
+Plug 'terryma/vim-smooth-scroll'
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 4)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 4)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 8)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 8)<CR>
+
+" }}}
+
 call plug#end()
 
 " }}}
