@@ -408,10 +408,9 @@ set clipboard=unnamed                                    " using * as default re
 set encoding=utf-8
 set expandtab                                            " use spaces for indentation by default
 set foldenable
-set foldlevelstart=2  " default for how many folds levels should be open
 set foldmethod=marker  " use markers (tripple curly braces unless changed) for folding
 set foldnestmax=10
-set formatoptions=qrn1
+set formatoptions=qrn1j " format options when writing, joining lines or `gq` see  :he fo-table for meanings
 set gdefault                                             " add g flag by default for :substitutions
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
 set hlsearch
@@ -665,7 +664,7 @@ nmap ]c <Plug>(coc-git-nextconflict)
 " show chunk diff at current position
 nmap gs <Plug>(coc-git-chunkinfo)
 " show commit contains current position
-nmap gc <Plug>(coc-git-commit)
+nmap gb <Plug>(coc-git-commit)
 " create text object for git chunks
 omap ig <Plug>(coc-git-chunk-inner)
 xmap ig <Plug>(coc-git-chunk-inner)
@@ -804,21 +803,26 @@ augroup END
 
 " -- File Type Specifcs ---------------------------------------------------- {{{
 
-" -- javascript ------------------------------------------------------------ {{{
+" -- [t|j]sx? -------------------------------------------------------------- {{{
 
 " force vim to parse the *entire* file from start. should fix seemingly
 " unmatched braces etc.
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+augroup  ft_jsts
+  au!
+  autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+  autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+augroup END
+
+""}}}
+" -- javascript ------------------------------------------------------------ {{{
 
 augroup ft_javascript
     au!
-    au FileType javascript setlocal foldmethod=marker
-    au FileType javascript setlocal foldmarker={,}
+    au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
+    au BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
+    au FileType javascript setlocal foldmethod=syntax
     au FileType javascript :au InsertLeave *.js setlocal nolist
     au FileType javascript :au InsertEnter *.js setlocal list
-    au BufNewFile,BufRead *.js set filetype=javascript.jsx
-    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 
     au FileType javascript nmap <localleader>s :e %:r:r.stories.jsx<cr>
     au FileType javascript nmap <localleader>t :e %:r:r.spec.jsx<cr>
@@ -830,11 +834,12 @@ augroup END
 
 augroup ft_typescriptreact
   au!
+  au BufNewFile,BufRead *.ts setlocal filetype=typescript
+  au BufNewFile,BufRead *.tsx setlocal filetype=typescriptreact
   au FileType typescriptreact :UltiSnipsAddFiletypes typescriptreact.javascript
   au FileType typescriptreact :UltiSnipsAddFiletypes typescript.javascript
-  au BufNewFile,BufRead *.ts set filetype=typescript
-  au BufNewFile,BufRead *.tsx set filetype=typescriptreact
-  au FileType typescriptreact set foldmethod=syntax
+  au FileType typescriptreact setlocal foldmethod=syntax
+  au FileType vim setlocal iskeyword+=-
 
   au FileType typescriptreact nmap <localleader>s :e %:r:r.stories.tsx<cr>
   au FileType typescriptreact nmap <localleader>t :e %:r:r.spec.tsx<cr>
@@ -855,17 +860,26 @@ augroup END
 augroup ft_vimrc
   autocmd!
   autocmd FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
+  autocmd FileType vim setlocal iskeyword+=-
 augroup END
 
 ""}}}
-
 " -- local .env files ------------------------------------------------------ {{{
 
 augroup ft_env
   au!
-  au BufNewFile,BufRead *.env.local set filetype=sh
+  au BufNewFile,BufRead *.env.local setlocal filetype=sh
 augroup END
 
 ""}}}
+" md {{{
+
+augroup ft_md
+  au!
+  au BufNewFile,BufRead *.md setlocal textwidth=80
+  au BufNewFile,BufRead *.md setlocal fo+=t " auto wrap at text width
+augroup END
+
+" }}}
 
 " }}}
