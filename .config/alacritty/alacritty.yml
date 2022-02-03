@@ -61,7 +61,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background and no title bar buttons
-  decorations: full
+  decorations: buttonless
 
   # Startup Mode (changes require restart)
   #
@@ -106,7 +106,7 @@ font:
     use_thin_strokes: true
     normal:
         family: JetBrains Mono
-        style: Light
+        style: Regular
     italic:
         family: JetBrains Mono
         style: Thin Italic
@@ -114,7 +114,7 @@ font:
         family: JetBrains Mono
         style: SemiBold Italic
 
-    size: 10.0
+    size: 15.0
 
     offset:
       x: 0
