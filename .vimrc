@@ -168,7 +168,6 @@ let g:coc_global_extensions = [
     \   'coc-json',
     \   'coc-jsref',
     \   'coc-pairs',
-    \   'coc-snippets',
     \   'coc-svg',
     \   'coc-php-cs-fixer',
     \   'coc-sql',
@@ -323,6 +322,7 @@ Plug 'sjl/gundo.vim'
 " disabling needs to happen before loading. The included syntax highlights don't
 " provide the level of control i'd like to have, so i'm currently using my own
 let g:polyglot_disabled = ['python.plugin']
+let g:vim_jsx_pretty_highlight_close_tag = 1
 
 Plug 'sheerun/vim-polyglot'
 
@@ -392,18 +392,7 @@ augroup END
 "
 " PlugIns I'm just trying out
 
-" smooth scroll {{{
-" gives scrolling down/up via <c-u>/<c-d> a fast transition that makes it easier
-" to follow along - especially for non-vimmers watching.
-
-Plug 'terryma/vim-smooth-scroll'
-
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 4)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 4)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 8)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 8)<CR>
-
-" }}}
+" none atm
 
 call plug#end()
 
@@ -430,7 +419,6 @@ set foldnestmax=10
 set formatoptions=qrn1j " format options when writing, joining lines or `gq` see  :he fo-table for meanings
 set gdefault                                             " add g flag by default for :substitutions
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
-set hlsearch
 set ignorecase
 set noincsearch                                          " disable incremental search that would make vim jump around while typing. Kinda got disoriented by it
 set laststatus=2                                         " Always show status line.
@@ -589,7 +577,6 @@ nnoremap <leader>ff :Files<cr>
 nnoremap <leader>fg :GBranches<cr>
 nnoremap <leader>fh :Helptags<cr>
 nnoremap <leader>fl :Lines<cr>
-nnoremap <leader>fn :Snippets<cr>
 nnoremap <leader>fr :History<cr>
 nnoremap <leader>fs :Ag<cr>
 nnoremap <leader>ft :Tags<cr>
@@ -708,6 +695,7 @@ nnoremap gV `[v`]
 
 " muscle memory keeper for vscode moments
 nnoremap <c-p> :Files<cr>
+nnoremap <c-s-p> :CocFzfList commands<cr>
 nnoremap <leader><space> :Files<cr>
 
 " toggle floaterm
@@ -752,7 +740,8 @@ vnoremap > >gv
 noremap <leader>ch :nohl<cr>
 
 " Clear popups and highlights
-noremap <leader>cc :nohl<cr>:call popup_clear()<cr>
+noremap <silent> <leader>cc :nohl<cr>:call popup_clear()<cr>
+noremap <silent> <leader><Esc> :nohl<cr>:call popup_clear()<cr>
 
 " Open current window in a new tab - useful for 'zooming' a window
 nnoremap <c-w><space> :tab split<cr>
@@ -782,6 +771,7 @@ vmap <c-_> mzgc`zgv
 nnoremap * :keepjumps normal! mi*`i<CR>
 
 noremap <leader>ts :call SynStack()<cr>
+
 " Git bindings
 noremap <leader>gg :Git<cr>
 
@@ -848,17 +838,24 @@ augroup ft_javascript
 augroup END
 
 ""}}}
-" -- typescriptreact-------------------------------------------------------- {{{
+" -- typescript ------------------------------------------------------------ {{{
+
+augroup ft_typescript
+  au!
+  au BufNewFile,BufRead *.ts setlocal filetype=typescript
+  au FileType typescript setlocal foldmethod=syntax
+  au FileType typescript setlocal iskeyword+=-
+  au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
+  au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
+augroup END
+
+"" -- typescriptreact-------------------------------------------------------- {{{
 
 augroup ft_typescriptreact
   au!
-  au BufNewFile,BufRead *.ts setlocal filetype=typescript
   au BufNewFile,BufRead *.tsx setlocal filetype=typescriptreact
-  au FileType typescriptreact :UltiSnipsAddFiletypes typescriptreact.javascript
-  au FileType typescriptreact :UltiSnipsAddFiletypes typescript.javascript
   au FileType typescriptreact setlocal foldmethod=syntax
-  au FileType vim setlocal iskeyword+=-
-
+  au FileType typescriptreact setlocal iskeyword+=-
   au FileType typescriptreact nmap <localleader>s :e %:r:r.stories.tsx<cr>
   au FileType typescriptreact nmap <localleader>t :e %:r:r.spec.tsx<cr>
   au FileType typescriptreact nmap <localleader>m :e %:r:r.tsx<cr>
@@ -901,3 +898,4 @@ augroup END
 " }}}
 
 " }}}
+

@@ -4,8 +4,16 @@ function(${1}) {
 }
 endsnippet
 
+snippet json "JSON.stringify" w
+JSON.stringify($0, null, 2)
+endsnippet
+
 snippet clg "console.log" i
 console.log($0)
+endsnippet
+
+snippet bred
+outline: 2px solid red;
 endsnippet
 
 post_expand "vim.command('call timer_start(0, {-> feedkeys(\"\ezt4k4jR\", \"in\")})')"
