@@ -270,7 +270,10 @@ Plug 'editorconfig/editorconfig-vim'
 " floaterm {{{
 
 Plug 'voldikss/vim-floaterm'
-let g:floaterm_keymap_new = '<c-\>;'
+
+nnoremap   <silent>   <F12>   :FloatermToggle<CR>
+tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+
 
 " }}}
 " table mode {{{
