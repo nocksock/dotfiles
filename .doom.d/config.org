@@ -1,0 +1,342 @@
+    #+TITLE: Doom Emacs Config
+    #+PROPERTY: header-args :results none
+    #+OPTIONS: toc:2
+    #+begin_src emacs-lisp
+    ;; -*- lexical-binding: t -*-
+    #+END_SRC
+
+    * Table Of Contents :toc:
+    - [[#basic-settings][Basic Settings]]
+    - [[#overall-look][Overall Look]]
+    - [[#basic-theme-settings][Basic Theme Settings]]
+    - [[#typography][Typography]]
+- [[#personal-information][Personal Information]]
+- [[#configurations][Configurations]]
+  - [[#basics][Basics]]
+  - [[#vterm][Vterm]]
+  - [[#python][Python]]
+  - [[#deft][Deft]]
+  - [[#org-mode][Org Mode]]
+  - [[#org-roam][Org roam]]
+  - [[#projectile][Projectile]]
+  - [[#line-numbers][Line Numbers]]
+  - [[#neotree][NeoTree]]
+  - [[#ivy][Ivy]]
+  - [[#javascript][JavaScript]]
+  - [[#company][Company]]
+  - [[#mu4e][Mu4e]]
+  - [[#elfeed][elfeed]]
+
+* Basic Settings
+
+#+begin_src emacs-lisp
+(setq visible-bell t)
+#+end_src
+
+* Overall Look
+** Basic Theme Settings
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-dracula
+      all-the-icons-scale-factor 1)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(setq doom-modeline-height 0) ;; set the height of modeline to min
+#+end_src
+
+** Typography
+
+I really like Operator Mono a lot.
+
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'regular)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 22 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "DeJa Vu Sans" :size 14))
+#+end_src
+
+I prefer line-heights of about 1.5, even for coding. Makes reading much easier for me.
+
+#+begin_src emacs-lisp
+(setq-default line-spacing 0.25)
+#+end_src
+
+* Personal Information
+
+#+begin_src emacs-lisp
+(setq user-full-name "Nils Riedemann"
+      user-mail-address "nils@bleepbloop.studio")
+#+end_src
+
+* Configurations
+** Basics
+#+begin_src emacs-lisp
+(setq shell-file-name (executable-find "zsh"))
+(setq +format-on-save-enabled-modes '(not emacs-lisp-mode sql-mode tex-mode latex-mode rustic-mode web-mode))
+#+end_src
+
+** Vterm
+#+begin_src emacs-lisp
+(global-set-key (kbd "s-j") '+vterm/toggle)
+(setq vterm-shell '/usr/local/bin/fish)
+#+end_src
+
+** Python
+#+begin_src emacs-lisp
+(after! python-mode
+  (setq py-python-command "/usr/bin/python3")
+  )
+#+end_src
+
+** Deft
+
+#+begin_src emacs-lisp
+(after! deft
+  (setq deft-directory "~/org/resources"))
+#+end_src
+
+** Org Mode
+#+begin_src emacs-lisp
+(setq org-agenda-files
+      '("~/org/projects" "~/org/resources/inbox" "~/org/areas" "~/org/todos.org"))
+
+(setq org-babel-python-command "/usr/bin/python3")
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+(setq org-log-into-drawer t)
+(setq org-startup-indented t)
+;; (setq org-tag-alist
+;;       '(("tobuy" . ?b)
+;;         ("tosell" . ?s)
+;;         ("huchting")))
+
+
+(setq org-todo-keywords
+      '(
+        (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")
+        (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D!)")
+        (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")
+        ))
+
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+#+end_src
+
+*** Keybindings
+#+begin_src emacs-lisp
+(after! org
+    (map! :leader
+        :desc "Org Agenda Day View"
+        "o a d" #'org-agenda-day-view)
+  )
+#+end_src
+
+
+*** Agenda View
+
+Add a separator between days in agenda view, so it's not as dense.
+
+#+begin_src emacs-lisp
+(setq org-agenda-format-date
+      (lambda (date) (concat "\n\n" (org-agenda-format-date-aligned date))))
+#+end_src
+
+**** Custom Agenda views
+
+#+begin_src emacs-lisp
+(setq org-agenda-custom-commands
+      '(("t" "Basics for today"
+         ((tags-todo "chore")
+          (tags "writing")
+          (todo "WAITING")
+          (agenda ""))
+         )))
+#+end_src
+
+** Org roam
+
+#+begin_src emacs-lisp
+(setq org-roam-capture-templates
+      '(("d" "default" plain #'org-roam--capture-get-point "%?"
+         :file-name "%<%Y%m%d%H%M%S>"
+         :head "#+TITLE: ${title}\n#+Created: %t\n#+Time-stamp: <>\n"
+         :unnarrowed t)))
+(require 'time-stamp)
+(add-hook 'write-file-functions 'time-stamp)
+(setq time-stamp-format "%:y-%02m-%02d %02H:%02M:%02S")
+;; (after! org-roam
+;;   (setq org-roam-dailies-directory "daily/")
+;;   (setq org-roam-dailies-capture-templates
+;;         '(("d" "default" entry
+;;            #'org-roam-capture--get-point
+;;            "* %?"
+;;            :file-name "daily/%<%Y-%m-%d>"
+;;            :head "#+title: %<%Y-%m-%d>\n\n")))
+;;   (map! :leader
+;;         :desc "Roam Daily"
+;;         "m D" #'org-roam-dailies-find-today)
+;;   )
+#+end_src
+
+
+** Projectile
+
+#+begin_src emacs-lisp
+(setq projectile-project-search-path '("~/projects/"))
+(global-set-key "\C-s" 'swiper)
+#+end_src
+
+** Line Numbers
+
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+
+** NeoTree
+
+Use Monospace in Neo-Tree as well.
+
+#+begin_src emacs-lisp
+(setq doom-themes-neotree-enable-variable-pitch nil)
+(global-set-key (kbd "s-b") '+neotree/open) ; treemacs toggle keybind
+#+end_src
+
+** Ivy
+
+#+begin_src emacs-lisp
+(setq ivy-use-selectable-prompt t)
+#+end_src
+
+** JavaScript
+
+Output all the errors in case something is going wrong with tsserver.
+
+#+begin_src emacs-lisp
+(setq tide-tsserver-process-environment '("TSS_LOG=-level verbose"))
+#+end_src
+
+** Company
+
+Making every popup appear a lot faster. Too fast would have performance
+drawbacks.
+
+#+begin_src emacs-lisp
+(setq company-idle-delay 0.2)
+(setq company-tooltip-idle-delay 0.1)
+(setq lsp-idle-delay 0.2)
+#+end_src
+
+** Mu4e
+
+*** Setup
+
+#+begin_src elisp :results nil
+(after! mu4e
+  (add-to-list 'load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
+  (setq mu4e-view-show-addresses t)
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-views-default-view-method "html") ;; make xwidgets default
+  (mu4e-views-mu4e-use-view-msg-method "html") ;; select the default
+  (define-key mu4e-headers-mode-map (kbd "v") #'mu4e-views-mu4e-select-view-msg-method)
+  (setq mu4e-views-next-previous-message-behaviour 'stick-to-current-window) ;; when pressing n and p stay in the current window
+  (setq mu4e-views-auto-view-selected-message t) ;; automatically open messages when moving in the headers view
+  (setq mu4e-update-interval 180)
+  (setq mu4e-get-mail-command  "mbsync -a")
+  (setq mu4e-headers-time-format "%H:%M")
+  (setq mu4e-headers-date-format "%y-%m-%d")
+  )
+#+end_src
+
+*** Bookmarks
+
+#+begin_src emacs-lisp
+(after! mu4e
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Pull Requests" :key ?p :query "from:pullrequests-reply and maildir:/+SaneDevelopment"))
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Stargazer Updates" :key ?g :query "from:stargazer@myiridium.net"))
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Personal 7d" :key ?m :query "date:7d..now AND to:moin@nilsriedemann.de"))
+  (add-to-list 'mu4e-bookmarks
+               '(:name "BBS 7d" :key ?b :query "date:7d..now AND to:nils@bleepbloop.studio AND NOT maildir:/Spam AND NOT maildir:/Trash AND NOT maildir:/Archive"))
+  )
+#+end_src
+
+*** Mail Header Style
+
+#+begin_src emacs-lisp
+(use-package! mu4e-views
+  :after mu4e
+  :config
+  (setq mu4e-views-completion-method 'ivy)
+  (setq mu4e-views-default-view-method "html")
+  (setq mu4e-views-next-previous-message-behaviour 'stick-to-current-window) ;; when pressing n and p stay in the current window
+  (setq mu4e-views-mu4e-html-email-header-style
+        "<style type=\"text/css\">
+            .mu4e-mu4e-views-mail-headers { font-family: Operator Mono; line-height: 2; padding: 2px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #eee; }
+            .mu4e-mu4e-views-header-row { display: flex; }
+            .mu4e-mu4e-views-mail-header {  opacity: .5; width: 100px; text-align: right; flex-grow: 0;}
+            .mu4e-mu4e-views-header-content { margin-left: 2ch;}
+            .mu4e-mu4e-views-email { margin-right: 8px; }
+            .mu4e-mu4e-views-attachment { }
+            .mu4e-mu4e-views-mail-headers + div { font-family: Operator Mono; line-height: 1.5; max-width: 80ch; padding: 2ch;}
+        </style>")
+
+  (map! :map mu4e-headers-mode-map
+        :n "M-b" #'mu4e-views-cursor-msg-view-window-up
+        :n "M-f" #'mu4e-views-cursor-msg-view-window-down
+        :localleader
+        :desc "Message action"        "a"   #'mu4e-views-mu4e-view-action
+        :desc "Scoll message down"    "b"   #'mu4e-views-cursor-msg-view-window-up
+        :desc "Scoll message up"      "f"   #'mu4e-views-cursor-msg-view-window-down
+        :desc "Open attachment"       "o"   #'mu4e-views-mu4e-view-open-attachment
+        :desc "Save attachment"       "s"   #'mu4e-views-mu4e-view-save-attachment
+        :desc "Save all attachments"  "S"   #'mu4e-views-mu4e-view-save-all-attachments
+        :desc "Set view method"       "v"   #'mu4e-views-mu4e-select-view-msg-method)) ;; select viewing method)
+
+
+;; Evil bindings for xwidget webkit browsers
+(map! :map xwidget-webkit-mode-map
+      :n "Z Z" #'quit-window
+      :n "gr"  #'xwidget-webkit-reload
+      :n "y"   #'xwidget-webkit-copy-selection-as-kill
+      :n "s-c" #'xwidget-webkit-copy-selection-as-kill
+      :n "t"   #'xwidget-webkit-browse-url
+      :n "TAB" #'xwidget-webkit-forward
+      :n "C-o" #'xwidget-webkit-back
+      :n "G"   #'xwidget-webkit-scroll-bottom
+      :n "gg"  #'xwidget-webkit-scroll-top
+      :n "C-b" #'xwidget-webkit-scroll-down
+      :n "C-f" #'xwidget-webkit-scroll-up
+      :n "M-=" #'xwidget-webkit-zoom-in
+      :n "M--" #'xwidget-webkit-zoom-out
+      :n "k"   #'xwidget-webkit-scroll-down-line
+      :n "j"   #'xwidget-webkit-scroll-up-line)
+#+end_src
+
+*** Sending Mails
+#+begin_src emacs-lisp
+(after! mu4e
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq smtpmail-smtp-server "smtp.example.org")
+  )
+#+end_src
+
+*** Further Reading, sources and inspiration
+
+At some point I want to recreate this configuration, or at least be able to make
+something similar on my own.
+
+https://www.reddit.com/r/emacs/comments/mzgsm0/mu4e_look_and_feel/
+
+#+begin_quote markdown
+This is my current configuration for mu4e using
+- mu4e-dashboard (https://github.com/rougier/mu4e-dashboard),
+- mu4e-thread-folding (https://github.com/rougier/mu4e-thread-folding)
+- svg-tag-mode (https://github.com/rougier/svg-tag-mode)
+- nerd fonts (https://github.com/ryanoasis/nerd-fonts)
+
+The idea was to declutter the headers view while keeping it functional. Code available at https://github.com/rougier/nano-emacs/blob/master/nano-mu4e.el
+#+end_quote
+
+
+*** sources
+
+- https://rakhim.org/fastmail-setup-with-emacs-mu4e-and-mbsync-on-macos/
+
+

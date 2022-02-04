@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Closelink Boarding
+# --
+
+** `(format-time-string "[%Y-%m-%d %a %H:%M]" nil nil)` Boarding :meeting:
+
+Last week
+
+This week
+
+*** Turns
+- [ ] Eike
+- [ ] Jonas
+- [ ] Dennis
+- [ ] Julian
+- [ ] Tobi
+- [ ] Jule
+- [ ] Philippe
+- [ ] Jan
