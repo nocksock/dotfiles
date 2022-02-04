@@ -826,18 +826,22 @@ augroup END
 
 ""}}}
 " -- javascript ------------------------------------------------------------ {{{
+" a lot of codebases include js in their js files, so this handles both.
 
 augroup ft_javascript
     au!
     au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
-    au BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
-    au FileType javascript setlocal foldmethod=syntax
-    au FileType javascript :au InsertLeave *.js setlocal nolist
-    au FileType javascript :au InsertEnter *.js setlocal list
+    au FileType javascript.jsx setlocal foldmethod=syntax
 
-    au FileType javascript nmap <localleader>s :e %:r:r.stories.jsx<cr>
-    au FileType javascript nmap <localleader>t :e %:r:r.spec.jsx<cr>
-    au FileType javascript nmap <localleader>m :e %:r:r.jsx<cr>
+    au InsertLeave javascript.jsx setlocal nolist
+    au InsertEnter javascript.jsx setlocal list
+
+    au FileType *.js nmap <localleader>s :e %:r:r.stories.js<cr>
+    au FileType *.js nmap <localleader>t :e %:r:r.spec.js<cr>
+    au FileType *.js nmap <localleader>m :e %:r:r.js<cr>
+    au FileType *.jsx nmap <localleader>s :e %:r:r.stories.jsx<cr>
+    au FileType *.jsx nmap <localleader>t :e %:r:r.spec.jsx<cr>
+    au FileType *.jsx nmap <localleader>m :e %:r:r.jsx<cr>
 augroup END
 
 ""}}}
@@ -854,11 +858,12 @@ augroup END
 
 "" -- typescriptreact-------------------------------------------------------- {{{
 
-augroup ft_typescriptreact
+augroup ft_typescript_tsx
   au!
-  au BufNewFile,BufRead *.tsx setlocal filetype=typescriptreact
+  au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
   au FileType typescriptreact setlocal foldmethod=syntax
   au FileType typescriptreact setlocal iskeyword+=-
+  au FileType typescriptreact setlocal foldlevel=3
   au FileType typescriptreact nmap <localleader>s :e %:r:r.stories.tsx<cr>
   au FileType typescriptreact nmap <localleader>t :e %:r:r.spec.tsx<cr>
   au FileType typescriptreact nmap <localleader>m :e %:r:r.tsx<cr>
