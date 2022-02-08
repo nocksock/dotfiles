@@ -32,7 +32,7 @@ function zsh_bleep_hostname {
 }
 
 PROMPT=$'\n'
-PROMPT+='%{$FG[196]%}$(zsh_bleep_hostname)%{$FG[123]%}%~ %{$reset_color%}$(zsh_bleep_gitstatus)'
+PROMPT+='%{$FG[111]%}$(zsh_bleep_hostname)%{$FG[123]%}%~ %{$reset_color%}$(zsh_bleep_gitstatus)'
 PROMPT+=$'\n'
 PROMPT+='%(?:%{$FG[241]%}➜ :%{$FG[196]%}➜ )%{$reset_color%}'
 
