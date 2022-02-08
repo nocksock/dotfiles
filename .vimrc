@@ -776,7 +776,7 @@ nnoremap * :keepjumps normal! mi*`i<CR>
 noremap <leader>ts :call SynStack()<cr>
 
 " Git bindings
-noremap <leader>gg :Git<cr>
+noremap <leader>gg :tab G<cr>
 
 noremap <leader>gl :BlamerToggle<cr>
 " }}}
