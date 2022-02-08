@@ -25,9 +25,14 @@ ZSH_THEME_GIT_PROMPT_RENAMED="r"
 ZSH_THEME_GIT_PROMPT_DELETED="d"
 ZSH_THEME_GIT_PROMPT_UNMERGED="c"
 
+function zsh_bleep_hostname {
+	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+		echo "$HOST:"
+	fi
+}
 
 PROMPT=$'\n'
-PROMPT+=' %{$FG[123]%}%~ %{$reset_color%}$(zsh_bleep_gitstatus)'
+PROMPT+='%{$FG[196]}$(zsh_bleep_hostname)%{$FG[123]%}%~ %{$reset_color%}$(zsh_bleep_gitstatus)'
 PROMPT+=$'\n'
 PROMPT+='%(?:%{$FG[241]%}➜ :%{$FG[196]%}➜ )%{$reset_color%}'
 
