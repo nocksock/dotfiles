@@ -856,6 +856,7 @@ augroup ft_typescript
   au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
 augroup END
 
+""}}}
 "" -- typescriptreact-------------------------------------------------------- {{{
 
 augroup ft_typescript_tsx
