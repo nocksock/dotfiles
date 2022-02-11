@@ -1,8 +1,8 @@
-    ;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
 
 (setq visible-bell t)
 
-(setq doom-theme 'doom-dracula
+(setq doom-theme 'doom-monokai-pro
       all-the-icons-scale-factor 1)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq doom-modeline-height 0) ;; set the height of modeline to min
@@ -11,7 +11,7 @@
       doom-big-font (font-spec :family "JetBrains Mono" :size 22 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "DeJa Vu Sans" :size 14))
 
-(setq-default line-spacing 0.25)
+(setq-default line-spacing 0.1)
 
 (setq user-full-name "Nils Riedemann"
       user-mail-address "nils@bleepbloop.studio")
@@ -27,10 +27,10 @@
   )
 
 (after! deft
-  (setq deft-directory "~/org/resources"))
+  (setq deft-directory "~/notes"))
 
 (setq org-agenda-files
-      '("~/org/projects" "~/org/resources/inbox" "~/org/areas" "~/org/todos.org"))
+      '("~/notes"))
 
 (setq org-babel-python-command "/usr/bin/python3")
 (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))

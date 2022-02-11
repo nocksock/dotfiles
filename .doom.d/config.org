@@ -1,15 +1,15 @@
-    #+TITLE: Doom Emacs Config
-    #+PROPERTY: header-args :results none
-    #+OPTIONS: toc:2
-    #+begin_src emacs-lisp
-    ;; -*- lexical-binding: t -*-
-    #+END_SRC
+#+TITLE: Doom Emacs Config
+#+PROPERTY: header-args :results none
+#+OPTIONS: toc:2
+#+begin_src emacs-lisp
+;; -*- lexical-binding: t -*-
+#+END_SRC
 
-    * Table Of Contents :toc:
-    - [[#basic-settings][Basic Settings]]
-    - [[#overall-look][Overall Look]]
-    - [[#basic-theme-settings][Basic Theme Settings]]
-    - [[#typography][Typography]]
+* Table Of Contents :toc:
+- [[#basic-settings][Basic Settings]]
+- [[#overall-look][Overall Look]]
+  - [[#basic-theme-settings][Basic Theme Settings]]
+  - [[#typography][Typography]]
 - [[#personal-information][Personal Information]]
 - [[#configurations][Configurations]]
   - [[#basics][Basics]]
@@ -25,7 +25,6 @@
   - [[#javascript][JavaScript]]
   - [[#company][Company]]
   - [[#mu4e][Mu4e]]
-  - [[#elfeed][elfeed]]
 
 * Basic Settings
 
@@ -36,7 +35,7 @@
 * Overall Look
 ** Basic Theme Settings
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-dracula
+(setq doom-theme 'doom-monokai-pro
       all-the-icons-scale-factor 1)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq doom-modeline-height 0) ;; set the height of modeline to min
@@ -44,18 +43,12 @@
 
 ** Typography
 
-I really like Operator Mono a lot.
-
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'regular)
       doom-big-font (font-spec :family "JetBrains Mono" :size 22 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "DeJa Vu Sans" :size 14))
-#+end_src
 
-I prefer line-heights of about 1.5, even for coding. Makes reading much easier for me.
-
-#+begin_src emacs-lisp
-(setq-default line-spacing 0.25)
+(setq-default line-spacing 0.1)
 #+end_src
 
 * Personal Information
@@ -89,13 +82,13 @@ I prefer line-heights of about 1.5, even for coding. Makes reading much easier f
 
 #+begin_src emacs-lisp
 (after! deft
-  (setq deft-directory "~/org/resources"))
+  (setq deft-directory "~/notes"))
 #+end_src
 
 ** Org Mode
 #+begin_src emacs-lisp
 (setq org-agenda-files
-      '("~/org/projects" "~/org/resources/inbox" "~/org/areas" "~/org/todos.org"))
+      '("~/notes"))
 
 (setq org-babel-python-command "/usr/bin/python3")
 (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
