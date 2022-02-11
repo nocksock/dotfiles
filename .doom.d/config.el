@@ -1,4 +1,4 @@
-    ;; -*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
 
 (setq visible-bell t)
 
@@ -44,12 +44,16 @@
 
 (setq org-todo-keywords
       '(
-        (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")
+        (sequence "TODO(t)" "PROJ(p)" "NEXT(x)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")
         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D!)")
         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")
         ))
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
+(setq org-stuck-projects
+      '("/+PROJ-MAYBE-DONE-IDEA" ("NEXT" "STRT") ("tobuy")
+        "\\<IGNORE\\>"))
 
 (after! org
     (map! :leader
@@ -61,10 +65,11 @@
       (lambda (date) (concat "\n\n" (org-agenda-format-date-aligned date))))
 
 (setq org-agenda-custom-commands
-      '(("t" "Basics for today"
+      '(("b" "Basics for today"
          ((tags-todo "chore")
-          (tags "writing")
-          (todo "WAITING")
+          (tags-todo "writing")
+          (tags "WAIT")
+          (todo "NEXT")
           (agenda ""))
          )))
 
@@ -95,7 +100,7 @@
 (setq display-line-numbers-type 'relative)
 
 (setq doom-themes-neotree-enable-variable-pitch nil)
-(global-set-key (kbd "s-b") '+neotree/open) ; treemacs toggle keybind
+(global-set-key (kbd "s-b") '+neotree/toggle) ; treemacs toggle keybind
 
 (setq ivy-use-selectable-prompt t)
 
@@ -104,21 +109,6 @@
 (setq company-idle-delay 0.2)
 (setq company-tooltip-idle-delay 0.1)
 (setq lsp-idle-delay 0.2)
-
-(after! mu4e
-  (add-to-list 'load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
-  (setq mu4e-view-show-addresses t)
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-views-default-view-method "html") ;; make xwidgets default
-  (mu4e-views-mu4e-use-view-msg-method "html") ;; select the default
-  (define-key mu4e-headers-mode-map (kbd "v") #'mu4e-views-mu4e-select-view-msg-method)
-  (setq mu4e-views-next-previous-message-behaviour 'stick-to-current-window) ;; when pressing n and p stay in the current window
-  (setq mu4e-views-auto-view-selected-message t) ;; automatically open messages when moving in the headers view
-  (setq mu4e-update-interval 180)
-  (setq mu4e-get-mail-command  "mbsync -a")
-  (setq mu4e-headers-time-format "%H:%M")
-  (setq mu4e-headers-date-format "%y-%m-%d")
-  )
 
 (after! mu4e
   (add-to-list 'mu4e-bookmarks
@@ -182,4 +172,19 @@
 (after! mu4e
   (setq message-send-mail-function 'smtpmail-send-it)
   (setq smtpmail-smtp-server "smtp.example.org")
+  )
+
+(after! mu4e
+  (add-to-list 'load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
+  (setq mu4e-view-show-addresses t)
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-views-default-view-method "html") ;; make xwidgets default
+  (mu4e-views-mu4e-use-view-msg-method "html") ;; select the default
+  (define-key mu4e-headers-mode-map (kbd "v") #'mu4e-views-mu4e-select-view-msg-method)
+  (setq mu4e-views-next-previous-message-behaviour 'stick-to-current-window) ;; when pressing n and p stay in the current window
+  (setq mu4e-views-auto-view-selected-message t) ;; automatically open messages when moving in the headers view
+  (setq mu4e-update-interval 180)
+  (setq mu4e-get-mail-command  "mbsync -a")
+  (setq mu4e-headers-time-format "%H:%M")
+  (setq mu4e-headers-date-format "%y-%m-%d")
   )
