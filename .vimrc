@@ -792,8 +792,8 @@ if (filereadable(b:vim))
     echom "loaded local .vim"
 endif
 
-" Auto source vim file when saved
-autocmd! BufWritePost .vimrc source %
+" source/reload vimrc on save
+autocmd! BufWritePost .vimrc :source ~/.vimrc
 
 " Make Vim return to the same line when reopening a file.
 augroup line_return
