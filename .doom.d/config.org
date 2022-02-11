@@ -102,13 +102,25 @@
 
 (setq org-todo-keywords
       '(
-        (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")
+        (sequence "TODO(t)" "PROJ(p)" "NEXT(x)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d!)" "KILL(k)")
         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D!)")
         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")
         ))
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 #+end_src
+
+*** Stuck Projects
+
+A project is stuck, if it doesn't have an item that is marked as either NEXT or
+START. Or if the Subtree contains IGNORE.
+
+#+begin_src  emacs-lisp
+(setq org-stuck-projects
+      '("/+PROJ-MAYBE-DONE-IDEA" ("NEXT" "STRT") ("tobuy")
+        "\\<IGNORE\\>"))
+#+end_src
+
 
 *** Keybindings
 #+begin_src emacs-lisp
@@ -133,10 +145,11 @@ Add a separator between days in agenda view, so it's not as dense.
 
 #+begin_src emacs-lisp
 (setq org-agenda-custom-commands
-      '(("t" "Basics for today"
+      '(("b" "Basics for today"
          ((tags-todo "chore")
-          (tags "writing")
-          (todo "WAITING")
+          (tags-todo "writing")
+          (tags "WAIT")
+          (todo "NEXT")
           (agenda ""))
          )))
 #+end_src
@@ -186,7 +199,7 @@ Use Monospace in Neo-Tree as well.
 
 #+begin_src emacs-lisp
 (setq doom-themes-neotree-enable-variable-pitch nil)
-(global-set-key (kbd "s-b") '+neotree/open) ; treemacs toggle keybind
+(global-set-key (kbd "s-b") '+neotree/toggle) ; treemacs toggle keybind
 #+end_src
 
 ** Ivy
