@@ -114,15 +114,15 @@ font:
         family: JetBrains Mono
         style: SemiBold Italic
 
-    size: 10.0
+    size: 16.0
 
     offset:
       x: 0
-      y: 0
+      y: 4
 
     glyph_offset:
       x: 0
-      y: 0
+      y: 2
 
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
