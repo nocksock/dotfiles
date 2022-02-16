@@ -243,15 +243,20 @@ let g:fzf_layout = { 'up': '~90%', 'window': { 'width': 0.8, 'height': 0.8, 'yof
 let g:fzf_preview_window = ['up:50%', 'ctrl-/']
 let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
 
-command! FF call fzf#run(fzf#wrap({'source' : 'find .'}))
-
 " Add an AllFiles command that disrepsects .gitignore files
 command! -bang -nargs=? -complete=dir AllFiles
     \ call fzf#run(fzf#wrap('allfiles', fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
 
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+" overwrite :Ag and prevent it from searching filenames
+" command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
+command! -bang -nargs=? -complete=file Components
+    \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
+command! C Component
 
 ""}}}
+
+
 
 " Niceties
 "
@@ -574,14 +579,12 @@ noremap <leader>rr :source ~/.vimrc<CR>
 
 " }}}
 " f, FZF {{{
-" IDEA: maybe <prefix><prefix> as a rule to trigger fzf?
 
 nnoremap <leader>fa :AllFiles<cr>
 nnoremap <leader>fb :Buffers<cr>
 nnoremap <leader>ff :Files<cr>
 nnoremap <leader>fg :GBranches<cr>
 nnoremap <leader>fh :Helptags<cr>
-nnoremap <leader>fl :Lines<cr>
 nnoremap <leader>fr :History<cr>
 nnoremap <leader>fs :Ag<cr>
 nnoremap <leader>ft :Tags<cr>
@@ -614,21 +617,10 @@ nmap <leader>lr :CocFzfList resume<cr>
 " t, Tabs {{{
 
 nnoremap <C-t> <esc>:tabnew<cr>
-
 nnoremap <leader>tn :tabnext<cr>
 nnoremap <leader>tp :tabprevious<cr>
 nnoremap <leader>tf :tabfirst<cr>
 nnoremap <leader>tl :tablast<cr>
-
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
 
 " Go to last active tab
 au TabLeave * let g:lasttab = tabpagenr()
@@ -740,9 +732,6 @@ vnoremap > >gv
 
 " open file under cursor, even if not existing
 " map gf :edit <cfile><cr>
-
-" clear highlight
-noremap <leader>ch :nohl<cr>
 
 " Clear popups and highlights
 noremap <silent> <leader>cc :nohl<cr>:call popup_clear()<cr>
