@@ -9,7 +9,7 @@
 
 " -- Plugins --------------------------------------------------------------- {{{
 " I use a LOT of plugins. Some I consider essential, and some I only use in rare
-" occasions.
+" occasions. But I'm trying to use less and embrace the vim way more often.
 "
 " I tried using the structure, where you'd have a .vim file for each plugin and
 " configure each plugin there, with keymaps and all. But in the end I didn't
@@ -34,15 +34,6 @@ call plug#begin('~/.vim/plugged')
 " are not even part of vim. Most of them just add behaviour that works passive
 " and requires little to no config and do not rely on external programs.
 
-" vinegar {{{
-
-" improved netrw for file browsing. fun fact: it's one of the plugins that made
-" me stick to vim back in the day for the first time.
-Plug 'tpope/vim-vinegar'
-
-let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
-
-" }}}
 " git: fugitive and rhubarb {{{
 
 " a git wrapper in vim
@@ -52,18 +43,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
 ""}}}
-" repeat {{{
-
-" makes . even more powerful by adding suppor for plugins
-Plug 'tpope/vim-repeat'
-
-" }}}
-" surround {{{
-
-" quoting/parenthesizing made simple. Extends functionality of S
-Plug 'tpope/vim-surround'
-
-" }}}
 " ultisnips {{{
 
 " current snippet handler of choice. has some features that coc-snippets won't
@@ -76,12 +55,20 @@ let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
 
 " }}}
-" commentary {{{
+
+" improved netrw for file browsing. fun fact: it's one of the plugins that made
+" me stick to vim back in the day for the first time.
+Plug 'tpope/vim-vinegar'
+
+" quoting/parenthesizing made simple. Extends functionality of S
+Plug 'tpope/vim-surround'
+
+" makes . even more powerful by adding suppor for plugins
+Plug 'tpope/vim-repeat'
 
 " comment stuff out and back in via gc/gcc
 Plug 'tpope/vim-commentary'
 
-" }}}
 " auto pairs {{{
 
 " auto insert/delete brackets, parens, quotes etc
@@ -245,13 +232,18 @@ let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
 
 " Add an AllFiles command that disrepsects .gitignore files
 command! -bang -nargs=? -complete=dir AllFiles
-    \ call fzf#run(fzf#wrap('allfiles', fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
+    \ call fzf#run(fzf#wrap('allfiles',
+      \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
 
 " overwrite :Ag and prevent it from searching filenames
 " command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
+command! -bang -nargs=? -complete=file Notes
+    \ call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'ag ~/notes' }), <bang>0))
+
 command! -bang -nargs=? -complete=file Components
     \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
+
 command! C Component
 
 ""}}}
@@ -464,6 +456,8 @@ set wildignore+=.hg,.git,.svn                            " Version control
 set wildmenu
 set wildmode=longest,list,full
 
+let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
+
 syntax on
 
 colors bloop
@@ -617,6 +611,7 @@ nmap <leader>lr :CocFzfList resume<cr>
 " t, Tabs {{{
 
 nnoremap <C-t> <esc>:tabnew<cr>
+
 nnoremap <leader>tn :tabnext<cr>
 nnoremap <leader>tp :tabprevious<cr>
 nnoremap <leader>tf :tabfirst<cr>
@@ -703,7 +698,8 @@ nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " press jk to Esc - much faster while typing
-inoremap jk <ESC>
+" i want to see if I can get used to c-[
+" inoremap jk <ESC>
 
 " Run jest for current test
 nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR>
@@ -726,13 +722,6 @@ nmap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 imap ;; <Esc>A;<Esc>
 imap ,, <Esc>A,<Esc>
 
-" Reselect visual selection after indenting
-vnoremap < <gv
-vnoremap > >gv
-
-" open file under cursor, even if not existing
-" map gf :edit <cfile><cr>
-
 " Clear popups and highlights
 noremap <silent> <leader>cc :nohl<cr>:call popup_clear()<cr>
 noremap <silent> <leader><Esc> :nohl<cr>:call popup_clear()<cr>
@@ -752,13 +741,6 @@ noremap <c-s> :w<cr>
 inoremap <c-s> <esc>:w<cr>i
 
 noremap <leader>tg :set notermguicolors<cr>
-
-" commenting
-" NOTE: for some reason vim registers c-/ as c-_
-" TODO: properly keep cursor position based on comment syntax # vs //
-imap <c-_> <esc>mzgcc`zl
-nmap <c-_> mzgcc`zl
-vmap <c-_> mzgc`zgv
 
 " search for word under cursor - without jumping to next or adding a jump in the
 " jumplist. Useful in combination with cgn.
@@ -826,6 +808,7 @@ augroup ft_javascript
 
     au InsertLeave javascript.jsx setlocal nolist
     au InsertEnter javascript.jsx setlocal list
+    au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
 
     au FileType *.js nmap <localleader>s :e %:r:r.stories.js<cr>
     au FileType *.js nmap <localleader>t :e %:r:r.spec.js<cr>
@@ -843,6 +826,9 @@ augroup ft_typescript
   au BufNewFile,BufRead *.ts setlocal filetype=typescript
   au FileType typescript setlocal foldmethod=syntax
   au FileType typescript setlocal iskeyword+=-
+  au FileType typescript setlocal formatprg=prettier\ --parser\ typescript\ --stdin-filepath\ %
+  " reset Fixedgq from polyglot
+  au FileType typescript setlocal formatexpr=
   au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
   au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
 augroup END
