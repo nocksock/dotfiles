@@ -8,8 +8,9 @@
 " ------------------------------------------------------------------------------
 
 " -- Plugins --------------------------------------------------------------- {{{
-" I use a LOT of plugins. Some I consider essential, and some I only use in rare
-" occasions. But I'm trying to use less and embrace the vim way more often.
+" I use a hand full of plugins. Some I consider essential, and some I only use
+" in rare occasions. But I'm trying to use less and embrace the vim way more
+" often.
 "
 " I tried using the structure, where you'd have a .vim file for each plugin and
 " configure each plugin there, with keymaps and all. But in the end I didn't
@@ -34,27 +35,8 @@ call plug#begin('~/.vim/plugged')
 " are not even part of vim. Most of them just add behaviour that works passive
 " and requires little to no config and do not rely on external programs.
 
-" git: fugitive and rhubarb {{{
-
 " a git wrapper in vim
 Plug 'tpope/vim-fugitive'
-
-" specials for github
-Plug 'tpope/vim-rhubarb'
-
-""}}}
-" ultisnips {{{
-
-" current snippet handler of choice. has some features that coc-snippets won't
-" or cannot implement.
-Plug 'SirVer/ultisnips'
-
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UltiSnipsJumpForwardTrigger="<c-l>"
-let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
-
-" }}}
 
 " improved netrw for file browsing. fun fact: it's one of the plugins that made
 " me stick to vim back in the day for the first time.
@@ -69,10 +51,22 @@ Plug 'tpope/vim-repeat'
 " comment stuff out and back in via gc/gcc
 Plug 'tpope/vim-commentary'
 
-" auto pairs {{{
-
 " auto insert/delete brackets, parens, quotes etc
 Plug 'jiangmiao/auto-pairs'
+
+" Vim sugar for the UNIX shell commands that need it the most. Like:
+"   :Delete, :Move, :Chmod
+Plug 'tpope/vim-eunuch'
+" ultisnips {{{
+
+" current snippet handler of choice. has some features that coc-snippets won't
+" or cannot implement.
+Plug 'SirVer/ultisnips'
+
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
 
 " }}}
 " vim closetag {{{
@@ -248,18 +242,13 @@ command! C Component
 
 ""}}}
 
-
-
 " Niceties
 "
 " just some nice things that I could easily do without.
 
-" git blamer {{{
-
 " A git blame plugin for neovim inspired by VS Code's GitLens plugin
 Plug 'APZelos/blamer.nvim'
 
-" }}}
 " .editorconfig {{{
 
 " loadsd settings from .editoconfig if present
@@ -275,42 +264,29 @@ tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
 
 
 " }}}
-" table mode {{{
-
-" not as good as org mode's table stuff, but at least makes formatting complex
-" ascii tables easier.
-Plug 'dhruvasagar/vim-table-mode'
-
-" }}}
 " tabular {{{
 
 " align text at character. more powerful than :!column
 Plug 'godlygeek/tabular'
 
 " }}}
-" eunuch {{{
-
-" Vim sugar for the UNIX shell commands that need it the most. Like:
-"   :Delete, :Move, :Chmod
-Plug 'tpope/vim-eunuch'
-
-" }}}
-" gundo {{{
+" gundo, now mundo {{{
+" since gundo seems to have been abandoned, now using mundo
 
 " undo tree - who needs version control, when you have vim?
-Plug 'sjl/gundo.vim'
-
-" }}}
-" styled components {{{
-
-" syntax hilighting in styled`` template literals
-" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'simnalamburt/vim-mundo'
 
 " }}}
 
 " Colors, syntax and themes
 "
 " These make vim and syntax highlighting look nice.
+
+Plug 'pantharshit00/vim-prisma'
+
+" custom fork of python-vim with some adjustments according to personal
+" preferences
+Plug '~/projects/python-vim'
 
 " Polyglot {{{
 " A collection of language packs for Vim.
@@ -329,17 +305,6 @@ let g:vim_jsx_pretty_highlight_close_tag = 1
 Plug 'sheerun/vim-polyglot'
 
 ""}}}
-" prisma {{{
-Plug 'pantharshit00/vim-prisma'
-" }}}
-" python {{{
-
-" This is my custom python-vim fork. I don't agree with some of the highlight
-" groups and wanted more control of some specifics for my custom colorscheme.
-" using a relative path makes it easier to adjust and test things on the fly.
-Plug '~/projects/python-vim'
-
-" }}}
 " bloop {{{
 
 " my own colorscheme, work in progress
@@ -390,12 +355,6 @@ augroup END
 
 " }}}
 
-" Trials
-"
-" PlugIns I'm just trying out
-
-" none atm
-
 call plug#end()
 
 " }}}
@@ -421,6 +380,7 @@ set foldnestmax=10
 set formatoptions=qrn1j " format options when writing, joining lines or `gq` see  :he fo-table for meanings
 set gdefault                                             " add g flag by default for :substitutions
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
+set hlsearch
 set ignorecase
 set noincsearch                                          " disable incremental search that would make vim jump around while typing. Kinda got disoriented by it
 set laststatus=2                                         " Always show status line.
@@ -577,6 +537,7 @@ noremap <leader>rr :source ~/.vimrc<CR>
 nnoremap <leader>fa :AllFiles<cr>
 nnoremap <leader>fb :Buffers<cr>
 nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fl :Lines<cr>
 nnoremap <leader>fg :GBranches<cr>
 nnoremap <leader>fh :Helptags<cr>
 nnoremap <leader>fr :History<cr>
@@ -621,7 +582,12 @@ nnoremap <leader>tl :tablast<cr>
 au TabLeave * let g:lasttab = tabpagenr()
 
 " }}}
+" v, views {{{
 
+noremap <silent> <leader>vc :nohl<cr>:call popup_clear()<cr>
+noremap <silent> <leader>vu :MundoToggle<cr>
+
+" }}}
 " Autocomplete {{{
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -685,21 +651,9 @@ nnoremap gV `[v`]
 " }}}
 " Miscallaneous {{{
 
-" muscle memory keeper for vscode moments
-nnoremap <c-p> :Files<cr>
-nnoremap <c-s-p> :CocFzfList commands<cr>
-nnoremap <leader><space> :Files<cr>
-
 " toggle floaterm
 tnoremap      <c-\>   <C-\><C-n>:FloatermToggle<CR>
 nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
-
-" search vor visually selected text
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-" press jk to Esc - much faster while typing
-" i want to see if I can get used to c-[
-" inoremap jk <ESC>
 
 " Run jest for current test
 nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR>
@@ -722,9 +676,8 @@ nmap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 imap ;; <Esc>A;<Esc>
 imap ,, <Esc>A,<Esc>
 
-" Clear popups and highlights
-noremap <silent> <leader>cc :nohl<cr>:call popup_clear()<cr>
-noremap <silent> <leader><Esc> :nohl<cr>:call popup_clear()<cr>
+" search vor visually selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Open current window in a new tab - useful for 'zooming' a window
 nnoremap <c-w><space> :tab split<cr>
@@ -736,22 +689,17 @@ noremap <leader>tf :15Lex<cr>
 " open terminal at the bottom
 noremap <leader>; :terminal ++rows=15<cr>
 
-" keep muscle memory for saving often
-noremap <c-s> :w<cr>
-inoremap <c-s> <esc>:w<cr>i
-
-noremap <leader>tg :set notermguicolors<cr>
-
 " search for word under cursor - without jumping to next or adding a jump in the
 " jumplist. Useful in combination with cgn.
 nnoremap * :keepjumps normal! mi*`i<CR>
 
 noremap <leader>ts :call SynStack()<cr>
+noremap <leader>tg :set termguicolors!<cr>
 
 " Git bindings
 noremap <leader>gg :tab G<cr>
-
 noremap <leader>gl :BlamerToggle<cr>
+
 " }}}
 " }}}
 
@@ -764,9 +712,6 @@ if (filereadable(b:vim))
     execute "source ".b:vim
     echom "loaded local .vim"
 endif
-
-" source/reload vimrc on save
-autocmd! BufWritePost .vimrc :source ~/.vimrc
 
 " Make Vim return to the same line when reopening a file.
 augroup line_return
