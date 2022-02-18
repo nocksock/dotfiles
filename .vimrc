@@ -1,13 +1,11 @@
-"
 " This is my messy but also very large .vimrc
 "
 " Author: Nils Riedemann
 " Website: https://bleepbloop.studio/
 " Repository: https://github.com/nocksock/dotfiles
 "
-" ------------------------------------------------------------------------------
 
-" -- Plugins --------------------------------------------------------------- {{{
+" Plugins {{{
 " I use a hand full of plugins. Some I consider essential, and some I only use
 " in rare occasions. But I'm trying to use less and embrace the vim way more
 " often.
@@ -37,6 +35,9 @@ call plug#begin('~/.vim/plugged')
 
 " a git wrapper in vim
 Plug 'tpope/vim-fugitive'
+
+" working with words
+Plug 'tpope/vim-abolish'
 
 " improved netrw for file browsing. fun fact: it's one of the plugins that made
 " me stick to vim back in the day for the first time.
@@ -75,66 +76,25 @@ let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
 " Autoclose HTML Tags - with some smartness
 Plug 'alvan/vim-closetag'
 
-" config {{{
-
-" filenames like *.xml, *.html, *.xhtml, ...
-" These are the file extensions where this plugin is enabled.
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js,*.jsx,*.tsx'
-
-" filenames like *.xml, *.xhtml, ...
-" This will make the list of non-closing tags self-closing in the specified files.
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
-
-" filetypes like xml, html, xhtml, ...
-" These are the file types where this plugin is enabled.
 let g:closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
-
-" filetypes like xml, xhtml, ...
-" This will make the list of non-closing tags self-closing in the specified files.
 let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
-
-" integer value [0|1]
-" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
 let g:closetag_emptyTags_caseSensitive = 1
-
-" dict
-" Disables auto-close if not in a "valid" region (based on filetype)
 let g:closetag_regions = {
     \ 'typescript.tsx': 'jsxRegion,tsxRegion',
     \ 'javascript.jsx': 'jsxRegion',
     \ 'typescriptreact': 'jsxRegion,tsxRegion',
     \ 'javascriptreact': 'jsxRegion',
     \ }
-
-" Shortcut for closing tags, default is '>'
 let g:closetag_shortcut = '>'
-
-" Add > at current position without closing the current tag, default is ''
 let g:closetag_close_shortcut = '<leader>>'
 
-""}}}
-
 " }}}
-" emmet {{{
-
-" h1{emmet is awesome}+ul>li{It is!}*3
-Plug 'mattn/emmet-vim'
-let g:user_zen_leader_key = '<c-y>'
-
-" }}}
-
-" Current Core Workflow Plugins
-"
-" these pretty much define how I mostly work within vim right now, but require
-" extensive configuration and rely on external dependencies that might not be
-" available/installable on some machines
 
 " coc {{{
-" LSP is one of the best things in recent years or so. While the builtin version
-" is great, some coc-extensions are just crazy good and are things I otherwise
-" would miss from VS Code (eg. jsref to toggle implicit and explicit return
-" statements for arrow functions). Also it feels like coc just works better
-" out-of-the-box atm than LSP.
+" Nodejs extension host to load extension like vscode does and host language
+" server.
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
@@ -204,16 +164,8 @@ command! JestInit :call CocAction('runCommand', 'jest.init')
 
 "}}}
 " FZF {{{
-" FZF is one of those things, that "just make sense"". I've been using CTRL-P
-" before that for years to fuzzy find files, but FZF seems much faster (using
-" rg/ag in the back) and it has an interface that can be used for other things
-" than file finding.
-"
-" I'd consider it almost a stable essential for me at this point, but it has an
-" external dependency fzf so it doesn't quite fit along the other ones and also
-" requires a lot of configuration and key mapping.
+" The glorious file finder integrated directly in vim
 
-" fzf <3 rip ctrl-p
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
@@ -230,40 +182,30 @@ command! -bang -nargs=? -complete=dir AllFiles
       \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
 
 " overwrite :Ag and prevent it from searching filenames
-" command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 command! -bang -nargs=? -complete=file Notes
     \ call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'ag ~/notes' }), <bang>0))
 
+" Only search for .tsx files. Helpful in large codebases with lots of components
 command! -bang -nargs=? -complete=file Components
     \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
 
-command! C Component
+command! C Components
 
 ""}}}
-
-" Niceties
-"
-" just some nice things that I could easily do without.
 
 " A git blame plugin for neovim inspired by VS Code's GitLens plugin
 Plug 'APZelos/blamer.nvim'
 
-" .editorconfig {{{
-
 " loadsd settings from .editoconfig if present
 Plug 'editorconfig/editorconfig-vim'
 
-" }}}
-" floaterm {{{
-
+" floaterm
 Plug 'voldikss/vim-floaterm'
-
 nnoremap   <silent>   <F12>   :FloatermToggle<CR>
 tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
 
-
-" }}}
 " tabular {{{
 
 " align text at character. more powerful than :!column
@@ -279,23 +221,20 @@ Plug 'simnalamburt/vim-mundo'
 " }}}
 
 " Colors, syntax and themes
-"
-" These make vim and syntax highlighting look nice.
+" -------------------------
 
+" prisma syntax
 Plug 'pantharshit00/vim-prisma'
 
-" custom fork of python-vim with some adjustments according to personal
+" a fork of python-vim with some adjustments according to personal
 " preferences
 Plug '~/projects/python-vim'
 
-" Polyglot {{{
-" A collection of language packs for Vim.
-"
-" Adds about 10ms of loading time, but more comfortable than adding all the
-" languages myself - and makes peeking into unknown languages easier.
-"
-" includes plugins that I previously had installed manually, like:
-" html5.vim, vim-graphql, vim-ledger, yats, vim-javascript
+" Polyglot
+" --------
+" A collection of language packs for Vim. Adds about 10ms of loading time, but
+" more comfortable than adding all the languages myself - and makes peeking into
+" unknown languages easier.
 
 " disabling needs to happen before loading. The included syntax highlights don't
 " provide the level of control i'd like to have, so i'm currently using my own
@@ -304,15 +243,11 @@ let g:vim_jsx_pretty_highlight_close_tag = 1
 
 Plug 'sheerun/vim-polyglot'
 
-""}}}
-" bloop {{{
-
 " my own colorscheme, work in progress
-" Plug 'nocksock/bloop-vim'
 Plug '~/projects/bloop-vim'
 
-" }}}
 " lightline {{{
+" easy to configure status bar for vim
 
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
@@ -325,7 +260,7 @@ let g:lightline = {
       \     'right': [['filetype', 'percent', 'lineinfo']],
       \   },
       \   'component': {
-      \     'path': '%<%f'
+      \     'path': '%<%f',
       \   },
       \   'component_function': {
       \     'gitbranch': 'gitbranch#name',
@@ -359,9 +294,9 @@ call plug#end()
 
 " }}}
 
-" -- Basic options --------------------------------------------------------- {{{
+" Basic options {{{
 let mapleader = "\<space>"
-let maplocalleader = ","
+let maplocalleader = "\<c-@>"   " use ctrl-space as local leader
 
 set autoindent                                           " Copy indent from current line when creating a new line                                            "
 set autoread                                             " auto re-read file when it changed outside of vim, but not inside
@@ -381,10 +316,11 @@ set formatoptions=qrn1j " format options when writing, joining lines or `gq` see
 set gdefault                                             " add g flag by default for :substitutions
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
 set hlsearch
+set history=10000 " keep way more commands in history
 set ignorecase
-set noincsearch                                          " disable incremental search that would make vim jump around while typing. Kinda got disoriented by it
+set incsearch                                           " enable incremental search that would make vim jump around while typing
 set laststatus=2                                         " Always show status line.
-set list                                                 " Show invisible characters                                                                         "
+set list                                                 " Show invisible characters
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪ " define characters for invisible characters
 set mouse=a                                              " enable scrolling and selecting with mouse
 set nocursorline                                         " Highlight the line of in which the cursor is present (or not)
@@ -444,7 +380,7 @@ set undofile
 
 " }}}
 
-" -- Custom functions and command definitions ------------------------------ {{{
+" Custom functions and command definitions {{{
 
 " reload lightline entirely - useful when changing its configuration
 function! LightlineReload()
@@ -476,19 +412,11 @@ endfunction
 
 " }}}
 
-" -- Key Mappings ---------------------------------------------------------- {{{
+" Key Mappings {{{
 " This is a messy mess. I will find a nicer way of structuring them at some
 " point, but for now losely grouping them will do. Trying to come up with
 " a cohesive system loosely based around prefixes and scopes.
 
-" b: Buffers {{{
-
-nmap <leader>bd :bd<cr>
-nmap <leader>bp :bp<cr>
-nmap <leader>bn :bn<cr>
-nmap <leader>ba :e #<cr>
-
-" }}}
 " c: Code actions {{{
 
 " apply autofix to problem on the current line.
@@ -513,12 +441,6 @@ nmap <leader>ga  <Plug>(coc-codeaction-line)
 
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> <leader>di <Plug>(coc-diagnostic-info)
-nmap <silent> <leader>dn <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>dp <Plug>(coc-diagnostic-next)
-
-" Use `[d` and `]d` to navigate diagnostics.
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
 " }}}
 " e: edit {{{
@@ -542,6 +464,7 @@ nnoremap <leader>fg :GBranches<cr>
 nnoremap <leader>fh :Helptags<cr>
 nnoremap <leader>fr :History<cr>
 nnoremap <leader>fs :Ag<cr>
+nnoremap <leader><leader> :Files<cr>
 nnoremap <leader>ft :Tags<cr>
 
 " }}}
@@ -585,7 +508,8 @@ au TabLeave * let g:lasttab = tabpagenr()
 " v, views {{{
 
 noremap <silent> <leader>vc :nohl<cr>:call popup_clear()<cr>
-noremap <silent> <leader>vu :MundoToggle<cr>
+noremap <silent> <leader>k :nohl<cr>
+noremap <silent> <leader>u :MundoToggle<cr>
 
 " }}}
 " Autocomplete {{{
@@ -618,25 +542,42 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
+" Use `[d` and `]d` to navigate diagnostics.
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+
 " navigate chunks of current buffer
 nmap [g <Plug>(coc-git-prevchunk)
 nmap ]g <Plug>(coc-git-nextchunk)
+
 " navigate conflicts of current buffer
 nmap [c <Plug>(coc-git-prevconflict)
 nmap ]c <Plug>(coc-git-nextconflict)
+
 " show chunk diff at current position
 nmap gs <Plug>(coc-git-chunkinfo)
+
 " show commit contains current position
 nmap gb <Plug>(coc-git-commit)
+
 " create text object for git chunks
 omap ig <Plug>(coc-git-chunk-inner)
 xmap ig <Plug>(coc-git-chunk-inner)
 omap ag <Plug>(coc-git-chunk-outer)
 xmap ag <Plug>(coc-git-chunk-outer)
 
+" buffer switching
+nnoremap <silent> [b :bprevious<cr>
+nnoremap <silent> ]b :bnext<cr>
+nnoremap <silent> [B :bfirst<cr>
+nnoremap <silent> ]B :blast<cr>
+
 " motion: select all or the inside of folds
 xnoremap az [zo]z
 xnoremap iz [zjo]zk
+
+" type %% in vim's prompt to insert %:h expanded
+cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Keep search matches in the middle of the window
 nnoremap n nzzzv
@@ -650,6 +591,12 @@ nnoremap gV `[v`]
 
 " }}}
 " Miscallaneous {{{
+
+nmap <tab> :Buffers<cr>
+
+" for muscle memory
+noremap <c-s> :w<cr>
+inoremap <c-s> <esc>:w<cr>i
 
 " toggle floaterm
 tnoremap      <c-\>   <C-\><C-n>:FloatermToggle<CR>
@@ -676,9 +623,6 @@ nmap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 imap ;; <Esc>A;<Esc>
 imap ,, <Esc>A,<Esc>
 
-" search vor visually selected text
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
 " Open current window in a new tab - useful for 'zooming' a window
 nnoremap <c-w><space> :tab split<cr>
 tnoremap <c-w><space> <c-w>:tab split<cr>
@@ -693,7 +637,10 @@ noremap <leader>; :terminal ++rows=15<cr>
 " jumplist. Useful in combination with cgn.
 nnoremap * :keepjumps normal! mi*`i<CR>
 
+" show syntax stack under curso for theming
 noremap <leader>ts :call SynStack()<cr>
+
+" toggle rgb and 256 colors
 noremap <leader>tg :set termguicolors!<cr>
 
 " Git bindings
@@ -703,7 +650,7 @@ noremap <leader>gl :BlamerToggle<cr>
 " }}}
 " }}}
 
-" -- Config Meta ----------------------------------------------------------- {{{
+" Config Meta {{{
 
 " load local .vim if present
 let b:thisdir=expand("%:p:h")
@@ -730,20 +677,21 @@ augroup END
 
 " }}}
 
-" -- File Type Specifcs ---------------------------------------------------- {{{
+" File Type Specifcs {{{
 
-" -- [t|j]sx? -------------------------------------------------------------- {{{
+" [t|j]sx? {{{
 
-" force vim to parse the *entire* file from start. should fix seemingly
-" unmatched braces etc.
 augroup  ft_jsts
   au!
+
+  " force vim to parse the *entire* file from start. should fix seemingly
+  " unmatched braces etc.
   autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
   autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 augroup END
 
 ""}}}
-" -- javascript ------------------------------------------------------------ {{{
+" javascript {{{
 " a lot of codebases include js in their js files, so this handles both.
 
 augroup ft_javascript
@@ -764,7 +712,7 @@ augroup ft_javascript
 augroup END
 
 ""}}}
-" -- typescript ------------------------------------------------------------ {{{
+" typescript {{{
 
 augroup ft_typescript
   au!
@@ -779,7 +727,7 @@ augroup ft_typescript
 augroup END
 
 ""}}}
-"" -- typescriptreact-------------------------------------------------------- {{{
+" typescriptreact {{{
 
 augroup ft_typescript_tsx
   au!
@@ -793,7 +741,7 @@ augroup ft_typescript_tsx
 augroup END
 
 ""}}}
-" -- zsh-------------------------------------------------------------------- {{{
+" zsh {{{
 
 augroup ft_zsh
     au!
@@ -801,7 +749,7 @@ augroup ft_zsh
 augroup END
 
 ""}}}
-" -- vimrc ----------------------------------------------------------------- {{{
+" vimrc {{{
 
 augroup ft_vimrc
   autocmd!
@@ -810,7 +758,7 @@ augroup ft_vimrc
 augroup END
 
 ""}}}
-" -- local .env files ------------------------------------------------------ {{{
+" local .env files {{{
 
 augroup ft_env
   au!
