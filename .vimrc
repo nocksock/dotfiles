@@ -6,14 +6,6 @@
 "
 
 " Plugins {{{
-" I use a hand full of plugins. Some I consider essential, and some I only use
-" in rare occasions. But I'm trying to use less and embrace the vim way more
-" often.
-"
-" I tried using the structure, where you'd have a .vim file for each plugin and
-" configure each plugin there, with keymaps and all. But in the end I didn't
-" find it as quick as just jumping around this file with markers, and having key
-" mappings in different files didn't give me the overview I hoped it'd give.
 
 " install plug-vim if not present {{{
 
@@ -27,39 +19,24 @@ call plug#begin('~/.vim/plugged')
 
 " }}}
 
-" Stable essentials
-"
-" These are small plugins that I have been using for years now and often forget
-" are not even part of vim. Most of them just add behaviour that works passive
-" and requires little to no config and do not rely on external programs.
+Plug 'tpope/vim-fugitive' " a git wrapper in vim
+Plug 'tpope/vim-abolish' " working with words
+Plug 'tpope/vim-vinegar' " improved netrw for file browsing.
+Plug 'tpope/vim-surround' " quoting/parenthesizing made simple. Extends functionality of S
+Plug 'tpope/vim-repeat' " makes . even more powerful by adding suppor for plugins
+Plug 'tpope/vim-commentary' " comment stuff out and back in via gc/gcc
+Plug 'jiangmiao/auto-pairs' " auto insert/delete brackets, parens, quotes etc
+Plug 'tpope/vim-eunuch' " Vim sugar for the UNIX shell commands that need it the most. Like :Delete, :Move, :Chmod
+Plug 'APZelos/blamer.nvim' " A git blame plugin for neovim inspired by VS Code's GitLens plugin
+Plug 'editorconfig/editorconfig-vim' " loads settings from .editoconfig if present
+Plug 'godlygeek/tabular' " align text at character. more powerful than :!column
+Plug 'simnalamburt/vim-mundo' " undo tree - who needs version control, when you have vim?
+Plug 'pantharshit00/vim-prisma' " syntax for prisma file
+Plug 'voldikss/vim-floaterm'
+Plug '~/projects/python-vim' " a fork of python-vim with some adjustments according to personal preferences
+Plug '~/projects/bloop-vim' " my own colorscheme, work in progress
 
-" a git wrapper in vim
-Plug 'tpope/vim-fugitive'
-
-" working with words
-Plug 'tpope/vim-abolish'
-
-" improved netrw for file browsing. fun fact: it's one of the plugins that made
-" me stick to vim back in the day for the first time.
-Plug 'tpope/vim-vinegar'
-
-" quoting/parenthesizing made simple. Extends functionality of S
-Plug 'tpope/vim-surround'
-
-" makes . even more powerful by adding suppor for plugins
-Plug 'tpope/vim-repeat'
-
-" comment stuff out and back in via gc/gcc
-Plug 'tpope/vim-commentary'
-
-" auto insert/delete brackets, parens, quotes etc
-Plug 'jiangmiao/auto-pairs'
-
-" Vim sugar for the UNIX shell commands that need it the most. Like:
-"   :Delete, :Move, :Chmod
-Plug 'tpope/vim-eunuch'
 " ultisnips {{{
-
 " current snippet handler of choice. has some features that coc-snippets won't
 " or cannot implement.
 Plug 'SirVer/ultisnips'
@@ -91,7 +68,6 @@ let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
 " }}}
-
 " coc {{{
 " Nodejs extension host to load extension like vscode does and host language
 " server.
@@ -168,9 +144,7 @@ command! JestInit :call CocAction('runCommand', 'jest.init')
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-" git branches etc
-Plug 'stsewd/fzf-checkout.vim'
+Plug 'stsewd/fzf-checkout.vim' " git branches etc
 
 let g:fzf_layout = { 'up': '~90%', 'window': { 'width': 0.8, 'height': 0.8, 'yoffset':0.5, 'xoffset': 0.5 } }
 let g:fzf_preview_window = ['up:50%', 'ctrl-/']
@@ -195,40 +169,6 @@ command! C Components
 
 ""}}}
 
-" A git blame plugin for neovim inspired by VS Code's GitLens plugin
-Plug 'APZelos/blamer.nvim'
-
-" loadsd settings from .editoconfig if present
-Plug 'editorconfig/editorconfig-vim'
-
-" floaterm
-Plug 'voldikss/vim-floaterm'
-nnoremap   <silent>   <F12>   :FloatermToggle<CR>
-tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
-
-" tabular {{{
-
-" align text at character. more powerful than :!column
-Plug 'godlygeek/tabular'
-
-" }}}
-" gundo, now mundo {{{
-" since gundo seems to have been abandoned, now using mundo
-
-" undo tree - who needs version control, when you have vim?
-Plug 'simnalamburt/vim-mundo'
-
-" }}}
-
-" Colors, syntax and themes
-" -------------------------
-
-" prisma syntax
-Plug 'pantharshit00/vim-prisma'
-
-" a fork of python-vim with some adjustments according to personal
-" preferences
-Plug '~/projects/python-vim'
 
 " Polyglot
 " --------
@@ -242,9 +182,6 @@ let g:polyglot_disabled = ['python.plugin']
 let g:vim_jsx_pretty_highlight_close_tag = 1
 
 Plug 'sheerun/vim-polyglot'
-
-" my own colorscheme, work in progress
-Plug '~/projects/bloop-vim'
 
 " lightline {{{
 " easy to configure status bar for vim
@@ -434,12 +371,12 @@ nmap gi <Plug>(coc-implementation)
 nmap gr <Plug>(coc-references)
 
 " navigation
-nmap [d <Plug>(coc-diagnostic-prev)
-nmap ]d <Plug>(coc-diagnostic-next)
-nmap [g <Plug>(coc-git-prevchunk)
-nmap ]g <Plug>(coc-git-nextchunk)
-nmap [c <Plug>(coc-git-prevconflict)
-nmap ]c <Plug>(coc-git-nextconflict)
+nnoremap [d <Plug>(coc-diagnostic-prev)
+nnoremap ]d <Plug>(coc-diagnostic-next)
+nnoremap [g <Plug>(coc-git-prevchunk)
+nnoremap ]g <Plug>(coc-git-nextchunk)
+nnoremap [c <Plug>(coc-git-prevconflict)
+nnoremap ]c <Plug>(coc-git-nextconflict)
 
 nnoremap [t :tabprevious<cr>
 nnoremap ]t :tabnext<cr>
@@ -507,6 +444,9 @@ nnoremap <leader>u :MundoToggle<cr>
 nnoremap <leader>vc :nohl<cr>:call popup_clear()<cr>
 xnoremap <leader>a  <Plug>(coc-codeaction-selected)
 
+nnoremap   <silent>   <F12>   :FloatermToggle<CR>
+tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+
 " for muscle memory
 noremap <c-s> :w<cr>
 inoremap <c-s> <esc>:w<cr>i
@@ -519,15 +459,15 @@ nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " Easy insertion of a trailing ; or , from insert mode
-imap ;; <Esc>A;<Esc>
-imap ,, <Esc>A,<Esc>
+inoremap ;; <Esc>A;<Esc>
+inoremap ,, <Esc>A,<Esc>
 
 " Open current window in a new tab - useful for 'zooming' a window
 nnoremap <c-w><space> :tab split<cr>
 tnoremap <c-w><space> <c-w>:tab split<cr>
 
 " search for word under cursor - without jumping to next or adding a jump in the
-" jumplist. Useful in combination with cgn.
+" jumplist. Useful in combination with cgn or to quickly highlight a word
 nnoremap * :keepjumps normal! mi*`i<CR>
 
 " }}}
