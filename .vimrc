@@ -16,8 +16,8 @@
 " install plug-vim if not present
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -61,9 +61,9 @@ let g:closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
 let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_regions = {
-            \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-            \ 'javascript.jsx': 'jsxRegion',
-            \ }
+      \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+      \ 'javascript.jsx': 'jsxRegion',
+      \ }
 let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
@@ -76,44 +76,44 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 
 let g:coc_global_extensions = [
-            \   'coc-css',
-            \   'coc-emmet',
-            \   'coc-eslint',
-            \   'coc-git',
-            \   'coc-html',
-            \   'coc-jest',
-            \   'coc-json',
-            \   'coc-jsref',
-            \   'coc-pairs',
-            \   'coc-svg',
-            \   'coc-php-cs-fixer',
-            \   'coc-sql',
-            \   'coc-prettier',
-            \   'coc-go',
-            \   'coc-rls',
-            \   'coc-pyright',
-            \   'coc-deno',
-            \   'coc-sh',
-            \   'coc-phpls',
-            \   'coc-prisma',
-            \   'coc-tsserver',
-            \ ]
+      \   'coc-css',
+      \   'coc-emmet',
+      \   'coc-eslint',
+      \   'coc-git',
+      \   'coc-html',
+      \   'coc-jest',
+      \   'coc-json',
+      \   'coc-jsref',
+      \   'coc-pairs',
+      \   'coc-svg',
+      \   'coc-php-cs-fixer',
+      \   'coc-sql',
+      \   'coc-prettier',
+      \   'coc-go',
+      \   'coc-rls',
+      \   'coc-pyright',
+      \   'coc-deno',
+      \   'coc-sh',
+      \   'coc-phpls',
+      \   'coc-prisma',
+      \   'coc-tsserver',
+      \ ]
 
 let g:coc_disable_transparent_cursor = 1
 
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
-        call CocActionAsync('doHover')
-    else
-        execute '!' . &keywordprg . " " . expand('<cword>')
-    endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
 endfunction
 
 command! -nargs=0 Format :call CocAction('format') " Add `:Format` command
@@ -155,39 +155,39 @@ Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 
 let g:lightline = {
-            \   'colorscheme': 'bloop',
-            \   'active': {
-                \     'left': [ [ 'mode', 'paste' ],
-                \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
-                \     'right': [['filetype', 'percent', 'lineinfo']],
-                \   },
-                \   'component': {
-                    \     'path': '%<%f',
-                    \   },
-                    \   'component_function': {
-                        \     'gitbranch': 'gitbranch#name',
-                        \     'cocstatus': 'coc#status'
-                        \   },
-                        \   'mode_map': {
-                            \     'n' : 'N',
-                            \     'i' : 'I',
-                            \     'R' : 'R',
-                            \     'v' : 'v',
-                            \     'V' : 'V',
-                            \     "\<C-v>": 'B',
-                            \     'c' : 'C',
-                            \     's' : 's',
-                            \     'S' : 'S',
-                            \     "\<C-s>": 'S',
-                            \     't': '$'
-                            \   }
-                            \ }
+      \   'colorscheme': 'bloop',
+      \   'active': {
+        \     'left': [ [ 'mode', 'paste' ],
+        \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
+        \     'right': [['filetype', 'percent', 'lineinfo']],
+        \   },
+        \   'component': {
+          \     'path': '%<%f',
+          \   },
+          \   'component_function': {
+            \     'gitbranch': 'gitbranch#name',
+            \     'cocstatus': 'coc#status'
+            \   },
+            \   'mode_map': {
+              \     'n' : 'N',
+              \     'i' : 'I',
+              \     'R' : 'R',
+              \     'v' : 'v',
+              \     'V' : 'V',
+              \     "\<C-v>": 'B',
+              \     'c' : 'C',
+              \     's' : 's',
+              \     'S' : 'S',
+              \     "\<C-s>": 'S',
+              \     't': '$'
+              \   }
+              \ }
 
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 augroup user_lightline
-    au!
-    au User CocStatusChange,CocDiagnosticChange call lightline#update()
+  au!
+  au User CocStatusChange,CocDiagnosticChange call lightline#update()
 augroup END
 
 " }}}
@@ -261,19 +261,19 @@ colors bloop
 
 " use different undo directory for vim/nvim since they're not compatible
 if has('nvim')
-    set undodir=~/.nvim/tmp/undo/
+  set undodir=~/.nvim/tmp/undo/
 else
-    set undodir=~/.vim/tmp/undo/
-    set directory=~/.vim/tmp " Don't clutter my dirs up with swp and tmp files
+  set undodir=~/.vim/tmp/undo/
+  set directory=~/.vim/tmp " Don't clutter my dirs up with swp and tmp files
 
-    " enable italics in vim. works by default in nvim
-    let &t_ZH="\e[3m"
-    let &t_ZR="\e[23m"
+  " enable italics in vim. works by default in nvim
+  let &t_ZH="\e[3m"
+  let &t_ZR="\e[23m"
 
-    " sometimes setting termguicolors for true color support  is not enough see
-    " :he t_8b
-    set t_8b=[48;2;%lu;%lu;%lum
-    set t_8f=[38;2;%lu;%lu;%lum
+  " sometimes setting termguicolors for true color support  is not enough see
+  " :he t_8b
+  set t_8b=[48;2;%lu;%lu;%lum
+  set t_8f=[38;2;%lu;%lu;%lum
 endif
 
 " }}}
@@ -281,42 +281,45 @@ endif
 
 " reload lightline entirely - useful when changing its configuration
 function! LightlineReload()
-    call lightline#init()
-    call lightline#colorscheme()
-    call lightline#update()
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
 endfunction
 
 " gx to open github urls in browser
 function! s:plug_gx()
-    let line = getline('.')
-    let sha  = matchstr(line, '^  \X*\zs\x\{7,9}\ze ')
-    let name = empty(sha) ? matchstr(line, '^[-x+] \zs[^:]\+\ze:')
-                \ : getline(search('^- .*:$', 'bn'))[2:-2]
-    let uri  = get(get(g:plugs, name, {}), 'uri', '')
-    if uri !~ 'github.com'
-        return
-    endif
+  let line = getline('.')
+  let sha  = matchstr(line, '^  \X*\zs\x\{7,9}\ze ')
+  let name = empty(sha) ? matchstr(line, '^[-x+] \zs[^:]\+\ze:')
+        \ : getline(search('^- .*:$', 'bn'))[2:-2]
+  let uri  = get(get(g:plugs, name, {}), 'uri', '')
+  if uri !~ 'github.com'
+    return
+  endif
 
-    let repo = matchstr(uri, '[^:/]*/'.name)
-    let url  = empty(sha) ? 'https://github.com/'.repo
-                \ : printf('https://github.com/%s/commit/%s', repo, sha)
-    call netrw#BrowseX(url, 0)
+  let repo = matchstr(uri, '[^:/]*/'.name)
+  let url  = empty(sha) ? 'https://github.com/'.repo
+        \ : printf('https://github.com/%s/commit/%s', repo, sha)
+  call netrw#BrowseX(url, 0)
 endfunction
 
 " Add an AllFiles command that disrepsects .gitignore files
 command! -bang -nargs=? -complete=dir AllFiles
-            \ call fzf#run(fzf#wrap('allfiles',
-            \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
+      \ call fzf#run(fzf#wrap('allfiles',
+      \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' })
+      \ , <bang>0))
 
 " overwrite :Ag and prevent it from searching filenames
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 command! -bang -nargs=? -complete=file Notes
-            \ call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'ag ~/notes' }), <bang>0))
+      \ call fzf#run(fzf#wrap('notes',
+      \ fzf#vim#with_preview({ 'source': 'ag ~/notes ', 'sink': 'e' }),
+      \ <bang>0))
 
 " Only search for .tsx files. Helpful in large codebases with lots of components
 command! -bang -nargs=? -complete=file Components
-            \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
+      \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
 
 command! C Components
 command! H Helptags
@@ -394,7 +397,7 @@ nmap <leader>ld :CocFzfList diagnostics<cr>
 nmap <leader>lo :CocFzfList outline<cr>
 nmap <leader>ls :CocList symbols<cr>
 
-" TODO: turn these into motions/operators {{{
+" TODO: consider turning these into motions/operators {{{
 nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
 nmap <leader>ca  <Plug>(coc-codeaction-cursor)
 nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
@@ -430,23 +433,23 @@ nnoremap * :keepjumps normal! mi*`i<CR>
 let b:thisdir=expand("%:p:h")
 let b:vim=b:thisdir."/.vim"
 if (filereadable(b:vim))
-    execute "source ".b:vim
-    echom "loaded local .vim"
+  execute "source ".b:vim
+  echom "loaded local .vim"
 endif
 
 " Make Vim return to the same line when reopening a file.
 augroup line_return
-    au!
-    au BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \     execute 'normal! g`"zvzz' |
-                \ endif
+  au!
+  au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
 augroup END
 
 " When saving a buffer, create directories if they do not yet exist.
 augroup Mkdir
-    autocmd!
-    autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
+  autocmd!
+  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
 augroup END
 
 " }}}
@@ -454,58 +457,58 @@ augroup END
 " [j|t]sx? {{{
 
 augroup ft_jtsx
-    au!
+  au!
 
-    au BufNewFile,BufRead *.ts setlocal filetype=typescript
-    au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
-    au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+  au BufNewFile,BufRead *.ts setlocal filetype=typescript
+  au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
+  au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 
-    " force vim to parse the *entire* file from start. should fix seemingly
-    " unmatched braces etc.
-    autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-    autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+  " force vim to parse the *entire* file from start. should fix seemingly
+  " unmatched braces etc.
+  autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+  autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
-    au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
-    au FileType javascript nmap <localleader>s :e %:r:r.stories.js<cr>
-    au FileType javascript nmap <localleader>t :e %:r:r.spec.js<cr>
-    au FileType javascript nmap <localleader>m :e %:r:r.js<cr>
+  au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
+  au FileType javascript nmap <localleader>s :e %:r:r.stories.js<cr>
+  au FileType javascript nmap <localleader>t :e %:r:r.spec.js<cr>
+  au FileType javascript nmap <localleader>m :e %:r:r.js<cr>
 
-    au FileType javascript.jsx setlocal foldmethod=syntax
-    au InsertLeave javascript.jsx setlocal nolist
-    au InsertEnter javascript.jsx setlocal list
-    au FileType javascript.jsx nmap <localleader>s :e %:r:r.stories.jsx<cr>
-    au FileType javascript.jsx nmap <localleader>t :e %:r:r.spec.jsx<cr>
-    au FileType javascript.jsx nmap <localleader>m :e %:r:r.jsx<cr>
+  au FileType javascript.jsx setlocal foldmethod=syntax
+  au InsertLeave javascript.jsx setlocal nolist
+  au InsertEnter javascript.jsx setlocal list
+  au FileType javascript.jsx nmap <localleader>s :e %:r:r.stories.jsx<cr>
+  au FileType javascript.jsx nmap <localleader>t :e %:r:r.spec.jsx<cr>
+  au FileType javascript.jsx nmap <localleader>m :e %:r:r.jsx<cr>
 
-    au FileType typescript setlocal foldmethod=syntax
-    au FileType typescript setlocal iskeyword+=-
-    au FileType typescript setlocal formatprg=prettier\ --parser\ typescript\ --stdin-filepath\ %
-    au FileType typescript setlocal formatexpr= 	" reset Fixedgq from polyglot
-    au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
-    au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
+  au FileType typescript setlocal foldmethod=syntax
+  au FileType typescript setlocal iskeyword+=-
+  au FileType typescript setlocal formatprg=prettier\ --parser\ typescript\ --stdin-filepath\ %
+  au FileType typescript setlocal formatexpr= 	" reset Fixedgq from polyglot
+  au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
+  au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
 
-    au FileType typescript.tsx setlocal foldmethod=syntax
-    au FileType typescript.tsx setlocal iskeyword+=-
-    au FileType typescript.tsx setlocal foldlevel=3
-    au FileType typescript.tsx nmap <localleader>s :e %:r:r.stories.tsx<cr>
-    au FileType typescript.tsx nmap <localleader>t :e %:r:r.spec.tsx<cr>
-    au FileType typescript.tsx nmap <localleader>m :e %:r:r.tsx<cr>
+  au FileType typescript.tsx setlocal foldmethod=syntax
+  au FileType typescript.tsx setlocal iskeyword+=-
+  au FileType typescript.tsx setlocal foldlevel=3
+  au FileType typescript.tsx nmap <localleader>s :e %:r:r.stories.tsx<cr>
+  au FileType typescript.tsx nmap <localleader>t :e %:r:r.spec.tsx<cr>
+  au FileType typescript.tsx nmap <localleader>m :e %:r:r.tsx<cr>
 augroup END
 
 " }}}
 " misc {{{
 
 augroup ft_misc
-    au!
+  au!
 
-    au BufNewFile,BufRead *.zsh-theme setlocal filetype=zsh
-    au BufNewFile,BufRead *.env.local setlocal filetype=sh
-    au BufNewFile,BufRead *.md setlocal textwidth=80
-    au BufNewFile,BufRead *.md setlocal fo+=t " auto wrap at text width
+  au BufNewFile,BufRead *.zsh-theme setlocal filetype=zsh
+  au BufNewFile,BufRead *.env.local setlocal filetype=sh
+  au BufNewFile,BufRead *.md setlocal textwidth=80
+  au BufNewFile,BufRead *.md setlocal fo+=t " auto wrap at text width
 
-    au FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
-    au FileType vim setlocal iskeyword+=-
-    au CursorHold * silent call CocActionAsync('highlight') " Highlight the symbol and its references when holding the cursor.
+  au FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
+  au FileType vim setlocal iskeyword+=-
+  au CursorHold * silent call CocActionAsync('highlight') " Highlight the symbol and its references when holding the cursor.
 augroup END
 
 " }}}
