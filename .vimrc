@@ -1,23 +1,27 @@
-" This is my messy but also very large .vimrc
+" Moin!
+"
+" This is my messy but *also* large .vimrc.
 "
 " Author: Nils Riedemann
 " Website: https://bleepbloop.studio/
 " Repository: https://github.com/nocksock/dotfiles
+" EMail: nils@bleepbloop.studio
+"
+" Hit me up if you have questions about things in here or vim in general. I'd be
+" happy to help or point in directions.
 "
 
 " Plugins {{{
 
-" install plug-vim if not present {{{
-
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+" install plug-vim if not present
 if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
 
-" }}}
+" bunch of plugins without further configuration
 
 Plug 'tpope/vim-fugitive' " a git wrapper in vim
 Plug 'tpope/vim-abolish' " working with words
@@ -25,22 +29,21 @@ Plug 'tpope/vim-vinegar' " improved netrw for file browsing.
 Plug 'tpope/vim-surround' " quoting/parenthesizing made simple. Extends functionality of S
 Plug 'tpope/vim-repeat' " makes . even more powerful by adding suppor for plugins
 Plug 'tpope/vim-commentary' " comment stuff out and back in via gc/gcc
-Plug 'jiangmiao/auto-pairs' " auto insert/delete brackets, parens, quotes etc
 Plug 'tpope/vim-eunuch' " Vim sugar for the UNIX shell commands that need it the most. Like :Delete, :Move, :Chmod
+Plug 'jiangmiao/auto-pairs' " auto insert/delete brackets, parens, quotes etc
 Plug 'APZelos/blamer.nvim' " A git blame plugin for neovim inspired by VS Code's GitLens plugin
 Plug 'editorconfig/editorconfig-vim' " loads settings from .editoconfig if present
 Plug 'godlygeek/tabular' " align text at character. more powerful than :!column
-Plug 'simnalamburt/vim-mundo' " undo tree - who needs version control, when you have vim?
+Plug 'simnalamburt/vim-mundo' " browser for vim's undo tree, for when git is not enough
 Plug 'pantharshit00/vim-prisma' " syntax for prisma file
-Plug 'voldikss/vim-floaterm'
+Plug 'voldikss/vim-floaterm' " floating terminal
+
 Plug '~/projects/python-vim' " a fork of python-vim with some adjustments according to personal preferences
 Plug '~/projects/bloop-vim' " my own colorscheme, work in progress
 
-" ultisnips {{{
-" current snippet handler of choice. has some features that coc-snippets won't
-" or cannot implement.
-Plug 'SirVer/ultisnips'
+" UltiSnips {{{
 
+Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
@@ -48,94 +51,75 @@ let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
 
 " }}}
 " vim closetag {{{
-
-" automatically close tags
 " Autoclose HTML Tags - with some smartness
-Plug 'alvan/vim-closetag'
 
+Plug 'alvan/vim-closetag'
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js,*.jsx,*.tsx'
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
 let g:closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
 let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_regions = {
-    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-    \ 'javascript.jsx': 'jsxRegion',
-    \ 'typescriptreact': 'jsxRegion,tsxRegion',
-    \ 'javascriptreact': 'jsxRegion',
-    \ }
+            \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+            \ 'javascript.jsx': 'jsxRegion',
+            \ }
 let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
 " }}}
 " coc {{{
 " Nodejs extension host to load extension like vscode does and host language
-" server.
+" server. Provides a lot of useful commands.
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 
 let g:coc_global_extensions = [
-    \   'coc-css',
-    \   'coc-emmet',
-    \   'coc-eslint',
-    \   'coc-git',
-    \   'coc-html',
-    \   'coc-jest',
-    \   'coc-json',
-    \   'coc-jsref',
-    \   'coc-pairs',
-    \   'coc-svg',
-    \   'coc-php-cs-fixer',
-    \   'coc-sql',
-    \   'coc-prettier',
-    \   'coc-go',
-    \   'coc-rls',
-    \   'coc-pyright',
-    \   'coc-deno',
-    \   'coc-sh',
-    \   'coc-phpls',
-    \   'coc-prisma',
-    \   'coc-tsserver',
-    \ ]
+            \   'coc-css',
+            \   'coc-emmet',
+            \   'coc-eslint',
+            \   'coc-git',
+            \   'coc-html',
+            \   'coc-jest',
+            \   'coc-json',
+            \   'coc-jsref',
+            \   'coc-pairs',
+            \   'coc-svg',
+            \   'coc-php-cs-fixer',
+            \   'coc-sql',
+            \   'coc-prettier',
+            \   'coc-go',
+            \   'coc-rls',
+            \   'coc-pyright',
+            \   'coc-deno',
+            \   'coc-sh',
+            \   'coc-phpls',
+            \   'coc-prisma',
+            \   'coc-tsserver',
+            \ ]
 
 let g:coc_disable_transparent_cursor = 1
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Run jest for current project
-command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
-
-" Run jest for current file
-command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
-
-" Init jest in current cwd, require global jest command exists
-command! JestInit :call CocAction('runCommand', 'jest.init')
+command! -nargs=0 Format :call CocAction('format') " Add `:Format` command
+command! -nargs=? Fold :call     CocAction('fold', <f-args>) " Add `:Fold` command to fold current buffer.
+command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest') " Run jest for current project
+command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%']) " Run jest for current file
+command! JestInit :call CocAction('runCommand', 'jest.init') " Init jest in current cwd, require global jest command exists
 
 
 "}}}
@@ -152,23 +136,22 @@ let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
 
 " Add an AllFiles command that disrepsects .gitignore files
 command! -bang -nargs=? -complete=dir AllFiles
-    \ call fzf#run(fzf#wrap('allfiles',
-      \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
+            \ call fzf#run(fzf#wrap('allfiles',
+            \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
 
 " overwrite :Ag and prevent it from searching filenames
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 command! -bang -nargs=? -complete=file Notes
-    \ call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'ag ~/notes' }), <bang>0))
+            \ call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'ag ~/notes' }), <bang>0))
 
 " Only search for .tsx files. Helpful in large codebases with lots of components
 command! -bang -nargs=? -complete=file Components
-    \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
+            \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
 
 command! C Components
 
-""}}}
-
+" }}}
 
 " Polyglot
 " --------
@@ -176,10 +159,8 @@ command! C Components
 " more comfortable than adding all the languages myself - and makes peeking into
 " unknown languages easier.
 
-" disabling needs to happen before loading. The included syntax highlights don't
-" provide the level of control i'd like to have, so i'm currently using my own
-let g:polyglot_disabled = ['python.plugin']
-let g:vim_jsx_pretty_highlight_close_tag = 1
+let g:polyglot_disabled = ['python.plugin'] " disable python in favor of my own
+let g:vim_jsx_pretty_highlight_close_tag = 1 " enable highlitght
 
 Plug 'sheerun/vim-polyglot'
 
@@ -190,39 +171,39 @@ Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 
 let g:lightline = {
-      \   'colorscheme': 'bloop',
-      \   'active': {
-      \     'left': [ [ 'mode', 'paste' ],
-      \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
-      \     'right': [['filetype', 'percent', 'lineinfo']],
-      \   },
-      \   'component': {
-      \     'path': '%<%f',
-      \   },
-      \   'component_function': {
-      \     'gitbranch': 'gitbranch#name',
-      \     'cocstatus': 'coc#status'
-      \   },
-      \   'mode_map': {
-      \     'n' : 'N',
-      \     'i' : 'I',
-      \     'R' : 'R',
-      \     'v' : 'v',
-      \     'V' : 'V',
-      \     "\<C-v>": 'B',
-      \     'c' : 'C',
-      \     's' : 's',
-      \     'S' : 'S',
-      \     "\<C-s>": 'S',
-      \     't': '$'
-      \   }
-      \ }
+            \   'colorscheme': 'bloop',
+            \   'active': {
+                \     'left': [ [ 'mode', 'paste' ],
+                \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
+                \     'right': [['filetype', 'percent', 'lineinfo']],
+                \   },
+                \   'component': {
+                    \     'path': '%<%f',
+                    \   },
+                    \   'component_function': {
+                        \     'gitbranch': 'gitbranch#name',
+                        \     'cocstatus': 'coc#status'
+                        \   },
+                        \   'mode_map': {
+                            \     'n' : 'N',
+                            \     'i' : 'I',
+                            \     'R' : 'R',
+                            \     'v' : 'v',
+                            \     'V' : 'V',
+                            \     "\<C-v>": 'B',
+                            \     'c' : 'C',
+                            \     's' : 's',
+                            \     'S' : 'S',
+                            \     "\<C-s>": 'S',
+                            \     't': '$'
+                            \   }
+                            \ }
 
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 augroup user_lightline
-  au!
-  au User CocStatusChange,CocDiagnosticChange call lightline#update()
+    au!
+    au User CocStatusChange,CocDiagnosticChange call lightline#update()
 augroup END
 
 " }}}
@@ -230,7 +211,6 @@ augroup END
 call plug#end()
 
 " }}}
-
 " Basic options {{{
 let mapleader = "\<space>"
 let maplocalleader = "\<c-@>"   " use ctrl-space as local leader
@@ -243,7 +223,7 @@ set backupdir=/tmp
 set backupdir=~/.vim/tmp/backup/                         " backups
 set backupskip=/tmp/*,/private/tmp/*                     " Make Vim able to edit crontab files again.
 set breakindent                                          " wrapped lines appear indendet
-set clipboard=unnamed                                    " using * as default register - which makes system wide copy paste possible
+" set clipboard=unnamed                                    " using * as default register - which makes system wide copy paste possible
 set encoding=utf-8
 set expandtab                                            " use spaces for indentation by default
 set foldenable
@@ -297,55 +277,54 @@ colors bloop
 
 " use different undo directory for vim/nvim since they're not compatible
 if has('nvim')
-  set undodir=~/.nvim/tmp/undo/
+    set undodir=~/.nvim/tmp/undo/
 else
-  set undodir=~/.vim/tmp/undo/
-  set directory=~/.vim/tmp " Don't clutter my dirs up with swp and tmp files
+    set undodir=~/.vim/tmp/undo/
+    set directory=~/.vim/tmp " Don't clutter my dirs up with swp and tmp files
 
-  " enable italics in vim. works by default in nvim
-  let &t_ZH="\e[3m"
-  let &t_ZR="\e[23m"
+    " enable italics in vim. works by default in nvim
+    let &t_ZH="\e[3m"
+    let &t_ZR="\e[23m"
 
-  " sometimes setting termguicolors for true color support  is not enough see
-  " :he t_8b
-  set t_8b=[48;2;%lu;%lu;%lum
-  set t_8f=[38;2;%lu;%lu;%lum
+    " sometimes setting termguicolors for true color support  is not enough see
+    " :he t_8b
+    set t_8b=[48;2;%lu;%lu;%lum
+    set t_8f=[38;2;%lu;%lu;%lum
 endif
 
 " }}}
-
 " Custom functions and command definitions {{{
 
 " reload lightline entirely - useful when changing its configuration
 function! LightlineReload()
-  call lightline#init()
-  call lightline#colorscheme()
-  call lightline#update()
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
 endfunction
 
 " get some of the highlight groups for the current cursor position
 function! SynStack()
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
 " gx to open github urls in browser
 function! s:plug_gx()
-  let line = getline('.')
-  let sha  = matchstr(line, '^  \X*\zs\x\{7,9}\ze ')
-  let name = empty(sha) ? matchstr(line, '^[-x+] \zs[^:]\+\ze:')
-                      \ : getline(search('^- .*:$', 'bn'))[2:-2]
-  let uri  = get(get(g:plugs, name, {}), 'uri', '')
-  if uri !~ 'github.com'
-    return
-  endif
-  let repo = matchstr(uri, '[^:/]*/'.name)
-  let url  = empty(sha) ? 'https://github.com/'.repo
-                      \ : printf('https://github.com/%s/commit/%s', repo, sha)
-  call netrw#BrowseX(url, 0)
+    let line = getline('.')
+    let sha  = matchstr(line, '^  \X*\zs\x\{7,9}\ze ')
+    let name = empty(sha) ? matchstr(line, '^[-x+] \zs[^:]\+\ze:')
+                \ : getline(search('^- .*:$', 'bn'))[2:-2]
+    let uri  = get(get(g:plugs, name, {}), 'uri', '')
+    if uri !~ 'github.com'
+        return
+    endif
+
+    let repo = matchstr(uri, '[^:/]*/'.name)
+    let url  = empty(sha) ? 'https://github.com/'.repo
+                \ : printf('https://github.com/%s/commit/%s', repo, sha)
+    call netrw#BrowseX(url, 0)
 endfunction
 
 " }}}
-
 " mappings and motions {{{
 
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -369,109 +348,94 @@ nmap gd <Plug>(coc-definition)
 nmap gy <Plug>(coc-type-definition)
 nmap gi <Plug>(coc-implementation)
 nmap gr <Plug>(coc-references)
+nmap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
 
 " navigation
-nnoremap [d <Plug>(coc-diagnostic-prev)
-nnoremap ]d <Plug>(coc-diagnostic-next)
-nnoremap [g <Plug>(coc-git-prevchunk)
-nnoremap ]g <Plug>(coc-git-nextchunk)
-nnoremap [c <Plug>(coc-git-prevconflict)
-nnoremap ]c <Plug>(coc-git-nextconflict)
+nmap [d <Plug>(coc-diagnostic-prev)
+nmap ]d <Plug>(coc-diagnostic-next)
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
 
-nnoremap [t :tabprevious<cr>
-nnoremap ]t :tabnext<cr>
-nnoremap [T :tabfirst<cr>
-nnoremap ]T :tablast<cr>
+nmap [t :tabprevious<cr>
+nmap ]t :tabnext<cr>
+nmap [T :tabfirst<cr>
+nmap ]T :tablast<cr>
 
-nnoremap [b :bprevious<cr>
-nnoremap ]b :bnext<cr>
-nnoremap [B :bfirst<cr>
-nnoremap ]B :blast<cr>
-
-nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
+nmap [b :bprevious<cr>
+nmap ]b :bnext<cr>
+nmap [B :bfirst<cr>
+nmap ]B :blast<cr>
 
 " type %% in vim's prompt to insert %:h expanded
-cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+cmap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Keep search matches in the middle of the window
-nnoremap n nzzzv
-nnoremap N Nzzzv
+nmap n nzzzv
+nmap N Nzzzv
 
 " highlight last inserted text
-nnoremap gV `[v`]
-
-" apply autofix to problem on the current line.
-
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap gV `[v`]
 
 " leader prefix
 nnoremap <leader><leader> :Files<cr>
 
-nnoremap <leader>; :terminal ++rows=15<cr>
-nnoremap <leader>ca  <Plug>(coc-codeaction-cursor)
-nnoremap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
-nnoremap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
-nnoremap <leader>cr <Plug>(coc-rename)
-nnoremap <leader>cs :CocCommand git.chunkStage<cr>
-nnoremap <leader>cu :CocCommand git.chunkUndo<cr>
-nnoremap <leader>di <Plug>(coc-diagnostic-info)
-nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
-nnoremap <leader>fa :AllFiles<cr>
-nnoremap <leader>fb :Buffers<cr>
-nnoremap <leader>ff :Files<cr>
-nnoremap <leader>fg :GBranches<cr>
-nnoremap <leader>fh :Helptags<cr>
-nnoremap <leader>fl :Lines<cr>
-nnoremap <leader>fr :History<cr>
-nnoremap <leader>fs :Ag<cr>
-nnoremap <leader>ft :Tags<cr>
-nnoremap <leader>ga <Plug>(coc-codeaction-line)
-nnoremap <leader>gg :tab G<cr>
-nnoremap <leader>gl :BlamerToggle<cr>
-nnoremap <leader>k :nohl<cr>
-nnoremap <leader>la :CocFzfList actions<cr>
-nnoremap <leader>lc :CocFzfList commands<cr>
-nnoremap <leader>ld :CocFzfList diagnostics<cr>
-nnoremap <leader>ll :CocFzfList<cr>
-nnoremap <leader>lo :CocFzfList outline<cr>
-nnoremap <leader>lr :CocFzfList resume<cr>
-nnoremap <leader>ls :CocList symbols<cr>
-nnoremap <leader>tf :15Lex<cr>
-nnoremap <leader>tg :set termguicolors!<cr>  | " toggle rgb and 256 colors
-nnoremap <leader>ts :call SynStack()<cr>     | " show syntax stack under curso for theming
-nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR> | " Run jest for current test
-nnoremap <leader>u :MundoToggle<cr>
-nnoremap <leader>vc :nohl<cr>:call popup_clear()<cr>
-xnoremap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>; :terminal ++rows=15<cr>
+nmap <leader>ca  <Plug>(coc-codeaction-cursor)
+nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
+nmap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
+nmap <leader>cr <Plug>(coc-rename)
+nmap <leader>cs :CocCommand git.chunkStage<cr>
+nmap <leader>cu :CocCommand git.chunkUndo<cr>
+nmap <leader>di <Plug>(coc-diagnostic-info)
+nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
+nmap <leader>fa :AllFiles<cr>
+nmap <leader>fb :Buffers<cr>
+nmap <leader>ff :Files<cr>
+nmap <leader>fg :GBranches<cr>
+nmap <leader>fh :Helptags<cr>
+nmap <leader>fl :Lines<cr>
+nmap <leader>fr :History<cr>
+nmap <leader>fs :Ag<cr>
+nmap <leader>ft :Tags<cr>
+nmap <leader>ga <Plug>(coc-codeaction-line)
+nmap <leader>gg :tab G<cr>
+nmap <leader>gl :BlamerToggle<cr>
+nmap <leader>k :nohl<cr>
+nmap <leader>la :CocFzfList actions<cr>
+nmap <leader>lc :CocFzfList commands<cr>
+nmap <leader>ld :CocFzfList diagnostics<cr>
+nmap <leader>ll :CocFzfList<cr>
+nmap <leader>lo :CocFzfList outline<cr>
+nmap <leader>lr :CocFzfList resume<cr>
+nmap <leader>ls :CocList symbols<cr>
+nmap <leader>tf :15Lex<cr>
+nmap <leader>tg :set termguicolors!<cr>  | " toggle rgb and 256 colors
+nmap <leader>ts :call SynStack()<cr>     | " show syntax stack under curso for theming
+nmap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR> | " Run jest for current test
+nmap <leader>u :MundoToggle<cr>
+nmap <leader>vc :nohl<cr>:call popup_clear()<cr>
+xmap <leader>a  <Plug>(coc-codeaction-selected)
 
-nnoremap   <silent>   <F12>   :FloatermToggle<CR>
-tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+nmap   <silent>   <F12>   :FloatermToggle<CR>
+tmap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
 
 " for muscle memory
-noremap <c-s> :w<cr>
-inoremap <c-s> <esc>:w<cr>i
-
-" toggle floaterm
-tnoremap      <c-\>   <C-\><C-n>:FloatermToggle<CR>
-nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
+nmap <c-s> :w<cr>
+imap <c-s> <esc>:w<cr>i
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <silent> K :call <SID>show_documentation()<CR>
 
 " Easy insertion of a trailing ; or , from insert mode
 inoremap ;; <Esc>A;<Esc>
 inoremap ,, <Esc>A,<Esc>
 
-" Open current window in a new tab - useful for 'zooming' a window
-nnoremap <c-w><space> :tab split<cr>
-tnoremap <c-w><space> <c-w>:tab split<cr>
-
-" search for word under cursor - without jumping to next or adding a jump in the
-" jumplist. Useful in combination with cgn or to quickly highlight a word
+" search for word under cursor without jumping
 nnoremap * :keepjumps normal! mi*`i<CR>
 
 " }}}
-
 " Config Meta {{{
 
 " load local .vim if present
@@ -486,116 +450,75 @@ endif
 augroup line_return
     au!
     au BufReadPost *
-      \ if line("'\"") > 0 && line("'\"") <= line("$") |
-      \     execute 'normal! g`"zvzz' |
-      \ endif
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \     execute 'normal! g`"zvzz' |
+                \ endif
 augroup END
 
 " When saving a buffer, create directories if they do not yet exist.
 augroup Mkdir
-  autocmd!
-  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
+    autocmd!
+    autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
 augroup END
 
 " }}}
-
 " File Type Specifcs {{{
+" [j|t]sx? {{{
 
-" [t|j]sx? {{{
-
-augroup  ft_jsts
-  au!
-
-  " force vim to parse the *entire* file from start. should fix seemingly
-  " unmatched braces etc.
-  autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-  autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-augroup END
-
-""}}}
-" javascript {{{
-" a lot of codebases include js in their js files, so this handles both.
-
-augroup ft_javascript
+augroup ft_jtsx
     au!
-    au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
-    au FileType javascript.jsx setlocal foldmethod=syntax
 
+    au BufNewFile,BufRead *.ts setlocal filetype=typescript
+    au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
+    au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+
+    " force vim to parse the *entire* file from start. should fix seemingly
+    " unmatched braces etc.
+    autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+    autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+    au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
+    au FileType javascript nmap <localleader>s :e %:r:r.stories.js<cr>
+    au FileType javascript nmap <localleader>t :e %:r:r.spec.js<cr>
+    au FileType javascript nmap <localleader>m :e %:r:r.js<cr>
+
+    au FileType javascript.jsx setlocal foldmethod=syntax
     au InsertLeave javascript.jsx setlocal nolist
     au InsertEnter javascript.jsx setlocal list
-    au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
+    au FileType javascript.jsx nmap <localleader>s :e %:r:r.stories.jsx<cr>
+    au FileType javascript.jsx nmap <localleader>t :e %:r:r.spec.jsx<cr>
+    au FileType javascript.jsx nmap <localleader>m :e %:r:r.jsx<cr>
 
-    au FileType *.js nmap <localleader>s :e %:r:r.stories.js<cr>
-    au FileType *.js nmap <localleader>t :e %:r:r.spec.js<cr>
-    au FileType *.js nmap <localleader>m :e %:r:r.js<cr>
-    au FileType *.jsx nmap <localleader>s :e %:r:r.stories.jsx<cr>
-    au FileType *.jsx nmap <localleader>t :e %:r:r.spec.jsx<cr>
-    au FileType *.jsx nmap <localleader>m :e %:r:r.jsx<cr>
+    au FileType typescript setlocal foldmethod=syntax
+    au FileType typescript setlocal iskeyword+=-
+    au FileType typescript setlocal formatprg=prettier\ --parser\ typescript\ --stdin-filepath\ %
+    au FileType typescript setlocal formatexpr= 	" reset Fixedgq from polyglot
+    au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
+    au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
+
+    au FileType typescript.tsx setlocal foldmethod=syntax
+    au FileType typescript.tsx setlocal iskeyword+=-
+    au FileType typescript.tsx setlocal foldlevel=3
+    au FileType typescript.tsx nmap <localleader>s :e %:r:r.stories.tsx<cr>
+    au FileType typescript.tsx nmap <localleader>t :e %:r:r.spec.tsx<cr>
+    au FileType typescript.tsx nmap <localleader>m :e %:r:r.tsx<cr>
 augroup END
 
-""}}}
-" typescript {{{
+" }}}
+" misc {{{
 
-augroup ft_typescript
-  au!
-  au BufNewFile,BufRead *.ts setlocal filetype=typescript
-  au FileType typescript setlocal foldmethod=syntax
-  au FileType typescript setlocal iskeyword+=-
-  au FileType typescript setlocal formatprg=prettier\ --parser\ typescript\ --stdin-filepath\ %
-  " reset Fixedgq from polyglot
-  au FileType typescript setlocal formatexpr=
-  au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
-  au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
-augroup END
-
-""}}}
-" typescriptreact {{{
-
-augroup ft_typescript_tsx
-  au!
-  au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
-  au FileType typescriptreact setlocal foldmethod=syntax
-  au FileType typescriptreact setlocal iskeyword+=-
-  au FileType typescriptreact setlocal foldlevel=3
-  au FileType typescriptreact nmap <localleader>s :e %:r:r.stories.tsx<cr>
-  au FileType typescriptreact nmap <localleader>t :e %:r:r.spec.tsx<cr>
-  au FileType typescriptreact nmap <localleader>m :e %:r:r.tsx<cr>
-augroup END
-
-""}}}
-" zsh {{{
-
-augroup ft_zsh
+augroup ft_misc
     au!
+
     au BufNewFile,BufRead *.zsh-theme setlocal filetype=zsh
-augroup END
+    au BufNewFile,BufRead *.env.local setlocal filetype=sh
+    au BufNewFile,BufRead *.md setlocal textwidth=80
+    au BufNewFile,BufRead *.md setlocal fo+=t " auto wrap at text width
 
-""}}}
-" vimrc {{{
-
-augroup ft_vimrc
-  autocmd!
-  autocmd FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
-  autocmd FileType vim setlocal iskeyword+=-
-augroup END
-
-""}}}
-" local .env files {{{
-
-augroup ft_env
-  au!
-  au BufNewFile,BufRead *.env.local setlocal filetype=sh
+    au FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
+    au FileType vim setlocal iskeyword+=-
+    au CursorHold * silent call CocActionAsync('highlight') " Highlight the symbol and its references when holding the cursor.
 augroup END
 
 " }}}
-" md {{{
-
-augroup ft_md
-  au!
-  au BufNewFile,BufRead *.md setlocal textwidth=80
-  au BufNewFile,BufRead *.md setlocal fo+=t " auto wrap at text width
-augroup END
-
-" }}}
-
 " }}}
