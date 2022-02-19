@@ -315,8 +315,8 @@ set foldnestmax=10
 set formatoptions=qrn1j " format options when writing, joining lines or `gq` see  :he fo-table for meanings
 set gdefault                                             " add g flag by default for :substitutions
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
-set hlsearch
 set history=10000 " keep way more commands in history
+set hlsearch
 set ignorecase
 set incsearch                                           " enable incremental search that would make vim jump around while typing
 set laststatus=2                                         " Always show status line.
@@ -324,17 +324,17 @@ set list                                                 " Show invisible charac
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪ " define characters for invisible characters
 set mouse=a                                              " enable scrolling and selecting with mouse
 set nocursorline                                         " Highlight the line of in which the cursor is present (or not)
+set noshowmode                                           " Don't show mode (insert, visual etc) on the last line. Is handled by lightline
 set noswapfile                                           " It's 2012, Vim.
 set nowrap                                               " don't wrap text around when the window is too small
 set nu rnu                                               " show *HYBRID* line numbers, relative line numbers + current line number
 set ruler                                                " show the cursor position all the time
+set scrolloff=2                                          " always have 2 lines more visible when reaching top/end of a window when scrolling
 set shell=/bin/zsh                                       " set default shell for :shell
 set shiftround                                           " When at 3 spaces and I hit >>, go to 4, not 5.
 set shiftwidth=2
 set showcmd                                              " display incomplete commands
-set scrolloff=2                                          " always have 2 lines more visible when reaching top/end of a window when scrolling
 set showmatch                                            " Highlight matching bracket
-set noshowmode                                           " Don't show mode (insert, visual etc) on the last line. Is handled by lightline
 set smartcase                                            " ignore 'ignorecase' when search contains uppercase characters
 set softtabstop=2
 set splitbelow                                           " When on, splitting a window will put the new window below the current one
@@ -344,6 +344,7 @@ set t_ut=
 set tabstop=2
 set termguicolors                                        " enable 24bit colors
 set textwidth=80
+set undofile
 set updatetime=1000                                      " how often to write swapfiles - some plugins, eg git-gutter use this for their update interval too
 set wildignore+=*.DS_Store                               " OSX bullshit
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg           " binary images
@@ -355,7 +356,6 @@ set wildmode=longest,list,full
 let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
 
 syntax on
-
 colors bloop
 
 " use different undo directory for vim/nvim since they're not compatible
@@ -363,8 +363,7 @@ if has('nvim')
   set undodir=~/.nvim/tmp/undo/
 else
   set undodir=~/.vim/tmp/undo/
-  " Don't clutter my dirs up with swp and tmp files
-  set directory=~/.vim/tmp
+  set directory=~/.vim/tmp " Don't clutter my dirs up with swp and tmp files
 
   " enable italics in vim. works by default in nvim
   let &t_ZH="\e[3m"
@@ -375,8 +374,6 @@ else
   set t_8b=[48;2;%lu;%lu;%lum
   set t_8f=[38;2;%lu;%lu;%lum
 endif
-
-set undofile
 
 " }}}
 
@@ -412,126 +409,8 @@ endfunction
 
 " }}}
 
-" Key Mappings {{{
-" This is a messy mess. I will find a nicer way of structuring them at some
-" point, but for now losely grouping them will do. Trying to come up with
-" a cohesive system loosely based around prefixes and scopes.
+" mappings and motions {{{
 
-" c: Code actions {{{
-
-" apply autofix to problem on the current line.
-nmap <leader>ca  <Plug>(coc-codeaction-cursor)
-nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
-nnoremap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
-
-" Symbol renaming.
-nmap <leader>cr <Plug>(coc-rename)
-
-" Chunks
-nmap <silent> <leader>cu :CocCommand git.chunkUndo<cr>
-nmap <silent> <leader>cs :CocCommand git.chunkStage<cr>
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>ga  <Plug>(coc-codeaction-line)
-
-" }}}
-" d: diagnostics {{{
-
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> <leader>di <Plug>(coc-diagnostic-info)
-
-" }}}
-" e: edit {{{
-
-noremap <leader>ev :tabnew ~/dotfiles/.vimrc<CR>
-noremap <leader>ez :tabnew ~/dotfiles/.zshrc<CR>
-noremap <leader>et :tabnew ~/dotfiles/.tmux.conf<CR>
-noremap <leader>ec :tabnew ~/dotfiles/.vim/coc-settings.json<CR>
-noremap <leader>ea :tabnew ~/dotfiles/alacritty.yml<CR>
-noremap <leader>es :UltiSnipsEdit<CR>
-noremap <leader>rr :source ~/.vimrc<CR>
-
-" }}}
-" f, FZF {{{
-
-nnoremap <leader>fa :AllFiles<cr>
-nnoremap <leader>fb :Buffers<cr>
-nnoremap <leader>ff :Files<cr>
-nnoremap <leader>fl :Lines<cr>
-nnoremap <leader>fg :GBranches<cr>
-nnoremap <leader>fh :Helptags<cr>
-nnoremap <leader>fr :History<cr>
-nnoremap <leader>fs :Ag<cr>
-nnoremap <leader><leader> :Files<cr>
-nnoremap <leader>ft :Tags<cr>
-
-" }}}
-" g: goto {{{
-
-" gx to open links
-nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" }}}
-" l: Lists {{{
-
-" show CocList via Fzf
-nmap <leader>ll :CocFzfList<cr>
-nmap <leader>la :CocFzfList actions<cr>
-nmap <leader>lc :CocFzfList commands<cr>
-nmap <leader>lo :CocFzfList outline<cr>
-nmap <leader>ls :CocList symbols<cr>
-nmap <leader>ld :CocFzfList diagnostics<cr>
-nmap <leader>lr :CocFzfList resume<cr>
-
-" }}}
-" t, Tabs {{{
-
-nnoremap <C-t> <esc>:tabnew<cr>
-
-nnoremap <leader>tn :tabnext<cr>
-nnoremap <leader>tp :tabprevious<cr>
-nnoremap <leader>tf :tabfirst<cr>
-nnoremap <leader>tl :tablast<cr>
-
-" Go to last active tab
-au TabLeave * let g:lasttab = tabpagenr()
-
-" }}}
-" v, views {{{
-
-noremap <silent> <leader>vc :nohl<cr>:call popup_clear()<cr>
-noremap <silent> <leader>k :nohl<cr>
-noremap <silent> <leader>u :MundoToggle<cr>
-
-" }}}
-" Autocomplete {{{
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-""}}}
-" Movements and text objects {{{
-
-" Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
@@ -541,40 +420,38 @@ xmap ic <Plug>(coc-classobj-i)
 omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
-
-" Use `[d` and `]d` to navigate diagnostics.
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
-
-" navigate chunks of current buffer
-nmap [g <Plug>(coc-git-prevchunk)
-nmap ]g <Plug>(coc-git-nextchunk)
-
-" navigate conflicts of current buffer
-nmap [c <Plug>(coc-git-prevconflict)
-nmap ]c <Plug>(coc-git-nextconflict)
-
-" show chunk diff at current position
-nmap gs <Plug>(coc-git-chunkinfo)
-
-" show commit contains current position
-nmap gb <Plug>(coc-git-commit)
-
-" create text object for git chunks
 omap ig <Plug>(coc-git-chunk-inner)
 xmap ig <Plug>(coc-git-chunk-inner)
 omap ag <Plug>(coc-git-chunk-outer)
 xmap ag <Plug>(coc-git-chunk-outer)
 
-" buffer switching
-nnoremap <silent> [b :bprevious<cr>
-nnoremap <silent> ]b :bnext<cr>
-nnoremap <silent> [B :bfirst<cr>
-nnoremap <silent> ]B :blast<cr>
+" goto
+nmap gs <Plug>(coc-git-chunkinfo)
+nmap gb <Plug>(coc-git-commit)
+nmap gd <Plug>(coc-definition)
+nmap gy <Plug>(coc-type-definition)
+nmap gi <Plug>(coc-implementation)
+nmap gr <Plug>(coc-references)
 
-" motion: select all or the inside of folds
-xnoremap az [zo]z
-xnoremap iz [zjo]zk
+" navigation
+nmap [d <Plug>(coc-diagnostic-prev)
+nmap ]d <Plug>(coc-diagnostic-next)
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+
+nnoremap [t :tabprevious<cr>
+nnoremap ]t :tabnext<cr>
+nnoremap [T :tabfirst<cr>
+nnoremap ]T :tablast<cr>
+
+nnoremap [b :bprevious<cr>
+nnoremap ]b :bnext<cr>
+nnoremap [B :bfirst<cr>
+nnoremap ]B :blast<cr>
+
+nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
 
 " type %% in vim's prompt to insert %:h expanded
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -583,16 +460,52 @@ cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" C-R in visual mode to replace selected text
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
-
 " highlight last inserted text
 nnoremap gV `[v`]
 
-" }}}
-" Miscallaneous {{{
+" apply autofix to problem on the current line.
 
-nmap <tab> :Buffers<cr>
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+
+" leader prefix
+nnoremap <leader><leader> :Files<cr>
+
+nnoremap <leader>; :terminal ++rows=15<cr>
+nnoremap <leader>ca  <Plug>(coc-codeaction-cursor)
+nnoremap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
+nnoremap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
+nnoremap <leader>cr <Plug>(coc-rename)
+nnoremap <leader>cs :CocCommand git.chunkStage<cr>
+nnoremap <leader>cu :CocCommand git.chunkUndo<cr>
+nnoremap <leader>di <Plug>(coc-diagnostic-info)
+nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
+nnoremap <leader>fa :AllFiles<cr>
+nnoremap <leader>fb :Buffers<cr>
+nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fg :GBranches<cr>
+nnoremap <leader>fh :Helptags<cr>
+nnoremap <leader>fl :Lines<cr>
+nnoremap <leader>fr :History<cr>
+nnoremap <leader>fs :Ag<cr>
+nnoremap <leader>ft :Tags<cr>
+nnoremap <leader>ga <Plug>(coc-codeaction-line)
+nnoremap <leader>gg :tab G<cr>
+nnoremap <leader>gl :BlamerToggle<cr>
+nnoremap <leader>k :nohl<cr>
+nnoremap <leader>la :CocFzfList actions<cr>
+nnoremap <leader>lc :CocFzfList commands<cr>
+nnoremap <leader>ld :CocFzfList diagnostics<cr>
+nnoremap <leader>ll :CocFzfList<cr>
+nnoremap <leader>lo :CocFzfList outline<cr>
+nnoremap <leader>lr :CocFzfList resume<cr>
+nnoremap <leader>ls :CocList symbols<cr>
+nnoremap <leader>tf :15Lex<cr>
+nnoremap <leader>tg :set termguicolors!<cr>  | " toggle rgb and 256 colors
+nnoremap <leader>ts :call SynStack()<cr>     | " show syntax stack under curso for theming
+nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR> | " Run jest for current test
+nnoremap <leader>u :MundoToggle<cr>
+nnoremap <leader>vc :nohl<cr>:call popup_clear()<cr>
+xnoremap <leader>a  <Plug>(coc-codeaction-selected)
 
 " for muscle memory
 noremap <c-s> :w<cr>
@@ -602,22 +515,8 @@ inoremap <c-s> <esc>:w<cr>i
 tnoremap      <c-\>   <C-\><C-n>:FloatermToggle<CR>
 nnoremap      <c-\>   <C-J><C-n>:FloatermToggle<CR>
 
-" Run jest for current test
-nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR>
-
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-
-" delete trailing spaces
-nmap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 
 " Easy insertion of a trailing ; or , from insert mode
 imap ;; <Esc>A;<Esc>
@@ -627,27 +526,10 @@ imap ,, <Esc>A,<Esc>
 nnoremap <c-w><space> :tab split<cr>
 tnoremap <c-w><space> <c-w>:tab split<cr>
 
-" toggle file-tree (netrw's explorer)
-noremap <leader>tf :15Lex<cr>
-
-" open terminal at the bottom
-noremap <leader>; :terminal ++rows=15<cr>
-
 " search for word under cursor - without jumping to next or adding a jump in the
 " jumplist. Useful in combination with cgn.
 nnoremap * :keepjumps normal! mi*`i<CR>
 
-" show syntax stack under curso for theming
-noremap <leader>ts :call SynStack()<cr>
-
-" toggle rgb and 256 colors
-noremap <leader>tg :set termguicolors!<cr>
-
-" Git bindings
-noremap <leader>gg :tab G<cr>
-noremap <leader>gl :BlamerToggle<cr>
-
-" }}}
 " }}}
 
 " Config Meta {{{
@@ -765,7 +647,7 @@ augroup ft_env
   au BufNewFile,BufRead *.env.local setlocal filetype=sh
 augroup END
 
-""}}}
+" }}}
 " md {{{
 
 augroup ft_md
@@ -777,4 +659,3 @@ augroup END
 " }}}
 
 " }}}
-
