@@ -31,7 +31,6 @@ Plug 'tpope/vim-repeat' " makes . even more powerful by adding suppor for plugin
 Plug 'tpope/vim-commentary' " comment stuff out and back in via gc/gcc
 Plug 'tpope/vim-eunuch' " Vim sugar for the UNIX shell commands that need it the most. Like :Delete, :Move, :Chmod
 Plug 'jiangmiao/auto-pairs' " auto insert/delete brackets, parens, quotes etc
-Plug 'APZelos/blamer.nvim' " A git blame plugin for neovim inspired by VS Code's GitLens plugin
 Plug 'editorconfig/editorconfig-vim' " loads settings from .editoconfig if present
 Plug 'godlygeek/tabular' " align text at character. more powerful than :!column
 Plug 'simnalamburt/vim-mundo' " browser for vim's undo tree, for when git is not enough
@@ -401,7 +400,6 @@ nmap <leader>fs :Ag<cr>
 nmap <leader>ft :Tags<cr>
 nmap <leader>ga <Plug>(coc-codeaction-line)
 nmap <leader>gg :tab G<cr>
-nmap <leader>gl :BlamerToggle<cr>
 nmap <leader>k :nohl<cr>
 nmap <leader>la :CocFzfList actions<cr>
 nmap <leader>lc :CocFzfList commands<cr>
