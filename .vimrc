@@ -27,6 +27,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-fugitive' " a git wrapper in vim
 Plug 'tpope/vim-abolish' " working with words
 Plug 'tpope/vim-vinegar' " improved netrw for file browsing.
+Plug 'tpope/vim-scriptease' " helpers for vim scripting and plugin authoring
 Plug 'tpope/vim-surround' " quoting/parenthesizing made simple. Extends functionality of S
 Plug 'tpope/vim-repeat' " makes . even more powerful by adding suppor for plugins
 Plug 'tpope/vim-commentary' " comment stuff out and back in via gc/gcc
@@ -39,7 +40,7 @@ Plug 'pantharshit00/vim-prisma' " syntax for prisma file
 Plug 'voldikss/vim-floaterm' " floating terminal
 
 Plug '~/projects/python-vim' " a fork of python-vim with some adjustments according to personal preferences
-Plug '~/projects/bloop-vim' " my own colorscheme, work in progress
+Plug 'nocksock/bloop-vim' " my own colorscheme, work in progress
 
 " UltiSnips {{{
 
@@ -116,11 +117,11 @@ function! s:show_documentation()
 endfunction
 
 command! -nargs=0 Format :call CocAction('format') " Add `:Format` command
-command! -nargs=? Fold :call     CocAction('fold', <f-args>) " Add `:Fold` command to fold current buffer.
-command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest') " Run jest for current project
-command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%']) " Run jest for current file
+command! -nargs=? Fold :call CocAction('fold', <f-args>) " Add `:Fold` command to fold current buffer.
+command! -nargs=0 Jest :call CocAction('runCommand', 'jest.projectTest') " Run jest for current project
+command! -nargs=0 JestCurrent :call CocAction('runCommand', 'jest.fileTest', ['%']) " Run jest for current file
 command! JestInit :call CocAction('runCommand', 'jest.init') " Init jest in current cwd, require global jest command exists
-
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport') " Add `:OR` command for organize imports of the current buffer.
 
 "}}}
 " FZF {{{
@@ -133,23 +134,6 @@ Plug 'stsewd/fzf-checkout.vim' " git branches etc
 let g:fzf_layout = { 'up': '~90%', 'window': { 'width': 0.8, 'height': 0.8, 'yoffset':0.5, 'xoffset': 0.5 } }
 let g:fzf_preview_window = ['up:50%', 'ctrl-/']
 let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
-
-" Add an AllFiles command that disrepsects .gitignore files
-command! -bang -nargs=? -complete=dir AllFiles
-            \ call fzf#run(fzf#wrap('allfiles',
-            \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
-
-" overwrite :Ag and prevent it from searching filenames
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-
-command! -bang -nargs=? -complete=file Notes
-            \ call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'ag ~/notes' }), <bang>0))
-
-" Only search for .tsx files. Helpful in large codebases with lots of components
-command! -bang -nargs=? -complete=file Components
-            \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
-
-command! C Components
 
 " }}}
 
@@ -302,11 +286,6 @@ function! LightlineReload()
     call lightline#update()
 endfunction
 
-" get some of the highlight groups for the current cursor position
-function! SynStack()
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
 " gx to open github urls in browser
 function! s:plug_gx()
     let line = getline('.')
@@ -323,6 +302,26 @@ function! s:plug_gx()
                 \ : printf('https://github.com/%s/commit/%s', repo, sha)
     call netrw#BrowseX(url, 0)
 endfunction
+
+" Add an AllFiles command that disrepsects .gitignore files
+command! -bang -nargs=? -complete=dir AllFiles
+            \ call fzf#run(fzf#wrap('allfiles',
+            \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }), <bang>0))
+
+" overwrite :Ag and prevent it from searching filenames
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
+command! -bang -nargs=? -complete=file Notes
+            \ call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'ag ~/notes' }), <bang>0))
+
+" Only search for .tsx files. Helpful in large codebases with lots of components
+command! -bang -nargs=? -complete=file Components
+            \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
+
+command! C Components
+command! H Helptags
+command! B Buffers
+command! GG :tab G
 
 " }}}
 " mappings and motions {{{
@@ -379,46 +378,36 @@ nmap N Nzzzv
 nmap gV `[v`]
 
 " leader prefix
-nnoremap <leader><leader> :Files<cr>
+" -------------
+" I'm trying to use less of these and use commands instead since they're more
+" flexible, easier to discover and remember too. Some of these should rather be
+" operators anyway.
 
+" Just a few that I feel add a lot of efficiency or comfort.
+nmap <leader>f :Ag<cr>
+nmap <leader><leader> :Files<cr>
 nmap <leader>; :terminal ++rows=15<cr>
+nmap <leader>gs :tab G<cr>
+nmap <leader>/ :nohl<cr>
+nmap <leader>ll :CocFzfList<cr>
+nmap <leader>ld :CocFzfList diagnostics<cr>
+nmap <leader>lo :CocFzfList outline<cr>
+nmap <leader>ls :CocList symbols<cr>
+
+" TODO: turn these into motions/operators {{{
+nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
 nmap <leader>ca  <Plug>(coc-codeaction-cursor)
 nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
 nmap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
 nmap <leader>cr <Plug>(coc-rename)
+nmap <leader>di <Plug>(coc-diagnostic-info)
 nmap <leader>cs :CocCommand git.chunkStage<cr>
 nmap <leader>cu :CocCommand git.chunkUndo<cr>
-nmap <leader>di <Plug>(coc-diagnostic-info)
-nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
-nmap <leader>fa :AllFiles<cr>
-nmap <leader>fb :Buffers<cr>
-nmap <leader>ff :Files<cr>
-nmap <leader>fg :GBranches<cr>
-nmap <leader>fh :Helptags<cr>
-nmap <leader>fl :Lines<cr>
-nmap <leader>fr :History<cr>
-nmap <leader>fs :Ag<cr>
-nmap <leader>ft :Tags<cr>
 nmap <leader>ga <Plug>(coc-codeaction-line)
-nmap <leader>gg :tab G<cr>
-nmap <leader>k :nohl<cr>
-nmap <leader>la :CocFzfList actions<cr>
-nmap <leader>lc :CocFzfList commands<cr>
-nmap <leader>ld :CocFzfList diagnostics<cr>
-nmap <leader>ll :CocFzfList<cr>
-nmap <leader>lo :CocFzfList outline<cr>
-nmap <leader>lr :CocFzfList resume<cr>
-nmap <leader>ls :CocList symbols<cr>
-nmap <leader>tf :15Lex<cr>
-nmap <leader>tg :set termguicolors!<cr>  | " toggle rgb and 256 colors
-nmap <leader>ts :call SynStack()<cr>     | " show syntax stack under curso for theming
-nmap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR> | " Run jest for current test
-nmap <leader>u :MundoToggle<cr>
-nmap <leader>vc :nohl<cr>:call popup_clear()<cr>
-xmap <leader>a  <Plug>(coc-codeaction-selected)
+" }}}
 
-nmap   <silent>   <F12>   :FloatermToggle<CR>
-tmap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+nmap <silent> <F12> :FloatermToggle<CR>
+tmap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
 
 " for muscle memory
 nmap <c-s> :w<cr>
@@ -521,3 +510,4 @@ augroup END
 
 " }}}
 " }}}
+" vim: set foldlevel=0
