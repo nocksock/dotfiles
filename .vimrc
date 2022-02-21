@@ -218,7 +218,6 @@ set gdefault                                             " add g flag by default
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
 set history=10000 " keep way more commands in history
 set hlsearch
-set ignorecase
 set incsearch                                           " enable incremental search that would make vim jump around while typing
 set laststatus=2                                         " Always show status line.
 set list                                                 " Show invisible characters
