@@ -1,15 +1,14 @@
-" Moin!
 "
-" This is my messy but *also* large .vimrc.
+" Hi!
+"
+"   This is my messy but *also* large .vimrc
 "
 " Author: Nils Riedemann
 " Website: https://bleepbloop.studio/
 " Repository: https://github.com/nocksock/dotfiles
 " EMail: nils@bleepbloop.studio
 "
-" Hit me up if you have questions about things in here or vim in general. I'd be
-" happy to help or point in directions.
-"
+" ==============================================================================
 
 " Plugins {{{
 
