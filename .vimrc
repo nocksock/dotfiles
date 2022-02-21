@@ -67,7 +67,7 @@ let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
 " }}}
-" coc {{{
+" #coc {{{
 " Nodejs extension host to load extension like vscode does and host language
 " server. Provides a lot of useful commands.
 
@@ -123,7 +123,7 @@ command! JestInit :call CocAction('runCommand', 'jest.init') " Init jest in curr
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport') " Add `:OR` command for organize imports of the current buffer.
 
 "}}}
-" FZF {{{
+" #fzf {{{
 " The glorious file finder integrated directly in vim
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -194,7 +194,7 @@ augroup END
 call plug#end()
 
 " }}}
-" Basic options {{{
+" #set basic options {{{
 let mapleader = "\<space>"
 let maplocalleader = "\<c-@>"   " use ctrl-space as local leader
 
@@ -275,7 +275,7 @@ else
 endif
 
 " }}}
-" Custom functions and command definitions {{{
+" Custom #functions and #command definitions {{{
 
 " reload lightline entirely - useful when changing its configuration
 function! LightlineReload()
@@ -325,7 +325,7 @@ command! B Buffers
 command! GG :tab G
 
 " }}}
-" mappings and motions {{{
+" #mappings and #motions {{{
 
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
@@ -425,7 +425,7 @@ inoremap ,, <Esc>A,<Esc>
 nnoremap * :keepjumps normal! mi*`i<CR>
 
 " }}}
-" Config Meta {{{
+" config #meta {{{
 
 " load local .vim if present
 let b:thisdir=expand("%:p:h")
@@ -451,7 +451,7 @@ augroup Mkdir
 augroup END
 
 " }}}
-" File Type Specifcs {{{
+" file type specifcs #ft {{{
 " [j|t]sx? {{{
 
 augroup ft_jtsx
