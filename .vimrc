@@ -37,6 +37,8 @@ Plug 'godlygeek/tabular' " align text at character. more powerful than :!column
 Plug 'simnalamburt/vim-mundo' " browser for vim's undo tree, for when git is not enough
 Plug 'pantharshit00/vim-prisma' " syntax for prisma file
 Plug 'voldikss/vim-floaterm' " floating terminal
+Plug 'alok/notational-fzf-vim' " notational velocity style notes
+let g:nv_search_paths = ['~/notes', 'readme.md', 'notes.md']
 
 Plug '~/projects/python-vim' " a fork of python-vim with some adjustments according to personal preferences
 Plug 'nocksock/bloop-vim' " my own colorscheme, work in progress
@@ -394,6 +396,9 @@ nmap <leader>ll :CocFzfList<cr>
 nmap <leader>ld :CocFzfList diagnostics<cr>
 nmap <leader>lo :CocFzfList outline<cr>
 nmap <leader>ls :CocList symbols<cr>
+nmap <leader>X :10split ~/notes/x<cr>
+nmap <leader>x :10split notes.md<cr>
+nnoremap <leader>n :NV<CR>
 
 " TODO: consider turning these into motions/operators {{{
 nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
