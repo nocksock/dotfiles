@@ -506,6 +506,10 @@ augroup ft_misc
 
   au FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
   au FileType vim setlocal iskeyword+=-
+
+  au FileType php let b:AutoPairs = AutoPairsDefine({'<?' : '?>', '<?php': '?>'})
+  au FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
+
   au CursorHold * silent call CocActionAsync('highlight') " Highlight the symbol and its references when holding the cursor.
 augroup END
 
