@@ -511,4 +511,5 @@ augroup END
 
 " }}}
 " }}}
-" vim: set foldlevel=0
+
+" vim:fen fdm=marker fmr={{{,}}} fdl=0 ft=vim
