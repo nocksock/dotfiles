@@ -35,6 +35,7 @@ Plug 'jiangmiao/auto-pairs' " auto insert/delete brackets, parens, quotes etc
 Plug 'editorconfig/editorconfig-vim' " loads settings from .editoconfig if present
 Plug 'godlygeek/tabular' " align text at character. more powerful than :!column
 Plug 'simnalamburt/vim-mundo' " browser for vim's undo tree, for when git is not enough
+Plug 'junegunn/gv.vim' " commit browser
 Plug 'pantharshit00/vim-prisma' " syntax for prisma file
 Plug 'voldikss/vim-floaterm' " floating terminal
 Plug 'alok/notational-fzf-vim' " notational velocity style notes
@@ -101,6 +102,7 @@ let g:coc_global_extensions = [
       \ ]
 
 let g:coc_disable_transparent_cursor = 1
+let g:coc_snippet_next = '<c-l>'
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -208,7 +210,6 @@ set backupdir=/tmp
 set backupdir=~/.vim/tmp/backup/                         " backups
 set backupskip=/tmp/*,/private/tmp/*                     " Make Vim able to edit crontab files again.
 set breakindent                                          " wrapped lines appear indendet
-" set clipboard=unnamed                                    " using * as default register - which makes system wide copy paste possible
 set encoding=utf-8
 set expandtab                                            " use spaces for indentation by default
 set foldenable
@@ -219,7 +220,7 @@ set gdefault                                             " add g flag by default
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
 set history=10000 " keep way more commands in history
 set hlsearch
-set incsearch                                           " enable incremental search that would make vim jump around while typing
+set incsearch                                            " enable incremental search that would make vim jump around while typing
 set laststatus=2                                         " Always show status line.
 set list                                                 " Show invisible characters
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪ " define characters for invisible characters
@@ -229,7 +230,6 @@ set noshowmode                                           " Don't show mode (inse
 set noswapfile                                           " It's 2012, Vim.
 set nowrap                                               " don't wrap text around when the window is too small
 set nu rnu                                               " show *HYBRID* line numbers, relative line numbers + current line number
-set ruler                                                " show the cursor position all the time
 set scrolloff=2                                          " always have 2 lines more visible when reaching top/end of a window when scrolling
 set shell=/bin/zsh                                       " set default shell for :shell
 set shiftround                                           " When at 3 spaces and I hit >>, go to 4, not 5.
@@ -246,11 +246,10 @@ set tabstop=2
 set termguicolors                                        " enable 24bit colors
 set textwidth=80
 set undofile
-set updatetime=1000                                      " how often to write swapfiles - some plugins, eg git-gutter use this for their update interval too
-set wildignore+=*.DS_Store                               " OSX bullshit
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg           " binary images
-set wildignore+=*.sw?                                    " Vim swap files
-set wildignore+=.hg,.git,.svn                            " Version control
+set updatetime=1000                                      " how often to write swapfiles, which I disabled, but some plugins, eg git-gutter use this for their update interval too
+set wildignore+=*.DS_Store                               " ignore OSX bullshit
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg           " ignore binary images
+set wildignore+=.hg,.git,.svn                            " ignore version control
 set wildmenu
 set wildmode=longest,list,full
 
@@ -303,19 +302,19 @@ function! s:plug_gx()
   call netrw#BrowseX(url, 0)
 endfunction
 
-" Add an AllFiles command that disrepsects .gitignore files
+" Add an AllFiles command that disregards .gitignore files
 command! -bang -nargs=? -complete=dir AllFiles
       \ call fzf#run(fzf#wrap('allfiles',
       \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' })
       \ , <bang>0))
 
 " overwrite :Ag and prevent it from searching filenames
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+command! -bang -nargs=* Ag
+      \ call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
-command! -bang -nargs=? -complete=file Notes
-      \ call fzf#run(fzf#wrap('notes',
-      \ fzf#vim#with_preview({ 'source': 'ag ~/notes ', 'sink': 'e' }),
-      \ <bang>0))
+" :Grep for when Ag is not available
+command! -bang -nargs=* Grep
+      \ call fzf#run(fzf#wrap('grepfiles', {'sink': 'e', 'source': 'grep -r --exclude-dir=node_modules,.cache ./'}))
 
 " Only search for .tsx files. Helpful in large codebases with lots of components
 command! -bang -nargs=? -complete=file Components
@@ -370,16 +369,6 @@ nmap ]b :bnext<cr>
 nmap [B :bfirst<cr>
 nmap ]B :blast<cr>
 
-" type %% in vim's prompt to insert %:h expanded
-cmap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-
-" Keep search matches in the middle of the window
-nmap n nzzzv
-nmap N Nzzzv
-
-" highlight last inserted text
-nmap gV `[v`]
-
 " leader prefix
 " -------------
 " I'm trying to use less of these and use commands instead since they're more
@@ -391,7 +380,6 @@ nmap <leader>f :Ag<cr>
 nmap <leader><leader> :Files<cr>
 nmap <leader>; :terminal ++rows=15<cr>
 nmap <leader>gs :tab G<cr>
-nmap <leader>/ :nohl<cr>
 nmap <leader>ll :CocFzfList<cr>
 nmap <leader>ld :CocFzfList diagnostics<cr>
 nmap <leader>lo :CocFzfList outline<cr>
@@ -399,6 +387,9 @@ nmap <leader>ls :CocList symbols<cr>
 nmap <leader>X :10split ~/notes/x<cr>
 nmap <leader>x :10split notes.md<cr>
 nnoremap <leader>n :NV<CR>
+
+imap <C-l> <Plug>(coc-snippets-expand)
+nmap <leader>cw <Plug>(coc-rename)
 
 " TODO: consider turning these into motions/operators {{{
 nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
@@ -412,8 +403,8 @@ nmap <leader>cu :CocCommand git.chunkUndo<cr>
 nmap <leader>ga <Plug>(coc-codeaction-line)
 " }}}
 
-nmap <silent> <F12> :FloatermToggle<CR>
-tmap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
+nmap <F12> :FloatermToggle<CR>
+tmap <F12> <C-\><C-n>:FloatermToggle<CR>
 
 " for muscle memory
 nmap <c-s> :w<cr>
@@ -428,6 +419,19 @@ inoremap ,, <Esc>A,<Esc>
 
 " search for word under cursor without jumping
 nnoremap * :keepjumps normal! mi*`i<CR>
+
+" type %% in vim's prompt to insert %:h expanded
+cmap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+" Keep search matches in the middle of the window
+nmap n nzzzv
+nmap N Nzzzv
+
+" highlight last inserted text
+nmap gV `[v`]
+
+" mute search highlights
+nnoremap <silent> <c-l> :<c-u>:nohlsearch<cr><c-l>
 
 " }}}
 " config #meta {{{
@@ -506,11 +510,14 @@ augroup ft_misc
 
   au BufNewFile,BufRead *.zsh-theme setlocal filetype=zsh
   au BufNewFile,BufRead *.env.local setlocal filetype=sh
+
   au BufNewFile,BufRead *.md setlocal textwidth=80
   au BufNewFile,BufRead *.md setlocal fo+=t " auto wrap at text width
 
   au FileType vim nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
   au FileType vim setlocal iskeyword+=-
+  au FileType vim nmap <F2> :execute getline(".")<cr>
+  au FileType vim vnoremap <F2> :<c-u>exe join(getline("'<","'>"),'<bar>')<cr>
 
   au FileType php let b:AutoPairs = AutoPairsDefine({'<?' : '?>', '<?php': '?>'})
   au FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
