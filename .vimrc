@@ -156,31 +156,31 @@ Plug 'itchyny/vim-gitbranch'
 let g:lightline = {
       \   'colorscheme': 'bloop',
       \   'active': {
-        \     'left': [ [ 'mode', 'paste' ],
-        \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
-        \     'right': [['filetype', 'percent', 'lineinfo']],
-        \   },
-        \   'component': {
-          \     'path': '%<%f',
-          \   },
-          \   'component_function': {
-            \     'gitbranch': 'gitbranch#name',
-            \     'cocstatus': 'coc#status'
-            \   },
-            \   'mode_map': {
-              \     'n' : 'N',
-              \     'i' : 'I',
-              \     'R' : 'R',
-              \     'v' : 'v',
-              \     'V' : 'V',
-              \     "\<C-v>": 'B',
-              \     'c' : 'C',
-              \     's' : 's',
-              \     'S' : 'S',
-              \     "\<C-s>": 'S',
-              \     't': '$'
-              \   }
-              \ }
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
+      \     'right': [['filetype', 'percent', 'lineinfo']],
+      \   },
+      \   'component': {
+      \     'path': '%<%f',
+      \   },
+      \   'component_function': {
+      \     'gitbranch': 'gitbranch#name',
+      \     'cocstatus': 'coc#status'
+      \   },
+      \   'mode_map': {
+      \     'n' : 'N',
+      \     'i' : 'I',
+      \     'R' : 'R',
+      \     'v' : 'v',
+      \     'V' : 'V',
+      \     "\<C-v>": 'B',
+      \     'c' : 'C',
+      \     's' : 's',
+      \     'S' : 'S',
+      \     "\<C-s>": 'S',
+      \     't': '$'
+      \   }
+      \ }
 
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
