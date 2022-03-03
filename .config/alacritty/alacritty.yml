@@ -106,10 +106,10 @@ font:
     use_thin_strokes: true
     normal:
         family: JetBrains Mono
-        style: Regular
+        style: Light
     italic:
         family: JetBrains Mono
-        style: Thin Italic
+        style: Light Italic
     bold_italic:
         family: JetBrains Mono
         style: SemiBold Italic
@@ -131,7 +131,7 @@ font:
 colors:
   # Default colors
   primary:
-    background: '#112037'
+    background: '#18212F'
     foreground: '#fafaff'
 
     # Bright and dim foreground colors
