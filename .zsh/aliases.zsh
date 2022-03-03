@@ -7,6 +7,8 @@ alias -g L='| less'
 alias ..='cd ..'
 alias tower='open . -a Tower'
 alias fh='history 1 | fzf'
+alias vim=nvim
+alias nv=nvim
 
 # sometimes I might want to append to a path of some other function,
 # this way I don't have to remember sed syntax - and deal with escaping of

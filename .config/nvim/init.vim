@@ -1,4 +1,4 @@
-"
+
 " Hi!
 "
 "   This is my messy but *also* large .vimrc
@@ -10,168 +10,9 @@
 "
 " ==============================================================================
 
-" plugins {{{
+lua require('snock.plugins')
+lua require('snock.lsp')
 
-" install plug-vim if not present
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'tpope/vim-fugitive'            " a git wrapper in vim
-Plug 'tpope/vim-abolish'             " working with words (drastic understatement)
-Plug 'tpope/vim-vinegar'             " improved netrw for file browsing.
-Plug 'tpope/vim-scriptease'          " helpers for vim scripting and plugin authoring
-Plug 'tpope/vim-surround'            " quoting/parenthesizing made simple. Extends functionality of S
-Plug 'tpope/vim-repeat'              " makes . even more powerful by adding suppor for plugins
-Plug 'tpope/vim-commentary'          " comment stuff out and back in via gc/gcc
-Plug 'tpope/vim-eunuch'              " Vim sugar for the UNIX shell commands that need it the most. Like :Delete, :Move, :Chmod
-Plug 'jiangmiao/auto-pairs'          " auto insert/delete brackets, parens, quotes etc
-Plug 'editorconfig/editorconfig-vim' " loads settings from .editoconfig if present
-Plug 'godlygeek/tabular'             " align text at character. more powerful than :!column
-Plug 'simnalamburt/vim-mundo'        " browser for vim's undo tree, for when git is not enough
-Plug 'junegunn/gv.vim'               " commit browser
-Plug 'pantharshit00/vim-prisma'      " syntax for prisma file
-Plug 'voldikss/vim-floaterm'         " floating terminal
-Plug '~/projects/python-vim'         " a fork of python-vim with some adjustments according to personal preferences
-                                     " #themes
-Plug '~/projects/bloop-vim'          " my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'rakr/vim-one'
-Plug 'SirVer/ultisnips' " ultimate snippet manager {{{
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UltiSnipsJumpForwardTrigger="<c-l>"
-let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
-" }}}
-Plug 'alvan/vim-closetag' "  {{{ Autoclose HTML Tags - with some smartness
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js,*.jsx,*.tsx'
-let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
-let g:closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
-let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
-let g:closetag_emptyTags_caseSensitive = 1
-let g:closetag_regions = {
-      \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-      \ 'javascript.jsx': 'jsxRegion',
-      \ }
-let g:closetag_shortcut = '>'
-let g:closetag_close_shortcut = '<leader>>'
-" }}}
-Plug 'neoclide/coc.nvim', " #coc {{{
-  \ {'branch': 'release'}
-Plug 'antoinemadec/coc-fzf'
-
-let g:coc_global_extensions = [
-      \   'coc-css',
-      \   'coc-deno',
-      \   'coc-eslint',
-      \   'coc-git',
-      \   'coc-go',
-      \   'coc-html',
-      \   'coc-jest',
-      \   'coc-json',
-      \   'coc-jsref',
-      \   'coc-php-cs-fixer',
-      \   'coc-phpls',
-      \   'coc-prettier',
-      \   'coc-prisma',
-      \   'coc-pyright',
-      \   'coc-rls',
-      \   'coc-sh',
-      \   'coc-snippets',
-      \   'coc-sql',
-      \   'coc-svg',
-      \   'coc-tsserver',
-      \ ]
-
-let g:coc_disable_transparent_cursor = 1
-let g:coc_snippet_next = '<c-l>'
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-command! -nargs=0 Format :call CocAction('format') " Add `:Format` command
-command! -nargs=? Fold :call CocAction('fold', <f-args>) " Add `:Fold` command to fold current buffer.
-command! -nargs=0 Jest :call CocAction('runCommand', 'jest.projectTest') " Run jest for current project
-command! -nargs=0 JestCurrent :call CocAction('runCommand', 'jest.fileTest', ['%']) " Run jest for current file
-command! JestInit :call CocAction('runCommand', 'jest.init') " Init jest in current cwd, require global jest command exists
-command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport') " Add `:OR` command for organize imports of the current buffer.
-
-"}}}
-Plug 'junegunn/fzf', " #fzf {{{
-  \ { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'stsewd/fzf-checkout.vim' " git branches etc
-
-let g:fzf_layout = { 'up': '~90%', 'window': { 'width': 0.8, 'height': 0.8, 'yoffset':0.5, 'xoffset': 0.5 } }
-let g:fzf_preview_window = ['up:50%', 'ctrl-/']
-let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
-
-" }}}
-" Plug 'sheerun/vim-polyglot' {{{
-let g:polyglot_disabled = ['python.plugin'] " disable python in favor of my own
-let g:vim_jsx_pretty_highlight_close_tag = 1 " enable highlitght
-Plug 'sheerun/vim-polyglot'
-"}}}
-Plug 'itchyny/lightline.vim' " {{{ easy status bar for vim
-Plug 'itchyny/vim-gitbranch'
-
-let g:lightline = {
-      \   'colorscheme': 'bloop',
-      \   'active': {
-      \     'left': [ [ 'mode', 'paste' ],
-      \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
-      \     'right': [['filetype', 'percent', 'lineinfo']],
-      \   },
-      \   'component': {
-      \     'path': '%<%f',
-      \   },
-      \   'component_function': {
-      \     'gitbranch': 'gitbranch#name',
-      \     'cocstatus': 'coc#status'
-      \   },
-      \   'mode_map': {
-      \     'n' : 'N',
-      \     'i' : 'I',
-      \     'R' : 'R',
-      \     'v' : 'v',
-      \     'V' : 'V',
-      \     "\<C-v>": 'B',
-      \     'c' : 'C',
-      \     's' : 's',
-      \     'S' : 'S',
-      \     "\<C-s>": 'S',
-      \     't': '$'
-      \   }
-      \ }
-
-let g:lightline.subseparator = { 'left': '', 'right': '' }
-
-augroup user_lightline
-  au!
-  au User CocStatusChange,CocDiagnosticChange call lightline#update()
-augroup END
-
-" }}}
-
-call plug#end()
-
-" }}}
 " #set basic options {{{
 let mapleader = "\<space>"
 let maplocalleader = "\<c-@>"   " use ctrl-space as local leader
@@ -181,7 +22,7 @@ set autoread                                             " auto re-read file whe
 set backspace=indent,eol,start                           " allow backspacing over everything in insert mode
 set backup                                               " enable backups
 set backupdir=/tmp
-set backupdir=~/.vim/tmp/backup/                         " backups
+set backupdir=~/.config/nvim/tmp/backup/                         " backups
 set backupskip=/tmp/*,/private/tmp/*                     " Make Vim able to edit crontab files again.
 set breakindent                                          " wrapped lines appear indendet
 set clipboard=unnamed
@@ -221,12 +62,18 @@ set t_ut=
 set tabstop=2
 set termguicolors                                        " enable 24bit colors
 set textwidth=80
+set undodir=~/.config/nvim/tmp/undo/
+set t_8b=[48;2;%lu;%lu;%lum " sometimes setting termguicolors for true color support  is not enough see
+set t_8f=[38;2;%lu;%lu;%lum " :he t_8b
 set undofile
-set updatetime=1000                                      " how often to write swapfiles, which I disabled, but some plugins, eg git-gutter use this for their update interval too
+
+set wildmenu
 set wildignore+=*.DS_Store                               " ignore OSX bullshit
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg           " ignore binary images
-set wildignore+=.hg,.git,.svn                            " ignore version control
-set wildmenu
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/.git/*
 set wildmode=longest,list,full
 
 let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
@@ -237,21 +84,55 @@ set background=light
 colors bloop
 
 " use different undo directory for vim/nvim since they're not compatible
-if has('nvim')
-  set undodir=~/.nvim/tmp/undo/
-else
-  set undodir=~/.vim/tmp/undo/
-  set directory=~/.vim/tmp " Don't clutter my dirs up with swp and tmp files
 
-  " enable italics in vim. works by default in nvim
-  let &t_ZH="\e[3m"
-  let &t_ZR="\e[23m"
+" }}}
+" plugin configs {{{
 
-  " sometimes setting termguicolors for true color support  is not enough see
-  " :he t_8b
-  set t_8b=[48;2;%lu;%lu;%lum
-  set t_8f=[38;2;%lu;%lu;%lum
-endif
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
+
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js,*.jsx,*.tsx'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+let g:closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
+let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_regions = {
+      \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+      \ 'javascript.jsx': 'jsxRegion',
+      \ }
+let g:closetag_shortcut = '>'
+let g:closetag_close_shortcut = '<leader>>'
+
+" let g:lightline.subseparator = { 'left': '', 'right': '' }
+" let g:lightline = {
+"       \   'colorscheme': 'bloop',
+"       \   'active': {
+"       \     'left': [ [ 'mode', 'paste' ],
+"       \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
+"       \     'right': [['filetype', 'percent', 'lineinfo']],
+"       \   },
+"       \   'component': {
+"       \     'path': '%<%f',
+"       \   },
+"       \   'component_function': {
+"       \     'gitbranch': 'gitbranch#name',
+"       \   },
+"       \   'mode_map': {
+"       \     'n' : 'N',
+"       \     'i' : 'I',
+"       \     'R' : 'R',
+"       \     'v' : 'v',
+"       \     'V' : 'V',
+"       \     "\<C-v>": 'B',
+"       \     'c' : 'C',
+"       \     's' : 's',
+"       \     'S' : 'S',
+"       \     "\<C-s>": 'S',
+"       \     't': '$'
+"       \   }
+"       \ }
 
 " }}}
 " Custom #functions and #command definitions {{{
@@ -290,32 +171,32 @@ command! GG :tab G
 " }}}
 " mappings, motions and textobjects {{{
 
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-omap ig <Plug>(coc-git-chunk-inner)
-xmap ig <Plug>(coc-git-chunk-inner)
-omap ag <Plug>(coc-git-chunk-outer)
-xmap ag <Plug>(coc-git-chunk-outer)
-nmap gs <Plug>(coc-git-chunkinfo)
-nmap gb <Plug>(coc-git-commit)
-nmap gd <Plug>(coc-definition)
-nmap gD <Plug>(coc-implementation)
-nmap gy <Plug>(coc-type-definition)
-nmap gr <Plug>(coc-references)
+"xmap if <Plug>(coc-funcobj-i)
+"omap if <Plug>(coc-funcobj-i)
+"xmap af <Plug>(coc-funcobj-a)
+"omap af <Plug>(coc-funcobj-a)
+"xmap ic <Plug>(coc-classobj-i)
+"omap ic <Plug>(coc-classobj-i)
+"xmap ac <Plug>(coc-classobj-a)
+"omap ac <Plug>(coc-classobj-a)
+"omap ig <Plug>(coc-git-chunk-inner)
+"xmap ig <Plug>(coc-git-chunk-inner)
+"omap ag <Plug>(coc-git-chunk-outer)
+"xmap ag <Plug>(coc-git-chunk-outer)
+"nmap gs <Plug>(coc-git-chunkinfo)
+"nmap gb <Plug>(coc-git-commit)
+"nmap gd <Plug>(coc-definition)
+"nmap gD <Plug>(coc-implementation)
+"nmap gy <Plug>(coc-type-definition)
+"nmap gr <Plug>(coc-references)
 nmap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
 
-nmap [d <Plug>(coc-diagnostic-prev)
-nmap ]d <Plug>(coc-diagnostic-next)
-nmap [g <Plug>(coc-git-prev-hunk)
-nmap ]g <Plug>(coc-git-next-hunk)
-nmap [c <Plug>(coc-git-prevconflict)
-nmap ]c <Plug>(coc-git-nextconflict)
+"nmap [d <Plug>(coc-diagnostic-prev)
+"nmap ]d <Plug>(coc-diagnostic-next)
+"nmap [g <Plug>(coc-git-prev-hunk)
+"nmap ]g <Plug>(coc-git-next-hunk)
+"nmap [c <Plug>(coc-git-prevconflict)
+"nmap ]c <Plug>(coc-git-nextconflict)
 nmap [t :tabprevious<cr>
 nmap ]t :tabnext<cr>
 nmap [T :tabfirst<cr>
@@ -324,6 +205,11 @@ nmap [b :bprevious<cr>
 nmap ]b :bnext<cr>
 nmap [B :bfirst<cr>
 nmap ]B :blast<cr>
+
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " leader prefix
 " -------------
@@ -348,14 +234,14 @@ nmap <leader>gx :CocCommand git.chunkUndo<cr>
 nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
 nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
 nmap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
-nmap <leader>cr <Plug>(coc-rename)
-nmap <leader>ga <Plug>(coc-codeaction-line)
+"nmap <leader>cr <Plug>(coc-rename)
+"nmap <leader>ga <Plug>(coc-codeaction-line)
 
 " vscode-likes (close to vscode bindings for presentations)
 nmap <c-s> :w<cr>
-nmap <leader>ki <Plug>(coc-diagnostic-info) 
-nmap <leader>.  <Plug>(coc-codeaction-cursor)
-nmap <F2> <Plug>(coc-rename)
+"nmap <leader>ki <Plug>(coc-diagnostic-info) 
+"nmap <leader>.  <Plug>(coc-codeaction-cursor)
+"nmap <F2> <Plug>(coc-rename)
 nmap <F12> :FloatermToggle<CR>
 tmap <F12> <C-\><C-n>:FloatermToggle<CR>
 
@@ -431,7 +317,7 @@ augroup ft_misc
   au FileType php let b:AutoPairs = AutoPairsDefine({'<?' : '?>', '<?php': '?>'})
   au FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
 
-  au CursorHold * silent call CocActionAsync('highlight') " Highlight the symbol and its references when holding the cursor.
+  " au CursorHold * silent call CocActionAsync('highlight') " Highlight the symbol and its references when holding the cursor.
 augroup END
 
 " }}}
