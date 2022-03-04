@@ -29,14 +29,13 @@ local on_attach = function(client, bufnr)
     buf_map(bufnr, "n", "K", ":LspHover<CR>")
     buf_map(bufnr, "n", "[d", ":LspDiagPrev<CR>")
     buf_map(bufnr, "n", "]d", ":LspDiagNext<CR>")
-    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
-    buf_map(bufnr, "n", "<Leader>la", ":LspDiagLine<CR>")
+    buf_map(bufnr, "n", "ga", ":Telescope lsp_code_action<CR>")
+    buf_map(bufnr, "n", "<Leader>ld", ":LspDiagLine<CR>")
     buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
 end
 
 lspconfig.tsserver.setup({
     on_attach = function(client, bufnr)
-
       local ts_utils = require("nvim-lsp-ts-utils")
 
       ts_utils.setup({})
@@ -52,9 +51,34 @@ lspconfig.tsserver.setup({
 
 null_ls.setup({
     sources = {
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.code_actions.eslint,
         null_ls.builtins.formatting.prettier,
     },
     on_attach = on_attach,
 })
+
+-- via nvim-lsp-config
+--    https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
+require'lspconfig'.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = runtime_path,
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}

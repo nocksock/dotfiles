@@ -1,4 +1,4 @@
-
+"
 " Hi!
 "
 "   This is my messy but *also* large .vimrc
@@ -12,6 +12,8 @@
 
 lua require('snock.plugins')
 lua require('snock.lsp')
+lua require('snock.telescope')
+lua require('snock.statusline')
 
 " #set basic options {{{
 let mapleader = "\<space>"
@@ -42,9 +44,8 @@ set laststatus=2                                         " Always show status li
 set list                                                 " Show invisible characters
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪ " define characters for invisible characters
 set mouse=a                                              " enable scrolling and selecting with mouse
-set nocursorline                                         " Highlight the line of in which the cursor is present (or not)
+set cursorline                                         " Highlight the line of in which the cursor is present (or not)
 set noshowmode                                           " Don't show mode (insert, visual etc) on the last line. Is handled by lightline
-set noswapfile                                           " It's 2012, Vim.
 set nowrap                                               " don't wrap text around when the window is too small
 set nu rnu                                               " show *HYBRID* line numbers, relative line numbers + current line number
 set scrolloff=2                                          " always have 2 lines more visible when reaching top/end of a window when scrolling
@@ -66,7 +67,6 @@ set undodir=~/.config/nvim/tmp/undo/
 set t_8b=[48;2;%lu;%lu;%lum " sometimes setting termguicolors for true color support  is not enough see
 set t_8f=[38;2;%lu;%lu;%lum " :he t_8b
 set undofile
-
 set wildmenu
 set wildignore+=*.DS_Store                               " ignore OSX bullshit
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg           " ignore binary images
@@ -75,13 +75,13 @@ set wildignore+=**/node_modules/*
 set wildignore+=**/android/*
 set wildignore+=**/.git/*
 set wildmode=longest,list,full
+set guifont=JetBrains\ Mono:h15
 
 let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
 let g:markdown_folding = 1 " enable headline folding in markdown files
 
 syntax on
-set background=light
-colors bloop
+colorscheme bloop_nvim
 
 " use different undo directory for vim/nvim since they're not compatible
 
@@ -91,7 +91,7 @@ colors bloop
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/.vim/UltiSnips"
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit="~/personal/ulti-snippets"
 
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js,*.jsx,*.tsx'
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
@@ -105,37 +105,35 @@ let g:closetag_regions = {
 let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
-" let g:lightline.subseparator = { 'left': '', 'right': '' }
-" let g:lightline = {
-"       \   'colorscheme': 'bloop',
-"       \   'active': {
-"       \     'left': [ [ 'mode', 'paste' ],
-"       \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
-"       \     'right': [['filetype', 'percent', 'lineinfo']],
-"       \   },
-"       \   'component': {
-"       \     'path': '%<%f',
-"       \   },
-"       \   'component_function': {
-"       \     'gitbranch': 'gitbranch#name',
-"       \   },
-"       \   'mode_map': {
-"       \     'n' : 'N',
-"       \     'i' : 'I',
-"       \     'R' : 'R',
-"       \     'v' : 'v',
-"       \     'V' : 'V',
-"       \     "\<C-v>": 'B',
-"       \     'c' : 'C',
-"       \     's' : 's',
-"       \     'S' : 'S',
-"       \     "\<C-s>": 'S',
-"       \     't': '$'
-"       \   }
-"       \ }
+let g:lightline = {
+      \   'active': {
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'gitbranch', ], ['readonly', 'path', 'modified']],
+      \     'right': [['filetype', 'percent', 'lineinfo']],
+      \   },
+      \   'component': {
+      \     'path': '%<%f',
+      \   },
+      \   'component_function': {
+      \     'gitbranch': 'gitbranch#name',
+      \   },
+      \   'mode_map': {
+      \     'n' : 'N',
+      \     'i' : 'I',
+      \     'R' : 'R',
+      \     'v' : 'v',
+      \     'V' : 'V',
+      \     "\<C-v>": 'B',
+      \     'c' : 'C',
+      \     's' : 's',
+      \     'S' : 'S',
+      \     "\<C-s>": 'S',
+      \     't': '$'
+      \   }
+      \ }
+let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 " }}}
-" Custom #functions and #command definitions {{{
 
 " reload lightline entirely - useful when changing its configuration
 command! LightLineReload
@@ -143,60 +141,12 @@ command! LightLineReload
       \ call lightline#colorscheme()
       \ call lightline#update()
 
-" Add an AllFiles command that disregards .gitignore files
-command! -bang -nargs=? -complete=dir AllFiles
-      \ call fzf#run(fzf#wrap('allfiles',
-      \ fzf#vim#with_preview({ 'dir': <q-args>, 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' })
-      \ , <bang>0))
-
-" overwrite :Ag and prevent it from searching filenames
-command! -bang -nargs=* Ag
-      \ call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-
-" :Grep for when Ag is not available
-command! -bang -nargs=* Grep
-      \ call fzf#run(fzf#wrap('grepfiles', {'sink': 'e', 'source': 'grep -r --exclude-dir=node_modules,.cache ./'}))
-
-" Only search for .tsx files. Helpful in large codebases with lots of components
-command! -bang -nargs=? -complete=file Notes  call fzf#run(fzf#wrap('notes', fzf#vim#with_preview({ 'source': 'find ~/notes -name \*.md' }), <bang>0))
-
-" Only search for .tsx files. Helpful in large codebases with lots of components
-command! -bang -nargs=? -complete=file Components
-      \ call fzf#run(fzf#wrap('components', fzf#vim#with_preview({ 'source': 'find . -type f \( -iname "*.tsx" -not -iname "*.spec.tsx" \) ' }), <bang>0))
-
-command! C Components
-command! H Helptags
-command! B Buffers
 command! GG :tab G
-" }}}
+" 
 " mappings, motions and textobjects {{{
 
-"xmap if <Plug>(coc-funcobj-i)
-"omap if <Plug>(coc-funcobj-i)
-"xmap af <Plug>(coc-funcobj-a)
-"omap af <Plug>(coc-funcobj-a)
-"xmap ic <Plug>(coc-classobj-i)
-"omap ic <Plug>(coc-classobj-i)
-"xmap ac <Plug>(coc-classobj-a)
-"omap ac <Plug>(coc-classobj-a)
-"omap ig <Plug>(coc-git-chunk-inner)
-"xmap ig <Plug>(coc-git-chunk-inner)
-"omap ag <Plug>(coc-git-chunk-outer)
-"xmap ag <Plug>(coc-git-chunk-outer)
-"nmap gs <Plug>(coc-git-chunkinfo)
-"nmap gb <Plug>(coc-git-commit)
-"nmap gd <Plug>(coc-definition)
-"nmap gD <Plug>(coc-implementation)
-"nmap gy <Plug>(coc-type-definition)
-"nmap gr <Plug>(coc-references)
 nmap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
 
-"nmap [d <Plug>(coc-diagnostic-prev)
-"nmap ]d <Plug>(coc-diagnostic-next)
-"nmap [g <Plug>(coc-git-prev-hunk)
-"nmap ]g <Plug>(coc-git-next-hunk)
-"nmap [c <Plug>(coc-git-prevconflict)
-"nmap ]c <Plug>(coc-git-nextconflict)
 nmap [t :tabprevious<cr>
 nmap ]t :tabnext<cr>
 nmap [T :tabfirst<cr>
@@ -206,44 +156,23 @@ nmap ]b :bnext<cr>
 nmap [B :bfirst<cr>
 nmap ]B :blast<cr>
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-" leader prefix
-" -------------
-nmap <leader><leader> :Files<cr>
-nmap <leader>f :Ag<cr>
-nmap <leader>tf :15Lex<cr>
-nmap <leader>r :History<cr>
-nmap <leader>b :Buffers<cr>
-nmap <leader>n :Notes<cr>
-nmap <leader>; :terminal ++rows=15<cr>
-nmap <leader>co :CocOutline<cr>
-nmap <leader>ll :CocFzfList<cr>
-nmap <leader>ld :CocFzfList diagnostics<cr>
-nmap <leader>ls :CocList symbols<cr>
-nmap <leader>X :ped ~/notes/x<cr>
-nmap <leader>x :ped .notes.md<cr>
-
-" similar to fugitive's bindings
-nmap <leader>g- :CocCommand git.chunkStage<cr>
-nmap <leader>gx :CocCommand git.chunkUndo<cr>
+nnoremap <leader><leader> <cmd>Telescope find_files theme=dropdown<cr>
+nnoremap <leader>;     <cmd>terminal ++rows=15<cr>
+nnoremap <leader>X     <cmd>ped ~/notes/x<cr>
+nnoremap <leader>x     <cmd>ped .notes.md<cr>
+nnoremap <leader>b     <cmd>Telescope buffers theme=dropdown<cr>
+nnoremap <leader>/     <cmd>Telescope live_grep theme=dropdown<cr>
+nnoremap <leader>h     <cmd>Telescope help_tags<cr>
+nnoremap <leader>r     <cmd>Telescope oldfiles<cr>
 
 nmap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
 nmap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
-nmap <leader>cp :w<cr>:CocCommand prettier.formatFile<cr>
-"nmap <leader>cr <Plug>(coc-rename)
-"nmap <leader>ga <Plug>(coc-codeaction-line)
 
 " vscode-likes (close to vscode bindings for presentations)
 nmap <c-s> :w<cr>
-"nmap <leader>ki <Plug>(coc-diagnostic-info) 
-"nmap <leader>.  <Plug>(coc-codeaction-cursor)
-"nmap <F2> <Plug>(coc-rename)
-nmap <F12> :FloatermToggle<CR>
-tmap <F12> <C-\><C-n>:FloatermToggle<CR>
+nmap <leader>ki <Plug>:LspDiagLine
+nmap <leader>.  <cmd>Telescope lsp_code_actions<cr>
+nmap <F2> <Plug>(coc-rename)
 
 nmap <silent> K :call <SID>show_documentation()<CR> " Use K to show documentation in preview popup.
 inoremap ;; <Esc>m`A;<esc>``i " Easy insertion of a trailing ; from insert mode
@@ -257,12 +186,18 @@ nmap N Nzzzv
 nmap gV `[v`]   " visual select last inserted text
 
 " reset view. mute search highlights, close preview, clear popups
-nnoremap <silent> <c-l> :<c-u>:nohlsearch<cr>:pclose<cr>:call popup_clear()<cr><c-l>
-
+nnoremap <silent> <c-l> :<c-u>:nohlsearch<cr>:pclose<cr><c-l>
+nnoremap   <silent>   <F7>    :FloatermNew<CR>
+tnoremap   <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
+nnoremap   <silent>   <F8>    :FloatermPrev<CR>
+tnoremap   <silent>   <F8>    <C-\><C-n>:FloatermPrev<CR>
+nnoremap   <silent>   <F9>    :FloatermNext<CR>
+tnoremap   <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
+nnoremap   <silent>   <F12>   :FloatermToggle<CR>
+tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
 " }}}
 " file type specifcs #ft {{{
 " [j|t]sx? {{{
-
 
 augroup ft_jtsx
   au!
@@ -323,14 +258,6 @@ augroup END
 " }}}
 " }}}
 " config #meta {{{
-
-" load local .vim if present
-let b:thisdir=expand("%:p:h")
-let b:vim=b:thisdir."/.vim"
-if (filereadable(b:vim))
-  execute "source ".b:vim
-  echom "loaded local .vim"
-endif
 
 " When saving a buffer, create directories if they do not yet exist.
 augroup Mkdir
