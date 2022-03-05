@@ -7,9 +7,9 @@
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq doom-modeline-height 0) ;; set the height of modeline to min
 
-(setq doom-font (font-spec :family "JetBrains Mono" :size 16 :weight 'regular)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 14 :weight 'regular)
       doom-big-font (font-spec :family "JetBrains Mono" :size 22 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "DeJa Vu Sans" :size 14))
+      doom-variable-pitch-font (font-spec :family "Futura" :size 14))
 
 (setq-default line-spacing 0.1)
 
