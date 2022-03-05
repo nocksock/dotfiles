@@ -40,12 +40,11 @@ set history=10000 " keep way more commands in history
 set hlsearch " highlight search results
 set incsearch                                            " enable incremental search that would make vim jump around while typing
 set ignorecase " ignore case by default - unless using uppercase/lowercase via smartcase
-set laststatus=2                                         " Always show status line.
+" set laststatus=2                                         " Always show status line.
 set list                                                 " Show invisible characters
 set listchars=tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪ " define characters for invisible characters
 set mouse=a                                              " enable scrolling and selecting with mouse
 set cursorline                                         " Highlight the line of in which the cursor is present (or not)
-set noshowmode                                           " Don't show mode (insert, visual etc) on the last line. Is handled by lightline
 set nowrap                                               " don't wrap text around when the window is too small
 set nu rnu                                               " show *HYBRID* line numbers, relative line numbers + current line number
 set scrolloff=2                                          " always have 2 lines more visible when reaching top/end of a window when scrolling
@@ -74,6 +73,7 @@ set wildignore+=**/coverage/*
 set wildignore+=**/node_modules/*
 set wildignore+=**/android/*
 set wildignore+=**/.git/*
+set wildignore+=**/tmp/*
 set wildmode=longest,list,full
 set guifont=JetBrains\ Mono:h15
 
@@ -81,7 +81,7 @@ let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
 let g:markdown_folding = 1 " enable headline folding in markdown files
 
 syntax on
-colorscheme bloop_nvim
+colorscheme bloop
 
 " use different undo directory for vim/nvim since they're not compatible
 
@@ -142,7 +142,7 @@ command! LightLineReload
       \ call lightline#update()
 
 command! GG :tab G
-" 
+
 " mappings, motions and textobjects {{{
 
 nmap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
@@ -156,7 +156,7 @@ nmap ]b :bnext<cr>
 nmap [B :bfirst<cr>
 nmap ]B :blast<cr>
 
-nnoremap <leader><leader> <cmd>Telescope find_files theme=dropdown<cr>
+nnoremap <leader><leader> <cmd>Telescope find_files theme=dropdown find_command=rg,--hidden,--files<cr>
 nnoremap <leader>;     <cmd>terminal ++rows=15<cr>
 nnoremap <leader>X     <cmd>ped ~/notes/x<cr>
 nnoremap <leader>x     <cmd>ped .notes.md<cr>

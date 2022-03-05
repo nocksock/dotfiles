@@ -1,4 +1,4 @@
-require('packer').startup(function()
+require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'tpope/vim-fugitive'            --  a git wrapper in vim
   use 'tpope/vim-abolish'             --  working with words (drastic understatement)
@@ -6,7 +6,7 @@ require('packer').startup(function()
   use 'tpope/vim-vinegar'             --  improved netrw for file browsing.
   use 'tpope/vim-scriptease'          --  helpers for vim scripting and plugin authoring
   use 'alvan/vim-closetag'
-  use 'itchyny/lightline.vim' -- easy status bar
+  -- use 'itchyny/lightline.vim' -- easy status bar
   use 'itchyny/vim-gitbranch' -- gitbranch display in lightline
   use 'sheerun/vim-polyglot' -- tons of syntax
   use 'tpope/vim-surround'            --  quoting/parenthesizing made simple. Extends functionality of S
@@ -34,7 +34,7 @@ require('packer').startup(function()
 
   -- themes
   use 'rktjmp/lush.nvim' -- for easily creating colorschemes via DSL
-  -- use 'nocksock/bloop-vim'            --  my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
+  use '~/projects/bloop-vim'            --  my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
   use {'~/personal/bloop-nvim'}            -- custom colorscheme for nvim, not yet available
   use 'NLKNguyen/papercolor-theme'
   use 'rakr/vim-one'
