@@ -74,7 +74,7 @@ export EDITOR='vim' # used for commits and such
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-export DOTDIR="$HOME/dotfiles"
+export DOTDIR="$HOME/personal/dotfiles"
 export PYENV_ROOT="$HOME/.pyenv"
 
 export PATH="/usr/local/bin:$PATH" # some apps put there stuff here (eg vscode, mullvad)

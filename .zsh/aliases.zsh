@@ -7,8 +7,8 @@ alias -g L='| less'
 alias ..='cd ..'
 alias tower='open . -a Tower'
 alias fh='history 1 | fzf'
-alias vim=nvim
 alias nv=nvim
+alias p=tmux-qp
 
 # sometimes I might want to append to a path of some other function,
 # this way I don't have to remember sed syntax - and deal with escaping of
@@ -56,11 +56,6 @@ alias gr='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
 
 function tmn() {
 	tmux -u new -s ${PWD##*/}
-}
-
-function p() {
-    project=$(ls ~/projects/ | fzf --reverse -q ${1:-''})
-    cd ~/projects/$project
 }
 
 function git-grouped-log () { # {{{
