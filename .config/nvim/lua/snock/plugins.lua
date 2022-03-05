@@ -1,12 +1,14 @@
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
+
+  -- plugins taken from old vimrc
   use 'tpope/vim-fugitive'            --  a git wrapper in vim
   use 'tpope/vim-abolish'             --  working with words (drastic understatement)
   use 'tpope/vim-projectionist'
   use 'tpope/vim-vinegar'             --  improved netrw for file browsing.
   use 'tpope/vim-scriptease'          --  helpers for vim scripting and plugin authoring
   use 'alvan/vim-closetag'
-  -- use 'itchyny/lightline.vim' -- easy status bar
+  use 'itchyny/lightline.vim' -- easy status bar
   use 'itchyny/vim-gitbranch' -- gitbranch display in lightline
   use 'sheerun/vim-polyglot' -- tons of syntax
   use 'tpope/vim-surround'            --  quoting/parenthesizing made simple. Extends functionality of S
@@ -23,19 +25,23 @@ require('packer').startup(function(use)
   use 'pantharshit00/vim-prisma'      --  syntax for prisma file
   use 'voldikss/vim-floaterm'         --  floating terminal
   use 'SirVer/ultisnips' -- ultimate snippet manager
+
+  -- scripting
   use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'
+  use 'nvim-lua/plenary.nvim' -- util functions. a dependency of many plugins
+
   use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-fzy-native.nvim'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
+  -- lsp
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
   -- themes
   use 'rktjmp/lush.nvim' -- for easily creating colorschemes via DSL
-  use '~/projects/bloop-vim'            --  my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
-  use {'~/personal/bloop-nvim'}            -- custom colorscheme for nvim, not yet available
+  use '~/personal/bloop-vim'            --  my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
+  use '~/personal/bloop-nvim'           -- custom colorscheme for nvim, not yet available
+  use '~/forks/ayu-vim'
   use 'NLKNguyen/papercolor-theme'
   use 'rakr/vim-one'
   use {'dracula/vim', as = 'dracula'}
