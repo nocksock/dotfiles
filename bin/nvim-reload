@@ -12,7 +12,7 @@
 current=$(tmux display-message -p '#S:#I.#P')
 
 tmux send-keys -t $current Escape ":mks!" C-m
-sleep 0.1 # tmux sends keys too fast, need to wait a bit until :mks! is done.
+sleep 0.3 # tmux sends keys too fast, need to wait a bit until :mks! is done.
 tmux send-keys -t $current ":qa!" C-m
 sleep 0.1
 tmux send-keys -t $current "nvim -S Session.vim" C-m
