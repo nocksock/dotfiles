@@ -6,6 +6,9 @@
 
 lua require('snock')
 
+" some local modules
+let &runtimepath.=','. expand("$HOME") . '/personal/ghash-vim' " an upcoming, hot colorscheme
+
 let mapleader = "\<space>"
 let maplocalleader = " \<c-@>"                           " use ctrl-space as local leader
 
@@ -83,12 +86,15 @@ nnoremap ]d :LspDiagNext<cr>
 
 nnoremap <leader><leader> <cmd>Telescope find_files theme=dropdown find_command=rg,--hidden,--files<cr>
 nnoremap <leader>;     <cmd>terminal ++rows=15<cr>
-nnoremap <leader>X     <cmd>ped ~/notes/x<cr>
+nnoremap <leader>X     <cmd>ped ~/notes/x.md<cr>
 nnoremap <leader>x     <cmd>ped .notes.md<cr>
 nnoremap <leader>b     <cmd>Telescope buffers theme=dropdown<cr>
-nnoremap <leader>/     <cmd>Telescope live_grep theme=dropdown<cr>
+nnoremap <leader>/     <cmd>Telescope live_grep theme=dropdown find_command=rg,--hidden<cr>
 nnoremap <leader>h     <cmd>Telescope help_tags<cr>
 nnoremap <leader>r     <cmd>Telescope oldfiles<cr>
+nnoremap <leader>R     <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
+vnoremap <leader>R     <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
+nnoremap <leader>T <cmd>Telescope<cr>
 
 nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
 nnoremap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
@@ -99,7 +105,6 @@ nnoremap <leader>ki <Plug>:LspDiagLine
 nnoremap <leader>.  <cmd>Telescope lsp_code_actions theme=cursor<cr>
 nnoremap <F2> :LspRename<cr>
 
-nnoremap <silent> K :call <SID>show_documentation()<CR> " Use K to show documentation in preview popup.
 inoremap ;; <Esc>m`A;<esc>``i " Easy insertion of a trailing ; from insert mode
 inoremap ,, <Esc>m`A,<esc>``i " Easy insertion of a trailing , from insert mode
 

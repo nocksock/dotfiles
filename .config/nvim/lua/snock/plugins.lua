@@ -11,8 +11,7 @@ require('packer').startup(function(use)
   use 'jiangmiao/auto-pairs'          -- auto insert/delete brackets, parens, quotes etc
   use 'editorconfig/editorconfig-vim' -- loads settings from .editoconfig if present
   use 'godlygeek/tabular'             -- align text at character. more powerful than :!column
-  use 'simnalamburt/vim-mundo'        -- browser for vim's undo tree, for when git is not enough
-  use 'SirVer/ultisnips'              -- ultimate snippet manager
+  use 'SirVer/ultisnips'              -- ultimate snippet manager, still the best.
 
   -- process management etc
   use {
@@ -27,6 +26,7 @@ require('packer').startup(function(use)
   use 'sheerun/vim-polyglot'          -- tons of syntax
 
   -- git
+  use 'simnalamburt/vim-mundo'        -- browser for vim's undo tree, for when git is not enough
   use 'airblade/vim-gitgutter'        -- show diff markers in the gutter
   use 'tpope/vim-fugitive'            -- a git wrapper in vim
   use 'itchyny/vim-gitbranch'         -- gitbranch display in lightline
@@ -68,5 +68,7 @@ require('packer').startup(function(use)
   use 'NLKNguyen/papercolor-theme'
   use 'rakr/vim-one'
   use {'dracula/vim', as = 'dracula'}
-  use 'itchyny/lightline.vim'         -- easy status bar
+  -- use 'itchyny/lightline.vim'         -- easy status bar
 end)
+
+require('refactoring').setup({})

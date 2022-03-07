@@ -3,8 +3,6 @@
 local lspconfig = require("lspconfig")
 local null_ls = require('null-ls')
 
-lspconfig.gopls.setup{}
-
 local opts = { noremap=true, silent=true }
 
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
@@ -30,8 +28,6 @@ local on_attach = function(client, bufnr)
     vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
     vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
 
-    vim.cmd("echo 'lsp running'")
-
     buf_map(bufnr, "n", "gd", ":LspDef<CR>")
     buf_map(bufnr, "n", "gr", ":LspRefs<CR>")
     buf_map(bufnr, "n", "gD", ":LspTypeDef<CR>")
@@ -45,9 +41,10 @@ end
 
 lspconfig.tsserver.setup({
     on_attach = function(client, bufnr)
+      -- client.resolved_capabilities.document_formatting = false
+      -- client.resolved_capabilities.document_range_formatting = false
+
       local ts_utils = require("nvim-lsp-ts-utils")
-      client.resolved_capabilities.document_formatting = false
-      print "hello"
 
       ts_utils.setup({})
       ts_utils.setup_client(client)
@@ -60,14 +57,8 @@ lspconfig.tsserver.setup({
     end
   })
 
-null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.prettier,
-    },
-    on_attach = on_attach,
-})
-
 local runtime_path = vim.split(package.path, ';')
+
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
@@ -104,3 +95,4 @@ require'lspconfig'.sumneko_lua.setup {
 -- tailwindcss
 require("lspconfig").tailwindcss.setup {}
 
+lspconfig.gopls.setup{}
