@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# Restart vim/nvim!
+#
+# Since lua caches its require statements per session and there seems no trivial
+# way to force it reload its caches, I use this script with that binding:
+#
+#   bind -r R run "$DOTDIR/bin/nvim-reload"
+#
+# WARNING: use with caution!
+#   Especially with hidden buffers! It's not saving buffers and overwrites
+#   existing sessions.
+#
+
+current=$(tmux display-message -p '#S:#I.#P')
+
+tmux send-keys -t $current Escape ":mks!" C-m
+sleep 0.1 # tmux sends keys too fast, need to wait a bit until :mks! is done.
+tmux send-keys -t $current ":qa!" C-m
+sleep 0.1
+tmux send-keys -t $current "nvim -S Session.vim" C-m
+
