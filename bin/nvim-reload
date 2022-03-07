@@ -1,16 +1,13 @@
 #!/bin/bash
 #
-# Restart vim/nvim!
+#   Since lua caches its require statements per session and there seems no
+#   trivial way to force it to reset, I use this script with that binding:
 #
-# Since lua caches its require statements per session and there seems no trivial
-# way to force it reload its caches, I use this script with that binding:
-#
-#   bind -r R run "$DOTDIR/bin/nvim-reload"
+#       bind -r R run "$DOTDIR/bin/nvim-reload"
 #
 # WARNING: use with caution!
 #   Especially with hidden buffers! It's not saving buffers and overwrites
 #   existing sessions.
-#
 
 current=$(tmux display-message -p '#S:#I.#P')
 
