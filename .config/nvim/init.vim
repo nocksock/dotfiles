@@ -85,16 +85,17 @@ nnoremap [d :LspDiagPrev<cr>
 nnoremap ]d :LspDiagNext<cr>
 
 nnoremap <leader><leader> <cmd>Telescope find_files theme=dropdown find_command=rg,--hidden,--files<cr>
-nnoremap <leader>;     <cmd>terminal ++rows=15<cr>
-nnoremap <leader>X     <cmd>ped ~/notes/x.md<cr>
-nnoremap <leader>x     <cmd>ped .notes.md<cr>
-nnoremap <leader>b     <cmd>Telescope buffers theme=dropdown<cr>
-nnoremap <leader>/     <cmd>Telescope live_grep theme=dropdown find_command=rg,--hidden<cr>
-nnoremap <leader>h     <cmd>Telescope help_tags<cr>
-nnoremap <leader>r     <cmd>Telescope oldfiles<cr>
-nnoremap <leader>R     <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
-vnoremap <leader>R     <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
-nnoremap <leader>T <cmd>Telescope<cr>
+nnoremap <leader>;        <cmd>terminal ++rows=15<cr>
+nnoremap <leader>X        <cmd>ped ~/notes/x.md<cr>
+nnoremap <leader>x        <cmd>ped .notes.md<cr>
+nnoremap <leader>b        <cmd>Telescope buffers theme=dropdown<cr>
+nnoremap <leader>/        <cmd>Telescope live_grep theme=dropdown find_command=rg,--hidden<cr>
+nnoremap <leader>ih        <cmd>Telescope help_tags<cr>
+nnoremap <leader>r        <cmd>Telescope oldfiles<cr>
+nnoremap <leader>R        <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
+vnoremap <leader>R        <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
+nnoremap <leader>T        <cmd>Telescope<cr>
+nnoremap <leader>ik       <cmd>Telescope keymaps<cr>
 
 nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
 nnoremap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
@@ -137,7 +138,7 @@ augroup ft_jtsx
 
   autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart " force vim to parse the *entire* file from start.
   autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-
+  nmap <silent> <leader>cp :!prettier --parser typescript --stdin-filepath %
   au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
   au FileType javascript nmap <localleader>s :e %:r:r.stories.js<cr>
   au FileType javascript nmap <localleader>t :e %:r:r.spec.js<cr>
@@ -151,12 +152,6 @@ augroup ft_jtsx
   au FileType typescript setlocal formatexpr=   " reset Fixedgq from polyglot
   au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
   au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
-
-  au FileType typescript.tsx nmap <localleader>s :e %:r:r.stories.tsx<cr>
-  au FileType typescript.tsx nmap <localleader>t :e %:r:r.spec.tsx<cr>
-  au FileType typescript.tsx nmap <localleader>m :e %:r:r.tsx<cr>
-
-  au FileType typescript.tsx :UltiSnipsAddFiletypes typescriptreact.typescript<cr>
 augroup END
 
 " }}}

@@ -1,7 +1,8 @@
 require("snock.plugins")
 require("snock.lsp")
 require("snock.completion")
-require("snock.lsp")
+require("snock.statusline")
+require("snock.git")
 
 P = function(v)
 	print(vim.inspect(v))
@@ -31,3 +32,4 @@ require('telescope').setup {
 
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("refactoring")
+require('refactoring').setup({})

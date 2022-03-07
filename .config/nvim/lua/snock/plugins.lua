@@ -13,21 +13,28 @@ require('packer').startup(function(use)
   use 'godlygeek/tabular'             -- align text at character. more powerful than :!column
   use 'SirVer/ultisnips'              -- ultimate snippet manager, still the best.
 
+  -- scripting
+  use 'nvim-lua/popup.nvim'
+  use 'nvim-lua/plenary.nvim'         -- util functions. a dependency of many plugins
+
   -- process management etc
   use {
     'tpope/vim-dispatch',
     opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}
   }
   use 'voldikss/vim-floaterm'         -- floating terminal
+  use 'tpope/vim-dadbod'              -- make db connections from within vim
+  use 'kristijanhusak/vim-dadbod-ui'  -- ui for vim-dadbox
 
   -- syntax
   use 'nvim-treesitter/nvim-treesitter'
+  use 'nvim-treesitter/playground'
   use 'pantharshit00/vim-prisma'      --  syntax for prisma file
   use 'sheerun/vim-polyglot'          -- tons of syntax
 
   -- git
   use 'simnalamburt/vim-mundo'        -- browser for vim's undo tree, for when git is not enough
-  use 'airblade/vim-gitgutter'        -- show diff markers in the gutter
+  use 'lewis6991/gitsigns.nvim'       -- show diff markers in the gutter + gitlens
   use 'tpope/vim-fugitive'            -- a git wrapper in vim
   use 'itchyny/vim-gitbranch'         -- gitbranch display in lightline
   use 'junegunn/gv.vim'               -- commit browser
@@ -38,10 +45,6 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
-
-  -- scripting
-  use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'         -- util functions. a dependency of many plugins
 
   -- navigation
   use 'nvim-telescope/telescope.nvim'
@@ -70,5 +73,3 @@ require('packer').startup(function(use)
   use {'dracula/vim', as = 'dracula'}
   -- use 'itchyny/lightline.vim'         -- easy status bar
 end)
-
-require('refactoring').setup({})
