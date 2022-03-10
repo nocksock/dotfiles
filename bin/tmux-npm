@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [ ! -e $PWD/package.json ]; then
+    tmux display-message "#[bg=colour9,bold] [!] no package.json in session root"
+    exit 0
+fi
+
+task=$(cat package.json| jq '.scripts | keys[]' -r | fzf)
+
+if [[ -z $task ]]; then
+    exit 0
+fi
+
+if [[ -e $PWD/yarn.lock ]]; then
+    tmux neww -n $task "yarn $task"
+else
+    tmux neww -n $task "npm run $task"
+fi
