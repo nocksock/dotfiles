@@ -30,6 +30,7 @@ set foldenable
 set formatoptions=qrn1j                                  " format options when writing, joining lines or `gq` see  :he fo-table for meanings
 set gdefault                                             " add g flag by default for :substitutions
 set hidden                                               " enable hidden buffers - so i can switch buffers even if current is changed.
+set signcolumn=yes
 set history=10000                                        " keep way more commands in history
 set hlsearch                                             " highlight search results
 set incsearch                                            " enable incremental search that would make vim jump around while typing
@@ -88,14 +89,18 @@ nnoremap <leader><leader> <cmd>Telescope find_files theme=dropdown find_command=
 nnoremap <leader>;        <cmd>terminal ++rows=15<cr>
 nnoremap <leader>X        <cmd>ped ~/notes/x.md<cr>
 nnoremap <leader>x        <cmd>ped .notes.md<cr>
-nnoremap <leader>b        <cmd>Telescope buffers theme=dropdown<cr>
-nnoremap <leader>/        <cmd>Telescope live_grep theme=dropdown find_command=rg,--hidden<cr>
-nnoremap <leader>ih        <cmd>Telescope help_tags<cr>
-nnoremap <leader>r        <cmd>Telescope oldfiles<cr>
+nnoremap <leader>/        <cmd>Telescope live_grep theme=dropdown<cr>
+
+nnoremap <leader>fr        <cmd>Telescope oldfiles<cr>
+nnoremap <leader>fb        <cmd>Telescope buffers theme=dropdown<cr>
+nnoremap <leader>fl        <cmd>Telescope current_buffer_fuzzy_find<cr>
+
 nnoremap <leader>R        <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
 vnoremap <leader>R        <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
+
 nnoremap <leader>T        <cmd>Telescope<cr>
 nnoremap <leader>ik       <cmd>Telescope keymaps<cr>
+nnoremap <leader>ih       <cmd>Telescope help_tags<cr>
 
 nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
 nnoremap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
@@ -106,8 +111,8 @@ nnoremap <leader>ki <Plug>:LspDiagLine
 nnoremap <leader>.  <cmd>Telescope lsp_code_actions theme=cursor<cr>
 nnoremap <F2> :LspRename<cr>
 
-inoremap ;; <Esc>m`A;<esc>``i " Easy insertion of a trailing ; from insert mode
-inoremap ,, <Esc>m`A,<esc>``i " Easy insertion of a trailing , from insert mode
+inoremap ;; <Esc>m`A;<esc>``li| " Easy insertion of a trailing ; from insert mode
+inoremap ,, <Esc>m`A,<esc>``li| " Easy insertion of a trailing , from insert mode
 
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%' " type %% in vim's prompt to insert %:h expanded
 
@@ -138,7 +143,7 @@ augroup ft_jtsx
 
   autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart " force vim to parse the *entire* file from start.
   autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-  nmap <silent> <leader>cp :!prettier --parser typescript --stdin-filepath %
+  nmap <silent> <leader>cp :LspFormatting<cr>
   au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
   au FileType javascript nmap <localleader>s :e %:r:r.stories.js<cr>
   au FileType javascript nmap <localleader>t :e %:r:r.spec.js<cr>

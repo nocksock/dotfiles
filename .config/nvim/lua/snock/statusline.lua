@@ -1,8 +1,25 @@
 -- statusline
--- a super simple, custom status bar with
+-- a super simple, custom status bar written in lua*
 
-local function cg(name)
-  return "%#".. name .. "#"
+local flaggedFile = "%(%m%r%h %)%f"
+local flex = " %="
+local bar = "|"
+local filetype = "%y "
+
+-- creates a function that appends the context to the groupName
+--    eg. createContext("Active")("Foo") -> "FooActive"
+local function createContext(context, wrap)
+  local function cg(name)
+    return "%#".. name .. "#"
+  end
+
+  return function(groupName)
+    if wrap == nil or wrap == true then
+      return cg(groupName .. context)
+    end
+
+    return groupName .. context
+  end
 end
 
 local function system(cmd)
@@ -13,45 +30,42 @@ local function system(cmd)
 end
 
 local get_git_status = function()
-  return system('git status -s | cut -c1-2 | uniq | sed "s/??/+/" | tr "\n" " " | sed "s/ //g" | tr "[:upper:]" "[:lower:]"')
+  -- TODO: check if git is even present
+  return ''
+  -- return system('git status -s | cut -c1-2 | uniq | sed "s/??/+/" | tr "\n" " " | sed "s/ //g" | tr "[:upper:]" "[:lower:]"')
 end
 
 local get_git_branch = function()
-  return system('git branch --show-current | tr "\n" " "'):gsub(" ","");
+  -- TODO: check if git is even present
+  return ''
+  -- return system('git branch --show-current | tr "\n" " "'):gsub(" ","");
 end
 
 local get_mode = function()
   return vim.api.nvim_get_mode().mode:upper()
 end
 
-local flaggedFile = "%(%m%r%h %)%f"
-local flex = " %="
-local bar = "|"
-local separator = " "
-local filetype = "%y "
+local stl = function(group, separator)
+  if separator == nil then
+    separator = " "
+  end
 
-function StatusLineActive()
   return table.concat({
-      cg("stlModeMsg"), get_mode(), cg("stlLeft"), flaggedFile, cg("stlMid"), get_git_branch(), bar, get_git_status(), flex, cg("stlRight"), filetype
-    }, separator)
-end
-
-function StatusLineInactive()
-  return table.concat({
-      cg("stlModeMsgNC"), get_mode(), cg("stlLeftNC"), flaggedFile, cg("stlMidNC"), get_git_branch(), bar, get_git_status(), flex, cg("stlRightNC"), filetype
-    }, separator)
+    group("stlModeMsg"), get_mode(), group("stlLeft"), flaggedFile, group("stlMid"), get_git_branch(), bar, get_git_status(), flex, group("stlRight"), filetype
+  }, separator)
 end
 
 function StatusLine(type)
   if type == "active" then
-    return StatusLineActive();
+    return stl(createContext(""))
   end
 
   if type == "inactive" then
-    return StatusLineInactive();
+    return stl(createContext("NC"))
   end
 end
 
+-- TODO: when updating to new neovim version, rewrite this using lua
 vim.api.nvim_exec([[
   highlight! link stlModeMsg ModeMsg
   highlight! link stlLeftNC StatusLineNC
@@ -67,3 +81,4 @@ vim.api.nvim_exec([[
     autocmd WinLeave,BufLeave * setlocal statusline=%!v:lua.StatusLine('inactive')
   augroup END
 ]], false)
+
