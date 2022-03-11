@@ -18,20 +18,15 @@ require('packer').startup(function(use)
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'         -- util functions. a dependency of many plugins
 
+  -- treesitter
+  use 'nvim-treesitter/nvim-treesitter'
+  use 'nvim-treesitter/playground'
+  use "theprimeagen/refactoring.nvim"
+
   -- process management etc
-  use {
-    'tpope/vim-dispatch',
-    opt = true, cmd = {'dispatch', 'make', 'focus', 'start'}
-  }
   use 'voldikss/vim-floaterm'         -- floating terminal
   use 'tpope/vim-dadbod'              -- make db connections from within vim
   use 'kristijanhusak/vim-dadbod-ui'  -- ui for vim-dadbox
-
-  -- syntax
-  use 'nvim-treesitter/nvim-treesitter'
-  use 'nvim-treesitter/playground'
-  use 'pantharshit00/vim-prisma'      --  syntax for prisma file
-  use 'sheerun/vim-polyglot'          -- tons of syntax
 
   -- git
   use 'simnalamburt/vim-mundo'        -- browser for vim's undo tree, for when git is not enough
@@ -150,6 +145,8 @@ local on_attach = function(client, bufnr)
   map(bufnr, "n", "ga", ":Telescope lsp_code_action<CR>")
   map(bufnr, "n", "<Leader>ld", ":LspDiagLine<CR>")
   map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
+
+  print("LSP bindings enabled") -- todo: add indicator to statusline if LSP is running
 end
 
 cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -160,7 +157,6 @@ lspconfig.tsserver.setup({
       client.resolved_capabilities.document_formatting = false
       client.resolved_capabilities.document_range_formatting = false
 
-      print("tsserver setup")
       local ts_utils = require("nvim-lsp-ts-utils")
 
       ts_utils.setup({})
@@ -223,8 +219,6 @@ lspconfig.sumneko_lua.setup {
   on_attach = on_attach
 }
 
--- tailwindcss
-
 lspconfig.tailwindcss.setup {}
 lspconfig.gopls.setup{}
 
@@ -247,7 +241,7 @@ cmp.setup({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },

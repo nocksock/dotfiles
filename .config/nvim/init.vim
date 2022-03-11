@@ -124,14 +124,15 @@ nnoremap _ :NnnPicker<cr>
 
 " reset view. mute search highlights, close preview, clear popups
 nnoremap <silent> <c-l> :<c-u>:nohlsearch<cr>:pclose<cr><c-l>
-nnoremap   <silent>   <F7>    :FloatermNew<CR>
-tnoremap   <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
-nnoremap   <silent>   <F8>    :FloatermPrev<CR>
-tnoremap   <silent>   <F8>    <C-\><C-n>:FloatermPrev<CR>
-nnoremap   <silent>   <F9>    :FloatermNext<CR>
-tnoremap   <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
-nnoremap   <silent>   <F12>   :FloatermToggle<CR>
-tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+nnoremap <silent>   <F7>    :FloatermNew<CR>
+tnoremap <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
+nnoremap <silent>   <F8>    :FloatermPrev<CR>
+tnoremap <silent>   <F8>    <C-\><C-n>:FloatermPrev<CR>
+nnoremap <silent>   <F9>    :FloatermNext<CR>
+tnoremap <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
+nnoremap <silent>   <F12>   :FloatermToggle<CR>
+tnoremap <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+
 
 " [j|t]sx? {{{
 
