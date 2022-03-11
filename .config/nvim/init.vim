@@ -116,9 +116,6 @@ inoremap ,, <Esc>m`A,<esc>``li| " Easy insertion of a trailing , from insert mod
 
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%' " type %% in vim's prompt to insert %:h expanded
 
-nnoremap n nzzzv " Keep search matches in the middle of the window
-nnoremap N Nzzzv
-
 nnoremap gV `[v`]   " visual select last inserted text
 nnoremap _ :NnnPicker<cr>
 
