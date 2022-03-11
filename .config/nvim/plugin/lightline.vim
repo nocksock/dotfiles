@@ -31,5 +31,3 @@ command! LightLineReload
       \ call lightline#init()
       \ call lightline#colorscheme()
       \ call lightline#update()
-
-command! GG :tab G
