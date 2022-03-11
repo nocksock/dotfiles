@@ -45,29 +45,26 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
+  use 'quangnguyen30192/cmp-nvim-ultisnips'
 
-  -- navigation
+  -- file navigation
   use 'nvim-telescope/telescope.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use 'tpope/vim-vinegar'             --  improved netrw for file browsing.
+  use 'mcchrish/nnn.vim'
 
   -- lsp
   use 'neovim/nvim-lspconfig'         --  easy configs for language servers
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'jose-elias-alvarez/nvim-lsp-ts-utils'
-  use {
-      "theprimeagen/refactoring.nvim",
-      requires = {
-          {"nvim-lua/plenary.nvim"},
-          {"nvim-treesitter/nvim-treesitter"}
-      }
-  }
+
 
   -- looks and themes
+  use 'pantharshit00/vim-prisma'      --  syntax for prisma file
+  use 'sheerun/vim-polyglot'          -- tons of syntax
   use 'rktjmp/lush.nvim'              -- for easily creating colorschemes via dsl
   use '~/personal/bloop-vim'          -- my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
-  use 'nlknguyen/papercolor-theme'
-  use {'dracula/vim', as = 'dracula'}
+  use 'nlknguyen/papercolor-theme'    -- for moments I need a bright theme
 end)
 --}}}
 

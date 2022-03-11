@@ -120,6 +120,7 @@ nnoremap n nzzzv " Keep search matches in the middle of the window
 nnoremap N Nzzzv
 
 nnoremap gV `[v`]   " visual select last inserted text
+nnoremap _ :NnnPicker<cr>
 
 " reset view. mute search highlights, close preview, clear popups
 nnoremap <silent> <c-l> :<c-u>:nohlsearch<cr>:pclose<cr><c-l>
