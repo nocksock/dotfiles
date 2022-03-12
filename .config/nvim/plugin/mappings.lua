@@ -1,67 +1,78 @@
-local noremap = require('mapper').noremap
+local function map(mode, key, command, opts)
+	opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})
+	vim.api.nvim_set_keymap(mode, key, command, opts)
+end
 
-noremap.n({
-	['[t'] = ':tabprevious<cr>',
-	[']t'] = ':tabnext<cr>',
-	['[T'] = ':tabfirst<cr>',
-	[']T'] = ':tablast<cr>',
-	['[b'] = ':bprevious<cr>',
-	[']b'] = ':bnext<cr>',
-	['[B'] = ':bfirst<cr>',
-	[']B'] = ':blast<cr>',
-	['[d'] = ':LspDiagPrev<cr>',
-	[']d'] = ':LspDiagNext<cr>',
-	['gx'] = ":execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>",
-	['<c-s>'] = ':w<cr>',
-	['<F2>'] = ':LspRename<cr>',
-	['gV'] = '`[v`]', -- visual select last inserted text
-	['_'] = ':NnnPicker<cr>',
-	['<leader><leader>'] = ':Telescope find_files find_command=rg,--hidden,--files<cr>', -- TODO: move options to upper call signature (and merge with lower)
-	['<leader>dts'] = [[mz:%s/ \+$//<cr>`z<cr>]],
-	['<leader>es'] = ':UltiSnipsEdit<cr>',
-	['<leader>ki'] = '<Plug>:LspDiagLine<cr>',
-	['<leader>td'] = ':DBUIToggle<cr>',
-	['<leader>/'] = ':Telescope live_grep theme=ivy vimgrep_arguments=rg,--color=never,--no-heading,--with-filename,--line-number,--column,--smart-case,-u,--hidden<cr>',
-	['<leader>gg'] = ':tab G<cr>',
-	['<leader>R'] = '<Esc><cmd>lua require("telescope").extensions.refactoring.refactors()<CR>',
-	['<leader>T'] = ':Telescope<CR>',
-	['<leader>b'] = ':Telescope buffers theme=ivy<cr>',
-	['<leader>l'] = ':Telescope current_buffer_fuzzy_find<cr>',
-	['<leader>r'] = ':Telescope oldfiles theme=dropdown<cr>',
-	['<leader>ih'] = ':Telescope help_tags theme=ivy<cr>',
-	['<leader>ik'] = ':Telescope keymaps theme=ivy<cr>',
-	['<leader>it'] = ':TSHighlightCapturesUnderCursor<cr>',
-	['<leader>ttb'] = ':lua ThemeBloop()<cr>',
-	['<leader>ttg'] = ':lua ThemeGhash()<cr>',
-	['<leader>ttp'] = ':lua ThemePaperColor()<cr>',
-	['<leader>X'] = '<cmd>ped ~/notes/x.md<cr>',
-	['<leader>x'] = '<cmd>ped .notes.md<cr>',
-	['<leader>cp'] = ':LspFormatting<cr>',
-})
+map('n', ']t', ':tabnext<cr>')
+map('n', '[T', ':tabfirst<cr>')
+map('n', ']T', ':tablast<cr>')
+map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
+map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+map('n', '[b', ':bprevious<cr>')
+map('n', ']b', ':bnext<cr>')
+map('n', '[B', ':bfirst<cr>')
+map('n', ']B', ':blast<cr>')
+map('n', '[d', ':LspDiagPrev<cr>')
+map('n', ']d', ':LspDiagNext<cr>')
+map('n', 'gx', ":execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>")
+map('n', '<c-s>' , ':w<cr>')
+map('n', '<F3>' , ':LspRename<cr>')
+map('n', 'gV' , '`[v`]') -- visual select last inserted text)
+map('n', '_' , ':NnnPicker<cr>')
+map('n', '<leader><leader>', ':Telescope find_files find_command=rg,--hidden,--files<cr>') -- TODO: move options to upper call signature (and merge with lower))
+map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]])
+map('n', '<leader>es', ':UltiSnipsEdit<cr>')
+map('n', '<leader>ki', '<Plug>:LspDiagLine<cr>')
+map('n', '<leader>td', ':DBUIToggle<cr>')
+map('n', '<leader>/', ':Telescope live_grep theme=ivy vimgrep_arguments=rg,--color=never,--no-heading,--with-filename,--line-number,--column,--smart-case,-u,--hidden<cr>')
+map('n', '<leader>gg', ':tab G<cr>')
+map('n', '<leader>R', '<Esc><cmd>lua require("telescope").extensions.refactoring.refactors()<CR>')
+map('n', '<leader>T', ':Telescope<CR>')
+map('n', '<leader>b', ':Telescope buffers theme=ivy<cr>')
+map('n', '<leader>l', ':Telescope current_buffer_fuzzy_find<cr>')
+map('n', '<leader>r', ':Telescope oldfiles theme=dropdown<cr>')
+map('n', '<leader>ih', ':Telescope help_tags theme=ivy<cr>')
+map('n', '<leader>ik', ':Telescope keymaps theme=ivy<cr>')
+map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
+map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+map('n', '<leader>ttb', ':lua ThemeBloop()<cr>')
+map('n', '<leader>ttg', ':lua ThemeGhash()<cr>')
+map('n', '<leader>ttp', ':lua ThemePaperColor()<cr>')
+map('n', '<leader>X', '<cmd>ped ~/notes/x.md<cr>')
+map('n', '<leader>x', '<cmd>ped .notes.md<cr>')
+map('n', '<leader>cp', ':LspFormatting<cr>')
 
-noremap.n({
-	['<c-l>'] = ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>',
-	['<F7>'] = ':FloatermNew<CR>',
-	['<F8>'] = ':FloatermPrev<CR>',
-	['<F9>'] = ':FloatermNext<CR>',
-	['<F12>'] = ':FloatermToggle<CR>',
-}, { silent = true })
+map('n', '<c-l>', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', {silent = true})
+map('n', '<F7>', ':FloatermNew<CR>', {silent = true})
+map('n', '<F8>', ':FloatermPrev<CR>', {silent = true})
+map('n', '<F9>', ':FloatermNext<CR>', {silent = true})
+map('n', '<F12>', ':FloatermToggle<CR>', {silent = true})
 
-noremap.t({
-	['<F7>'] = [["<C-\><C-n>:FloatermNew<CR>"]],
-	['<F8>'] = [["<C-\><C-n>:FloatermPrev<CR>"]],
-	['<F9>'] = [["<C-\><C-n>:FloatermNext<CR>"]],
-	['<F12>'] = [["<C-\><C-n>:FloatermToggle<CR>"]],
-}, { silent = true })
+map('t', '<F7>', [["<C-\><C-n>:FloatermNew<CR>"]], {silent = true})
+map('t', '<F8>', [["<C-\><C-n>:FloatermPrev<CR>"]], {silent = true})
+map('t', '<F9>', [["<C-\><C-n>:FloatermNext<CR>"]], {silent = true})
+map('t', '<F12>', [["<C-\><C-n>:FloatermToggle<CR>"]], {silent = true})
 
-noremap.v({
-	['<leader>R'] = '<Esc><cmd>lua require("telescope").extensions.refactoring.refactors()<CR>',
-})
+map('v', '<leader>R', '<Esc><cmd>lua require("telescope").extensions.refactoring.refactors()<CR>', {silent = true})
 
-noremap.i({
-	['jk'] = '<esc>',
-	[';;'] = '<Esc>m`A;<esc>``li', -- Easy insertion of a trailing ; from insert mode
-	[',,'] = '<Esc>m`A,<esc>``li', -- Easy insertion of a trailing , from insert mode
-	})
+map('i', 'jk', '<esc>', {silent = true})
+map('i', ';;', '<Esc>m`A;<esc>``li') -- Easy insertion of a trailing ; from insert mode {silent = true})
+map('i', ',,', '<Esc>m`A,<esc>``li') -- Easy insertion of a trailing , from insert mode {silent = true})
 
-noremap.c('%%', "getcmdtype() == ':' ? expand('%:h').'/' : '%%'" , { expr = true }) -- type %% in vim's prompt to insert %:h expanded
+map('c', '%%', "getcmdtype() == ':' ? expand('%:h').'/' : '%%'" , { expr = true }) -- type %% in vim's prompt to insert %:h expanded
+
+-- Text object
+map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
