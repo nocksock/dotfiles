@@ -23,7 +23,7 @@ noremap.n({
 	['<leader>td'] = ':DBUIToggle<cr>',
 	['<leader>/'] = ':Telescope live_grep theme=ivy vimgrep_arguments=rg,--color=never,--no-heading,--with-filename,--line-number,--column,--smart-case,-u,--hidden<cr>',
 	['<leader>gg'] = ':tab G<cr>',
-	['<leader>R'] = ':lua Refactors()<CR>',
+	['<leader>R'] = '<Esc><cmd>lua require("telescope").extensions.refactoring.refactors()<CR>',
 	['<leader>T'] = ':Telescope<CR>',
 	['<leader>b'] = ':Telescope buffers theme=ivy<cr>',
 	['<leader>l'] = ':Telescope current_buffer_fuzzy_find<cr>',
@@ -55,7 +55,7 @@ noremap.t({
 }, { silent = true })
 
 noremap.v({
-	['<space>R'] = ':lua Refactors()<CR>',
+	['<leader>R'] = '<Esc><cmd>lua require("telescope").extensions.refactoring.refactors()<CR>',
 })
 
 noremap.i({
