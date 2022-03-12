@@ -47,6 +47,7 @@ require('packer').startup(function(use)
 	use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
 	use('tpope/vim-vinegar') -- improved netrw for file browsing.
 	use('mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
+	use('renerocksai/telekasten.nvim') -- zettelkasten within vim
 
 	-- lsp
 	use('neovim/nvim-lspconfig') --  easy configs for language servers
