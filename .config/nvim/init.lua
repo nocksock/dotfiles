@@ -4,6 +4,7 @@
 
 vim.o.backup = true -- enable backups
 vim.o.backupskip = "/tmp/*,/private/tmp/*" -- Make Vim able to edit crontab files again.
+vim.o.backupdir = "~/.local/share/nvim/backup/"
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.clipboard = "unnamed"
 vim.o.completeopt = "menu,menuone,noselect"
