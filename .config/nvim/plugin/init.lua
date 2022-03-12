@@ -1,65 +1,69 @@
 -- plugins {{{
 require('packer').startup(function(use)
-	use('wbthomason/packer.nvim') -- packer can manage itself
+	-- fyi, I prefer using github urls, because they're easier to work with (copy,
+	-- paste, clickable) and more explicit.
 
-	-- general purppose plugins
-	use('tpope/vim-abolish') -- working with words (drastic understatement)
-	use('alvan/vim-closetag') -- auto close html/jsx tags
-	use('tpope/vim-surround') -- quoting/parenthesizing made simple. extends functionality of s
-	use('tpope/vim-repeat') -- makes . even more powerful by adding suppor for plugins
-	use('tpope/vim-commentary') -- comment stuff out and back in via gc/gcc
-	use('tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. like :delete, :move, :chmod
-	use('jiangmiao/auto-pairs') -- auto insert/delete brackets, parens, quotes etc
-	use('editorconfig/editorconfig-vim') -- loads settings from .editoconfig if present
-	use('godlygeek/tabular') -- align text at character. more powerful than :!column
-	use('sirver/ultisnips') -- ultimate snippet manager, still the best.
+	use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
 
-	-- scripting
-	use('nvim-lua/popup.nvim')
-	use('nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
-
-	-- treesitter
-	use('nvim-treesitter/nvim-treesitter')
-	use('nvim-treesitter/playground')
-	use('theprimeagen/refactoring.nvim')
-
-	-- process management etc
-	use('voldikss/vim-floaterm') -- floating terminal
-	use('tpope/vim-dadbod') -- make db connections from within vim
-	use('kristijanhusak/vim-dadbod-ui') -- ui for vim-dadbox
-
-	-- git
-	use('simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
-	use('lewis6991/gitsigns.nvim') -- show diff markers in the gutter + gitlens
-	use('tpope/vim-fugitive') -- a git wrapper in vim
-	use('junegunn/gv.vim') -- commit browser
-
+	-- general purppose plugins {{{
+	use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
+	use('https://github.com/alvan/vim-closetag') -- auto close html/jsx tags
+	use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. extends functionality of s
+	use('https://github.com/tpope/vim-repeat') -- makes . even more powerful by adding suppor for plugins
+	use('https://github.com/tpope/vim-commentary') -- comment stuff out and back in via gc/gcc
+	use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. like :delete, :move, :chmod
+	use('https://github.com/jiangmiao/auto-pairs') -- auto insert/delete brackets, parens, quotes etc
+	use('https://github.com/editorconfig/editorconfig-vim') -- loads settings from .editoconfig if present
+	use('https://github.com/godlygeek/tabular') -- align text at character. more powerful than :!column
+	use('https://github.com/sirver/ultisnips') -- ultimate snippet manager, still the best.
+--}}}
+	-- scripting {{{
+	use('https://github.com/nvim-lua/popup.nvim')
+	use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
+-- }}}
+	-- treesitter{{{
+	use('https://github.com/nvim-treesitter/nvim-treesitter')
+	use('https://github.com/nvim-treesitter/playground')
+	use('https://github.com/theprimeagen/refactoring.nvim')
+--}}}
+	-- process management etc {{{
+	use('https://github.com/voldikss/vim-floaterm') -- floating terminal
+	use('https://github.com/tpope/vim-dadbod') -- make db connections from within vim
+	use('https://github.com/kristijanhusak/vim-dadbod-ui') -- ui for vim-dadbox
+	-- git {{{
+	use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
+	use('https://github.com/lewis6991/gitsigns.nvim') -- show diff markers in the gutter + gitlens
+	use('https://github.com/tpope/vim-fugitive') -- a git wrapper in vim
+	use('https://github.com/junegunn/gv.vim') -- commit browser
+--}}}
 	-- auto-completion via nvim-cmp{{{
-	use('hrsh7th/nvim-cmp')
-	use('hrsh7th/cmp-nvim-lsp')
-	use('hrsh7th/cmp-buffer')
-	use('hrsh7th/cmp-path')
-	use('hrsh7th/cmp-cmdline')
-	use('quangnguyen30192/cmp-nvim-ultisnips')
+	use('https://github.com/hrsh7th/nvim-cmp')
+	use('https://github.com/hrsh7th/cmp-nvim-lsp')
+	use('https://github.com/hrsh7th/cmp-buffer')
+	use('https://github.com/hrsh7th/cmp-path')
+	use('https://github.com/hrsh7th/cmp-cmdline')
+	use('https://github.com/quangnguyen30192/cmp-nvim-ultisnips')
 	-- }}}
-	-- file navigation
-	use('nvim-telescope/telescope.nvim')
-	use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
-	use('tpope/vim-vinegar') -- improved netrw for file browsing.
-	use('mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
-	use('renerocksai/telekasten.nvim') -- zettelkasten within vim
-
-	-- lsp
-	use('neovim/nvim-lspconfig') --  easy configs for language servers
-	use('jose-elias-alvarez/null-ls.nvim')
-	use('jose-elias-alvarez/nvim-lsp-ts-utils')
-
-	-- looks and themes
-	use('pantharshit00/vim-prisma') --  syntax for prisma file
-	use('sheerun/vim-polyglot') -- tons of syntax
-	use('rktjmp/lush.nvim') -- for easily creating colorschemes via dsl
+	-- file navigation{{{
+	use('https://github.com/nvim-telescope/telescope.nvim')
+	use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
+	use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
+	use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
+	use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim
+	use 'https://github.com/nvim-telescope/telescope-symbols.nvim'
+--}}}
+	-- lsp{{{
+	use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
+	use('https://github.com/jose-elias-alvarez/null-ls.nvim')
+	use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
+--}}}
+	-- looks and themes{{{
+	use('https://github.com/pantharshit00/vim-prisma') --  syntax for prisma file
+	use('https://github.com/sheerun/vim-polyglot') -- tons of syntax
+	use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via dsl
+	use('https://github.com/nlknguyen/papercolor-theme') -- for moments I need a bright theme
 	use('~/personal/bloop-vim') -- my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
-	use('nlknguyen/papercolor-theme') -- for moments I need a bright theme
+--}}}
 end)
 --}}}
 -- treesitter {{{
@@ -175,9 +179,10 @@ lspconfig.tsserver.setup({
 
 null_ls.setup({
 	sources = {
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.code_actions.eslint,
+		-- null_ls.builtins.diagnostics.eslint,
+		-- null_ls.builtins.code_actions.eslint,
 		null_ls.builtins.formatting.prettier,
+		null_ls.builtins.formatting.stylua,
 	},
 	on_attach = on_attach,
 })
