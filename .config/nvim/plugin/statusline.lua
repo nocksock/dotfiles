@@ -1,6 +1,23 @@
 -- statusline
 -- a super simple, custom status bar written in lua*
 
+local stl = function(color)
+	return table.concat({
+		color('stlModeMsg'),
+		vim.api.nvim_get_mode().mode:upper(),
+		color('stlLeft'),
+		'%(%m%r%h %)%f',
+		color('stlMid'),
+		"%{get(b:,'gitsigns_head','')}",
+		"%{get(b:,'gitsigns_status','')}",
+		'%=',
+		"/%{@/}",
+		color('stlRight'),
+		vim.lsp.buf.server_ready() and "+lsp" or "",
+		'%y',
+	}, " ")
+end
+
 local function color_state(state, wrap)
 	local function cg(name)
 		return '%#' .. name .. '#'
@@ -15,31 +32,6 @@ local function color_state(state, wrap)
 	end
 end
 
-local lsp_status = function()
-	return vim.lsp.buf.server_ready() and "+lsp" or ""
-end
-
-local mode = function()
-	return vim.api.nvim_get_mode().mode:upper()
-end
-
-local stl = function(color)
-	return table.concat({
-		color('stlModeMsg'),
-		mode(),
-		color('stlLeft'),
-		'%(%m%r%h %)%f',
-		color('stlMid'),
-		"%{get(b:,'gitsigns_head','')}",
-		"%{get(b:,'gitsigns_status','')}",
-		'%=',
-		"/%{@/}",
-		color('stlRight'),
-		lsp_status(),
-		'%y',
-	}, " ")
-end
-
 function StatusLine(type)
 	if type == 'active' then
 		return stl(color_state(''))
@@ -50,9 +42,17 @@ function StatusLine(type)
 end
 
 vim.api.nvim_exec([[
-  augroup statusline
-    au!
-    autocmd WinEnter,BufEnter * setlocal statusline=%!v:lua.StatusLine('active')
-    autocmd WinLeave,BufLeave * setlocal statusline=%!v:lua.StatusLine('inactive')
-  augroup END
+	augroup statusline
+		highlight! link stlModeMsg ModeMsg
+		highlight! link stlLeftNC StatusLineNC
+		highlight! link stlMidNC StatusLineNC
+		highlight! link stlRightNC StatusLineNC
+		highlight! link stlLeft StatusLine
+		highlight! link stlMid StatusLine
+		highlight! link stlRight StatusLine
+
+		au!
+		autocmd WinEnter,BufEnter * setlocal statusline=%!v:lua.StatusLine('active')
+		autocmd WinLeave,BufLeave * setlocal statusline=%!v:lua.StatusLine('inactive')
+	augroup END
 ]], false)
