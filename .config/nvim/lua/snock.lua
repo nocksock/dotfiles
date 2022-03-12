@@ -61,6 +61,8 @@ require('packer').startup(function(use)
 	use('nlknguyen/papercolor-theme') -- for moments I need a bright theme
 end)
 --}}}
+require('gitsigns').setup({})
+
 -- treesitter {{{
 require('nvim-treesitter.configs').setup({
 	highlight = {
@@ -100,15 +102,9 @@ telescope.load_extension('refactoring')
 Refactors = extensions.refactoring.refactors
 -- }}}
 -- LSP {{{
--- for now based on this guide
--- https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
-
-local map = function(bufnr, mode, lhs, rhs, opts)
-	vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {})
-end
 
 local function ts_organize_imports()
 	local params = {
@@ -120,6 +116,10 @@ local function ts_organize_imports()
 end
 
 local on_attach = function(client, bufnr)
+	local map = function(bnr, mode, lhs, rhs, opts)
+		vim.api.nvim_buf_set_keymap(bnr, mode, lhs, rhs, opts or {})
+	end
+
 	vim.cmd('command! LspDef lua vim.lsp.buf.definition()')
 	vim.cmd('command! LspFormatting lua vim.lsp.buf.formatting()')
 	vim.cmd('command! LspCodeAction lua vim.lsp.buf.code_action()')
@@ -142,8 +142,6 @@ local on_attach = function(client, bufnr)
 	map(bufnr, 'n', 'ga', ':Telescope lsp_code_action<CR>')
 	map(bufnr, 'n', '<Leader>ld', ':LspDiagLine<CR>')
 	map(bufnr, 'i', '<C-x><C-x>', '<cmd> LspSignatureHelp<CR>')
-
-	print('LSP bindings enabled') -- todo: add indicator to statusline if LSP is running
 end
 
 cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -273,40 +271,6 @@ cmp.setup.cmdline(':', {
 	}),
 })
 -- }}}
--- gitsigns {{{
 
-require('gitsigns').setup({
-	on_attach = function(bufnr)
-		local function map(mode, lhs, rhs, opts)
-			opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})
-			vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
-		end
 
-		-- Navigation
-		map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-		map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
-
-		-- Actions
-		map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-		map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-		map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-		map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-		map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
-		map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-		map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
-		map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
-		map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
-		map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
-		map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
-
-		map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
-		map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
-
-		-- Text object
-		map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-		map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-	end,
-})
-
--- }}}
 -- vim:fdl=0 fdm=marker
