@@ -18,7 +18,7 @@ end
 
 local function mapper(mode, opts)
 	return function(key, cmd, injected_options)
-		opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})
+		opts = vim.tbl_extend('force', opts or {}, injected_options or {})
 		if injected_options ~= nil then
 			for k, v in pairs(injected_options) do
 				opts[k] = v
@@ -35,7 +35,7 @@ local function mapper(mode, opts)
 			return
 		end
 
-		error('mapper received neither string nor table... o_O')
+		error('mapper received neither string nor table as key. received: ' .. type(key))
 	end
 end
 
@@ -48,6 +48,7 @@ return {
 		t = mapper('t'),
 		x = mapper('x'),
 		o = mapper('o'),
+		c = mapper('c'),
 	},
 
 	noremap = {
@@ -57,5 +58,6 @@ return {
 		t = mapper('t', { noremap = true }),
 		x = mapper('x', { noremap = true }),
 		o = mapper('o', { noremap = true }),
+		c = mapper('c', { noremap = true }),
 	},
 }

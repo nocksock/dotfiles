@@ -63,4 +63,5 @@ noremap.i({
 	[';;'] = '<Esc>m`A;<esc>``li', -- Easy insertion of a trailing ; from insert mode
 	[',,'] = '<Esc>m`A,<esc>``li', -- Easy insertion of a trailing , from insert mode
 	})
--- <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%' " type %% in vim's prompt to insert %:h expanded
+
+noremap.c('%%', "getcmdtype() == ':' ? expand('%:h').'/' : '%%'" , { expr = true }) -- type %% in vim's prompt to insert %:h expanded
