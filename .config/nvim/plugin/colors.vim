@@ -16,12 +16,4 @@ function! ThemePaperColor()
   colorscheme PaperColor
 endfunction
 
-" [i]nfo theme
-nnoremap <leader>it :TSHighlightCapturesUnderCursor<cr>  | " note: has a fallback for non TS highlights.
-
-" [t]oggle [t]heme
-nnoremap <leader>ttb :call ThemeBloop()<cr>
-nnoremap <leader>ttg :call ThemeGhash()<cr>
-nnoremap <leader>ttp :call ThemePaperColor()<cr>
-
 call ThemeBloop()

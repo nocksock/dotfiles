@@ -62,9 +62,6 @@ require('packer').startup(function(use)
   use 'nlknguyen/papercolor-theme'    -- for moments I need a bright theme
 end)
 --}}}
-
-require("snock.statusline")
-
 -- treesitter {{{
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -101,6 +98,7 @@ telescope.setup {
 }
 telescope.load_extension('fzf')
 telescope.load_extension("refactoring")
+Refactors = extensions.refactoring.refactors
 -- }}}
 -- LSP {{{
 -- for now based on this guide
@@ -148,6 +146,7 @@ local on_attach = function(client, bufnr)
 
   print("LSP bindings enabled") -- todo: add indicator to statusline if LSP is running
 end
+
 
 cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -312,5 +311,4 @@ require('gitsigns').setup{
 }
 
 -- }}}
-
 -- vim:fdl=0 fdm=marker

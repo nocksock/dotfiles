@@ -22,12 +22,12 @@ local function createContext(context, wrap)
   end
 end
 
-local function system(cmd)
-  local handle = io.popen(cmd)
-  local result = handle:read("*a")
-  handle:close()
-  return result
-end
+-- local function system(cmd)
+--   local handle = io.popen(cmd)
+--   local result = handle:read("*a")
+--   handle:close()
+--   return result
+-- end
 
 local get_git_status = function()
   -- TODO: check if git is even present

@@ -1,14 +1,10 @@
 "
 " Hi!
 "
-"   This is my messy but *also* large .vimrc
+"   This is my messy nvim configuration
 "
 
-lua require('snock')
-
-" some local modules
 let &runtimepath.=','. expand("$HOME") . '/personal/ghash-vim' " an upcoming, hot colorscheme
-
 let mapleader = "\<space>"
 let maplocalleader = " \<c-@>"                           " use ctrl-space as local leader
 
@@ -72,93 +68,33 @@ set wildignore+=**/.git/*
 set wildignore+=**/tmp/*
 set wildmode=longest,list,full
 
-nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
-
-nnoremap [t :tabprevious<cr>
-nnoremap ]t :tabnext<cr>
-nnoremap [T :tabfirst<cr>
-nnoremap ]T :tablast<cr>
-nnoremap [b :bprevious<cr>
-nnoremap ]b :bnext<cr>
-nnoremap [B :bfirst<cr>
-nnoremap ]B :blast<cr>
-nnoremap [d :LspDiagPrev<cr>
-nnoremap ]d :LspDiagNext<cr>
-
-nnoremap <leader><leader> <cmd>Telescope find_files theme=dropdown find_command=rg,--hidden,--files<cr>
-nnoremap <leader>;        <cmd>terminal ++rows=15<cr>
-nnoremap <leader>X        <cmd>ped ~/notes/x.md<cr>
-nnoremap <leader>x        <cmd>ped .notes.md<cr>
-nnoremap <leader>/        <cmd>Telescope live_grep theme=dropdown<cr>
-
-nnoremap <leader>fr        <cmd>Telescope oldfiles<cr>
-nnoremap <leader>fb        <cmd>Telescope buffers theme=dropdown<cr>
-nnoremap <leader>fl        <cmd>Telescope current_buffer_fuzzy_find<cr>
-
-nnoremap <leader>R        <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
-vnoremap <leader>R        <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
-
-nnoremap <leader>T        <cmd>Telescope<cr>
-nnoremap <leader>ik       <cmd>Telescope keymaps<cr>
-nnoremap <leader>ih       <cmd>Telescope help_tags<cr>
-
-nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr> | " delete trailing spaces
-nnoremap <leader>ci :call CocAction('runCommand', 'editor.action.organizeImport')<cr>
-
-" vscode-likes (close to vscode bindings for presentations)
-nnoremap <c-s> :w<cr>
-nnoremap <leader>ki <Plug>:LspDiagLine
-nnoremap <leader>.  <cmd>Telescope lsp_code_actions theme=cursor<cr>
-nnoremap <F2> :LspRename<cr>
-
-inoremap ;; <Esc>m`A;<esc>``li| " Easy insertion of a trailing ; from insert mode
-inoremap ,, <Esc>m`A,<esc>``li| " Easy insertion of a trailing , from insert mode
-
-cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%' " type %% in vim's prompt to insert %:h expanded
-
-nnoremap gV `[v`]   " visual select last inserted text
-nnoremap _ :NnnPicker<cr>
-
-" reset view. mute search highlights, close preview, clear popups
-nnoremap <silent> <c-l> :<c-u>:nohlsearch<cr>:pclose<cr><c-l>
-nnoremap <silent>   <F7>    :FloatermNew<CR>
-tnoremap <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
-nnoremap <silent>   <F8>    :FloatermPrev<CR>
-tnoremap <silent>   <F8>    <C-\><C-n>:FloatermPrev<CR>
-nnoremap <silent>   <F9>    :FloatermNext<CR>
-tnoremap <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
-nnoremap <silent>   <F12>   :FloatermToggle<CR>
-tnoremap <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
-
-
-" [j|t]sx? {{{
+" -- plugins and other settings
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+let g:netrw_altfile=1 " make CTRL-^ ignore netrw buffers
+let g:db_ui_force_echo_notifications=1
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.js,*.jsx,*.tsx'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+let g:closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
+let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_regions = {
+      \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+      \ 'javascript.jsx': 'jsxRegion',
+      \ }
+let g:closetag_shortcut = '>'
+let g:closetag_close_shortcut = '<leader>>'
 
 augroup ft_jtsx
   au!
-
   au BufNewFile,BufRead *.ts setlocal filetype=typescript
   au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
   au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
-
   autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart " force vim to parse the *entire* file from start.
   autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-  nmap <silent> <leader>cp :LspFormatting<cr>
   au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
-  au FileType javascript nmap <localleader>s :e %:r:r.stories.js<cr>
-  au FileType javascript nmap <localleader>t :e %:r:r.spec.js<cr>
-  au FileType javascript nmap <localleader>m :e %:r:r.js<cr>
-
-  au FileType javascript.jsx nmap <localleader>s :e %:r:r.stories.jsx<cr>
-  au FileType javascript.jsx nmap <localleader>t :e %:r:r.spec.jsx<cr>
-  au FileType javascript.jsx nmap <localleader>m :e %:r:r.jsx<cr>
-
-  au FileType typescript setlocal formatprg=prettier\ --parser\ typescript\ --stdin-filepath\ %
-  au FileType typescript setlocal formatexpr=   " reset Fixedgq from polyglot
-  au FileType typescript nmap <localleader>t :e %:r:r.spec.ts<cr>
-  au FileType typescript nmap <localleader>m :e %:r:r.ts<cr>
 augroup END
-
-" }}}
 
 augroup ft_misc
   au!
