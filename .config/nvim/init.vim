@@ -4,9 +4,10 @@
 "   This is my messy nvim configuration
 "
 
-let &runtimepath.=','. expand("$HOME") . '/personal/ghash-vim' " an upcoming, hot colorscheme
 let mapleader = "\<space>"
 let maplocalleader = " \<c-@>"                           " use ctrl-space as local leader
+
+filetype plugin on
 
 set autoindent                                           " Copy indent from current line when creating a new line                            "
 set autoread                                             " auto re-read file when it changed outside of vim, but not inside
@@ -86,21 +87,14 @@ let g:closetag_regions = {
 let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
+let &runtimepath.=','. expand("$HOME") . '/personal/ghash-vim' " an upcoming, hot colorscheme
+
 augroup ft_jtsx
   au!
-  au BufNewFile,BufRead *.ts setlocal filetype=typescript
-  au BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
-  au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
   autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart " force vim to parse the *entire* file from start.
   autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-  au FileType javascript setlocal formatprg=prettier\ --parser\ typescript
 augroup END
 
-augroup ft_misc
-  au!
-  au BufNewFile,BufRead *.zsh-theme setlocal filetype=zsh
-  au BufNewFile,BufRead *.env.local setlocal filetype=sh
-augroup END
 
 " When saving a buffer, create directories if they do not yet exist.
 augroup Mkdir

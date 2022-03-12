@@ -1,11 +1,14 @@
 -- mapper
 -- -----------
--- just a small helper to define keybinds with tables or a simple function.
+-- just a small helper to define keybinds with simple function calls or a table
+-- if you've got a bunch of bindings with similar options.
 
---    require('mapper').noremap.n({
---      ['<space>b'] = ':Buffers<CR>'
---      ['<space>f'] = ':Telescope()<CR>'
---    }, { silent = true })
+--		noremap = require('mapper').noremap
+--
+--		require('mapper').noremap.n({
+--			['<space>b'] = ':Buffers<CR>'
+--			['<space>f'] = ':Telescope()<CR>'
+--		}, { silent = true })
 
 local function maptable(mode, opts, keys)
 	for map, command in pairs(keys) do
