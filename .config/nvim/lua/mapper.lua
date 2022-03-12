@@ -19,11 +19,6 @@ end
 local function mapper(mode, opts)
 	return function(key, cmd, injected_options)
 		opts = vim.tbl_extend('force', opts or {}, injected_options or {})
-		if injected_options ~= nil then
-			for k, v in pairs(injected_options) do
-				opts[k] = v
-			end
-		end
 
 		if type(key) == 'table' then
 			maptable(mode, opts, key)
