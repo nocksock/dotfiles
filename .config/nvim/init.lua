@@ -45,7 +45,7 @@ setWith(vim.o, {
 	formatoptions = "qrn1j", -- format options when writing, joining lines or `gq` see  :he fo-table for meanings
 	signcolumn = "yes",
 	history = 10000, -- keep way more commands in history
-	listchars = [[tab:\|⋅,eol:¬,trail:-,extends:↩,precedes:↪]], -- define characters for invisible characters
+	listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪', -- define characters for invisible characters
 	mouse = "a", -- enable scrolling and selecting with mouse
 	scrolloff = 2, -- always have 2 lines more visible when reaching top/end of a window when scrolling
 	shell = "/bin/zsh", -- set default shell for :shell
