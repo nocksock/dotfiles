@@ -1,9 +1,12 @@
 vim.o.guifont = "JetBrains Mono:h15"
 vim.cmd("syntax on")
-local bg = function(bg) vim.g.background = bg end
 
-local function theme(theme)
-	vim.cmd("colorscheme " .. theme)
+local bg = function(bg)
+	vim.cmd("set background=" .. bg)
+end
+
+local function theme(scheme)
+	vim.cmd("colorscheme " .. scheme)
 end
 
 function ThemeBloop()
