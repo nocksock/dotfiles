@@ -1,75 +1,94 @@
 -- plugins {{{
-require('packer').startup(function(use)
-	-- fyi, I prefer using github urls, because they're easier to work with (copy,
-	-- paste, clickable) and more explicit.
-
-	use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
-
-	-- general purppose plugins {{{
-	use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
-	use('https://github.com/alvan/vim-closetag') -- auto close html/jsx tags
-	use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. extends functionality of s
-	use('https://github.com/tpope/vim-repeat') -- makes . even more powerful by adding suppor for plugins
-	use('https://github.com/tpope/vim-commentary') -- comment stuff out and back in via gc/gcc
-	use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. like :delete, :move, :chmod
-	use('https://github.com/jiangmiao/auto-pairs') -- auto insert/delete brackets, parens, quotes etc
-	use('https://github.com/editorconfig/editorconfig-vim') -- loads settings from .editoconfig if present
-	use('https://github.com/godlygeek/tabular') -- align text at character. more powerful than :!column
-	use('https://github.com/sirver/ultisnips') -- ultimate snippet manager, still the best.
+require('packer').startup({
+	function(use)
+		-- fyi, I prefer using github urls, because they're easier to work with (copy,
+		-- paste, clickable) and more explicit.
+		use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
+		-- general purppose plugins {{{
+		use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
+		use('https://github.com/alvan/vim-closetag') -- auto close html/jsx tags
+		use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. extends functionality of s
+		use('https://github.com/tpope/vim-repeat') -- makes . even more powerful by adding suppor for plugins
+		use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. like :delete, :move, :chmod
+		use('https://github.com/jiangmiao/auto-pairs') -- auto insert/delete brackets, parens, quotes etc
+		use('https://github.com/editorconfig/editorconfig-vim') -- loads settings from .editoconfig if present
+		use('https://github.com/godlygeek/tabular') -- align text at character. more powerful than :!column
+		use({ '~/personal/rucksack.nvim', requires = 'nvim-lua/plenary.nvim' }) -- stash away code for later re-user across sessions: https://github.com/nocksock/rucksack.nvim
+		use('https://github.com/dstein64/vim-startuptime') -- find the startup bottleneck
+		use('https://github.com/numToStr/Comment.nvim') -- comments, with neat smartnesses
+		use('https://github.com/folke/zen-mode.nvim') -- distraction free writing and some other nice things
+		use('https://github.com/folke/twilight.nvim') -- highlight only portion of text
+		use('https://github.com/L3MON4D3/LuaSnip')
+		--}}}
+		--
+		-- scripting {{{
+		use('https://github.com/nvim-lua/popup.nvim')
+		use('https://github.com/tpope/vim-scriptease') -- helper commands useful when writing vim scripts etc
+		use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
+		-- }}}
+		-- treesitter{{{
+		use('https://github.com/nvim-treesitter/nvim-treesitter')
+		use('https://github.com/nvim-treesitter/playground')
+		use('https://github.com/theprimeagen/refactoring.nvim')
+		--}}},,
+		-- process management etc {{{
+		use('https://github.com/voldikss/vim-floaterm') -- floating terminal
+		use('https://github.com/tpope/vim-dadbod') -- make db connections from within vim
+		use('https://github.com/kristijanhusak/vim-dadbod-ui') -- ui for vim-dadbox
+		-- git {{{
+		use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
+		use('https://github.com/lewis6991/gitsigns.nvim') -- show diff markers in the gutter + gitlens
+		use('https://github.com/tpope/vim-fugitive') -- a git wrapper in vim
+		use('https://github.com/junegunn/gv.vim') -- commit browser
+		--}}}
+		-- auto-completion via nvim-cmp{{{
+		use('https://github.com/hrsh7th/nvim-cmp')
+		use('https://github.com/hrsh7th/cmp-path')
+		use('https://github.com/hrsh7th/cmp-buffer')
+		use('https://github.com/hrsh7th/cmp-cmdline')
+		use('https://github.com/hrsh7th/cmp-nvim-lua')
+		use('https://github.com/hrsh7th/cmp-nvim-lsp')
+		-- }}},
+		-- file navigation{{{
+		use('https://github.com/nvim-telescope/telescope.nvim')
+		use({
+			'https://github.com/nvim-telescope/telescope-fzf-native.nvim',
+			run = 'make',
+		})
+		use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
+		use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
+		use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim
+		use('https://github.com/nvim-telescope/telescope-symbols.nvim')
+		--}}}
+		-- lsp{{{
+		use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
+		use('https://github.com/jose-elias-alvarez/null-ls.nvim')
+		use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
+		--}}}
+		-- looks and themes{{{
+		use('https://github.com/pantharshit00/vim-prisma') --  syntax for prisma file
+		use('https://github.com/sheerun/vim-polyglot') -- tons of syntax, but slows down startup time
+		use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via dsl
+		use('https://github.com/nlknguyen/papercolor-theme') -- for moments I need a bright theme
+		use('~/personal/bloop-vim') -- my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
+		use('https://github.com/rafi/awesome-vim-colorschemes')
+		use('https://github.com/tomasr/molokai')
+		use('https://github.com/ayu-theme/ayu-vim')
+		--}}}
+	end,
+	config = {
+		profile = {
+			enable = true,
+			threshold = 2,
+		},
+	},
+})
 --}}}
-	-- scripting {{{
-	use('https://github.com/nvim-lua/popup.nvim')
-	use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
--- }}}
-	-- treesitter{{{
-	use('https://github.com/nvim-treesitter/nvim-treesitter')
-	use('https://github.com/nvim-treesitter/playground')
-	use('https://github.com/theprimeagen/refactoring.nvim')
---}}}
-	-- process management etc {{{
-	use('https://github.com/voldikss/vim-floaterm') -- floating terminal
-	use('https://github.com/tpope/vim-dadbod') -- make db connections from within vim
-	use('https://github.com/kristijanhusak/vim-dadbod-ui') -- ui for vim-dadbox
-	-- git {{{
-	use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
-	use('https://github.com/lewis6991/gitsigns.nvim') -- show diff markers in the gutter + gitlens
-	use('https://github.com/tpope/vim-fugitive') -- a git wrapper in vim
-	use('https://github.com/junegunn/gv.vim') -- commit browser
---}}}
-	-- auto-completion via nvim-cmp{{{
-	use('https://github.com/hrsh7th/nvim-cmp')
-	use('https://github.com/hrsh7th/cmp-nvim-lsp')
-	use('https://github.com/hrsh7th/cmp-buffer')
-	use('https://github.com/hrsh7th/cmp-path')
-	use('https://github.com/hrsh7th/cmp-cmdline')
-	use('https://github.com/quangnguyen30192/cmp-nvim-ultisnips')
-	-- }}}
-	-- file navigation{{{
-	use('https://github.com/nvim-telescope/telescope.nvim')
-	use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
-	use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
-	use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
-	use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim
-	use 'https://github.com/nvim-telescope/telescope-symbols.nvim'
---}}}
-	-- lsp{{{
-	use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
-	use('https://github.com/jose-elias-alvarez/null-ls.nvim')
-	use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
---}}}
-	-- looks and themes{{{
-	use('https://github.com/pantharshit00/vim-prisma') --  syntax for prisma file
-	use('https://github.com/sheerun/vim-polyglot') -- tons of syntax
-	use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via dsl
-	use('https://github.com/nlknguyen/papercolor-theme') -- for moments I need a bright theme
-	use('~/personal/bloop-vim') -- my own colorscheme, work in progress, available at github.com/nocksock/bloop-vim
---}}}
-end)
 --}}}
 -- treesitter {{{
 require('nvim-treesitter.configs').setup({
 	highlight = {
-		enable = false, -- TODO: adjust bloop-theme to be compatible with tree-sitter groups
+		enable = false,
 		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -102,6 +121,7 @@ telescope.setup({
 })
 telescope.load_extension('fzf')
 telescope.load_extension('refactoring')
+require('telekasten').setup({})
 -- }}}
 -- LSP {{{
 -- for now based on this guide
@@ -143,7 +163,7 @@ local on_attach = function(client, bufnr)
 	map(bufnr, 'n', 'K', ':LspHover<CR>')
 	map(bufnr, 'n', '[d', ':LspDiagPrev<CR>')
 	map(bufnr, 'n', ']d', ':LspDiagNext<CR>')
-	map(bufnr, 'n', 'ga', ':Telescope lsp_code_action<CR>')
+	map(bufnr, 'n', 'ga', ':Telescope lsp_code_actions<CR>')
 	map(bufnr, 'n', '<Leader>ld', ':LspDiagLine<CR>')
 	map(bufnr, 'i', '<C-x><C-x>', '<cmd> LspSignatureHelp<CR>')
 
@@ -222,7 +242,9 @@ lspconfig.sumneko_lua.setup({
 })
 
 lspconfig.tailwindcss.setup({})
-lspconfig.gopls.setup({})
+lspconfig.gopls.setup({
+		on_attach = on_attach
+	})
 
 -- }}}
 -- completion {{{
@@ -231,25 +253,29 @@ local cmp = require('cmp')
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
+			--vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},
 	mapping = {
 		['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
 		['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
 		['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-		['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+		['<C-y>'] = cmp.mapping.confirm({
+				behavior = cmp.ConfirmBehavior.Insert,
+				select = true
+			}), -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
 		['<C-e>'] = cmp.mapping({
 			i = cmp.mapping.abort(),
 			c = cmp.mapping.close(),
 		}),
-		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		['<CR>'] = cmp.mapping.confirm({ select = false }),
 	},
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
-		{ name = 'ultisnips' }, -- For ultisnips users.
+		{ name = 'luasnip' },
 	}, {
-		{ name = 'buffer' },
+		{ name = 'buffer', keyword_length = 5 },
 	}),
 })
 
@@ -314,4 +340,49 @@ require('gitsigns').setup({
 })
 
 -- }}}
--- vim:fdl=0 fdm=marker
+
+require('zen-mode').setup({
+	-- your configuration comes here
+	-- or leave it empty to use the default settings
+	-- refer to the configuration section below
+	plugins = {
+		kitty = {
+			enabled = true,
+			font = '+4',
+		},
+		twilight = {
+			enabled = false
+		},
+		tmux = {
+			enabled = true,
+		},
+		gitsigns = {
+			enabled = true,
+		},
+		options = {
+			enabled = true,
+			showcmd = false
+		}
+	},
+
+	window = {
+		backdrop = 0.75,
+		width = 120,
+		options = {
+			signcolumn = "no",
+			number = false,
+			relativenumber = false,
+			list = false,
+		},
+	},
+})
+
+require('twilight').setup {
+	dimming = {
+		inactive = true
+	}
+}
+
+
+require('comment').setup {}
+-- vim:fdm=marker fdl=9
