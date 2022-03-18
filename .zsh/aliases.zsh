@@ -8,7 +8,9 @@ alias ..='cd ..'
 alias tower='open . -a Tower'
 alias fh='history 1 | fzf'
 alias nv=nvim
+alias nv=/usr/local/bin/nvim
 alias p=tmux-qp
+alias love='open -n -a love'
 
 # sometimes I might want to append to a path of some other function,
 # this way I don't have to remember sed syntax - and deal with escaping of
@@ -29,7 +31,7 @@ else
 	alias rm='rm -i' # rm -i will ask for each deletion
 fi
 
-# ls 
+# ls
 alias ll='ls -laF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -87,7 +89,7 @@ fbr() {
 } # }}}
 
 # git show fuzzy filter {{{
-gshow() { 
+gshow() {
   git log --graph --color=always \
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
