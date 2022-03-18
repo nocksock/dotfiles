@@ -3,12 +3,13 @@
 
 local stl = function(color)
 	return table.concat({
+    color('StatusLine'),
 		color('stlModeMsg'),
 		vim.api.nvim_get_mode().mode:upper(),
 		color('stlLeft'),
-		'%(%m%r%h %)%f',
+		'%(%m%r%h %)%-10.30f%q',
 		color('stlMid'),
-		"%{get(b:,'gitsigns_head','')}",
+		"%-5.20{get(b:,'gitsigns_head','')}",
 		"%{get(b:,'gitsigns_status','')}",
 		'%=',
 		"/%{@/}",
@@ -33,6 +34,7 @@ local function color_state(state, wrap)
 end
 
 function StatusLine(type)
+	-- TODO add state groups for insert, select, etcpp
 	if type == 'active' then
 		return stl(color_state(''))
 	end
@@ -42,15 +44,15 @@ function StatusLine(type)
 end
 
 vim.api.nvim_exec([[
-	augroup statusline
-		highlight! link stlModeMsg ModeMsg
-		highlight! link stlLeftNC StatusLineNC
-		highlight! link stlMidNC StatusLineNC
-		highlight! link stlRightNC StatusLineNC
-		highlight! link stlLeft StatusLine
-		highlight! link stlMid StatusLine
-		highlight! link stlRight StatusLine
+  highlight def link stlModeMsg ModeMsg
+  highlight def link stlLeftNC StatusLineNC
+  highlight def link stlMidNC StatusLineNC
+  highlight def link stlRightNC StatusLineNC
+  highlight def link stlLeft StatusLine
+  highlight def link stlMid StatusLine
+  highlight def link stlRight StatusLine
 
+	augroup statusline
 		au!
 		autocmd WinEnter,BufEnter * setlocal statusline=%!v:lua.StatusLine('active')
 		autocmd WinLeave,BufLeave * setlocal statusline=%!v:lua.StatusLine('inactive')
