@@ -270,6 +270,12 @@ cmp.setup({
 			c = cmp.mapping.close(),
 		}),
 		['<CR>'] = cmp.mapping.confirm({ select = false }),
+		['<C-l>'] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				return cmp.complete_common_string()
+			end
+			fallback()
+		end, { 'i', 'c' }),
 	},
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
