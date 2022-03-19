@@ -24,12 +24,13 @@ map(
 	'<leader><leader>',
 	':Telescope find_files template=dropdown find_command=rg,--hidden,--files<cr>'
 )
-map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]])
+map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>es', ':UltiSnipsEdit<cr>')
 map('n', '<leader>ki', '<Plug>:LspDiagLine<cr>')
 map('n', '<leader>td', ':DBUIToggle<cr>')
 map('n', '<leader>/', ':Telescope live_grep theme=ivy hidden=true<cr>')
 map('n', '<leader>gg', ':tab G<cr>')
+map('n', '<leader>gc', ':Git commit<cr>')
 map(
 	'n',
 	'<leader>R',
