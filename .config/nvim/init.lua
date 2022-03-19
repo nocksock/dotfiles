@@ -78,9 +78,6 @@ vim.cmd([[
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd TermOpen * startinsert
     autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
-
-    autocmd InsertEnter * set list
-    autocmd InsertLeave * set nolist
   augroup END!
 
 	" When saving a buffer, create directories if they do not yet exist.
