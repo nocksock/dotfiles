@@ -16,7 +16,7 @@ local stl = function(color)
 		color('stlRight'),
 		vim.lsp.buf.server_ready() and "+lsp" or "",
 		'%y',
-		'%n',
+		'%n ',
 	}, " ")
 end
 
