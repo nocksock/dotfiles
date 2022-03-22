@@ -75,6 +75,19 @@ map('n', '<leader>ttt', ':Telescope colorscheme enable_preview=true<cr>')
 map('n', '<leader>tz', ':ZenMode<cr>')
 map('n', '<leader>tw', ':Twilight<cr>')
 
+-- harpoon
+map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>', { silent = true })
+map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>', { silent = true })
+map('n', "'\"", ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>', { silent = true })
+map('n', "'a", ':lua require("harpoon.ui").nav_file(1)<CR>', { silent = true })
+map('n', "'s", ':lua require("harpoon.ui").nav_file(2)<CR>', { silent = true })
+map('n', "'d", ':lua require("harpoon.ui").nav_file(3)<CR>', { silent = true })
+map('n', "'f", ':lua require("harpoon.ui").nav_file(4)<CR>', { silent = true })
+map('n', "'A", ':lua require("harpoon.term").gotoTerminal(1)<CR>', { silent = true })
+map('n', "'S", ':lua require("harpoon.term").gotoTerminal(2)<CR>', { silent = true })
+map('n', "'D", ':lua require("harpoon.term").gotoTerminal(3)<CR>', { silent = true })
+map('n', "'F", ':lua require("harpoon.term").gotoTerminal(4)<CR>', { silent = true })
+
 -- notes
 map('n', '<leader>X', '<cmd>ped ~/notes/x.md<cr>')
 map('n', '<leader>x', '<cmd>ped .notes.md<cr>')

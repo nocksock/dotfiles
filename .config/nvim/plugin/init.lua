@@ -59,6 +59,7 @@ require('packer').startup({
 		use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
 		use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim
 		use('https://github.com/nvim-telescope/telescope-symbols.nvim')
+		use('https://github.com/ThePrimeagen/harpoon') -- navigating to important files and commands at ludicrous speed
 		--}}}
 		-- lsp{{{
 		use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
