@@ -4,6 +4,7 @@ vim.o.backupskip = '/tmp/*,/private/tmp/*' -- Make Vim able to edit crontab file
 vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.clipboard = 'unnamed'
+vim.o.fillchars='eob:⸱'
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.cursorline = true -- Highlight the line of in which the cursor is present (or not)
 vim.o.expandtab = true -- use spaces for indentation by default
@@ -45,16 +46,13 @@ vim.o.wildignore = table.concat({
 }, ',')
 
 vim.o.wildmode = 'longest,list,full'
-vim.o.runtimepath = vim.o.runtimepath .. ',~/personal/ghash-vim'
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
-vim.g.UltiSnipsExpandTrigger = '<c-l>'
-vim.g.UltiSnipsJumpForwardTrigger = '<c-l>'
-vim.g.UltiSnipsJumpBackwardTrigger = '<c-h>'
-
 vim.g.netrw_altfile = 1 -- make CTRL-^ ignore netrw buffers
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 33
 
 vim.g.db_ui_force_echo_notifications = 1
 
@@ -72,7 +70,7 @@ vim.g.closetag_close_shortcut = '<leader>>'
 vim.cmd([[
 	filetype plugin on
 	set background=dark
-	colors sunbather
+	colors bloop
 
   augroup snock
     au!
@@ -80,13 +78,10 @@ vim.cmd([[
     autocmd TermOpen * startinsert
     autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
   augroup END!
-
-	" When saving a buffer, create directories if they do not yet exist.
-	augroup Mkdir
-		autocmd!
-		autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
-	augroup END
 ]])
+
+vim.o.runtimepath = vim.o.runtimepath..',~/.local/share/nvim/site/pack/packer/start/himalaya/vim'
+vim.g.himalaya_mailbox_picker = 'telescope'
 
 P = function(v)
 	print(vim.inspect(v))
