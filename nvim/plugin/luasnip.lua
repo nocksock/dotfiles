@@ -1,4 +1,30 @@
 local ls = require('luasnip')
+
+vim.keymap.set({ 'i', 's' }, '<c-l>', function()
+	if ls.expand_or_jumpable() then
+		ls.expand_or_jump()
+	else
+		print("no snippet")
+	end
+end, { silent = true })
+
+vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+	if ls.choice_active() then
+		ls.change_choice(1)
+	else
+		vim.cmd(':m .+1<CR>==i')
+	end
+end, { silent = true })
+
+vim.keymap.set({ 'i', 's' }, '<c-k>', function()
+	if ls.jumpable(-1) then
+		ls.jump(-1)
+	else
+		vim.cmd(':m .-2<CR>==i')
+	end
+end, { silent = true })
+
+
 -- config {{{
 ls.config.set_config({
 	history = true,
@@ -62,13 +88,13 @@ ls.snippets = {
 			end)
 		),
 	}, --}}}
-	['typescript'] = {
+	typescript = {
 		s('clg', fmt([[console.log({});]], { i(0) })),
+		s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	},
-	['tsx'] = {
+	tsx = {
 		-- TODO: a snippet that uses Tree Sitter to check whether pre or
 		-- console.log
-		s('cjson', fmt([[console.log(JSON.stringify({}, null, 2));]], { i(0) })),
 		s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	},
 	php = {
@@ -123,7 +149,7 @@ ls.snippets = {
 			'req',
 			fmt([[local {} = require('{}')]], {
 				f(function(import_name)
-					-- local foo = require('foobar.foo').thing
+					-- local foo = require('foobar.foo')
 					local parts = vim.split(import_name[1][1], '.', true)
 					return parts[#parts] or ''
 				end, { 1 }),

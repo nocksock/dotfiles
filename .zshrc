@@ -64,7 +64,7 @@ zstyle ':omz:update' frequency 13
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git brew aliases dash fzf gh npm nvm tmux)
+plugins=(git brew aliases dash fzf gh npm nvm tmux golang)
 export NVM_AUTOLOAD=1
 
 # User configuration
@@ -102,7 +102,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 source $ZSH/oh-my-zsh.sh
-source $DOTDIR/.zsh/aliases.zsh
+source $DOTDIR/zsh/aliases.zsh
 
 ##############################################################################
 # History Configuration
@@ -124,4 +124,4 @@ setopt    incappendhistory  # Immediately append to the history file, not just w
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
+export NNN_BMS="c:$HOME/.config/;f:$HOME/forks;p:$HOME/projects/;b:$HOME/projects/bleepbloop.studio/;e:$HOME/projects/edeka-ui/"

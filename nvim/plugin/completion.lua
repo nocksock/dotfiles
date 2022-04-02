@@ -4,7 +4,6 @@ local ls = require('luasnip')
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			--vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
 			require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},

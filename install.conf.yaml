@@ -9,16 +9,16 @@
 
 - link:
     ~/.zshrc: .zshrc
-    ~/.vimrc: .vimrc
+    ~/.zsh: zsh
     ~/.tmux.conf: .tmux.conf
     ~/.doom.d: .doom.d
-    ~/.config/nvim/UltiSnips: .vim/UltiSnips
     ~/.oh-my-zsh/custom: omz-custom
-    ~/.config:
-      glob: true
-      path: .config/*
-      exclude: [.config/polybar]
-    ~/.config/polybar/bloop: .config/polybar/bloop
+    ~/.config/nvim: nvim
+    ~/.config/alacritty: alacritty
+    ~/.config/kitty: kitty
+    ~/.config/herbstluftwm: herbstluftwm
+    ~/.config/rofi: rofi
+    ~/.config/polybar: polybar
 
 - create:
   - ~/.vim/undo-history

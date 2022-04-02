@@ -4,7 +4,7 @@ vim.o.backupskip = '/tmp/*,/private/tmp/*' -- Make Vim able to edit crontab file
 vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.clipboard = 'unnamed'
-vim.o.fillchars='eob:⸱'
+vim.o.fillchars = 'eob:⸱'
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.cursorline = true -- Highlight the line of in which the cursor is present (or not)
 vim.o.expandtab = true -- use spaces for indentation by default
@@ -17,7 +17,7 @@ vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪' -- define cha
 vim.o.mouse = 'a' -- enable scrolling and selecting with mouse
 vim.o.nu = true
 vim.o.rnu = true -- show *HYBRID* line numbers, relative line numbers + current line number
-vim.o.pumheight=10 -- limit popupmenu to 10 lines
+vim.o.pumheight = 10 -- limit popupmenu to 10 lines
 vim.o.scrolloff = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
 vim.o.shell = '/bin/zsh' -- set default shell for :shell
 vim.o.shiftround = true -- When at 3 spaces and I hit >>, go to 4, not 5.
@@ -32,7 +32,7 @@ vim.o.tabstop = 2
 vim.o.termguicolors = true -- enable 24bit colors
 vim.o.textwidth = 80
 vim.o.undofile = true
-vim.o.undodir = "/tmp"
+vim.o.undodir = '/tmp'
 vim.o.wrap = false -- don't wrap text around when the window is too small
 vim.o.wildignore = table.concat({
 	'.DS_Store',
@@ -44,6 +44,7 @@ vim.o.wildignore = table.concat({
 	'**/.git/*',
 	'**/tmp/*',
 }, ',')
+vim.o.path = vim.o.path .. ",**"
 
 vim.o.wildmode = 'longest,list,full'
 
@@ -56,10 +57,10 @@ vim.g.netrw_winsize = 33
 
 vim.g.db_ui_force_echo_notifications = 1
 
-vim.g.closetag_filenames = "*.html*.xhtml*.phtml*.js*.jsx*.tsx"
-vim.g.closetag_xhtml_filenames = "*.xhtml*.jsx"
-vim.g.closetag_filetypes = "html,xhtml,phtml,jsx,tsx,javascript"
-vim.g.closetag_xhtml_filetypes = "xhtmljsxtsx"
+vim.g.closetag_filenames = '*.html*.xhtml*.phtml*.js*.jsx*.tsx'
+vim.g.closetag_xhtml_filenames = '*.xhtml*.jsx'
+vim.g.closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
+vim.g.closetag_xhtml_filetypes = 'xhtmljsxtsx'
 vim.g.closetag_emptyTags_caseSensitive = 1
 vim.g.closetag_regions = {
 	['typescript.tsx'] = 'jsxRegion,tsxRegion',
@@ -80,7 +81,8 @@ vim.cmd([[
   augroup END!
 ]])
 
-vim.o.runtimepath = vim.o.runtimepath..',~/.local/share/nvim/site/pack/packer/start/himalaya/vim'
+vim.o.runtimepath = vim.o.runtimepath
+	.. ',~/.local/share/nvim/site/pack/packer/start/himalaya/vim'
 vim.g.himalaya_mailbox_picker = 'telescope'
 
 P = function(v)
@@ -88,8 +90,8 @@ P = function(v)
 	return v
 end
 
-if pcall(require, "plenary") then
-	RELOAD = require("plenary.reload").reload_module
+if pcall(require, 'plenary') then
+	RELOAD = require('plenary.reload').reload_module
 
 	R = function(name)
 		RELOAD(name)

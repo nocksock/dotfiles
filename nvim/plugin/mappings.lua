@@ -52,6 +52,7 @@ map(
 )
 map('n', '<leader>T', ':Telescope<CR>')
 map('n', '<leader>b', ':Telescope buffers theme=ivy<cr>')
+map('n', '<leader>gb', ':Telescope buffers theme=dropdown<cr>')
 map('n', '<leader>l', ':Telescope current_buffer_fuzzy_find<cr>')
 map('n', '<leader>r', ':Telescope oldfiles theme=dropdown<cr>')
 map('n', '<leader>xx', '<cmd>Trouble<cr>')
@@ -83,16 +84,18 @@ map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 
 -- theme toggle
-map('n', '<leader>ttb', ':set background=dark|colors bloop<cr>')
-map('n', '<leader>ttg', ':set background=dark|colors ghash<cr>')
-map('n', '<leader>ttp', ':set background=light|colors PaperColor<cr>')
-map('n', '<leader>tts', ':set background=dark|colors sunbather<cr>')
-map('n', '<leader>ttn', ':set background=dark|colors nazgul<cr>')
+map('n', '<leader>ttb', ':colors bloop<cr>')
+map('n', '<leader>ttg', ':colors ghash<cr>')
+map('n', '<leader>ttp', ':colors PaperColor<cr>')
+map('n', '<leader>tts', ':colors sunbather<cr>')
+map('n', '<leader>ttn', ':colors nazgul<cr>')
 map('n', '<leader>ttt', ':Telescope colorscheme enable_preview=true<cr>')
 
 -- toggles
 map('n', '<leader>tz', ':ZenMode<cr>')
 map('n', '<leader>tw', ':Twilight<cr>')
+map('n', '<leader>tcl', ':lua vim.o.cursorline = not vim.o.cursorline<CR>')
+map('n', '<leader>tbg', ':lua vim.o.background = vim.o.background == "dark" and "light" or "dark"<CR>')
 
 -- harpoon: nav_file
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
@@ -159,25 +162,3 @@ map('v', '<C-k>', ":m '<-2<CR>gv=gv")
 -- snippets
 map('n', '<leader>sl', '<cmd>source ~/.config/nvim/plugin/luasnip.lua<CR>')
 
-local ls = require('luasnip')
-vim.keymap.set({ 'i', 's' }, '<c-l>', function()
-	if ls.expand_or_jumpable() then
-		ls.expand_or_jump()
-	end
-end, { silent = true })
-
-vim.keymap.set({ 'i', 's' }, '<c-j>', function()
-	if ls.choice_active() then
-		ls.change_choice(1)
-	else
-		vim.cmd(':m .+1<CR>==i')
-	end
-end, { silent = true })
-
-vim.keymap.set({ 'i', 's' }, '<c-k>', function()
-	if ls.jumpable(-1) then
-		ls.jump(-1)
-	else
-		vim.cmd(':m .-2<CR>==i')
-	end
-end, { silent = true })
