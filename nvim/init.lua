@@ -98,3 +98,19 @@ if pcall(require, 'plenary') then
 		return require(name)
 	end
 end
+
+local group = vim.api.nvim_create_augroup('togglelistinsertleave', { clear = true })
+vim.api.nvim_create_autocmd('insertenter', {
+	callback = function()
+    vim.o.rnu = false
+    vim.o.list = true
+	end,
+	group = group,
+})
+vim.api.nvim_create_autocmd('insertleave', {
+	callback = function()
+    vim.o.rnu = true
+    vim.o.list = false
+	end,
+	group = group,
+})
