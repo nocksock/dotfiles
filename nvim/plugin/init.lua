@@ -67,3 +67,9 @@ require('packer').startup(function(use)
 	use('~/personal/nazgul-vim')
 	use('~/personal/ghash-nvim')
 end)
+require('comment').setup({})
+require('toggleterm').setup({})
+require('nvim-web-devicons').setup()
+require('rucksack').setup({
+	mappings = true
+})
