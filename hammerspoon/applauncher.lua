@@ -1,4 +1,4 @@
-local apps = hs.hotkey.modal.new({ "cmd", "control", "shift", "option" }, "o")
+local apps = hs.hotkey.modal.new({ "cmd", "control", "shift", "option" }, ";")
 
 function apps:entered()
 	hs.alert.show("press key")
