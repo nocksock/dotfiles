@@ -1,0 +1,1 @@
+hs = require('hammerspoon')

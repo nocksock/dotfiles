@@ -19,6 +19,7 @@
     ~/.config/herbstluftwm: herbstluftwm
     ~/.config/rofi: rofi
     ~/.config/polybar: polybar
+    ~/.hammerspoon: hammerspoon
 
 - create:
   - ~/.vim/undo-history
