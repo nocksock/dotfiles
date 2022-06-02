@@ -54,8 +54,6 @@ require('packer').startup(function(use)
 	use('https://github.com/princejoogie/tailwind-highlight.nvim') -- show tailwind colors
 	use('https://github.com/rmagatti/goto-preview')
 	use('https://github.com/folke/trouble.nvim')
-	use('https://github.com/pantharshit00/vim-prisma') --  syntax for prisma file
-	use('https://github.com/sheerun/vim-polyglot') -- tons of syntax, but slows down startup time
 	use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via dsl
 	use('https://github.com/nlknguyen/papercolor-theme') -- for moments I need a bright theme
 	use('https://github.com/rafi/awesome-vim-colorschemes')
