@@ -1,7 +1,4 @@
 local function map(mode, key, command, opts)
-	if command == nil then
-		error("command is missing in ".. mode .." map with keys: " .. key)
-	end
 	opts = vim.tbl_extend('force', { noremap = true, silent = true }, opts or {})
 	vim.api.nvim_set_keymap(mode, key, command, opts)
 end
@@ -52,7 +49,7 @@ map(
 )
 map('n', '<leader>T', ':Telescope<CR>')
 map('n', '<leader>b', ':Telescope buffers theme=ivy<cr>')
-map('n', '<leader>gb', ':Telescope buffers theme=dropdown<cr>')
+map('n', '<leader>gb', ':Telescope git_branches theme=dropdown<cr>')
 map('n', '<leader>l', ':Telescope current_buffer_fuzzy_find<cr>')
 map('n', '<leader>r', ':Telescope oldfiles theme=dropdown<cr>')
 map('n', '<leader>xx', '<cmd>Trouble<cr>')
@@ -95,22 +92,26 @@ map('n', '<leader>ttt', ':Telescope colorscheme enable_preview=true<cr>')
 map('n', '<leader>tz', ':ZenMode<cr>')
 map('n', '<leader>tw', ':Twilight<cr>')
 map('n', '<leader>tcl', ':lua vim.o.cursorline = not vim.o.cursorline<CR>')
-map('n', '<leader>tbg', ':lua vim.o.background = vim.o.background == "dark" and "light" or "dark"<CR>')
+map(
+	'n',
+	'<leader>tbg',
+	':lua vim.o.background = vim.o.background == "dark" and "light" or "dark"<CR>'
+)
 
 -- harpoon: nav_file
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
 map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 map('n', "'a", ':lua require("harpoon.ui").nav_file(1)<CR>')
 map('n', "'s", ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('n', "'d", ':lua require("harpoon.ui").nav_file(3)<CR>')
-map('n', "'f", ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('n', "'s", ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('n', "'t", ':lua require("harpoon.ui").nav_file(4)<CR>')
 
 -- harpoon: cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
 map('n', '"a', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
-map('n', '"s', ':lua require("harpoon.term").gotoTerminal(2)<CR>')
-map('n', '"d', ':lua require("harpoon.term").gotoTerminal(3)<CR>')
-map('n', '"f', ':lua require("harpoon.term").gotoTerminal(4)<CR>')
+map('n', '"r', ':lua require("harpoon.term").gotoTerminal(2)<CR>')
+map('n', '"s', ':lua require("harpoon.term").gotoTerminal(3)<CR>')
+map('n', '"t', ':lua require("harpoon.term").gotoTerminal(4)<CR>')
 
 -- notes
 map('n', '<leader>X', '<cmd>ped ~/notes/x.md<cr>')
@@ -118,7 +119,7 @@ map('n', '<leader>x', '<cmd>ped .notes.md<cr>')
 
 -- muscle memory
 map('n', '<leader>cp', ':LspFormatting<cr>')
-map('n', '<leader>.', ':Telescope lsp_code_actions theme=cursor<cr>')
+map('n', '<leader>.', ':LspCodeAction<cr>')
 map('n', '<F3>', ':LspRename<cr>')
 map('n', '<c-l>', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>')
 
@@ -130,9 +131,10 @@ map('t', '<F12>', [["<C-\><C-n>:ToggleTerm<CR>"]])
 map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'j']], { expr = true })
 map('n', 'k', [[(v:count > 5 ? "m'" . v:count : "") . 'k']], { expr = true })
 map('n', 'gx', ":execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>")
-map('n', '<c-s>', ':w<cr>')
+-- map('n', '<c-s>', ':w<cr>')
 map('n', 'gV', '`[v`]') -- visual select last inserted text)
 map('n', '_', ':NnnPicker<cr>')
+map('n', '<leader>es', ':LuaSnipEdit<cr>')
 map(
 	'n',
 	'<leader><leader>',
@@ -154,11 +156,30 @@ map('i', '.', '.<c-g>u')
 map('i', '?', '?<c-g>u')
 map('i', ',', ',<c-g>u')
 
--- misc: move text around
+-- misc: move text around (not: insert variations defined in luasnip mappings)
 map('n', '<C-k>', ':m .-2<CR>==')
 map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 map('v', '<C-k>', ":m '<-2<CR>gv=gv")
 
--- snippets
-map('n', '<leader>sl', '<cmd>source ~/.config/nvim/plugin/luasnip.lua<CR>')
+local ls = require('luasnip')
+vim.keymap.set({ 'i', 's' }, '<c-l>', function()
+	if ls.expand_or_jumpable() then
+		ls.expand_or_jump()
+	end
+end, { silent = true })
 
+vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+	if ls.choice_active() then
+		ls.change_choice(1)
+	else
+		vim.cmd(':m .+1<CR>==i') -- move line
+	end
+end, { silent = true })
+
+vim.keymap.set({ 'i', 's' }, '<c-k>', function()
+	if ls.jumpable(-1) then
+		ls.jump(-1)
+	else
+		vim.cmd(':m .-2<CR>==i') -- move line
+	end
+end, { silent = true })

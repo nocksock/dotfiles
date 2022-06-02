@@ -7,14 +7,6 @@ telescope.setup({
 				['<C-Up>'] = require('telescope.actions').cycle_history_prev,
 			},
 		},
-		windblend = 90,
-		path_display = {},
-		layout_strategy = 'vertical',
-		layout_config = {
-			height = 0.95,
-			width = 0.75,
-			prompt_position = 'bottom',
-		},
 	},
 	extensions = {
 		fzf = {
@@ -27,14 +19,3 @@ telescope.setup({
 
 telescope.load_extension('fzf')
 telescope.load_extension('refactoring')
-
-local home = vim.fn.expand('~/notes')
-require('telekasten').setup({
-	home = home,
-	dailies = home .. '/' .. 'daily',
-	weeklies = home .. '/' .. 'weekly',
-	templates = home .. '/' .. 'templates',
-
-	-- markdown file extension
-	extension = '.md',
-})

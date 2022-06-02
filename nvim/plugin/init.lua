@@ -5,13 +5,6 @@ require('packer').startup(function(use)
 	use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. extends functionality of s
 	use('https://github.com/tpope/vim-repeat') -- makes . even more powerful by adding suppor for plugins
 	use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. like :delete, :move, :chmod
-	use({
-		'https://github.com/glacambre/firenvim',
-		run = function()
-			vim.fn['firenvim#install'](0)
-		end,
-	})
-	use({ 'https://github.com/soywod/himalaya', rtp = 'vim' }) -- email in vim?!
 	use('https://github.com/mattn/emmet-vim') -- div.emmet>p.is{awesome}
 	use('https://github.com/editorconfig/editorconfig-vim') -- loads settings from .editoconfig if present
 	use('https://github.com/godlygeek/tabular') -- align text at character. more powerful than :!column
