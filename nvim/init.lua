@@ -45,6 +45,8 @@ vim.o.wildignore = table.concat({
 	'**/tmp/*',
 }, ',')
 vim.o.path = vim.o.path .. ",**"
+vim.g.colors_name  = 'tokyonight'
+vim.o.background = 'dark'
 
 vim.o.wildmode = 'longest,list,full'
 
@@ -70,8 +72,6 @@ vim.g.closetag_close_shortcut = '<leader>>'
 
 vim.cmd([[
 	filetype plugin on
-	set background=dark
-	colors bloop
 
   augroup snock
     au!
