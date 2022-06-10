@@ -13,6 +13,8 @@ fi
 
 if [[ -e $PWD/yarn.lock ]]; then
     tmux neww -n $task "yarn $task"
+    tmux set -t $task remain-on-exit on
 else
     tmux neww -n $task "npm run $task"
+    tmux set -t $task remain-on-exit on
 fi
