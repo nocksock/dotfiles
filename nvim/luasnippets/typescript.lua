@@ -22,7 +22,15 @@ end
 -- }}}
 
 return {
+	s('fn', fmt([[({}) => {}]], { i(1), i(0) })),
 	s('clg', fmt([[console.log({});]], { i(0) })),
+	s(
+		'ct',
+		c(1, {
+			fmt([[console.time({});]], { i(0) }),
+			fmt([[console.timeEnd({});]], { i(0) }),
+		})
+	),
 	s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	-- todo: describe (with current file name, and maybe all exports?)
 	s(
@@ -38,9 +46,15 @@ return {
 			{ i(1), i(2), i(0) }
 		)
 	),
-s('it', fmt([[
+	s(
+		'it',
+		fmt(
+			[[
 		it('should {}', () => {{
 				{}
 		}})
-	]], { i(1), i(0)}))
+	]],
+			{ i(1), i(0) }
+		)
+	),
 }

@@ -22,6 +22,7 @@ end
 -- }}}
 
 return {
+  -- s('fn', fmt([[({}) => ]])),
 	s('clg', fmt([[console.log({});]], { i(0) })),
 	s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	-- todo: describe (with current file name, and maybe all exports?)

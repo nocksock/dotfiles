@@ -6,7 +6,7 @@
  '(ansi-color-names-vector
    ["#282a36" "#ff5555" "#50fa7b" "#f1fa8c" "#61bfff" "#ff79c6" "#8be9fd" "#f8f8f2"])
  '(custom-safe-themes
-   '("028c226411a386abc7f7a0fba1a2ebfae5fe69e2a816f54898df41a6a3412bb5" default))
+   '("353ffc8e6b53a91ac87b7e86bebc6796877a0b76ddfc15793e4d7880976132ae" "028c226411a386abc7f7a0fba1a2ebfae5fe69e2a816f54898df41a6a3412bb5" default))
  '(exwm-floating-border-color "#242530")
  '(fci-rule-color "#6272a4")
  '(highlight-tail-colors

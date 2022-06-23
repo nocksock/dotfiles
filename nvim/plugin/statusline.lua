@@ -1,5 +1,8 @@
 -- statusline
 -- a super simple, custom status bar written in lua*
+local function root_name()
+   return string.match(vim.fn.getcwd(), "/([%w-_ ]+)$") or ""
+end
 
 local stl = function(color)
 	return table.concat({
@@ -7,6 +10,7 @@ local stl = function(color)
 		color('stlModeMsg'),
 		vim.api.nvim_get_mode().mode:upper(),
 		color('stlLeft'),
+    root_name(),
 		'%(%m%r%h %)%-10.30f%q',
 		color('stlMid'),
 		"%-5.20{get(b:,'gitsigns_head','')}",

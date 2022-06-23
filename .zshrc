@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -101,6 +103,8 @@ eval "$(pyenv init --path)"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+export ZSH_CUSTOM=$DOTDIR/omz-custom
+
 source $ZSH/oh-my-zsh.sh
 source $DOTDIR/zsh/aliases.zsh
 
@@ -130,4 +134,4 @@ export NNN_PLUG='o:!open $nnn;p:preview-tui;v:viu;x:!chmod +x $nnn'
 export NNN_FIFO=/tmp/nnn.fifo
 
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"

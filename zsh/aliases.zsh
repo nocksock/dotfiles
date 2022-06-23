@@ -11,6 +11,7 @@ alias nv=nvim
 alias nv=/usr/local/bin/nvim
 alias p=tmux-qp
 alias love='open -n -a love'
+alias nnn='nnn -e'
 
 # sometimes I might want to append to a path of some other function,
 # this way I don't have to remember sed syntax - and deal with escaping of

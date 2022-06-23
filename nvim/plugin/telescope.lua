@@ -7,6 +7,7 @@ telescope.setup({
 				['<C-Up>'] = require('telescope.actions').cycle_history_prev,
 			},
 		},
+		layout_strategy = 'vertical',
 	},
 	extensions = {
 		fzf = {

@@ -2,7 +2,7 @@
 
 (setq visible-bell t)
 
-(setq doom-theme 'doom-monokai-pro
+(setq doom-theme 'doom-tokyo-night
       all-the-icons-scale-factor 1)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq doom-modeline-height 0) ;; set the height of modeline to min
@@ -111,6 +111,21 @@
 (setq lsp-idle-delay 0.2)
 
 (after! mu4e
+  (add-to-list 'load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
+  (setq mu4e-view-show-addresses t)
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-views-default-view-method "html") ;; make xwidgets default
+  (mu4e-views-mu4e-use-view-msg-method "html") ;; select the default
+  (define-key mu4e-headers-mode-map (kbd "v") #'mu4e-views-mu4e-select-view-msg-method)
+  (setq mu4e-views-next-previous-message-behaviour 'stick-to-current-window) ;; when pressing n and p stay in the current window
+  (setq mu4e-views-auto-view-selected-message t) ;; automatically open messages when moving in the headers view
+  (setq mu4e-update-interval 180)
+  (setq mu4e-get-mail-command  "mbsync -a")
+  (setq mu4e-headers-time-format "%H:%M")
+  (setq mu4e-headers-date-format "%y-%m-%d")
+  )
+
+(after! mu4e
   (add-to-list 'mu4e-bookmarks
                '(:name "Pull Requests" :key ?p :query "from:pullrequests-reply and maildir:/+SaneDevelopment"))
   (add-to-list 'mu4e-bookmarks
@@ -172,19 +187,4 @@
 (after! mu4e
   (setq message-send-mail-function 'smtpmail-send-it)
   (setq smtpmail-smtp-server "smtp.example.org")
-  )
-
-(after! mu4e
-  (add-to-list 'load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e")
-  (setq mu4e-view-show-addresses t)
-  (setq mu4e-change-filenames-when-moving t)
-  (setq mu4e-views-default-view-method "html") ;; make xwidgets default
-  (mu4e-views-mu4e-use-view-msg-method "html") ;; select the default
-  (define-key mu4e-headers-mode-map (kbd "v") #'mu4e-views-mu4e-select-view-msg-method)
-  (setq mu4e-views-next-previous-message-behaviour 'stick-to-current-window) ;; when pressing n and p stay in the current window
-  (setq mu4e-views-auto-view-selected-message t) ;; automatically open messages when moving in the headers view
-  (setq mu4e-update-interval 180)
-  (setq mu4e-get-mail-command  "mbsync -a")
-  (setq mu4e-headers-time-format "%H:%M")
-  (setq mu4e-headers-date-format "%y-%m-%d")
   )

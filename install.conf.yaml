@@ -12,7 +12,6 @@
     ~/.zsh: zsh
     ~/.tmux.conf: .tmux.conf
     ~/.doom.d: .doom.d
-    ~/.oh-my-zsh/custom: omz-custom
     ~/.config/nvim: nvim
     ~/.config/alacritty: alacritty
     ~/.config/kitty: kitty

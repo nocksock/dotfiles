@@ -79,6 +79,11 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["Shade.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/Shade.nvim",
+    url = "https://github.com/sunjon/Shade.nvim"
+  },
   ["awesome-vim-colorschemes"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/awesome-vim-colorschemes",
@@ -129,11 +134,6 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/emmet-vim",
     url = "https://github.com/mattn/emmet-vim"
   },
-  firenvim = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/firenvim",
-    url = "https://github.com/glacambre/firenvim"
-  },
   ["ghash-nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/ghash-nvim",
@@ -163,11 +163,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lush.nvim",
     url = "https://github.com/rktjmp/lush.nvim"
-  },
-  molokai = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/molokai",
-    url = "https://github.com/tomasr/molokai"
   },
   ["nazgul-vim"] = {
     loaded = true,

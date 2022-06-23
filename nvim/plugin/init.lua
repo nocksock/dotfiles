@@ -1,5 +1,5 @@
 require('packer').startup(function(use)
-  -- essentials
+	-- essentials
 	use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
 	use('https://github.com/alvan/vim-closetag') -- auto close HTML/JSX tags
 	use('https://github.com/dstein64/vim-startuptime') -- find the startup bottleneck
@@ -20,7 +20,7 @@ require('packer').startup(function(use)
 	use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
 	use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
 
-  -- completers
+	-- completers
 	use('https://github.com/windwp/nvim-autopairs') -- auto pairs in lua
 	use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
 	use('https://github.com/hrsh7th/nvim-cmp') -- smart completion
@@ -29,14 +29,15 @@ require('packer').startup(function(use)
 	use('https://github.com/hrsh7th/cmp-cmdline')
 	use('https://github.com/hrsh7th/cmp-nvim-lua')
 	use('https://github.com/hrsh7th/cmp-nvim-lsp')
+	-- use('https://github.com/github/copilot.vim') -- let's give this a try
 
-  -- lsp stuff
+	-- lsp stuff
 	use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
 	use('https://github.com/jose-elias-alvarez/null-ls.nvim') -- use neovim as ls server to inject code-actions and mor via lua
 	use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
 	use('https://github.com/folke/trouble.nvim') -- pretty list for LSP diagnostics
 
-  -- helper
+	-- helper
 	use('https://github.com/tpope/vim-scriptease') -- helper commands useful when writing vim scripts etc
 	use({ '~/personal/rucksack.nvim', requires = 'nvim-lua/plenary.nvim' }) -- custom neovim plugin for stashing and persisting code for later user
 	use('https://github.com/theprimeagen/refactoring.nvim') -- TS powered refactorings
@@ -47,26 +48,26 @@ require('packer').startup(function(use)
 	use('https://github.com/akinsho/toggleterm.nvim') -- quick access to builtin terminal
 	use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
 
-  -- ui
+	-- ui
 	use('https://github.com/folke/zen-mode.nvim') -- distraction free writing and some other nice things
 	use('https://github.com/folke/twilight.nvim') -- highlight only portion of text
 	use('https://github.com/rmagatti/goto-preview') -- open gotos in floating windows
 	use('https://github.com/princejoogie/tailwind-highlight.nvim') -- show tailwind colors
+	use('https://github.com/sunjon/Shade.nvim') -- dim inactive window
 
-  -- themes
-  -- note: I mapped `<leader>ttt` to `:Telescope colorschemes` and some mappings
-  -- to access some colorschemes directly.
+	-- themes
+	-- note: I mapped `<leader>ttt` to `:Telescope colorschemes` and some mappings
+	-- to access some colorschemes directly.
 	use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
 	use('https://github.com/nlknguyen/papercolor-theme') -- for moments I need a bright theme
-	use('https://github.com/rafi/awesome-vim-colorschemes') -- huge collection of colorschemes
 	use('https://github.com/ayu-theme/ayu-vim')
-  use('https://github.com/folke/tokyonight.nvim')
+	use('https://github.com/folke/tokyonight.nvim')
 	use('~/personal/bloop-vim')
 	use('~/personal/nazgul-vim')
 	use('~/personal/ghash-nvim')
 
-  -- beyond coding
-  use('https://github.com/mfussenegger/nvim-dap') -- Debugger
+	-- beyond coding
+	use('https://github.com/mfussenegger/nvim-dap') -- Debugger
 	use('https://github.com/rcarriga/nvim-dap-ui') -- UI for the debugger
 	use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim
 	use('https://github.com/tpope/vim-dadbod') -- make db connections from within vim

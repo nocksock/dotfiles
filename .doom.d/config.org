@@ -8,8 +8,6 @@
 * Table Of Contents :toc:
 - [[#basic-settings][Basic Settings]]
 - [[#overall-look][Overall Look]]
-  - [[#basic-theme-settings][Basic Theme Settings]]
-  - [[#typography][Typography]]
 - [[#personal-information][Personal Information]]
 - [[#configurations][Configurations]]
   - [[#basics][Basics]]
@@ -34,7 +32,7 @@
 
 * Overall Look
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-monokai-pro
+(setq doom-theme 'doom-tokyo-night
       all-the-icons-scale-factor 1)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq doom-modeline-height 0) ;; set the height of modeline to min
@@ -173,7 +171,6 @@ Add a separator between days in agenda view, so it's not as dense.
 ;;         "m D" #'org-roam-dailies-find-today)
 ;;   )
 #+end_src
-
 
 ** Projectile
 

@@ -48,12 +48,16 @@ map(
 	'<Esc><cmd>lua require("telescope").extensions.refactoring.refactors()<CR>'
 )
 map('n', '<leader>T', ':Telescope<CR>')
-map('n', '<leader>b', ':Telescope buffers theme=ivy<cr>')
 map('n', '<leader>gb', ':Telescope git_branches theme=dropdown<cr>')
 map('n', '<leader>l', ':Telescope current_buffer_fuzzy_find<cr>')
 map('n', '<leader>r', ':Telescope oldfiles theme=dropdown<cr>')
-map('n', '<leader>xx', '<cmd>Trouble<cr>')
+map('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
 map('n', 'gR', '<cmd>Trouble lsp_references<cr>')
+
+-- buffers
+map('n', '<leader>bb', ':Telescope buffers theme=ivy<cr>')
+map('n', '<leader>bd', ':bd<cr>')
+map('n', '<leader>bd', ':%bd|e#<cr>')
 
 -- infos
 map('n', '<leader>ih', ':Telescope help_tags theme=ivy<cr>')
@@ -101,17 +105,17 @@ map(
 -- harpoon: nav_file
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
 map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
-map('n', "'a", ':lua require("harpoon.ui").nav_file(1)<CR>')
-map('n', "'s", ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('n', "'s", ':lua require("harpoon.ui").nav_file(3)<CR>')
-map('n', "'t", ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('n', "'1", ':lua require("harpoon.ui").nav_file(1)<CR>')
+map('n', "'2", ':lua require("harpoon.ui").nav_file(2)<CR>')
+map('n', "'3", ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('n', "'4", ':lua require("harpoon.ui").nav_file(4)<CR>')
 
 -- harpoon: cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
-map('n', '"a', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
-map('n', '"r', ':lua require("harpoon.term").gotoTerminal(2)<CR>')
-map('n', '"s', ':lua require("harpoon.term").gotoTerminal(3)<CR>')
-map('n', '"t', ':lua require("harpoon.term").gotoTerminal(4)<CR>')
+map('n', '"1', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
+map('n', '"2', ':lua require("harpoon.term").gotoTerminal(2)<CR>')
+map('n', '"3', ':lua require("harpoon.term").gotoTerminal(3)<CR>')
+map('n', '"4', ':lua require("harpoon.term").gotoTerminal(4)<CR>')
 
 -- notes
 map('n', '<leader>X', '<cmd>ped ~/notes/x.md<cr>')
@@ -125,34 +129,32 @@ map('n', '<c-l>', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>')
 
 map('n', '<F12>', ':ToggleTerm<CR>')
 map('v', '<F12>', ':ToggleTermSendVisualSelection<CR>')
-map('t', '<F12>', [["<C-\><C-n>:ToggleTerm<CR>"]])
+map('t', '<F12>', [[<C-\><C-n>:ToggleTerm<CR>]])
 
 -- misc convenience
+-- when moving more than 5 lines, then make a jump, to be able to revert via c-o
 map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'j']], { expr = true })
 map('n', 'k', [[(v:count > 5 ? "m'" . v:count : "") . 'k']], { expr = true })
 map('n', 'gx', ":execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>")
--- map('n', '<c-s>', ':w<cr>')
 map('n', 'gV', '`[v`]') -- visual select last inserted text)
-map('n', '_', ':NnnPicker<cr>')
-map('n', '<leader>es', ':LuaSnipEdit<cr>')
-map(
-	'n',
-	'<leader><leader>',
-	':Telescope find_files template=dropdown find_command=rg,--hidden,--files<cr>'
-)
+map('n', '_', [[:NnnPicker %:p:hr<cr>]])
+map('n', '<leader>se', ':LuaSnipEdit<cr>')
+map('n', '<leader>sr', ':source ~/.config/nvim/plugin/luasnip.lua<cr>')
+
+map('n', '<leader><leader>', ':Telescope find_files find_command=rg,--hidden,--files<cr>')
 map('n', '<c-space>', ':Telescope resume<cr>')
 map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>ki', '<Plug>:LspDiagLine<cr>')
-map('n', '<leader>db', ':DBUIToggle<cr>')
 map('n', '<leader>/', ':Telescope live_grep theme=ivy hidden=true<cr>')
 map('t', '<c-[>', '<C-\\><C-n>')
 map('t', '<Esc>', '<C-\\><C-n>')
 map('v', '<leader>R', ':lua require("telescope").extensions.refactoring.refactors()<CR>')
-map('i', '<M-CR>', '<esc>o')
+map('n', '<leader>db', ':DBUIToggle<cr>')
 
 -- misc: undo breaks in insert mode
 map('i', '!', '!<c-g>u')
 map('i', '.', '.<c-g>u')
+map('i', ':', ':<c-g>u')
 map('i', '?', '?<c-g>u')
 map('i', ',', ',<c-g>u')
 
@@ -160,26 +162,3 @@ map('i', ',', ',<c-g>u')
 map('n', '<C-k>', ':m .-2<CR>==')
 map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 map('v', '<C-k>', ":m '<-2<CR>gv=gv")
-
-local ls = require('luasnip')
-vim.keymap.set({ 'i', 's' }, '<c-l>', function()
-	if ls.expand_or_jumpable() then
-		ls.expand_or_jump()
-	end
-end, { silent = true })
-
-vim.keymap.set({ 'i', 's' }, '<c-j>', function()
-	if ls.choice_active() then
-		ls.change_choice(1)
-	else
-		vim.cmd(':m .+1<CR>==i') -- move line
-	end
-end, { silent = true })
-
-vim.keymap.set({ 'i', 's' }, '<c-k>', function()
-	if ls.jumpable(-1) then
-		ls.jump(-1)
-	else
-		vim.cmd(':m .-2<CR>==i') -- move line
-	end
-end, { silent = true })
