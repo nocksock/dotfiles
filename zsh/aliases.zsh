@@ -8,6 +8,7 @@ alias ..='cd ..'
 alias tower='open . -a Tower'
 alias fh='history 1 | fzf'
 alias nv=nvim
+alias tf=terraform
 alias nv=/usr/local/bin/nvim
 alias p=tmux-qp
 alias love='open -n -a love'

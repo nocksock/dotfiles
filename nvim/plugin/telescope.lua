@@ -1,11 +1,12 @@
 local telescope = require('telescope')
+
 telescope.setup({
 	defaults = {
 		mappings = {
-			i = {
-				['<C-Down>'] = require('telescope.actions').cycle_history_next,
-				['<C-Up>'] = require('telescope.actions').cycle_history_prev,
-			},
+			n = {
+				['<Down>'] = require('telescope.actions').cycle_history_next,
+				['<Up>'] = require('telescope.actions').cycle_history_prev,
+			}
 		},
 		layout_strategy = 'vertical',
 	},
@@ -20,3 +21,4 @@ telescope.setup({
 
 telescope.load_extension('fzf')
 telescope.load_extension('refactoring')
+
