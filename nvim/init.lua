@@ -5,7 +5,7 @@ vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.clipboard = 'unnamed'
 vim.o.fillchars = 'eob:⸱'
-vim.o.hidden = true -- makes it possible to leave a buffer if it has unsaved changes. `gd` etc fail horribly in those cases. 
+vim.o.hidden = true -- makes it possible to leave a buffer if it has unsaved changes. `gd` etc fail horribly in those cases.
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.expandtab = true
 vim.o.cursorline = false -- Highlight the line of in which the cursor is present (or not)
@@ -47,6 +47,7 @@ vim.o.wildignore = table.concat({
 vim.o.path = vim.o.path .. ',**'
 vim.g.colors_name = 'tokyonight'
 vim.o.background = 'dark'
+vim.o.guifont = 'JetBrains Mono:h16'
 
 -- vim.o.wildmode = 'longest,list,full'
 
