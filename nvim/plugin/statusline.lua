@@ -47,6 +47,7 @@ function StatusLine(type)
 	end
 end
 
+-- TODO convert to proper lua
 vim.api.nvim_exec([[
   highlight def link stlModeMsg ModeMsg
   highlight def link stlLeftNC StatusLineNC

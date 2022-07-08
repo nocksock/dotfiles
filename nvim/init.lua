@@ -5,6 +5,7 @@ vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.clipboard = 'unnamed'
 vim.o.fillchars = 'eob:⸱'
+vim.o.hidden = true -- makes it possible to leave a buffer if it has unsaved changes. `gd` etc fail horribly in those cases. 
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.expandtab = true
 vim.o.cursorline = false -- Highlight the line of in which the cursor is present (or not)
@@ -28,7 +29,6 @@ vim.o.signcolumn = 'yes'
 vim.o.smartcase = true -- ignore 'ignorecase' when search contains uppercase characters
 vim.o.softtabstop = 2
 vim.o.splitbelow = true -- When on, splitting a window will put the new window below the current one
-vim.o.synmaxcol = 500 -- Until which column vim parses syntax
 vim.o.tabstop = 2
 vim.o.termguicolors = true -- enable 24bit colors
 vim.o.textwidth = 80
@@ -59,17 +59,7 @@ vim.g.netrw_winsize = 33
 
 vim.g.db_ui_force_echo_notifications = 1
 
-vim.g.closetag_filenames = '*.html*.xhtml*.phtml*.js*.jsx*.tsx'
-vim.g.closetag_xhtml_filenames = '*.xhtml*.jsx'
-vim.g.closetag_filetypes = 'html,xhtml,phtml,jsx,tsx,javascript'
-vim.g.closetag_xhtml_filetypes = 'xhtmljsxtsx'
-vim.g.closetag_emptyTags_caseSensitive = 1
-vim.g.closetag_regions = {
-	['typescript.tsx'] = 'jsxRegion,tsxRegion',
-	['javascript.jsx'] = 'jsxRegion',
-}
-vim.g.closetag_close_shortcut = '<leader>>'
-
+-- TODO convert to proper lua
 vim.cmd([[
 	filetype plugin on
 

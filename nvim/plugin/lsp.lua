@@ -1,12 +1,15 @@
--- for now based on this guide
--- https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local util = require('vim.lsp.util')
+local builtin = require('telescope.builtin')
 
 local map = function(bufnr, mode, lhs, rhs, opts)
 	vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {})
+end
+
+local function list_workspace_folders()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end
 
 local on_attach = function(_, bufnr)
@@ -18,40 +21,39 @@ local on_attach = function(_, bufnr)
 		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
 	end
 
-	vim.cmd('command! LspDef lua vim.lsp.buf.definition()')
-	vim.cmd('command! LspFormatting lua vim.lsp.buf.formatting()')
-	vim.cmd('command! LspCodeAction lua vim.lsp.buf.code_action()')
-	vim.cmd('command! LspHover lua vim.lsp.buf.hover()')
-	vim.cmd('command! LspRename lua vim.lsp.buf.rename()')
-	vim.cmd('command! LspRefs lua vim.lsp.buf.references()')
-	vim.cmd('command! LspTypeDef lua vim.lsp.buf.type_definition()')
-	vim.cmd('command! LspImplementation lua vim.lsp.buf.implementation()')
-	vim.cmd('command! LspDiagPrev lua vim.diagnostic.goto_prev()')
-	vim.cmd('command! LspDiagNext lua vim.diagnostic.goto_next()')
-	vim.cmd('command! LspDiagLine lua vim.diagnostic.open_float()')
-	vim.cmd('command! LspSignatureHelp lua vim.lsp.buf.signature_help()')
+  local cmd = function(name, func)
+    vim.api.nvim_create_user_command(name, func, {})
+  end
 
-	nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-	nmap('<leader>rN', vim.lsp.buf.rename, '[R]e[N]ame File')
-	nmap('<leader>.', vim.lsp.buf.code_action, 'Code Action (vscodey)')
+	cmd('LspDef'            , vim.lsp.buf.definition)
+	cmd('LspFormatting'     , vim.lsp.buf.formatting)
+	cmd('LspCodeAction'     , vim.lsp.buf.code_action)
+	cmd('LspHover'          , vim.lsp.buf.hover)
+	cmd('LspRename'         , vim.lsp.buf.rename)
+	cmd('LspRefs'           , vim.lsp.buf.references)
+	cmd('LspTypeDef'        , vim.lsp.buf.type_definition)
+	cmd('LspImplementation' , vim.lsp.buf.implementation)
+	cmd('LspDiagPrev'       , vim.diagnostic.goto_prev)
+	cmd('LspDiagNext'       , vim.diagnostic.goto_next)
+	cmd('LspDiagLine'       , vim.diagnostic.open_float)
+	cmd('LspSignatureHelp'  , vim.lsp.buf.signature_help)
 
-	nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-	nmap('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-	nmap('gr', require('telescope.builtin').lsp_references)
-	nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-	nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+	nmap('<leader>.'  , vim.lsp.buf.code_action               , 'Code Action (vscodey)')
+	nmap('<leader>D'  , vim.lsp.buf.type_definition           , 'Type Definition')
+	nmap('<leader>ds' , builtin.lsp_document_symbols          , '[D]ocument [S]ymbols')
+	nmap('<leader>rN' , vim.lsp.buf.rename                    , '[R]e[N]ame File')
+	nmap('<leader>rn' , vim.lsp.buf.rename                    , '[R]e[n]ame')
+	nmap('<leader>wa' , vim.lsp.buf.add_workspace_folder      , '[W]orkspace [A]dd Folder')
+	nmap('<leader>wl' , list_workspace_folders                , '[W]orkspace [L]ist Folders')
+	nmap('<leader>wr' , vim.lsp.buf.remove_workspace_folder   , '[W]orkspace [R]emove Folder')
+	nmap('<leader>ws' , builtin.lsp_dynamic_workspace_symbols , '[W]orkspace [S]ymbols')
+	nmap('gd'         , vim.lsp.buf.definition                , '[G]oto [D]efinition')
+	nmap('gD'         , vim.lsp.buf.declaration               , '[G]oto [D]eclaration')
+	nmap('gi'         , vim.lsp.buf.implementation            , '[G]oto [I]mplementation')
+	nmap('gr'         , builtin.lsp_references)
 
 	nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
 	nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-	-- Lesser used LSP functionality
-	nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-	nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
-	nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-	nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-	nmap('<leader>wl', function()
-		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, '[W]orkspace [L]ist Folders')
 
 	print('LSP bindings enabled') -- todo: add indicator to statusline if LSP is running
 end

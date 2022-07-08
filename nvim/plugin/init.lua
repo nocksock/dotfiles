@@ -1,28 +1,30 @@
 require('packer').startup(function(use)
 	use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
 	use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
-	use('https://github.com/alvan/vim-closetag') -- auto close HTML/JSX tags
 	use('https://github.com/dstein64/vim-startuptime') -- find the startup bottleneck
 	use('https://github.com/mattn/emmet-vim') -- div.emmet>p.is{awesome}
 	use('https://github.com/numToStr/Comment.nvim') -- comments, with more smartness
-	use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
-	use('https://github.com/nvim-telescope/telescope-symbols.nvim')
 	use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
 	use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
 	use('https://github.com/tpope/vim-repeat') -- makes `.` even more powerful by adding support for plugins
 	use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
 	use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
+
+  -- telescope
+	use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
+	use('https://github.com/nvim-telescope/telescope-symbols.nvim')
 	use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
-	use('https://github.com/nvim-treesitter/nvim-treesitter')
-	use('https://github.com/nvim-treesitter/playground')
-	use 'nvim-treesitter/nvim-treesitter-textobjects' --  Additional textobjects for treesitter
 
 	-- lsp stuff
-	use('https://github.com/williamboman/nvim-lsp-installer')
 	use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
 	use('https://github.com/jose-elias-alvarez/null-ls.nvim') -- use neovim as ls server to inject code-actions and mor via lua
 	use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
 	use('https://github.com/folke/trouble.nvim') -- pretty list for LSP diagnostics
+
+  -- treesitter
+	use('https://github.com/nvim-treesitter/nvim-treesitter')
+	use('https://github.com/nvim-treesitter/playground')
+	use 'nvim-treesitter/nvim-treesitter-textobjects' --  Additional textobjects for treesitter
 
 	-- git things
 	use('https://github.com/tpope/vim-fugitive') -- a git wrapper in vim
@@ -46,7 +48,7 @@ require('packer').startup(function(use)
 
 	-- helper
 	use('https://github.com/tpope/vim-scriptease') -- helper commands useful when writing vim scripts etc
-	use('https://github.com/theprimeagen/refactoring.nvim') -- TS powered refactorings
+	use('https://github.com/theprimeagen/refactoring.nvim') -- Treesitter powered refactorings
 	use('https://github.com/ThePrimeagen/harpoon') -- navigating to important files and commands at ludicrous speed
 
 	use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
@@ -73,80 +75,15 @@ require('packer').startup(function(use)
 	-- beyond coding
 	use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim, works great with Obsidian
 end)
+
 require('nvim-autopairs').setup();
 require('comment').setup({})
-require('harpoon').setup({
-  enter_on_sendcmd = true,
-})
+require('harpoon').setup({ enter_on_sendcmd = true, })
 require('gitsigns').setup({})
-require('rucksack').setup({
-  mappings = true
-})
-
-local home = vim.fn.expand(
-	'/Users/nilsriedemann/Library/Mobile Documents/iCloud~md~obsidian/Documents/Development'
-)
-
-require('telekasten').setup({
-	home = home,
-	dailies = home .. '/' .. 'Dailies',
-	weeklies = home .. '/' .. 'Weeklies',
-	templates = home .. '/' .. 'templates',
-	subdirs_in_links = false,
-
-	-- markdown file extension
-	extension = '.md',
-})
-
-require('toggleterm').setup({})
-
-require('nvim-ts-autotag').setup({
-	update_on_insert = true
-})
-
-require('nvim-treesitter.configs').setup({
-	highlight = {
-		enable = true,
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
-	},
-  textobjects = {
-    select = {
-      enable = true,
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-        ["is"] = "@block.inner",
-        ["as"] = "@block.outer",
-      },
-    },
-  },
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = '<leader><c-space>',
-			node_incremental = '<c-space>',
-			-- TODO: I'm not sure for this one.
-			scope_incremental = '<c-s>',
-			node_decremental = '<c-backspace>',
-			-- init_selection = 'gnv',
-			-- node_incremental = 'gna',
-			-- scope_incremental = 'gnA',
-			-- node_decremental = 'gni',
-		},
-	},
-})
-
+require('rucksack').setup({ mappings = true })
 require('refactoring').setup({})
+require('toggleterm').setup({})
 require('goto-preview').setup({})
-require('which-key').setup({
-	window = {
-		border = 'single',
-	},
-})
+require('which-key').setup({ window = { border = 'single' } })
+require('nvim-ts-autotag').setup({ update_on_insert = true })
+

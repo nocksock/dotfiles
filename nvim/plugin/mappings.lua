@@ -68,6 +68,7 @@ local function find_files()
   }))
 end
 
+map('n', '<c-space>', builtin.resume)
 map('n', '<leader>R', extensions.refactoring.refactors)
 map('n', '<leader>ttt', function()
   builtin.colorscheme { enable_preview = true }
@@ -132,6 +133,7 @@ map('n', '<leader>tz', ':ZenMode<cr>')
 map('n', '<leader>tw', ':Twilight<cr>')
 map('n', '<leader>tcl', ':lua vim.o.cursorline = not vim.o.cursorline<CR>')
 map('n', '<leader>tne', ':NnnExplorer<cr>')
+map('n', '_', ':NnnPicker<cr>')
 
 -- harpoon: nav_file
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
@@ -147,6 +149,18 @@ map('n', '"1', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
 map('n', '"2', ':lua require("harpoon.term").gotoTerminal(2)<CR>')
 map('n', '"3', ':lua require("harpoon.term").gotoTerminal(3)<CR>')
 map('n', '"4', ':lua require("harpoon.term").gotoTerminal(4)<CR>')
+
+-- zettelkasten
+local telekasten = require('telekasten')
+map('n', '<leader>zf', telekasten.find_notes)
+map('n', '<leader>zd', telekasten.find_daily_notes)
+map('n', '<leader>zg', telekasten.search_notes)
+map('n', '<leader>zz', telekasten.follow_link)
+map('n', '<leader>zt', telekasten.goto_today)
+map('n', '<leader>zW', telekasten.goto_thisweek)
+map('n', '<leader>zw', telekasten.find_weekly_notes)
+map('n', '<leader>zn', telekasten.new_note)
+map('n', '<leader>zN', telekasten.new_templated_note)
 
 -- muscle memory
 map('n', '<leader>cp', ':LspFormatting<cr>')
@@ -183,3 +197,5 @@ map('i', ',', ',<c-g>u')
 map('n', '<C-k>', ':m .-2<CR>==')
 map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 map('v', '<C-k>', ":m '<-2<CR>gv=gv")
+
+vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']]) -- type %% in vim's prompt to insert %:h expanded

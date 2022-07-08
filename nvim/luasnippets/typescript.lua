@@ -24,6 +24,7 @@ end
 return {
 	s('fn', fmt([[({}) => {}]], { i(1), i(0) })),
 	s('clg', fmt([[console.log({});]], { i(0) })),
+	s('log', fmt([[console.log({});]], { i(0) })),
 	s(
 		'ct',
 		c(1, {
