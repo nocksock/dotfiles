@@ -62,6 +62,7 @@ require('packer').startup(function(use)
 	use('https://github.com/rmagatti/goto-preview') -- open gotos in floating windows
 	use('https://github.com/ryanoasis/vim-devicons')
 	use('https://github.com/folke/which-key.nvim')
+  use('https://github.com/nvim-lualine/lualine.nvim')
 
 	-- themes
 	use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
