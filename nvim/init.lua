@@ -25,6 +25,7 @@ vim.o.shiftround = true -- When at 3 spaces and I hit >>, go to 4, not 5.
 vim.o.updatetime = 250
 vim.o.shiftwidth = 2
 vim.o.showmatch = true -- Highlight matching bracket
+vim.o.showmode = false
 vim.o.signcolumn = 'yes'
 vim.o.smartcase = true -- ignore 'ignorecase' when search contains uppercase characters
 vim.o.softtabstop = 2
