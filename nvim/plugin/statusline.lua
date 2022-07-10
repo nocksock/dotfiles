@@ -8,7 +8,7 @@ end
 
 require('lualine').setup {
   options = {
-    icons_enabled = false,
+    icons_enabled = true,
     theme = 'auto',
     component_separators = '',
     section_separators = { left = '', right = '' },
@@ -17,10 +17,10 @@ require('lualine').setup {
     globalstatus = false,
   },
   sections = {
-    lualine_a = {'mode'},
+    lualine_a = {{'mode'}},
     lualine_b = {root_name, 'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
-    lualine_x = {},
+    lualine_x = {'location'},
     lualine_y = {lsp_status},
     lualine_z = {}
   },
