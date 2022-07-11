@@ -1,35 +1,36 @@
-local function root_name()
-   return string.match(vim.fn.getcwd(), "/([%w-_ ]+)$") or ""
-end
-
-local function lsp_status()
-  return vim.lsp.buf.server_ready() and "%y+" or "%y"
+local function lsp_filetype ()
+  if vim.lsp.buf.server_ready() then
+    return vim.bo.filetype .. "+"
+  else
+    return vim.bo.filetype
+  end
 end
 
 require('lualine').setup {
   options = {
-    icons_enabled = true,
+    icons_enabled = false,
     theme = 'auto',
     component_separators = '',
-    section_separators = { left = '', right = '' },
+    section_separators = '',
     disabled_filetypes = {},
-    always_divide_middle = true,
     globalstatus = false,
   },
   sections = {
-    lualine_a = {{'mode'}},
-    lualine_b = {root_name, 'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
+    lualine_a = {{'mode', fmt = function (str)
+      return str:sub(1,3)
+    end}},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'%(%m%r%h %)%-10.30f%q'},
     lualine_x = {'location'},
-    lualine_y = {lsp_status},
+    lualine_y = {lsp_filetype},
     lualine_z = {}
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {'filename'},
+    lualine_c = {'%-10.30f%q'},
     lualine_x = {'location'},
-    lualine_y = {},
+    lualine_y = {lsp_filetype},
     lualine_z = {}
   },
   tabline = {},

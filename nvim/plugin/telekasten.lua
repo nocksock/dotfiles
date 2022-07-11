@@ -1,4 +1,3 @@
-
 local telekastenHome = vim.fn.expand(
 	'/Users/nilsriedemann/Library/Mobile Documents/iCloud~md~obsidian/Documents/Development'
 )

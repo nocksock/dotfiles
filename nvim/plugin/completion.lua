@@ -1,61 +1,89 @@
+---@diagnostic disable: need-check-nil
 local cmp = require('cmp')
+local luasnip = require('luasnip')
+
+require('luasnip.loaders.from_lua').load({}) -- load filetype based snippets from snippet folder
+
+vim.keymap.set({ 'i', 's' }, '<c-l>', function()
+	if luasnip.expand_or_jumpable() then
+		luasnip.expand_or_jump()
+	end
+end, { silent = true })
+
+vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+	if luasnip.choice_active() then
+		luasnip.change_choice(1)
+	end
+end, { silent = true })
+
+vim.keymap.set({ 'i', 's' }, '<c-h>', function()
+	if luasnip.jumpable(-1) then
+		luasnip.jump(-1)
+	end
+end, { silent = true })
+
+luasnip.config.set_config({
+	history = true,
+	enable_autosnippets = true,
+	updateevents = 'TextChanged,TextChangedI',
+})
 
 cmp.setup({
-	snippet = {
-		expand = function(args)
-			require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-		end,
-	},
-	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
-	},
-	mapping = cmp.mapping.preset.insert({
-		['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-		['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-		['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-		-- ['<C-y>'] = cmp.mapping.confirm({
-		-- 	-- behavior = cmp.ConfirmBehavior.Insert,
-		-- 	select = true,
-		-- }), -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-		['<C-e>'] = cmp.mapping({
-			i = cmp.mapping.abort(),
-			c = cmp.mapping.close(),
-		}),
-		['<CR>'] = cmp.mapping.confirm({ select = false }),
-		-- ['<C-l>'] = cmp.mapping(function(fallback)
-		-- 	if ls.expand_or_jumpable() then
-		-- 		return ls.expand_or_jump()
-		-- 	end
-		--
-		-- 	if cmp.visible() then
-		-- 		return cmp.complete_common_string()
-		-- 	end
-		-- 	fallback()
-		-- end, { 'i', 'c' }),
-	}),
-	sources = cmp.config.sources({
-		{ name = 'nvim_lsp' },
-		{ name = 'luasnip' },
-	}, {
-		{ name = 'buffer' },
-	}),
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+    end,
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-e>'] = cmp.mapping({
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    }),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.complete_common_string()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  }, {
+    { name = 'buffer' },
+  }),
 })
 
--- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
-	sources = cmp.config.sources({
-		{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-	}, {
-		{ name = 'buffer' },
-	}),
+  sources = cmp.config.sources({
+    { name = 'buffer' },
+  }),
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
-	sources = {
-		{ name = 'buffer' },
-	},
+  sources = {
+    { name = 'buffer' },
+  },
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).

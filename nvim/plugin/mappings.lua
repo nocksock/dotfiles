@@ -36,15 +36,15 @@ map('n', '<leader>hD', ':lua require"gitsigns".diffthis("~")<CR>')
 map('o', 'ih', gitsigns.select_hunk)
 map('x', 'ih', gitsigns.select_hunk)
 
-map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = "[T]oggle inline [B]lame"})
-map('n', '<leader>td', gitsigns.toggle_deleted, { desc = "[T]oggle [D]eleted lines"})
+map('n', '<leader>tgb', gitsigns.toggle_current_line_blame, { desc = "[T]oggle inline [B]lame" })
+map('n', '<leader>tgd', gitsigns.toggle_deleted, { desc = "[T]oggle [D]eleted lines" })
 
 -- Text object
 map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 
-map('n', 'gpd',require('goto-preview').goto_preview_definition)
-map('n', 'gpi',require('goto-preview').goto_preview_implementation)
+map('n', 'gpd', require('goto-preview').goto_preview_definition)
+map('n', 'gpi', require('goto-preview').goto_preview_implementation)
 map('n', 'gP', require('goto-preview').close_all_win)
 map('n', 'gpr', require('goto-preview').goto_preview_references)
 map('n', 'gR', '<cmd>Trouble lsp_references<cr>')
@@ -56,19 +56,19 @@ local themes = require('telescope.themes')
 
 local function find_files()
   builtin.find_files(themes.get_dropdown({
-		hidden=true,
-		layout_config = {
-		  width = function(_, max_columns, _)
-		    return math.min(max_columns, 120)
-		  end,
-		  height = function(_, _, max_lines)
-		    return math.min(max_lines, 20)
-		  end,
-		},
+    hidden = true,
+    layout_config = {
+      width = function(_, max_columns, _)
+        return math.min(max_columns, 120)
+      end,
+      height = function(_, _, max_lines)
+        return math.min(max_lines, 20)
+      end,
+    },
   }))
 end
 
-map('n', '<c-space>', builtin.resume)
+map('n', '<leader><cr>', builtin.resume)
 map('n', '<leader>R', extensions.refactoring.refactors)
 map('n', '<leader>ttt', function()
   builtin.colorscheme { enable_preview = true }
@@ -76,44 +76,46 @@ end)
 map('n', '<leader>T', builtin.builtin, { desc = 'builtin [T]elescope commands' })
 map('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 map('n', '<leader>sf', find_files, { desc = '[S]earch [F]iles' })
+map('n', '<M-p>', find_files, { desc = '[S]earch [F]iles' })
 map('n', '<leader>sr', builtin.oldfiles, { desc = '[S]earch [R]ecently opened files' })
 map('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
 map('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+map('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
 map('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 map('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 map('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-map('n', '<leader>s.', function ()
-	local path = "~/personal/dotfiles"
-	builtin.find_files(themes.get_dropdown({
-		search_dirs={path},
-		hidden=true,
-		layout_strategy = "horizontal",
-		layout_config = {
-		  width = function(_, max_columns, _)
-		    return math.min(max_columns, 120)
-		  end,
-		  height = function(_, _, max_lines)
-		    return math.min(max_lines, 15)
-		  end,
-		},
-		cwd=path -- setting this trims the path
-	}))
+map('n', '<leader>s.', function()
+  local path = "~/personal/dotfiles"
+  builtin.find_files(themes.get_dropdown({
+    search_dirs = { path },
+    hidden = true,
+    layout_strategy = "horizontal",
+    layout_config = {
+      width = function(_, max_columns, _)
+        return math.min(max_columns, 120)
+      end,
+      height = function(_, _, max_lines)
+        return math.min(max_lines, 15)
+      end,
+    },
+    cwd = path -- setting this trims the path
+  }))
 end, { desc = '[S]earch [.]dotfiles' })
 map('n', '<leader>gb', ':Telescope git_branches theme=dropdown<cr>')
 map('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
 
 -- buffers
-map('n', '<leader>bd', ':b#|bd#<cr>', {desc = "[B]uffer [D]elete"}) -- delete buffer without messing up window layout
-map('n', '<leader>bp', ':bp<cr>', {desc = "[B]uffer [P]revious"})
-map('n', '<leader>bf', ':bf<cr>', {desc = "[B]uffer [F]irst"})
-map('n', '<leader>bl', ':bl<cr>', {desc = "[B]uffer [L]ast"})
-map('n', '<leader>bO', ':%bd|e#<cr>', {desc = "[B]uffer [O]nly"})
+map('n', '<leader>bd', ':b#|bd#<cr>', { desc = "[B]uffer [D]elete" }) -- delete buffer without messing up window layout
+map('n', '<leader>bp', ':bp<cr>', { desc = "[B]uffer [P]revious" })
+map('n', '<leader>bf', ':bf<cr>', { desc = "[B]uffer [F]irst" })
+map('n', '<leader>bl', ':bl<cr>', { desc = "[B]uffer [L]ast" })
+map('n', '<leader>bO', ':%bd|e#<cr>', { desc = "[B]uffer [O]nly" })
 
 -- files and folders
-map('n', '<leader>cwd', ':cd %:h<CR>', { desc = "[C]hange [W]orking [D]irectory to curent file's folder"})
-map('n', '<leader>cwp', ':cd -<CR>', { desc = "[C]hange [W]orking to [P]revious folder"})
-map('n', '<leader>sne', ':LuaSnipEdit<cr>', { desc = "[Sn]ippet [E]dit"})
-map('n', '<leader>sns', ':source ~/.config/nvim/plugin/luasnip.lua<cr>', { desc = "[Sn]ippet [S]ource"})
+map('n', '<leader>cdc', ':cd %:h<CR>', { desc = "[C]hange [D]irectory to [c]urrent file's folder" })
+map('n', '<leader>cdp', ':cd -<CR>', { desc = "[C]hange [D]irectory to [P]revious folder" })
+map('n', '<leader>sne', ':lua require("luasnip.loaders.from_lua").edit_snippet_files()<CR>', { desc = "[Sn]ippet [E]dit" })
+map('n', '<leader>sns', ':source ~/.config/nvim/plugin/luasnip.lua<cr>', { desc = "[Sn]ippet [S]ource" })
 
 -- infos
 map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
@@ -194,8 +196,7 @@ map('i', '?', '?<c-g>u')
 map('i', ',', ',<c-g>u')
 
 -- misc: move text around (not: insert variations defined in luasnip mappings)
-map('n', '<C-k>', ':m .-2<CR>==')
-map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 map('v', '<C-k>', ":m '<-2<CR>gv=gv")
+map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 
 vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']]) -- type %% in vim's prompt to insert %:h expanded
