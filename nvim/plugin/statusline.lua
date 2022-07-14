@@ -8,7 +8,7 @@ end
 
 require('lualine').setup {
   options = {
-    icons_enabled = false,
+    icons_enabled = true,
     theme = 'auto',
     component_separators = '',
     section_separators = '',
@@ -17,9 +17,9 @@ require('lualine').setup {
   },
   sections = {
     lualine_a = {{'mode', fmt = function (str)
-      return str:sub(1,3)
+      return str:sub(1,1)
     end}},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_b = {{'branch', icons_enabled = false}, 'diff', 'diagnostics'},
     lualine_c = {'%(%m%r%h %)%-10.30f%q'},
     lualine_x = {'location'},
     lualine_y = {lsp_filetype},

@@ -54,11 +54,12 @@ local on_attach = function(_, bufnr)
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  vim.keymap.set('i', '<C-k>', vim.lsp.buf.hover)
 
   print('LSP bindings enabled') -- todo: add indicator to statusline if LSP is running
 end
 
-local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls' }
+local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint' }
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require('nvim-lsp-installer').setup {

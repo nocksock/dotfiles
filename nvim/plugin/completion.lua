@@ -1,4 +1,6 @@
----@diagnostic disable: need-check-nil
+--
+-- Snippets and autocomplete settings
+--
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
@@ -28,6 +30,7 @@ luasnip.config.set_config({
 	updateevents = 'TextChanged,TextChangedI',
 })
 
+---@diagnostic disable: need-check-nil
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -69,6 +72,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'nvim_lsp_signature_help' }
   }, {
     { name = 'buffer' },
   }),

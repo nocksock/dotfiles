@@ -4,9 +4,9 @@ local telekastenHome = vim.fn.expand(
 
 require('telekasten').setup({
 	home = telekastenHome,
-	dailies = telekastenHome .. '/' .. 'Dailies',
-	weeklies = telekastenHome .. '/' .. 'Weeklies',
-	templates = telekastenHome .. '/' .. 'templates',
+	dailies = telekastenHome .. '/' .. 'Journal',
+	weeklies = telekastenHome .. '/' .. 'Journal',
+	templates = telekastenHome .. '/' .. 'Templates',
 	subdirs_in_links = false,
 	-- markdown file extension
 	extension = '.md',
