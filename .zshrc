@@ -136,5 +136,12 @@ export NNN_FIFO=/tmp/nnn.fifo
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
+# bun completions
+[ -s "/Users/nilsriedemann/.bun/_bun" ] && source "/Users/nilsriedemann/.bun/_bun"
+
+# Bun
+export BUN_INSTALL="/Users/nilsriedemann/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"

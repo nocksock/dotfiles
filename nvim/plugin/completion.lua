@@ -28,6 +28,8 @@ luasnip.config.set_config({
 	history = true,
 	enable_autosnippets = true,
 	updateevents = 'TextChanged,TextChangedI',
+	region_check_events = "InsertEnter",
+	delete_check_events = "TextChanged,InsertLeave",
 })
 
 ---@diagnostic disable: need-check-nil

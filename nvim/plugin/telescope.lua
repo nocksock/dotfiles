@@ -3,6 +3,9 @@ local telescope = require('telescope')
 telescope.setup({
 	defaults = {
 		mappings = {
+      i = {
+				['<C-E>'] = require('telescope.actions').insert_symbol,
+      },
 			n = {
 				['<Down>'] = require('telescope.actions').cycle_history_next,
 				['<Up>'] = require('telescope.actions').cycle_history_prev,
@@ -10,6 +13,7 @@ telescope.setup({
 		},
 		layout_strategy = 'vertical',
 	},
+
 	extensions = {
 		fzf = {
 			fuzzy = true, -- false will only do exact matching

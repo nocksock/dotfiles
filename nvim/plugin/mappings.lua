@@ -38,17 +38,10 @@ map('x', 'ih', gitsigns.select_hunk)
 
 map('n', '<leader>tgb', gitsigns.toggle_current_line_blame, { desc = "[T]oggle inline [B]lame" })
 map('n', '<leader>tgd', gitsigns.toggle_deleted, { desc = "[T]oggle [D]eleted lines" })
-map('n', '<leader>tl', function()
-  vim.o.nu = not vim.o.nu
-  vim.o.rnu = not vim.o.rnu
-end)
-map('n', '<leader>tL', function()
-  vim.o.nu = not vim.o.nu
-  vim.o.rnu = not vim.o.rnu
-  vim.o.signcolumn = vim.o.nu and "yes" or "no"
-end)
-map('n', '<leader>ts', function()
+map('n', '<leader>tsl', function()
   if vim.o.laststatus == 2 then
+    vim.o.laststatus = 3
+  elseif vim.o.laststatus == 3 then
     vim.o.laststatus = 0
   else
     vim.o.laststatus = 2
@@ -92,7 +85,6 @@ end)
 map('n', '<leader>T', builtin.builtin, { desc = 'builtin [T]elescope commands' })
 map('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 map('n', '<leader>sf', find_files, { desc = '[S]earch [F]iles' })
-map('n', '<M-p>', find_files, { desc = '[S]earch [F]iles' })
 map('n', '<leader>sr', builtin.oldfiles, { desc = '[S]earch [R]ecently opened files' })
 map('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
 map('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
@@ -187,19 +179,26 @@ map('t', '<F12>', [[<C-\><C-n>:ToggleTerm<CR>]])
 -- when moving more than 5 lines, then make a jump, to be able to revert via c-o
 map('n', '<leader>sne', ':lua require("luasnip.loaders.from_lua").edit_snippet_files()<CR>',
   { desc = "[Sn]ippet [E]dit" })
-map('n', '<leader>sns', ':source ~/.config/nvim/plugin/luasnip.lua<cr>', { desc = "[Sn]ippet [S]ource" })
-map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'j']], { expr = true })
+map('n', '<leader>sns', ':source ~/.config/nvim/plugin/completion.lua<cr>', { desc = "[Sn]ippet [S]ource" })
+map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'gj']], { expr = true })
 map('n', 'k', [[(v:count > 5 ? "m'" . v:count : "") . 'k']], { expr = true })
 map('n', 'gx', ":execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>")
 map('n', 'gV', '`[v`]') -- visual select last inserted text)
 map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
 
+map('n', '<c-j>', '<c-w>j')
+map('n', '<c-k>', '<c-w>k')
+map('n', '<c-l>', '<c-w>l')
+map('n', '<c-h>', '<c-w>h')
+map('n', '<c-n>', 'gt')
+map('n', '<c-p>', 'gT')
+
 -- better terminal exits
 map('t', '<c-[>', '<C-\\><C-n>')
 map('t', '<Esc>', '<C-\\><C-n>')
 
--- misc: undo breaks in insert mode
+-- misc: more undo stops in insert mode 
 map('i', '!', '!<c-g>u')
 map('i', '.', '.<c-g>u')
 map('i', ':', ':<c-g>u')
@@ -218,5 +217,6 @@ map('n', '<leader>cp', ':LspFormatting<cr>')
 map('n', '<leader>.', ':LspCodeAction<cr>')
 map('n', '<m-.>', ':LspCodeAction<cr>')
 map('n', '<F2>', ':LspRename<cr>')
+map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[CL]ear display"})
 map({ 'i', 'n' }, '<M-s>', '<cmd>:w<cr>')
-map('n', '<c-l>', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>')
+map('n', '<M-p>', find_files)

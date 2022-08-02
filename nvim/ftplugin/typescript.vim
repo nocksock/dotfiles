@@ -1,5 +1,4 @@
-autocmd BufEnter *.{ts,tsx} :syntax sync fromstart " force vim to parse the *entire* file from start.
-autocmd BufLeave *.{ts,tsx} :syntax sync clear
-nmap <localleader>s :e %:r:r.stories.ts<cr>
-nmap <localleader>t :e %:r:r.spec.ts<cr>
-nmap <localleader>m :e %:r:r.ts<cr>
+nmap <buffer> <localleader>s :e %:r:r.stories.ts<cr>
+nmap <buffer> <localleader>t :e %:r:r.spec.ts<cr>
+nmap <buffer> <localleader>m :e %:r:r.ts<cr>
+nmap <buffer> <f5> :!bun %<cr>

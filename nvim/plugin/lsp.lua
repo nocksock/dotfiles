@@ -53,10 +53,8 @@ local on_attach = function(_, bufnr)
   nmap('gr', builtin.lsp_references)
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
   vim.keymap.set('i', '<C-k>', vim.lsp.buf.hover)
-
-  print('LSP bindings enabled') -- todo: add indicator to statusline if LSP is running
 end
 
 local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint' }
@@ -145,7 +143,7 @@ lspconfig.sumneko_lua.setup({
         path = runtime_path, -- Setup your lua path
       },
       diagnostics = {
-        globals = { 'vim' }, -- Get the language server to recognize the `vim` global
+        globals = { 'vim', 'hs' }, -- Get the language server to recognize the `vim` global
       },
       workspace = {
         library = vim.api.nvim_get_runtime_file('', true), -- Make the server aware of Neovim runtime files

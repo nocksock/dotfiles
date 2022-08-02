@@ -85,6 +85,7 @@ end)
 
 
 vim.o.backup = true -- enable backups
+vim.o.laststatus = 3 -- global status line
 vim.o.backupskip = '/tmp/*,/private/tmp/*' -- Make Vim able to edit crontab files again.
 vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
@@ -103,7 +104,7 @@ vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪' -- define cha
 vim.o.mouse = 'a' -- enable scrolling and selecting with mouse
 vim.o.nu = true -- show numbers
 vim.o.rnu = true -- show *HYBRID* line numbers, relative line numbers + current line number
-vim.o.pumheight = 10 -- limit popupmenu to 10 lines
+vim.o.pumheight = 12 -- limit popupmenu to 10 lines
 vim.o.scrolloff = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
 vim.o.shell = '/bin/zsh' -- set default shell for :shell
 vim.o.shiftround = true -- When at 3 spaces and I hit >>, go to 4, not 5.
@@ -145,7 +146,7 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 33
 
 vim.g.instant_username = "nils"
-
+vim.o.guicursor="n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
 local group = vim.api.nvim_create_augroup('snock', { clear = true })
 
 vim.api.nvim_create_autocmd('TermOpen', {
@@ -158,11 +159,11 @@ vim.api.nvim_create_autocmd('TermOpen', {
   group = group
 })
 
-local swap_rnu = vim.o.rnu
 vim.api.nvim_create_autocmd('insertenter', {
   callback = function()
-    swap_rnu = vim.o.rnu
-    vim.o.rnu = false
+    if vim.o.nu then
+      vim.o.rnu = false
+    end
     vim.o.list = true
   end,
   group = group,
@@ -170,7 +171,7 @@ vim.api.nvim_create_autocmd('insertenter', {
 
 vim.api.nvim_create_autocmd('insertleave', {
   callback = function()
-    if swap_rnu then
+    if vim.o.nu then
       vim.o.rnu = true
     end
     vim.o.list = false
@@ -187,7 +188,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-require('nvim-autopairs').setup();
+require('nvim-autopairs').setup({
+  disable_filetype = { "TelescopePrompt", "fennel" }
+});
+
 require('comment').setup({})
 require('harpoon').setup({ enter_on_sendcmd = true, })
 require('gitsigns').setup({})

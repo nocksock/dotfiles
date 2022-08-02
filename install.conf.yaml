@@ -10,6 +10,7 @@
 - link:
     ~/.zshrc: .zshrc
     ~/.zsh: zsh
+    ~/.yabairc: .yabairc
     ~/.tmux.conf: .tmux.conf
     ~/.doom.d: .doom.d
     ~/.config/nvim: nvim
@@ -25,5 +26,3 @@
   - ~/.vim/tmp
   - ~/.vim/.netrwhist
 
-- shell:
-  - [git submodule update --init --recursive, Installing submodules]

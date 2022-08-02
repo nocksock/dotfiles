@@ -11,7 +11,7 @@ nnoremap <buffer> <leader>zm :lua require('telekasten').browse_media()<CR>
 nnoremap <buffer> <leader># :lua require('telekasten').show_tags()<CR>
 
 inoremap <buffer> <silent> #: <cmd>lua require('telekasten').show_tags({i = true})<cr>
-inoremap [[ <cmd>:lua require('telekasten').insert_link({ i=true })<CR>
+inoremap <buffer> [[ <cmd>:lua require('telekasten').insert_link({ i=true })<CR>
 
 hi link CalNavi CalRuler
 hi tkTagSep ctermfg=gray guifg=gray

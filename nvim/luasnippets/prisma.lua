@@ -15,16 +15,28 @@ local r = ls.restore_node
 local events = require('luasnip.util.events')
 local ai = require('luasnip.nodes.absolute_indexer')
 local same = function(index)
-	return f(function(arg)
-		return arg[1]
-	end, { index, index })
+  return f(function(arg)
+    return arg[1]
+  end, { index, index })
 end
 -- }}}
 
 return {
-	-- TODO: a snippet that uses Tree Sitter to check whether pre or
-	-- console.log
-	s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
-	s('rjson', fmt([[return <pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
-	s('tern', fmt([[{{{} ? ({}) : null}}]], { i(1), i(0) })),
+  s(
+    'rel',
+    fmt([[{} {} @relation(fields: [{}], references: [id], onDelete: Cascade)]], {
+      i(1),
+      f(function(field_name)
+        local name = field_name[1][1] or ""
+        if not name.gsub then
+          return name
+        end
+
+        return name:gsub("^%l", string.upper)
+      end, { 1 }),
+      f(function(field_name)
+        return field_name[1][1] .. 'Id'
+      end, { 1 }),
+    })
+  ),
 }

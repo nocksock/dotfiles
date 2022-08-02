@@ -14,6 +14,21 @@ alias p=tmux-qp
 alias love='open -n -a love'
 alias nnn='nnn -e'
 
+n () { # via https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
+  if [[ "${NNNLVL:-0}" -ge 1 ]]; then
+    echo "nnn is already running"
+    return
+  fi
+
+  export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+  \nnn -e "$@"
+
+  if [ -f "$NNN_TMPFILE" ]; then
+      . "$NNN_TMPFILE"
+      rm -f "$NNN_TMPFILE" > /dev/null
+  fi
+}
+
 # sometimes I might want to append to a path of some other function,
 # this way I don't have to remember sed syntax - and deal with escaping of
 # slashes.

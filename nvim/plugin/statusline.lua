@@ -1,6 +1,6 @@
 local function lsp_filetype ()
   if vim.lsp.buf.server_ready() then
-    return vim.bo.filetype .. "+"
+    return "+" .. vim.bo.filetype
   else
     return vim.bo.filetype
   end
@@ -21,7 +21,7 @@ require('lualine').setup {
     end}},
     lualine_b = {{'branch', icons_enabled = false}, 'diff', 'diagnostics'},
     lualine_c = {'%(%m%r%h %)%-10.30f%q'},
-    lualine_x = {'location'},
+    lualine_x = {'location', '%n'},
     lualine_y = {lsp_filetype},
     lualine_z = {}
   },
@@ -29,7 +29,7 @@ require('lualine').setup {
     lualine_a = {},
     lualine_b = {},
     lualine_c = {'%-10.30f%q'},
-    lualine_x = {'location'},
+    lualine_x = {'%n'},
     lualine_y = {lsp_filetype},
     lualine_z = {}
   },

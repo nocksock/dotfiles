@@ -5,7 +5,7 @@ require('zen-mode').setup({
 			font = '+4',
 		},
 		twilight = {
-			enabled = false,
+			enabled = true,
 		},
 		tmux = {
 			enabled = true,
@@ -15,7 +15,7 @@ require('zen-mode').setup({
 		},
 		options = {
 			enabled = true,
-			showcmd = false,
+			showcmd = true,
 		},
 	},
 
@@ -23,7 +23,7 @@ require('zen-mode').setup({
 		backdrop = 0.75,
 		width = 120,
 		options = {
-			signcolumn = 'no',
+			signcolumn = 'yes',
 			number = false,
 			relativenumber = false,
 			list = false,
@@ -32,7 +32,4 @@ require('zen-mode').setup({
 })
 
 require('twilight').setup({
-	dimming = {
-		inactive = true,
-	},
 })
