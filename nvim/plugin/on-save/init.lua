@@ -7,7 +7,7 @@
 --    a floating window. Using :OnSave! will clear all previous commands.
 --
 --    Note that {command} will be expanded, so you can use %, %:p:h and all
---    these things.
+--    those things.
 --
 --    Examples:
 --      :OnSave source %
@@ -16,7 +16,7 @@
 --      :OnSave! !http GET http://localhost:3000/foo
 --
 -- TODO: OnSaveClear to clear only current buffer augroups
--- TODO: on clear also delete buffers
+-- TODO: when clearing, also delte bufferns
 -- TODO: better options for window size etc
 
 local options = {
@@ -115,7 +115,7 @@ vim.api.nvim_create_user_command("OnSave", function(opts)
           end
         })
       else
-        vim.cmd(command)
+        vim.cmd(table.concat(command, " "))
       end
     end)
   })

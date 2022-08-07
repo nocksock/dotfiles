@@ -5,7 +5,7 @@ if [ ! -e $PWD/package.json ]; then
     exit 0
 fi
 
-task=$(cat package.json| jq '.scripts | keys[]' -r | fzf)
+task=$(cat package.json| jq '.scripts | keys[]' -r | gum filter)
 
 if [[ -z $task ]]; then
     exit 0

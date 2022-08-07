@@ -20,3 +20,5 @@ vim.cmd([[
         return split(substitute(glob(expand('%:h') .. '/*'), expand('%:h') .. '/', '', 'g'), "\n")
   endfun
 ]])
+
+vim.api.nvim_create_user_command("EditSnippet", require('luasnip.loaders.from_lua').edit_snippet_files, {})

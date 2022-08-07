@@ -96,6 +96,9 @@ vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.expandtab = true
 vim.o.cursorline = false -- Highlight the line of in which the cursor is present (or not)
 vim.o.foldenable = true
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.keymap.set("n", "<CR>", "za")
 vim.o.formatoptions = 'qrn1j' -- format options when writing, joining lines or `gq` see  :he fo-table for meanings
 vim.o.gdefault = true -- add g flag by default for :substitutions
 vim.o.ignorecase = true -- ignore case by default - unless using uppercase/lowercase via smartcase
@@ -146,8 +149,14 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 33
 
 vim.g.instant_username = "nils"
-vim.o.guicursor="n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
+vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
 local group = vim.api.nvim_create_augroup('snock', { clear = true })
+
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileReadPost' }, {
+  callback = function()
+    vim.api.nvim_command([[normal zR]])
+  end
+})
 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()

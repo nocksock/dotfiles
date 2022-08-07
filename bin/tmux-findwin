@@ -3,16 +3,16 @@
 # tmux-findwin: a more useable window finder
 #
 # suggested mappings:
-#   # fzf windows in current session
+#   # fuzzy windows in current session
 #   bind -r w popup -E -w 20% -h 20% $DOTDIR/bin/tmux-findwin
-#   # fzf windows in all sessions
+#   # fuzzy windows in all sessions
 #   bind -r W popup -E $DOTDIR/bin/tmux-findwin -a
 #
 
 if [[ $1 == "-a" ]]; then
-    selected_name=$(tmux list-windows -a -F '#S:#W'| fzf)
+    selected_name=$(tmux list-windows -a -F '#S:#W'| gum filter)
 else
-    selected_name=$(tmux list-windows -F '#W'| fzf)
+    selected_name=$(tmux list-windows -F '#W'| gum filter)
 fi
 
 if [[ -z $selected_name ]]; then

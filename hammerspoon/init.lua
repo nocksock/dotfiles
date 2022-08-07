@@ -1,11 +1,12 @@
+local fennel = require("fennel")
+table.insert(package.loaders or package.searchers, fennel.searcher)
+
 HYPER = { "cmd", "ctrl", "shift", "option" }
 BREW = "/opt/homebrew/bin/"
 
 P = function(...)
   print(hs.inspect(table.pack(...)))
 end
-
-local task = require('utils').task
 
 local function reloadConfig(files)
   local doReload = false
@@ -24,3 +25,4 @@ hs.alert.show("Config loaded")
 
 require('applauncher')
 require('yabai')
+require("fnl/test")

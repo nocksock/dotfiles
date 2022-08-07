@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+# TODO: autoload local tmux-file, if present
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/projects ~/personal ~/forks ~/code -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find ~/projects ~/personal ~/forks ~/code ~/projects/edeka ~/projects/tally -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
