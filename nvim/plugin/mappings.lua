@@ -35,7 +35,6 @@ map('n', 'gR', '<cmd>Trouble lsp_references<cr>')
 -- Telescope
 local function search_in(path)
   return function()
-    local themes = require('telescope.themes')
     local options = { hidden = true }
 
     if path ~= nil then
@@ -66,7 +65,7 @@ map('n', '<leader>sc', ":lua require('telescope.builtin').commands()<cr>", { des
 map('n', '<leader>sw', ":lua require('telescope.builtin').grep_string()<cr>", { desc = '[S]earch current [W]ord' })
 map('n', '<leader>sg', ":lua require('telescope.builtin').live_grep()<cr>", { desc = '[S]earch by [G]rep' })
 map('n', '<leader>gb', ':Telescope git_branches theme=dropdown<cr>')
-map('n', '<leader>/', ':lua require("telescope.builting").current_buffer_fuzzy_find()',
+map('n', '<leader>/', ':lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>',
   { desc = '[/] Fuzzily search in current buffer' })
 map('n', '<leader>sp', search_in("~/.local/share/nvim/site/pack/packer/start/"),
   { desc = '[s]earch [P]lugins in packer folder' })
@@ -130,7 +129,8 @@ map('n', 'gV', '`[v`]') -- visual select last inserted text)
 map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>cp', ':LspFormatting<cr>')
 map('n', '<leader>.', ':LspCodeAction<cr>')
-map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[CL]ear display" })
+map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[CL]ear Display" })
+map('n', '<leader>tl', ':lua require("lsp_lines").toggle()<cr>', { desc = "[T]oggle [L]sp lines"})
 
 map('n', '<c-j>', '<c-w>j')
 map('n', '<c-k>', '<c-w>k')
@@ -157,3 +157,4 @@ map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 
 -- type %% in vim's prompt to insert %:h expanded
 vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])
+map({ 'i', 'n' }, '<M-s>', '<cmd>:w<cr>')

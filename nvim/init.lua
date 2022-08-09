@@ -10,9 +10,9 @@ require('packer').startup(function(use)
   use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
   use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
   use('https://github.com/tpope/vim-repeat') -- makes `.` even more powerful by adding support for plugins
-  use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
+  -- use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
   use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
-
+  use("kylechui/nvim-surround")
   -- telescope
   use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
   use('https://github.com/nvim-telescope/telescope-symbols.nvim')
@@ -20,6 +20,7 @@ require('packer').startup(function(use)
 
   -- lsp stuff
   use('https://github.com/williamboman/nvim-lsp-installer')
+  -- use('https://github.com/williamboman/mason.nvim') -- package manager
   use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
   use('https://github.com/jose-elias-alvarez/null-ls.nvim') -- use neovim as ls server to inject code-actions and mor via lua
   use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
@@ -28,11 +29,10 @@ require('packer').startup(function(use)
   -- treesitter
   use('https://github.com/nvim-treesitter/nvim-treesitter')
   use('https://github.com/nvim-treesitter/playground')
-  use('vim-treesitter/nvim-treesitter-textobjects') --  Additional textobjects for treesitter
+  use('https://github.com/nvim-treesitter/nvim-treesitter-textobjects') --  Additional textobjects for treesitter
 
   -- git things
   use('https://github.com/tpope/vim-fugitive') -- a git wrapper in vim
-  use('https://github.com/junegunn/gv.vim') -- commit browser
   use('https://github.com/lewis6991/gitsigns.nvim') -- show diff markers in the gutter + gitlens
 
   -- completers
@@ -68,12 +68,15 @@ require('packer').startup(function(use)
   use('https://github.com/folke/which-key.nvim')
   use('https://github.com/nvim-lualine/lualine.nvim')
   use('https://github.com/kyazdani42/nvim-web-devicons')
+  use('https://github.com/Maan2003/lsp_lines.nvim') -- better display for inline diagnostic errors
+  use('https://github.com/j-hui/fidget.nvim') -- ui for nvm-lsp progress
 
   -- themes
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
   use('https://github.com/nlknguyen/papercolor-theme') -- for moments I need a bright theme
   use('https://github.com/ayu-theme/ayu-vim')
   use('https://github.com/folke/tokyonight.nvim')
+  use({ 'https://github.com/shaunsingh/oxocarbon.nvim', run = './install.sh' })
   use('~/personal/bloop-vim')
   use('~/personal/nazgul-vim')
   use('~/personal/ghash-nvim')
@@ -95,13 +98,13 @@ vim.o.hidden = true -- makes it possible to leave a buffer if it has unsaved cha
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.expandtab = true
 vim.o.cursorline = false -- Highlight the line of in which the cursor is present (or not)
-vim.o.foldenable = true
+vim.o.foldenable = false -- open all folds by default
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.keymap.set("n", "<CR>", "za")
 vim.o.formatoptions = 'qrn1j' -- format options when writing, joining lines or `gq` see  :he fo-table for meanings
 vim.o.gdefault = true -- add g flag by default for :substitutions
 vim.o.ignorecase = true -- ignore case by default - unless using uppercase/lowercase via smartcase
+vim.o.smartcase = true -- ignore 'ignorecase' when search contains uppercase characters
 vim.o.list = true -- Show invisible characters
 vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪' -- define characters for invisible characters
 vim.o.mouse = 'a' -- enable scrolling and selecting with mouse
@@ -112,11 +115,11 @@ vim.o.scrolloff = 2 -- always have 2 lines more visible when reaching top/end of
 vim.o.shell = '/bin/zsh' -- set default shell for :shell
 vim.o.shiftround = true -- When at 3 spaces and I hit >>, go to 4, not 5.
 vim.o.updatetime = 250
+vim.o.equalalways = false -- prevent resizing after window close
 vim.o.shiftwidth = 2
 vim.o.showmatch = true -- Highlight matching bracket
 vim.o.showmode = false -- don't show the current mode - lualine handles this
 vim.o.signcolumn = 'yes' -- always show signcolumn - prevents horizontal jumping
-vim.o.smartcase = true -- ignore 'ignorecase' when search contains uppercase characters
 vim.o.softtabstop = 2
 vim.o.splitbelow = true -- When on, splitting a window will put the new window below the current one
 vim.o.tabstop = 2
@@ -139,8 +142,6 @@ vim.g.colors_name = 'tokyonight'
 vim.o.background = 'dark'
 vim.o.guifont = 'JetBrains Mono:h16'
 
--- vim.o.wildmode = 'longest,list,full'
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
@@ -148,9 +149,12 @@ vim.g.netrw_altfile = 1 -- make CTRL-^ ignore netrw buffers
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 33
 
-vim.g.instant_username = "nils"
 vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
 local group = vim.api.nvim_create_augroup('snock', { clear = true })
+
+vim.diagnostic.config({
+  virtual_text = false
+})
 
 vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileReadPost' }, {
   callback = function()
@@ -201,6 +205,7 @@ require('nvim-autopairs').setup({
   disable_filetype = { "TelescopePrompt", "fennel" }
 });
 
+-- require("mason").setup() -- todo
 require('comment').setup({})
 require('harpoon').setup({ enter_on_sendcmd = true, })
 require('gitsigns').setup({})
@@ -208,5 +213,14 @@ require('rucksack').setup({ mappings = true })
 require('refactoring').setup({})
 require('toggleterm').setup({})
 require('goto-preview').setup({})
-require('which-key').setup({ window = { border = 'single' } })
+require('which-key').setup({
+  window = {
+    border = 'shadow',
+    position = 'center',
+    margin = { 4, 4, 4, 6 }
+  }
+})
 require('nvim-ts-autotag').setup({ update_on_insert = true })
+require("nvim-surround").setup()
+require("lsp_lines").setup()
+require("fidget").setup()

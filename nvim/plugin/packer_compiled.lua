@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
+  ["cmp-nvim-lsp-signature-help"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp-signature-help",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp-signature-help"
+  },
   ["cmp-nvim-lua"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua",
@@ -114,15 +119,15 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
-  ["editorconfig-vim"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/editorconfig-vim",
-    url = "https://github.com/editorconfig/editorconfig-vim"
-  },
   ["emmet-vim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/emmet-vim",
     url = "https://github.com/mattn/emmet-vim"
+  },
+  ["fidget.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/fidget.nvim",
+    url = "https://github.com/j-hui/fidget.nvim"
   },
   ["ghash-nvim"] = {
     loaded = true,
@@ -139,20 +144,35 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/goto-preview",
     url = "https://github.com/rmagatti/goto-preview"
   },
-  ["gv.vim"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/gv.vim",
-    url = "https://github.com/junegunn/gv.vim"
-  },
   harpoon = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/harpoon",
     url = "https://github.com/ThePrimeagen/harpoon"
   },
+  ["instant.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/instant.nvim",
+    url = "https://github.com/jbyuki/instant.nvim"
+  },
+  ["lsp_lines.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lsp_lines.nvim",
+    url = "https://github.com/Maan2003/lsp_lines.nvim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
   ["lush.nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lush.nvim",
     url = "https://github.com/rktjmp/lush.nvim"
+  },
+  ["mason.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    url = "https://github.com/williamboman/mason.nvim"
   },
   ["nazgul-vim"] = {
     loaded = true,
@@ -179,15 +199,10 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
-  ["nvim-dap"] = {
+  ["nvim-lsp-installer"] = {
     loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-dap",
-    url = "https://github.com/mfussenegger/nvim-dap"
-  },
-  ["nvim-dap-ui"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
-    url = "https://github.com/rcarriga/nvim-dap-ui"
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
+    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lsp-ts-utils"] = {
     loaded = true,
@@ -199,10 +214,35 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
+  ["nvim-surround"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-surround",
+    url = "https://github.com/kylechui/nvim-surround"
+  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["nvim-treesitter-textobjects"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-treesitter-textobjects",
+    url = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
+  },
+  ["nvim-ts-autotag"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-ts-autotag",
+    url = "https://github.com/windwp/nvim-ts-autotag"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
+  },
+  ["oxocarbon.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/oxocarbon.nvim",
+    url = "https://github.com/shaunsingh/oxocarbon.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,
@@ -238,11 +278,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/tabular",
     url = "https://github.com/godlygeek/tabular"
-  },
-  ["tailwind-highlight.nvim"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/tailwind-highlight.nvim",
-    url = "https://github.com/princejoogie/tailwind-highlight.nvim"
   },
   ["telekasten.nvim"] = {
     loaded = true,
@@ -289,26 +324,6 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-abolish",
     url = "https://github.com/tpope/vim-abolish"
   },
-  ["vim-closetag"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-closetag",
-    url = "https://github.com/alvan/vim-closetag"
-  },
-  ["vim-dadbod"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-dadbod",
-    url = "https://github.com/tpope/vim-dadbod"
-  },
-  ["vim-dadbod-ui"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-dadbod-ui",
-    url = "https://github.com/kristijanhusak/vim-dadbod-ui"
-  },
-  ["vim-devicons"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-devicons",
-    url = "https://github.com/ryanoasis/vim-devicons"
-  },
   ["vim-eunuch"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-eunuch",
@@ -338,11 +353,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-startuptime",
     url = "https://github.com/dstein64/vim-startuptime"
-  },
-  ["vim-surround"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/vim-surround",
-    url = "https://github.com/tpope/vim-surround"
   },
   ["vim-vinegar"] = {
     loaded = true,
