@@ -115,7 +115,7 @@ vim.api.nvim_create_user_command("OnSave", function(opts)
           end
         })
       else
-        vim.cmd(table.concat(command, " "))
+        vim.cmd(command, " ")
       end
     end)
   })
