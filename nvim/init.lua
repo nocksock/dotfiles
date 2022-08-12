@@ -215,7 +215,7 @@ require('toggleterm').setup({})
 require('goto-preview').setup({})
 require('which-key').setup({
   window = {
-    border = 'shadow',
+    border = 'double',
     position = 'center',
     margin = { 4, 4, 4, 6 }
   }

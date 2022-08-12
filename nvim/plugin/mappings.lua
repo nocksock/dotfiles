@@ -11,7 +11,7 @@ map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
 
 local function hunk(suffix) return { desc = "[H]unk " .. suffix } end
 
-map('n', '<localleader>hs', gitsigns.stage_hunk, hunk '[s]tage')
+map('n', '<leader>hs', gitsigns.stage_hunk, hunk '[s]tage')
 map('v', '<leader>hs', gitsigns.stage_hunk, hunk '[s]tage')
 map('n', '<leader>hr', gitsigns.reset_hunk, hunk '[r]eset')
 map('v', '<leader>hr', gitsigns.reset_hunk, hunk '[r]eset')
@@ -33,7 +33,7 @@ map('n', 'gpr', require('goto-preview').goto_preview_references)
 map('n', 'gR', '<cmd>Trouble lsp_references<cr>')
 
 -- Telescope
-local function search_in(path)
+local function search_in(path, search_fn)
   return function()
     local options = { hidden = true }
 
@@ -45,7 +45,7 @@ local function search_in(path)
       })
     end
 
-    require('telescope.builtin').find_files(options)
+    require('telescope.builtin')[vim.F.if_nil(search_fn, "find_files")](options)
   end
 end
 
@@ -61,6 +61,8 @@ map('n', '<leader>sr', ":lua require('telescope.builtin').oldfiles()<cr>", { des
 map('n', '<leader>sh', ":lua require('telescope.builtin').help_tags()<cr>", { desc = '[S]earch [H]elp' })
 map('n', '<leader>sk', ":lua require('telescope.builtin').keymaps()<cr>", { desc = '[S]earch [K]eymaps' })
 map('n', '<leader>sl', ":lua require('telescope.builtin').loclist()<cr>", { desc = '[S]earch [L]oclist' })
+map('n', '<leader>sP',
+  search_in('/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/plenary.nvim/', "grep_string"))
 map('n', '<leader>sc', ":lua require('telescope.builtin').commands()<cr>", { desc = '[S]earch [C]ommands' })
 map('n', '<leader>sw', ":lua require('telescope.builtin').grep_string()<cr>", { desc = '[S]earch current [W]ord' })
 map('n', '<leader>sg', ":lua require('telescope.builtin').live_grep()<cr>", { desc = '[S]earch by [G]rep' })
@@ -94,6 +96,10 @@ map('n', "'1", ':lua require("harpoon.ui").nav_file(1)<CR>')
 map('n', "'2", ':lua require("harpoon.ui").nav_file(2)<CR>')
 map('n', "'3", ':lua require("harpoon.ui").nav_file(3)<CR>')
 map('n', "'4", ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('n', "'f", ':lua require("harpoon.ui").nav_file(1)<CR>')
+map('n', "'d", ':lua require("harpoon.ui").nav_file(2)<CR>')
+map('n', "'s", ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('n', "'a", ':lua require("harpoon.ui").nav_file(4)<CR>')
 
 -- harpoon: cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
@@ -130,7 +136,7 @@ map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>cp', ':LspFormatting<cr>')
 map('n', '<leader>.', ':LspCodeAction<cr>')
 map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[CL]ear Display" })
-map('n', '<leader>tl', ':lua require("lsp_lines").toggle()<cr>', { desc = "[T]oggle [L]sp lines"})
+map('n', '<leader>tl', ':lua require("lsp_lines").toggle()<cr>', { desc = "[T]oggle [L]sp lines" })
 
 map('n', '<c-j>', '<c-w>j')
 map('n', '<c-k>', '<c-w>k')
@@ -138,6 +144,8 @@ map('n', '<c-l>', '<c-w>l')
 map('n', '<c-h>', '<c-w>h')
 map('n', '<c-n>', 'gt')
 map('n', '<c-p>', 'gT')
+map('n', '<M-j>', ']d')
+map('n', '<M-k>', '[d')
 
 -- better terminal exits
 map('t', '<c-[>', '<C-\\><C-n>')

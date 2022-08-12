@@ -12,7 +12,7 @@ alias tf=terraform
 alias nv=/usr/local/bin/nvim
 alias p=tmux-qp
 alias love='open -n -a love'
-alias nnn='nnn -e'
+alias nnn='nnn -ei'
 
 n () { # via https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
   if [[ "${NNNLVL:-0}" -ge 1 ]]; then
