@@ -10,9 +10,9 @@ local marks = function()
   local current_mark_idx = harpoon_mark.get_current_index()
   local output = {}
 
-  for i, mark in ipairs(marks) do
-    local filename = vim.fs.basename(mark.filename)
-    local label = ' ' .. mark_keys[i] .. ': ' .. filename .. ' '
+  for i, key in ipairs(mark_keys) do
+    local filename = vim.fs.basename(marks[i].filename)
+    local label = ' ' .. key .. ': ' .. filename .. ' '
 
     if i == current_mark_idx then
       table.insert(output, '%#lualine_b_normal#' .. label)
