@@ -1,5 +1,8 @@
+local breadcrumbs = require('breadcrumbs')
 local harpoon = require('harpoon')
 local harpoon_mark = require('harpoon.mark')
+
+breadcrumbs.setup()
 
 local mark_keys = { "f", "d", "s", "a" } -- or use asdfg, 12345 or whatever.
 local marks = function()
