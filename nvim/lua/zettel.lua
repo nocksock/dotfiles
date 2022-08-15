@@ -1,8 +1,10 @@
+local telekasten = require('telekasten')
+
 local telekastenHome = vim.fn.expand(
 	'/Users/nilsriedemann/Library/Mobile Documents/iCloud~md~obsidian/Documents/Development'
 )
 
-require('telekasten').setup({
+telekasten.setup({
 	home = telekastenHome,
 	dailies = telekastenHome .. '/' .. 'Journal',
 	weeklies = telekastenHome .. '/' .. 'Journal',
@@ -12,3 +14,5 @@ require('telekasten').setup({
 	extension = '.md',
 })
 
+
+return telekasten
