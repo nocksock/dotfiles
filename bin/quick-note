@@ -1,0 +1,62 @@
+#!/usr/bin/env lua
+--
+-- quick-note.lua
+-- > a small script to quickly take notes from the CLI into my obsidian folder
+--
+-- mostly meant as a simple lua exercise, because I wrestled to much with bash
+-- weirdness.
+--
+-- todo: read format string from obsidian template folder and prefill vim with
+--  that instead?
+-- todo: tell vipe to set ft to telekasten?
+
+-- probably way to clunky way of (hopefully) safe way to run commands
+local function cmd(cmd_str, mode)
+  local ok, result = pcall(function()
+    local handle = io.popen(cmd_str, mode)
+    assert(handle)
+    local result = handle:read("*a")
+    handle:close()
+    return result
+  end)
+
+  if not ok then
+    print("something went wrong with: " .. cmd_str)
+    print(result)
+    os.exit()
+  end
+
+  return result or ""
+end
+
+assert(cmd("command -v gum") ~= "", "gum is not installed")
+
+local target_folder = os.getenv("HOME") .. "/brain/00 Unsorted/"
+local has_vipe = cmd("command -v vipe") ~= ""
+local date = os.date("%Y%m%d-%H%M%S")
+local text_input = cmd(has_vipe and "vipe" or "gum write")
+local text_fmt = string.format(([[
+---
+state: to be reviewed
+from: quicknote
+---
+#note
+
+%s
+]]):gsub("^\n", ""), text_input)
+
+local title = cmd(string.format([[gum input --value=%s --prompt="Title: "]], date))
+local filename = target_folder .. title:gsub("\n", "") .. ".md"
+local file = assert(io.open(filename, "w"))
+
+file:write(text_fmt)
+file:close()
+
+-- todo: this isn't working because of the -- in the file
+-- print(cmd(string.format([[cat "%s" | xargs gum style --border="double"]], filename)))
+
+print(";; Saved to " .. filename .. ":")
+print(text_fmt)
+print(";; EOF")
+
+cmd('read -p "\nPress any key to close"')

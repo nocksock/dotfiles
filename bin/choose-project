@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+find ~/projects ~/personal ~/forks ~/code ~/projects/edeka ~/projects/tally -mindepth 1 -maxdepth 1 -type d | gum filter

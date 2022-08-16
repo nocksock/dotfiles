@@ -1,17 +1,6 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
+# # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="bleep"
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -79,6 +68,8 @@ export LC_ALL=en_US.UTF-8
 export DOTDIR="$HOME/personal/dotfiles"
 export PYENV_ROOT="$HOME/.pyenv"
 
+export BUN_INSTALL="/Users/nilsriedemann/.bun"
+
 export PATH="/usr/local/bin:$PATH" # some apps put there stuff here (eg vscode, mullvad)
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
@@ -86,15 +77,15 @@ export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/bin/gh/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
-export PATH="$DENO_INSTALL/bin:$PATH"
 export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 export PATH="$DOTDIR/bin/:$PATH"
 export PATH="$PYENV_ROOT/bin/:$PATH"
 export PATH="/usr/local/cuda-11.6/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
-export CDPATH=".:$HOME:$HOME/development:$HOME/development/projects"
+export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
+export CDPATH=".:$HOME:$HOME/projects:$HOME/code"
 
 # PyEnv, but not doing any python atm
 eval "$(pyenv init --path)"
@@ -138,10 +129,3 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # bun completions
 [ -s "/Users/nilsriedemann/.bun/_bun" ] && source "/Users/nilsriedemann/.bun/_bun"
-
-# Bun
-export BUN_INSTALL="/Users/nilsriedemann/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"

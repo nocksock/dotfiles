@@ -1,11 +1,13 @@
-local breadcrumbs = require('breadcrumbs')
 local harpoon = require('harpoon')
 local harpoon_mark = require('harpoon.mark')
+local invert = require('snock.utils').invert
 
-breadcrumbs.setup()
+local has_marks = function()
+  return harpoon_mark.get_length() > 0
+end
 
 local mark_keys = { "f", "d", "s", "a" } -- or use asdfg, 12345 or whatever.
-local marks = function()
+local marks = function()--{{{
   local marks = harpoon.get_mark_config().marks
   local current_mark_idx = harpoon_mark.get_current_index()
   local output = {}
@@ -22,7 +24,7 @@ local marks = function()
   end
 
   return table.concat(output, '')
-end
+end--}}}
 
 require('lualine').setup {
   options = {
@@ -31,7 +33,6 @@ require('lualine').setup {
     component_separators = '',
     section_separators = { left = '', right = '' },
     disabled_filetypes = {},
-    globalstatus = false,
   },
   sections = {
     lualine_a = { { 'mode' } },
@@ -58,7 +59,18 @@ require('lualine').setup {
   tabline = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { marks },
+    lualine_c = {
+      {
+        marks,
+        cond = has_marks
+      },
+      {
+        "buffers",
+        cond = invert(has_marks),
+        mode = 4
+      }
+    },
+
     lualine_x = {},
     lualine_y = {},
     lualine_z = { {

@@ -1,6 +1,28 @@
 local yabai = hs.hotkey.modal.new({ "cmd", "control", "shift", "option" }, "y")
 local task = require('utils').task
 
+--[[
+
+local mmap = create_modal(HYPER, 'y')
+local gmap = create_mapper(HYPER)
+
+mmap("f", "--togle float")
+mmap("f", "shift", { "--layout float", "--grid 1:3:0:0:2:1" })
+mmap("f", "shift", function() ... end))
+mmap("f", "shift", {fn_a, fn_b, fn_c})
+gmap("f", { "--layout float", "--grid 1:3:0:0:2:1" })
+
+map_from_tree(mmap, {
+  on_enter = thunk(hs.alert.show, "yabai"),
+
+  ["f"] = {
+    yabai.fn.window.toggle("float"),
+    shift = yabai.fn.window.toggle("fullscreen")
+  }
+})
+
+--]]
+
 local function run(cmd)
   hs.task.new("/opt/homebrew/bin/yabai", nil, function(_, ...)
     print("stream", hs.inspect(table.pack(...)))
@@ -12,13 +34,23 @@ local function msg(cmd)
   return function() run(cmd) end
 end
 
+local function to_msg(cmd_str)
+  local cmd = hs.fnutils.split(cmd_str, " ")
+  table.insert(cmd, 1, "-m")
+  return cmd
+end
+
+local map = function(key, mod, cmd_str)
+  cmd_str = cmd_str == nil and mod or cmd_str
+  yabai:bind(mod, key, msg(to_msg(cmd_str)))
+end
+
 function yabai:entered()
-  msg({ "-m", "config", "window_border_width", "5" })()
-  hs.alert.show("yabai", nil, hs.screen.allScreens(), true)
+  run({ "-m", "config", "window_border_width", "16" })
 end
 
 function yabai:exited()
-  msg({ "-m", "config", "window_border_width", "2" })()
+  run({ "-m", "config", "window_border_width", "2" })
   hs.alert.closeAll()
 end
 
@@ -30,13 +62,26 @@ yabai:bind("", "return", function()
   yabai:exit()
 end)
 
+yabai:bind("", "p", function()
+  run(to_msg("window --layout float"))
+  run(to_msg("window --grid 6:4:1:1:2:4"))
+end)
 
-yabai:bind("", "f", msg({ "-m", "window", "--toggle", "zoom-parent" }))
-yabai:bind("", "F", msg({ "-m", "window", "--toggle", "zoom-fullscreen" }))
+yabai:bind("shift", "p", function()
+  run(to_msg("window --layout float"))
+  run(to_msg("window --toggle sticky"))
+  run(to_msg("window --grid 6:6:2:1:2:4"))
+end)
+
+map("f", "window --toggle float")
+map(".", "window --toggle sticky")
+
+yabai:bind("shift", "f", msg({ "-m", "window", "--toggle", "zoom-fullscreen" }))
 yabai:bind("shift", "r", task("/Users/nilsriedemann/.yabairc"))
+
 yabai:bind("", "x", function()
-  msg({ "-m", "window", "--close" })()
-  msg({ "-m", "window", "--focus", "recent" })()
+  run({ "-m", "window", "--close" })
+  run({ "-m", "window", "--focus", "recent" })
 end)
 
 yabai:bind("", "h", msg({ "-m", "window", "--focus", "west" }))

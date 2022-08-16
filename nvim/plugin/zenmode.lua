@@ -1,3 +1,4 @@
+require('twilight').setup({})
 require('zen-mode').setup({
 	plugins = {
 		kitty = {
@@ -18,7 +19,6 @@ require('zen-mode').setup({
 			showcmd = true,
 		},
 	},
-
 	window = {
 		backdrop = 0.75,
 		width = 120,
@@ -31,5 +31,3 @@ require('zen-mode').setup({
 	},
 })
 
-require('twilight').setup({
-})

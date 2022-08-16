@@ -9,7 +9,7 @@
 -- todo: set buffer name with index and cmd
 -- todo: hide numbers in splits
 -- todo: :{count}T! {cmd} remove buffer
--- todo: :{count}T {cmd} 
+-- todo: :{count}T {cmd}
 
 local utils = R("snock.utils")
 local opts = { count = true, nargs = "?", bang = true }
@@ -19,14 +19,7 @@ vim.api.nvim_create_autocmd('TermOpen', { --{{{
   callback = function()
     local win = vim.api.nvim_get_current_win()
 
-    if win ~= nil then
-      P("???")
-      return
-    end
-
-    -- vim.api.nvim_win_set_option(win, "number", false)
-    -- vim.api.nvim_win_set_option(win, "relativenumber", false)
-    -- vim.api.nvim_win_set_option(win, "startinsert", true)
+    if win ~= nil then return end
 
     vim.keymap.set('n', '<C-c>', 'i<C-c>', { buffer = true })
   end,
@@ -50,15 +43,6 @@ local function get_term_by_idx(idx) --{{{
   return terms[idx]
 end --}}}
 
-local function is_visible(bufnr) --{{{
-  local wins = vim.api.nvim_tabpage_list_wins(0)
-  for _, handle in ipairs(wins) do
-    if vim.api.nvim_win_get_buf(handle) == bufnr then
-      return true, handle
-    end
-  end
-  return false, nil
-end --}}}
 local function attach_behaviour(ctx) --{{{
   if not ctx.buffer then
     print("buffer unknown in attach_behaviour")
@@ -72,7 +56,7 @@ end --}}}
 local function create_command_cb(fn) --{{{
   return function(cmd_ctx)
     local term_buf = get_term_by_idx(cmd_ctx.count == 0 and 1 or cmd_ctx.count)
-    local visible, handle = is_visible(term_buf)
+    local visible, handle = utils.is_visible(term_buf)
     local command = cmd_ctx.args == "" and "zsh" or cmd_ctx.args
 
     if visible then
@@ -80,7 +64,7 @@ local function create_command_cb(fn) --{{{
     end
 
     if cmd_ctx.bang and term_buf then
-      return print("Bang not yet working")
+      return print("! to be done")
     end
 
     return fn(term_buf, vim.tbl_extend("keep", cmd_ctx, {

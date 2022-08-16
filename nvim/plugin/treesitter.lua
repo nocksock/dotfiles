@@ -1,3 +1,5 @@
+require('nvim-ts-autotag').setup({ update_on_insert = true })
+require("nvim-surround").setup()
 
 require('nvim-treesitter.configs').setup({
   playground = {

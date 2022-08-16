@@ -1,7 +1,7 @@
 --
 -- welcome to my nvim config.
 --
-require('packer').startup(function(use)
+require('packer').startup({ function(use)
   use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
   use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
   use('https://github.com/dstein64/vim-startuptime') -- find the startup bottleneck
@@ -12,7 +12,7 @@ require('packer').startup(function(use)
   use('https://github.com/tpope/vim-repeat') -- makes `.` even more powerful by adding support for plugins
   -- use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
   use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
-  use("kylechui/nvim-surround")
+  use("https://github.com/kylechui/nvim-surround")
   -- telescope
   use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
   use('https://github.com/nvim-telescope/telescope-symbols.nvim')
@@ -70,6 +70,8 @@ require('packer').startup(function(use)
   use('https://github.com/kyazdani42/nvim-web-devicons')
   use('https://github.com/Maan2003/lsp_lines.nvim') -- better display for inline diagnostic errors
   use('https://github.com/j-hui/fidget.nvim') -- ui for nvm-lsp progress
+  use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
+  use('https://github.com/kyazdani42/nvim-tree.lua')
 
   -- themes
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
@@ -84,11 +86,20 @@ require('packer').startup(function(use)
   -- beyond coding
   use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim, works great with Obsidian
   use('https://github.com/jbyuki/instant.nvim') -- collaborative editing in nvim
-end)
+  use('https://github.com/rest-nvim/rest.nvim') -- REST client
+end,
+  config = {
+    display = {
+      open_fn = function()
+        return require('packer.util').float({ border = 'single' })
+      end
+    }
+  }
+})
 
 
 vim.o.backup = true -- enable backups
-vim.o.laststatus = 3 -- global status line
+vim.o.laststatus = 2
 vim.o.backupskip = '/tmp/*,/private/tmp/*' -- Make Vim able to edit crontab files again.
 vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
@@ -99,8 +110,7 @@ vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.expandtab = true
 vim.o.cursorline = false -- Highlight the line of in which the cursor is present (or not)
 vim.o.foldenable = false -- open all folds by default
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.foldmethod = "marker"
 vim.o.formatoptions = 'qrn1j' -- format options when writing, joining lines or `gq` see  :he fo-table for meanings
 vim.o.gdefault = true -- add g flag by default for :substitutions
 vim.o.ignorecase = true -- ignore case by default - unless using uppercase/lowercase via smartcase
@@ -149,27 +159,24 @@ vim.g.netrw_altfile = 1 -- make CTRL-^ ignore netrw buffers
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 33
 
+vim.g.symbols_outline = {
+  auto_close = true,
+  auto_preview = false,
+  show_quides = false
+}
+
 vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
 local group = vim.api.nvim_create_augroup('snock', { clear = true })
 
 vim.diagnostic.config({
-  virtual_text = false
+  virtual_text = false,
+  virtual_lines = false
 })
 
 vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileReadPost' }, {
   callback = function()
     vim.api.nvim_command([[normal zR]])
   end
-})
-
-vim.api.nvim_create_autocmd('TermOpen', {
-  callback = function()
-    vim.b.nu = false
-    vim.b.rnu = false
-    vim.b.startinsert = true
-    vim.keymap.set('n', '<C-c>', 'i<C-c>', { buffer = true })
-  end,
-  group = group
 })
 
 vim.api.nvim_create_autocmd('insertenter', {
@@ -192,12 +199,11 @@ vim.api.nvim_create_autocmd('insertleave', {
   group = group,
 })
 
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
   end,
-  group = highlight_group,
+  group = group,
   pattern = '*',
 })
 
@@ -224,3 +230,28 @@ require('nvim-ts-autotag').setup({ update_on_insert = true })
 require("nvim-surround").setup()
 require("lsp_lines").setup()
 require("fidget").setup()
+require('nvim-tree').setup({
+  hijack_cursor = true,
+  hijack_netrw = false,
+  view = {
+    preserve_window_proportions = true,
+    side = "right",
+    centralize_selection = true
+  },
+  diagnostics = {
+    enable = true
+  },
+  renderer = {
+    icons = {
+      git_placement = "after"
+    }
+  },
+  actions = {
+    change_dir = {
+      enable = false
+    },
+    expand_all = {
+      exclude = { ".git", "node_modules" }
+    }
+  }
+})

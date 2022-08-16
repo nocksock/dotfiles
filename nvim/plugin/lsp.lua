@@ -1,3 +1,7 @@
+require("lsp_lines").setup()
+require("fidget").setup()
+require('goto-preview').setup({})
+
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
@@ -61,7 +65,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('i', '<C-k>', vim.lsp.buf.hover)
 end
 
-local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint' }
+local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro' }
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require('nvim-lsp-installer').setup {
@@ -119,6 +123,7 @@ null_ls.setup({
         callback = function()
           local params = util.make_formatting_params({})
           client.request('textDocument/formatting', params, nil, bufnr)
+          -- todo: request code-action autofix autofixable
         end
       })
     else

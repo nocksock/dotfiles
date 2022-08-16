@@ -1,18 +1,32 @@
-local telescope = require('telescope')
+local telescope = R('telescope')
+
+telescope.load_extension('fzf')
+telescope.load_extension('refactoring')
 
 telescope.setup({
 	defaults = {
 		mappings = {
       i = {
-				['<C-E>'] = require('telescope.actions').insert_symbol,
+        ['<C-E>'] = "insert_symbol",
       },
 			n = {
-				['<Down>'] = require('telescope.actions').cycle_history_next,
-				['<Up>'] = require('telescope.actions').cycle_history_prev,
+        ['<Down>'] = "cycle_history_next",
+        ['<Up>'] = "cycle_history_prev",
 			}
 		},
 		layout_strategy = 'vertical',
 	},
+
+  pickers = {
+    buffers = {
+      sort_lastused = true,
+      mappings = {
+        i = {
+          ["<c-d>"] = "delete_buffer"
+        }
+      }
+    }
+  },
 
 	extensions = {
 		fzf = {
@@ -23,6 +37,4 @@ telescope.setup({
 	},
 })
 
-telescope.load_extension('fzf')
-telescope.load_extension('refactoring')
 

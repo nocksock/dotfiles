@@ -5,12 +5,11 @@ end
 
 local gitsigns = require('gitsigns.actions')
 
+-- git mappings {{{
 map('n', '<leader>gg', ':tab G<cr>')
 map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
 map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
-
-local function hunk(suffix) return { desc = "[H]unk " .. suffix } end
-
+local function hunk(suffix) return { desc = "[h]unk " .. suffix } end
 map('n', '<leader>hs', gitsigns.stage_hunk, hunk '[s]tage')
 map('v', '<leader>hs', gitsigns.stage_hunk, hunk '[s]tage')
 map('n', '<leader>hr', gitsigns.reset_hunk, hunk '[r]eset')
@@ -31,8 +30,9 @@ map('n', 'gpi', require('goto-preview').goto_preview_implementation)
 map('n', 'gP', require('goto-preview').close_all_win)
 map('n', 'gpr', require('goto-preview').goto_preview_references)
 map('n', 'gR', '<cmd>Trouble lsp_references<cr>')
+-- }}}
 
--- Telescope
+-- Telescope {{{
 local function search_in(path, search_fn)
   return function()
     local options = { hidden = true }
@@ -47,38 +47,42 @@ local function search_in(path, search_fn)
 
     require('telescope.builtin')[vim.F.if_nil(search_fn, "find_files")](options)
   end
-end
+end --}}}
 
-map('n', '<leader><cr>', ":lua require('telescope.builtin').resume()<cr>")
-map('n', '<leader>R', ":lua require('telescope.extensions').refactoring.refactors()<cr>")
-map('n', '<leader>tt', ":lua require('telescope.builtin').colorscheme({ enable_preview = true })<cr>")
-map('n', '<leader>T', ":lua require('telescope.builtin').builtin()<cr>", { desc = 'builtin [T]elescope commands' })
 map('n', '<leader><space>', ":lua require('telescope.builtin').buffers()<cr>", { desc = '[ ] Find existing buffers' })
-map('n', '<leader>sf', search_in(nil), { desc = '[S]earch [F]iles' })
-map('n', '<leader>s.', search_in("%:p:h"), { desc = '[S]earch files in current directory ([.]/)' })
-map('n', '<leader>sdf', search_in(vim.fn.getenv('DOTDIR')), { desc = '[S]earch [d]ot[f]iles' })
-map('n', '<leader>sr', ":lua require('telescope.builtin').oldfiles()<cr>", { desc = '[S]earch [R]ecently opened files' })
-map('n', '<leader>sh', ":lua require('telescope.builtin').help_tags()<cr>", { desc = '[S]earch [H]elp' })
-map('n', '<leader>sk', ":lua require('telescope.builtin').keymaps()<cr>", { desc = '[S]earch [K]eymaps' })
-map('n', '<leader>sl', ":lua require('telescope.builtin').loclist()<cr>", { desc = '[S]earch [L]oclist' })
-map('n', '<leader>sP',
-  search_in('/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/plenary.nvim/', "grep_string"))
-map('n', '<leader>sc', ":lua require('telescope.builtin').commands()<cr>", { desc = '[S]earch [C]ommands' })
-map('n', '<leader>sw', ":lua require('telescope.builtin').grep_string()<cr>", { desc = '[S]earch current [W]ord' })
-map('n', '<leader>sg', ":lua require('telescope.builtin').live_grep()<cr>", { desc = '[S]earch by [G]rep' })
+map('n', '<leader><cr>', ":lua require('telescope.builtin').resume()<cr>", { desc = '[] resume previous search'})
+map('n', '<leader>rf', ":lua require('refactoring').select_refactor()<CR>")
+map('n', '<leader>sC', ":lua require('telescope.builtin').colorscheme({ enable_preview = true })<cr>",
+  { desc = "[s]earch [C]olorschemes" })
+map('n', '<leader>T', ":lua require('telescope.builtin').builtin()<cr>", { desc = 'builtin [T]elescope commands' })
+map('n', '<leader>sf', search_in(nil), { desc = '[s]earch [f]iles' })
+map('n', '<leader>s.', search_in("%:p:h"), { desc = '[s]earch files in current directory ([.]/)' })
+map('n', '<leader>sdf', search_in(vim.fn.getenv('DOTDIR')), { desc = '[s]earch [d]ot[f]iles' })
+map('n', '<leader>sr', ":lua require('telescope.builtin').oldfiles()<cr>", { desc = '[s]earch [r]ecently opened files' })
+map('n', '<leader>sh', ":lua require('telescope.builtin').help_tags()<cr>", { desc = '[s]earch [h]elp' })
+map('n', '<leader>sk', ":lua require('telescope.builtin').keymaps()<cr>", { desc = '[s]earch [k]eymaps' })
+map('n', '<leader>sl', ":lua require('telescope.builtin').loclist()<cr>", { desc = '[s]earch [l]oclist' })
+map('n', '<leader>sc', ":lua require('telescope.builtin').commands()<cr>", { desc = '[s]earch [c]ommands' })
+map('n', '<leader>sw', ":lua require('telescope.builtin').grep_string()<cr>", { desc = '[s]earch current [w]ord' })
+map('n', '<leader>sg', ":lua require('telescope.builtin').live_grep()<cr>", { desc = '[s]earch by [g]rep' })
 map('n', '<leader>gb', ':Telescope git_branches theme=dropdown<cr>')
 map('n', '<leader>/', ':lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>',
   { desc = '[/] Fuzzily search in current buffer' })
-map('n', '<leader>sp', search_in("~/.local/share/nvim/site/pack/packer/start/"),
-  { desc = '[s]earch [P]lugins in packer folder' })
+map('n', '<leader>spg', ":lua R('search-plugins').grep()<cr>",
+  { desc = '[s]earch [p]lugins by [g]rep in packer folder' })
+map('n', '<leader>spf', ":lua R('search-plugins').files()<cr>",
+  { desc = '[s]earch [p]lugins by [f]ilename in packer folder' })
 map('n', '<leader>sdb', ":lua require('telescope.builtin').diagnostics({ bufnr = 0 })<cr>",
-  { desc = '[S]earch [d]iagnostics current [b]uffer' })
+  { desc = '[s]earch [d]iagnostics current [b]uffer' })
 map('n', '<leader>sdw', ":lua require('telescope.builtin').diagnostics()<cr>",
-  { desc = '[S]earch [d]iagnostics [w]orkspace' })
+  { desc = '[s]earch [d]iagnostics [w]orkspace' })
 
 -- buffers
 map('n', '<leader>bd', ':b#|bd#<cr>', { desc = "[B]uffer [D]elete" }) -- delete buffer without messing up window layout
+map('n', '<leader>bD', ':bd', { desc = "[B]uffer [D]elete" })
 map('n', '<leader>bO', ':%bd|e#<cr>', { desc = "[B]uffer [O]nly" })
+map('n', ']b', ':bn<cr>', { desc = "[B]uffer [n]ext" })
+map('n', '[b', ':bp<cr>', { desc = "[B]uffer [p]revious" })
 
 -- infos
 map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
@@ -92,10 +96,6 @@ map('n', '_', ':NnnPicker %:p:h<cr>')
 -- harpoon: nav_file
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
 map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
-map('n', "'1", ':lua require("harpoon.ui").nav_file(1)<CR>')
-map('n', "'2", ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('n', "'3", ':lua require("harpoon.ui").nav_file(3)<CR>')
-map('n', "'4", ':lua require("harpoon.ui").nav_file(4)<CR>')
 map('n', "'f", ':lua require("harpoon.ui").nav_file(1)<CR>')
 map('n', "'d", ':lua require("harpoon.ui").nav_file(2)<CR>')
 map('n', "'s", ':lua require("harpoon.ui").nav_file(3)<CR>')
@@ -103,10 +103,6 @@ map('n', "'a", ':lua require("harpoon.ui").nav_file(4)<CR>')
 
 -- harpoon: cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
-map('n', '"1', ':lua require("harpoon.term").gotoTerminal(1)<CR>')
-map('n', '"2', ':lua require("harpoon.term").gotoTerminal(2)<CR>')
-map('n', '"3', ':lua require("harpoon.term").gotoTerminal(3)<CR>')
-map('n', '"4', ':lua require("harpoon.term").gotoTerminal(4)<CR>')
 
 -- zettelkasten
 local zettel = function(desc)
@@ -122,12 +118,15 @@ map('n', '<leader>zw', ':lua require("zettel").find_weekly_notes()<cr>', zettel(
 map('n', '<leader>zn', ':lua require("zettel").new_note()<cr>', zettel('[n]ew note'))
 map('n', '<leader>zN', ':lua require("zettel").new_templated_note()<cr>', zettel('[N]ew templated note'))
 
-map('n', '<F12>', ':ToggleTerm<CR>')
-map('v', '<F12>', ':ToggleTermSendVisualSelection<CR>')
-map('t', '<F12>', [[<C-\><C-n>:ToggleTerm<CR>]])
+map('n', '<F12>', ':Ts<CR>i')
+map('t', '<F12>', [[<C-\><C-n>:T<CR>]])
 
--- misc convenience
-map('n', '<leader>sns', ':source ~/.config/nvim/plugin/completion.lua<cr>', { desc = "[Sn]ippet [S]ource" })
+map('n', '<c-0>', ':NvimTreeFindFileToggle<CR>')
+map('n', '<leader>tff', ':NvimTreeFindFileToggle<CR>', { desc = "[t]ree [f]ind [t]oggle" })
+map('n', '<leader>tt', ':NvimTreeToggle<CR>', { desc = "[t]ree [t]oggle" })
+
+-- misc convenience {{{
+map('n', '<leader>sns', ':source ~/.config/nvim/plugin/completion.lua<cr>', { desc = "[sn]ippet [s]ource" })
 map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'gj']], { expr = true }) -- when moving more than 5 lines, then make a jump, to be able to revert via c-o
 map('n', 'k', [[(v:count > 5 ? "m'" . v:count : "") . 'gk']], { expr = true })
 map('n', 'gx', ":execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>")
@@ -135,9 +134,17 @@ map('n', 'gV', '`[v`]') -- visual select last inserted text)
 map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>cp', ':LspFormatting<cr>')
 map('n', '<leader>.', ':LspCodeAction<cr>')
-map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[CL]ear Display" })
-map('n', '<leader>tl', ':lua require("lsp_lines").toggle()<cr>', { desc = "[T]oggle [L]sp lines" })
+map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[cl]ear display" })
+map('n', '<leader>tl', ':lua require("lsp_lines").toggle()<cr>', { desc = "[t]oggle [l]sp lines" })
+map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
+map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
+map('n', '<leader>gc', 'yygccp')
+map('n', '<leader>gC', '')
+-- }}}
 
+map({ 'i', 'n' }, '<M-s>', '<cmd>:w<cr>')
+
+-- window navigation {{{
 map('n', '<c-j>', '<c-w>j')
 map('n', '<c-k>', '<c-w>k')
 map('n', '<c-l>', '<c-w>l')
@@ -146,18 +153,22 @@ map('n', '<c-n>', 'gt')
 map('n', '<c-p>', 'gT')
 map('n', '<M-j>', ']d')
 map('n', '<M-k>', '[d')
+--}}}
 
 -- better terminal exits
+-- terminal {{{
 map('t', '<c-[>', '<C-\\><C-n>')
 map('t', '<Esc>', '<C-\\><C-n>')
+-- }}}
 
--- misc: more undo stops in insert mode
+-- misc: more undo stops in insert mode {{{
 map('i', '!', '!<c-g>u')
 map('i', '.', '.<c-g>u')
 map('i', ':', ':<c-g>u')
 map('i', ';', ';<c-g>u')
 map('i', '?', '?<c-g>u')
 map('i', ',', ',<c-g>u')
+--}}}
 
 -- misc: move text around
 map('v', '<C-k>', ":m '<-2<CR>gv=gv")
@@ -165,4 +176,3 @@ map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 
 -- type %% in vim's prompt to insert %:h expanded
 vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])
-map({ 'i', 'n' }, '<M-s>', '<cmd>:w<cr>')

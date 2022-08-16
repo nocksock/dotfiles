@@ -1,5 +1,10 @@
-local ts_stl = require('nvim-treesitter.statusline')
-local M = {}
+local treesitter = require('nvim-treesitter.statusline')
+
+local M = {
+  enabled = false,
+  status = "",
+  statusline_str = "%!v:lua.Breadcrumbs.update()"
+}
 
 -- todo: convert to lua
 vim.cmd([[
@@ -39,25 +44,44 @@ function! GutterWidth()
 endfunction
 ]])
 
-function M.statusline()
-  local show, statusline = pcall(function() 
-    return ts_stl.statusline({})
+-- trying out procedural
+
+function M.update()
+  local show, statusline = pcall(function()
+    return treesitter.statusline({})
   end)
 
   if show then
     local gutter = vim.fn.GutterWidth()
-    return "%#NonText#" .. string.rep(" ", gutter - 1).. "%#LineNr# %t: " .. ( statusline or "" )
+    M.status = "%#NonText#" .. string.rep(" ", gutter - 1).. "%#LineNr# " .. ( statusline or "" )
   end
+
+  return M.status
 end
 
-function Breadcrumbs()
-  return M.statusline()
-end
-
-M.statusline_str = "%!v:lua.Breadcrumbs()"
-
-function M.setup()
+function M.enable()
+  M.enabled = true
   vim.go.winbar = M.statusline_str
 end
 
-return M
+function M.disable()
+  M.enabled = false
+  vim.go.winbar = nil
+end
+
+function M.toggle()
+  if M.enabled then
+    M.disable()
+  else
+    M.enable()
+  end
+end
+
+_G.Breadcrumbs = {
+  update = M.update,
+  toggle = M.toggle,
+  enable = M.enable,
+  disable = M.disable
+};
+
+vim.api.nvim_create_user_command("BreadcrumbsToggle", M.toggle, {})
