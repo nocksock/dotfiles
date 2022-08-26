@@ -21,7 +21,7 @@ fi
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
-    tmux send-keys -t $selected_name "nvim" Enter
+    tmux send-keys -t $selected_name "nv" Enter
 fi
 
 if [[ -z $TMUX ]]; then

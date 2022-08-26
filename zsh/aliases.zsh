@@ -14,6 +14,12 @@ alias p=tmux-qp
 alias love='open -n -a love'
 alias nnn='nnn -ei'
 alias c='cd $(choose-project)'
+alias ls='exa --icons -1 --group-directories-first'
+alias ll='exa --icons -l --group-directories-first'
+
+bw () {
+  nodemon --exec "bun run $1" -w $1
+}
 
 n () { # via https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
   if [[ "${NNNLVL:-0}" -ge 1 ]]; then
