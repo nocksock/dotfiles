@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+# agnostic way to start all kinds of watchers for quick coding loops
+filename=$(basename -- $1)
+extension=${filename##*.}
+
+case $extension in
+  js|ts) nodemon --exec "bun run $1" -w $1;;
+  lua) nodemon --exec "lua $1" -w $1;;
+  go) nodemon --exec "go run $1" -w . -e go ;;
+  *) echo "unknown extension $extension";;
+esac
