@@ -6,31 +6,23 @@
 -- Accepts a count to open another Term, if needed:
 --  :2T, toggles Term number 2
 --
--- todo: set buffer name with index and cmd
--- todo: hide numbers in splits
--- todo: :{count}T! {cmd} remove buffer
--- todo: :{count}T {cmd}
+-- TODO: set buffer name with index and cmd
+-- TODO: hide numbers in splits
+-- TODO: :{count}T! {cmd} remove buffer
+-- TODO: :{count}T {cmd}
 
 local utils = R("snock.utils")
+local default = utils.default
 local opts = { count = true, nargs = "?", bang = true }
-local augroup = vim.api.nvim_create_augroup('Tgroup', { clear = true })
 
-vim.api.nvim_create_autocmd('TermOpen', { --{{{
-  callback = function()
-    local win = vim.api.nvim_get_current_win()
-
-    if win ~= nil then return end
-
-    vim.keymap.set('n', '<C-c>', 'i<C-c>', { buffer = true })
-  end,
-  group = augroup
-}) --}}}
-
-local function get_terms() --{{{
+---return all terminal type buffers
+---@return List
+local function get_terms() -- {{{
   return vim.tbl_filter(function(buf)
     return vim.fn.getbufvar(buf, "&buftype") == "terminal"
   end, vim.api.nvim_list_bufs());
 end --}}}
+
 local function get_term_by_bufnr(bufnr) --{{{
   for idx, value in ipairs(get_terms()) do
     if value == bufnr then
@@ -38,15 +30,15 @@ local function get_term_by_bufnr(bufnr) --{{{
     end
   end
 end --}}}
+
 local function get_term_by_idx(idx) --{{{
   local terms = get_terms()
   return terms[idx]
 end --}}}
 
-local function attach_behaviour(ctx) --{{{
-  if not ctx.buffer then
-    print("buffer unknown in attach_behaviour")
-    P(ctx)
+local function attach_mappings(ctx) --{{{
+  if ctx.buffer == nil then
+    print("buffer unknown in attach_mappings")
     return
   end
 
@@ -57,7 +49,7 @@ local function create_command_cb(fn) --{{{
   return function(cmd_ctx)
     local term_buf = get_term_by_idx(cmd_ctx.count == 0 and 1 or cmd_ctx.count)
     local visible, handle = utils.is_visible(term_buf)
-    local command = cmd_ctx.args == "" and "zsh" or cmd_ctx.args
+    local command = default(cmd_ctx.args, "zsh")
 
     if visible then
       return vim.api.nvim_win_close(handle, true)
@@ -77,13 +69,13 @@ vim.api.nvim_create_user_command("T", create_command_cb(function(term_buf, ctx) 
   utils.open_term_float(ctx.command, {
     listed = true,
     buffer = term_buf,
-    on_enter = attach_behaviour,
+    on_enter = attach_mappings,
   })
 end), opts) --}}}
 vim.api.nvim_create_user_command("Ts", create_command_cb(function(term_buf, ctx) --{{{
   utils.open_term_split(ctx.command, {
     buffer = term_buf,
-    on_enter = attach_behaviour,
+    on_enter = attach_mappings,
   })
 end), opts) --}}}
 vim.api.nvim_create_user_command("Tls", function() --{{{
@@ -99,4 +91,4 @@ vim.api.nvim_create_user_command("Tls", function() --{{{
   end)
 end, {}) --}}}
 
--- vim:fdm=marker fdl=0
+-- vim: fen fdm=marker fdl=0

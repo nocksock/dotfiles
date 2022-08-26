@@ -1,12 +1,20 @@
 require("lsp_lines").setup()
-require("fidget").setup()
-require('goto-preview').setup({})
+require("fidget").setup {}
+require('goto-preview').setup {}
+require("trouble").setup {}
+require("lsp_signature").setup {}
 
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local util = require('vim.lsp.util')
 local builtin = require('telescope.builtin')
+
+-- add rounded borders to vim.lsp.buf.hover and signatureHelp
+local handlers =  {
+  ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = "rounded"}),
+  ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = "rounded" }),
+}
 
 local map = function(bufnr, mode, lhs, rhs, opts)
   vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {})
@@ -28,6 +36,13 @@ local on_attach = function(_, bufnr)
   local cmd = function(name, func)
     vim.api.nvim_create_user_command(name, func, {})
   end
+
+  require "lsp_signature".on_attach({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    handler_opts = {
+      border = "rounded"
+    }
+  }, bufnr)
 
   cmd('LspDef', vim.lsp.buf.definition)
   cmd('LspFormatting', vim.lsp.buf.formatting)
@@ -57,12 +72,17 @@ local on_attach = function(_, bufnr)
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('gr', builtin.lsp_references)
-  nmap('[d', vim.diagnostic.goto_prev)
-  nmap(']d', vim.diagnostic.goto_next)
+  nmap('<leader>k', vim.diagnostic.goto_prev)
+  nmap('<leader>j', vim.diagnostic.goto_next)
+
+  nmap('gpd', require('goto-preview').goto_preview_definition)
+  nmap('gpi', require('goto-preview').goto_preview_implementation)
+  nmap('gP', require('goto-preview').close_all_win)
+  nmap('gpr', require('goto-preview').goto_preview_references)
+  nmap('gR', '<cmd>Trouble lsp_references<cr>')
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
-  vim.keymap.set('i', '<C-k>', vim.lsp.buf.hover)
+  nmap('<leader>K', vim.lsp.buf.signature_help, 'Signature Documentation')
 end
 
 local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro' }
@@ -76,6 +96,7 @@ for _, lsp in ipairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
+    handlers = handlers
   }
 end
 
@@ -86,8 +107,8 @@ lspconfig.tsserver.setup({
     ts_utils.setup({})
     ts_utils.setup_client(client)
 
-    map(bufnr, 'n', 'gs', ':TSLspOrganize<CR>')
-    map(bufnr, 'n', 'go', ':TSLspImportAll<CR>')
+    map(bufnr, 'n', 'go', '<cmd>TSLspOrganize<CR>')
+    map(bufnr, 'n', 'gO', '<cmd>TSLspImportAll<CR><cmd>TSLspOrganize<cr>')
 
     on_attach(client, bufnr)
 

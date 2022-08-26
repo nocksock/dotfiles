@@ -79,15 +79,15 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
-  ["ayu-vim"] = {
+  ["aerial.nvim"] = {
     loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/ayu-vim",
-    url = "https://github.com/ayu-theme/ayu-vim"
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/aerial.nvim",
+    url = "https://github.com/stevearc/aerial.nvim"
   },
-  ["bloop-vim"] = {
+  ["bloop-nvim"] = {
     loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/bloop-vim",
-    url = "/Users/nilsriedemann/personal/bloop-vim"
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/bloop-nvim",
+    url = "/Users/nilsriedemann/personal/bloop-nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
@@ -104,11 +104,6 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
-  ["cmp-nvim-lsp-signature-help"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp-signature-help",
-    url = "https://github.com/hrsh7th/cmp-nvim-lsp-signature-help"
-  },
   ["cmp-nvim-lua"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua",
@@ -118,6 +113,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
+  },
+  ["dashboard-nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/dashboard-nvim",
+    url = "https://github.com/glepnir/dashboard-nvim"
   },
   ["emmet-vim"] = {
     loaded = true,
@@ -158,6 +158,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lsp_lines.nvim",
     url = "https://github.com/Maan2003/lsp_lines.nvim"
+  },
+  ["lsp_signature.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
+    url = "https://github.com/ray-x/lsp_signature.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
@@ -239,20 +244,10 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
-  ["oxocarbon.nvim"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/oxocarbon.nvim",
-    url = "https://github.com/shaunsingh/oxocarbon.nvim"
-  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
-  },
-  ["papercolor-theme"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/papercolor-theme",
-    url = "https://github.com/nlknguyen/papercolor-theme"
   },
   playground = {
     loaded = true,
@@ -309,10 +304,10 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["toggleterm.nvim"] = {
+  ["todo-comments.nvim"] = {
     loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
-    url = "https://github.com/akinsho/toggleterm.nvim"
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
+    url = "https://github.com/folke/todo-comments.nvim"
   },
   ["tokyonight.nvim"] = {
     loaded = true,

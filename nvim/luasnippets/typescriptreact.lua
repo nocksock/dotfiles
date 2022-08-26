@@ -28,4 +28,26 @@ return {
 	s('rjson', fmt([[return <pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	s('tern', fmt([[{{{} ? ({}) : null}}]], { i(1), i(0) })),
 	s('clg', fmt([[console.log({});]], { i(0) })),
+	s('fn', c(1, {
+    fmt([[const {} = ({}) => {}]], {i(1), i(2), i(3)}),
+    fmt([[
+      const {} = ({}) => {{
+        return {}
+      }}]], {i(1), i(2), i(3)}),
+    fmt([[
+      const {} = function {}({}) {{
+        return {}
+      }}]], {i(1), i(2), i(3), i(4)}),
+  })),
+	s('cb', c(1, {
+    fmt([[({}) => {}]], {i(1), i(2)}),
+    fmt([[
+      ({}) => {{
+        return {}
+      }}]], {i(1), i(2)}),
+    fmt([[
+      function {}({}) {{
+        return {}
+      }}]], {i(1), i(2), i(3)}),
+  })),
 }

@@ -1,5 +1,28 @@
 local utils = {}
 
+function utils.maybe_call(fn, ...)
+  if fn then
+    fn(...)
+  end
+end
+function utils.cycle(values, value) --{{{
+  local next_val_idx = ((utils.index_of(values, value)) % #values) + 1
+  return values[next_val_idx]
+end --}}}
+function utils.default(val, default)--{{{
+  if val == "" or val == nil then
+    return default
+  end
+
+  return val
+end--}}}
+function utils.index_of(tbl, value) --{{{
+  for idx, tval in ipairs(tbl) do
+    if value == tval then
+      return idx
+    end
+  end
+end --}}}
 function utils.is_visible(bufnr) --{{{
   local wins = vim.api.nvim_tabpage_list_wins(0)
   for _, handle in ipairs(wins) do
@@ -9,12 +32,13 @@ function utils.is_visible(bufnr) --{{{
   end
   return false, nil
 end --}}}
-
 function utils.invert(fn) --{{{
   return function(...)
     return not fn(...)
   end
 end --}}}
+
+-- buffer helper:
 
 function utils.open_float_buf(bufnr) --{{{
   local padding = {
@@ -42,7 +66,6 @@ function utils.open_float_buf(bufnr) --{{{
     window = win
   }
 end --}}}
-
 function utils.create_term_buf(win, buf, cmd, opts) --{{{
   if opts == nil then opts = {} end
 
@@ -61,6 +84,8 @@ function utils.create_term_buf(win, buf, cmd, opts) --{{{
   return ctx
 end --}}}
 
+-- term helper:
+
 function utils.open_term_split(cmd, opts) --{{{
   local buf = opts.buffer or vim.api.nvim_create_buf(true, true)
 
@@ -75,7 +100,6 @@ function utils.open_term_split(cmd, opts) --{{{
 
   return utils.create_term_buf(win, buf, cmd, opts)
 end --}}}
-
 function utils.open_term_float(cmd, opts) --{{{
   local buf = opts.buffer or vim.api.nvim_create_buf(not not opts.listed, true)
   local win = utils.open_float_buf(buf)
@@ -89,4 +113,4 @@ end --}}}
 
 return utils
 
--- vim:fdm=marker fdl=0
+-- vim: fen fdm=marker fdl=0

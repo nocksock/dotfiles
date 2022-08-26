@@ -1,1 +1,1 @@
-nmap <silent> <leader>cp :!prettier -w %<cr>
+nmap <buffer><silent> <leader>cp :!prettier --parser html -w %<cr>

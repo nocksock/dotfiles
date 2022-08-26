@@ -24,12 +24,6 @@ map('n', '<leader>hD', ':lua require"gitsigns".diffthis("~")<CR>')
 
 map('o', 'ih', gitsigns.select_hunk)
 map('x', 'ih', gitsigns.select_hunk)
-
-map('n', 'gpd', require('goto-preview').goto_preview_definition)
-map('n', 'gpi', require('goto-preview').goto_preview_implementation)
-map('n', 'gP', require('goto-preview').close_all_win)
-map('n', 'gpr', require('goto-preview').goto_preview_references)
-map('n', 'gR', '<cmd>Trouble lsp_references<cr>')
 -- }}}
 
 -- Telescope {{{
@@ -68,14 +62,12 @@ map('n', '<leader>sg', ":lua require('telescope.builtin').live_grep()<cr>", { de
 map('n', '<leader>gb', ':Telescope git_branches theme=dropdown<cr>')
 map('n', '<leader>/', ':lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>',
   { desc = '[/] Fuzzily search in current buffer' })
-map('n', '<leader>spg', ":lua R('search-plugins').grep()<cr>",
-  { desc = '[s]earch [p]lugins by [g]rep in packer folder' })
-map('n', '<leader>spf', ":lua R('search-plugins').files()<cr>",
-  { desc = '[s]earch [p]lugins by [f]ilename in packer folder' })
+map('n', '<leader>sp', ":lua R('search-plugins').search()<cr>", { desc = '[s]earch [p]lugins'})
 map('n', '<leader>sdb', ":lua require('telescope.builtin').diagnostics({ bufnr = 0 })<cr>",
   { desc = '[s]earch [d]iagnostics current [b]uffer' })
 map('n', '<leader>sdw', ":lua require('telescope.builtin').diagnostics()<cr>",
   { desc = '[s]earch [d]iagnostics [w]orkspace' })
+map('n', '<leader>M', '<cmd>Messages<cr>', { desc = "[M]essages"})
 
 -- buffers
 map('n', '<leader>bd', ':b#|bd#<cr>', { desc = "[B]uffer [D]elete" }) -- delete buffer without messing up window layout
@@ -83,6 +75,15 @@ map('n', '<leader>bD', ':bd', { desc = "[B]uffer [D]elete" })
 map('n', '<leader>bO', ':%bd|e#<cr>', { desc = "[B]uffer [O]nly" })
 map('n', ']b', ':bn<cr>', { desc = "[B]uffer [n]ext" })
 map('n', '[b', ':bp<cr>', { desc = "[B]uffer [p]revious" })
+map('n', '<leader>1', ':LualineBuffersJump 1<cr>', { desc = "[B]uffer Number 1" })
+map('n', '<leader>2', ':LualineBuffersJump 2<cr>', { desc = "[B]uffer Number 2" })
+map('n', '<leader>3', ':LualineBuffersJump 3<cr>', { desc = "[B]uffer Number 3" })
+map('n', '<leader>4', ':LualineBuffersJump 4<cr>', { desc = "[B]uffer Number 4" })
+map('n', '<leader>5', ':LualineBuffersJump 5<cr>', { desc = "[B]uffer Number 5" })
+map('n', '<leader>6', ':LualineBuffersJump 6<cr>', { desc = "[B]uffer Number 6" })
+map('n', '<leader>7', ':LualineBuffersJump 7<cr>', { desc = "[B]uffer Number 7" })
+map('n', '<leader>8', ':LualineBuffersJump 8<cr>', { desc = "[B]uffer Number 8" })
+map('n', '<leader>9', ':LualineBuffersJump 9<cr>', { desc = "[B]uffer Number 9" })
 
 -- infos
 map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
@@ -124,6 +125,10 @@ map('t', '<F12>', [[<C-\><C-n>:T<CR>]])
 map('n', '<c-0>', ':NvimTreeFindFileToggle<CR>')
 map('n', '<leader>tff', ':NvimTreeFindFileToggle<CR>', { desc = "[t]ree [f]ind [t]oggle" })
 map('n', '<leader>tt', ':NvimTreeToggle<CR>', { desc = "[t]ree [t]oggle" })
+
+map('n', '<leader>xd', ':Trouble document_diagnostics<CR>', { desc = "show [d]ocument_diagnostics" })
+map('n', '<leader>xD', ':Trouble workspace_diagnostics<CR>', { desc = "show workspace_[D]iagnostics" })
+map('n', '<leader>xt', ':TodoTrouble<CR>', { desc = "[t]ree [t]oggle" })
 
 -- misc convenience {{{
 map('n', '<leader>sns', ':source ~/.config/nvim/plugin/completion.lua<cr>', { desc = "[sn]ippet [s]ource" })

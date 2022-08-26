@@ -1,18 +1,5 @@
-if pcall(require, 'plenary') then
-  RELOAD = require('plenary.reload').reload_module
-
-  R = function(name)
-    RELOAD(name)
-    return require(name)
-  end
-end
-
-P = function(v)
-  print(vim.inspect(v))
-  return v
-end
-
 local create = vim.api.nvim_create_user_command
+local utils = R('snock.utils')
 
 -- TODO: convert to lua
 vim.cmd([[
@@ -23,12 +10,11 @@ vim.cmd([[
   endfun
 ]])
 
-create("EditSnippet", function()
-  require('luasnip.loaders.from_lua').edit_snippet_files()
-end, {})
+create("SnippetEdit", require('luasnip.loaders.from_lua').edit_snippet_files, {})
+create("SnippetReload", require('luasnip.loaders.from_lua').lazy_load, {})
 
 create("BG", function()
-  vim.o.background = vim.o.background == "light" and "dark" or "light"
+  vim.o.background = utils.cycle({"dark", "light"}, vim.o.background)
 end, {})
 
 create("Glow", function(opts)
@@ -48,4 +34,3 @@ end, { bang = true })
 create("LazyGit", function()
   R('snock.utils').open_float_term("lazygit", {})
 end, { nargs = "?" })
-

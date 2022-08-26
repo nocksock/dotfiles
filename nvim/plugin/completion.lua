@@ -4,7 +4,7 @@
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
-require('luasnip.loaders.from_lua').load({}) -- load filetype based snippets from snippet folder
+require('luasnip.loaders.from_lua').lazy_load({}) -- load filetype based snippets from snippet folder
 
 vim.keymap.set({ 'i', 's' }, '<c-l>', function() --{{{
   if luasnip.expand_or_jumpable() then
@@ -40,7 +40,16 @@ local mapping = {
     i = cmp.mapping.abort(),
     c = cmp.mapping.close(),
   }),
-  ['<c-l>'] = cmp.mapping.complete_common_string(),
+  ['<c-l>'] = cmp.mapping(function(fallback)
+    if luasnip.expand_or_jumpable() then
+      luasnip.expand_or_jump()
+      cmp.close()
+    elseif cmp.visible() then
+      cmp.complete_common_string()
+    else
+      fallback()
+    end
+  end, { 'i', 's' }),
   ['<c-n>'] = cmp.mapping(function(fallback)
     if cmp.visible() then
       cmp.select_next_item()
@@ -75,8 +84,8 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'nvim_lsp_signature_help' }
   }, {
+    { name = 'path' },
     { name = 'buffer' },
   }),
 })
@@ -84,6 +93,14 @@ cmp.setup({
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
     { name = 'buffer' },
+    { name = 'path' },
+  }),
+})
+
+cmp.setup.filetype('lua', {
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'path' },
   }),
 })
 
@@ -94,10 +111,11 @@ cmp.setup.cmdline('/', {
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline(':', {
--- 	sources = cmp.config.sources({
--- 		{ name = 'path' },
--- 	}, {
--- 		{ name = 'cmdline' },
--- 	}),
--- })
+cmp.setup.cmdline(':', {
+	sources = cmp.config.sources({
+		{ name = 'cmdline' },
+	}, {
+		{ name = 'buffer' },
+		{ name = 'path' },
+	}),
+})

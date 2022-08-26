@@ -21,8 +21,8 @@ telescope.setup({
     buffers = {
       sort_lastused = true,
       mappings = {
-        i = {
-          ["<c-d>"] = "delete_buffer"
+        n = {
+          ["dd"] = "delete_buffer"
         }
       }
     }

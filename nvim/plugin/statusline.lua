@@ -6,25 +6,29 @@ local has_marks = function()
   return harpoon_mark.get_length() > 0
 end
 
-local mark_keys = { "f", "d", "s", "a" } -- or use asdfg, 12345 or whatever.
-local marks = function()--{{{
+-- TODO: create proper lualine extension (see lualine/components/buffer)
+local mark_keys = { "f", "d", "s", "a", "j", "k", "l", ";" } -- or use asdfg, 12345 or whatever.
+local marks = function() --{{{
   local marks = harpoon.get_mark_config().marks
   local current_mark_idx = harpoon_mark.get_current_index()
   local output = {}
 
   for i, key in ipairs(mark_keys) do
-    local filename = vim.fs.basename(marks[i].filename)
-    local label = ' ' .. key .. ': ' .. filename .. ' '
+    local mark = marks[i]
+    if mark then
+      local filename = vim.fs.basename(mark.filename)
+      local label = ' ' .. key .. ': ' .. filename .. ' '
 
-    if i == current_mark_idx then
-      table.insert(output, '%#lualine_b_normal#' .. label)
-    else
-      table.insert(output, '%#lualine_c_inactive#' .. label)
+      if i == current_mark_idx then
+        table.insert(output, '%#TabLineSel#' .. label)
+      else
+        table.insert(output, '%#TabLine#' .. label)
+      end
     end
   end
 
-  return table.concat(output, '')
-end--}}}
+  return '%#TabLineFill#' .. table.concat(output, '')
+end --}}}
 
 require('lualine').setup {
   options = {
@@ -38,7 +42,7 @@ require('lualine').setup {
     lualine_a = { { 'mode' } },
     lualine_b = { { 'branch' }, 'diff', 'diagnostics' },
     lualine_c = { { 'filename', path = 1 } },
-    lualine_x = {},
+    lualine_x = { 'location' },
     lualine_y = { {
       'filetype',
       fmt = function(str)
@@ -61,13 +65,12 @@ require('lualine').setup {
     lualine_b = {},
     lualine_c = {
       {
-        marks,
-        cond = has_marks
+        marks
       },
       {
         "buffers",
         cond = invert(has_marks),
-        mode = 4
+        mode = 2
       }
     },
 
