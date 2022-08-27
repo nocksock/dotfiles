@@ -89,14 +89,6 @@ require('packer').startup({ function(use)
   use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
   -- }}}
 end,
-  -- show packer in floating instead of vertical split win {{{
-  config = {
-    display = {
-      open_fn = function()
-        return require('packer.util').float({ border = 'single' })
-      end
-    }
-  }--}}}
 })
 -- global helper utils {{{
 if pcall(require, 'plenary') then
