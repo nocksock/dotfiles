@@ -203,6 +203,21 @@ vim.diagnostic.config({
 })
 --}}}
 -- global auto commands {{{
+-- open readme on vimenter when no filename was given {{{
+vim.api.nvim_create_autocmd('VimEnter', {
+  group = group,
+  callback = function()
+    if #vim.fn.argv() > 0 then return end -- was called with a filename (probably, idc)
+    for _, ext in ipairs({"", "md", "txt"}) do
+      local filename = "readme." .. ext
+      if vim.fn.filereadable(filename) == 1 then
+        return vim.schedule(function()
+          vim.cmd("e " .. filename)
+        end)
+      end
+    end
+  end
+}) -- }}}
 vim.api.nvim_create_autocmd('BufAdd', { --{{{
   callback = function()
     require('snock.lsp')
