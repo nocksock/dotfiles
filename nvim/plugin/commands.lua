@@ -28,7 +28,7 @@ create("Glow", function(opts)
     end
   end
 
-  R('snock.utils').open_float_term(cmd, {})
+  R('snock.utils').open_term_float(cmd, {})
 end, { bang = true })
 
 create("LazyGit", function()

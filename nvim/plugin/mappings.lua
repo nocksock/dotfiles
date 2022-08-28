@@ -111,6 +111,8 @@ map('n' , "'a"        , ':lua require("harpoon.ui").nav_file(4)<CR>')
 
 -- harpoon: cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
+map('n', '"1', ':lua require("harpoon.tmux").gotoTerminal(1)<CR>')
+map('n', '"2', ':lua require("harpoon.tmux").gotoTerminal(2)<CR>')
 
 -- zettelkasten
 local zettel = ':lua require("zettel")'
