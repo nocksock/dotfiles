@@ -1,14 +1,6 @@
-local fennel = require("fennel")
-table.insert(package.loaders or package.searchers, fennel.searcher)
-
 HOME = os.getenv("HOME")
 HYPER = { "cmd", "ctrl", "shift", "option" }
 BREW = "/opt/homebrew/bin/"
-
-P = function(...)
-  print(hs.inspect(table.pack(...)))
-  return ...
-end
 
 local function reload_config(files)
   local do_reload = false
@@ -23,7 +15,6 @@ local function reload_config(files)
 end
 
 local function reload_yabai()
-  print(HOME .. "/.yabairc")
   hs.task.new(HOME .. "/.yabairc", nil, function(_, ...)
     hs.alert.show("ran .yabairc")
     print("stream", hs.inspect(table.pack(...)))
@@ -39,4 +30,3 @@ hs.alert.show("Config loaded")
 require('applauncher')
 require('yabai')
 require('kitty_quake')
-require("fnl/test")
