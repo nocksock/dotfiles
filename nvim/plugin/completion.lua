@@ -4,6 +4,11 @@
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
+if not cmp then
+  print("ERR: cmp not found")
+  return;
+end
+
 require('luasnip.loaders.from_lua').lazy_load({}) -- load filetype based snippets from snippet folder
 
 vim.keymap.set({ 'i', 's' }, '<c-l>', function() --{{{
@@ -30,7 +35,6 @@ luasnip.config.set_config({ --{{{
   delete_check_events = "TextChanged,InsertLeave",
 }) --}}}
 
----@diagnostic disable: need-check-nil
 local mapping = {
   ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
   ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),

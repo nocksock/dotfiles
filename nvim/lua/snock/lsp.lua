@@ -1,3 +1,4 @@
+-- imports {{{
 require("lsp_lines").setup()
 require("fidget").setup {}
 require('goto-preview').setup {}
@@ -10,12 +11,19 @@ local null_ls = require('null-ls')
 local util = require('vim.lsp.util')
 local builtin = require('telescope.builtin')
 
+-- }}}
+
+local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit' }
+local null_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 -- add rounded borders to vim.lsp.buf.hover and signatureHelp
-local handlers =  {
-  ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = "rounded"}),
-  ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = "rounded" }),
+local handlers = {
+  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 }
 
+-- Helper functions {{{
 local map = function(bufnr, mode, lhs, rhs, opts)
   vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {})
 end
@@ -24,18 +32,16 @@ local function list_workspace_folders()
   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end
 
-local on_attach = function(_, bufnr)
+-- }}}
+-- on_attach callback {{{
+local on_attach = function(client, bufnr)
+  -- local helpers nmap, cmd {{{
   local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
-
+    if desc then desc = 'LSP: ' .. desc end
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
-
-  local cmd = function(name, func)
-    vim.api.nvim_create_user_command(name, func, {})
-  end
+  local cmd = function(name, func) vim.api.nvim_create_user_command(name, func, {}) end
+  -- }}}
 
   require "lsp_signature".on_attach({
     bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -44,6 +50,23 @@ local on_attach = function(_, bufnr)
     }
   }, bufnr)
 
+  -- highlight references under cursor {{{
+  if client.server_capabilities.documentHighlightProvider then
+    vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+    vim.api.nvim_clear_autocmds { buffer = bufnr, group = "lsp_document_highlight" }
+    vim.api.nvim_create_autocmd("CursorHold", {
+      callback = vim.lsp.buf.document_highlight,
+      buffer = bufnr,
+      group = "lsp_document_highlight",
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      callback = vim.lsp.buf.clear_references,
+      buffer = bufnr,
+      group = "lsp_document_highlight",
+    })
+  end
+  --}}}
+  -- commands {{{
   cmd('LspDef', vim.lsp.buf.definition)
   cmd('LspFormatting', vim.lsp.buf.formatting)
   cmd('LspCodeAction', vim.lsp.buf.code_action)
@@ -56,18 +79,20 @@ local on_attach = function(_, bufnr)
   cmd('LspDiagNext', vim.diagnostic.goto_next)
   cmd('LspDiagLine', vim.diagnostic.open_float)
   cmd('LspSignatureHelp', vim.lsp.buf.signature_help)
-
+  --}}}
+  -- mappings {{{
   nmap('<leader>.', vim.lsp.buf.code_action, 'Code Action (vscodey)')
   nmap('<leader>e', vim.diagnostic.open_float)
   nmap('<leader>q', vim.diagnostic.setloclist)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
   nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>rN', vim.lsp.buf.rename, '[R]e[N]ame File')
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('<leader>rN', vim.lsp.buf.rename, '[R]e[N]ame File')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wl', list_workspace_folders, '[W]orkspace [L]ist Folders')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>ws', builtin.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+  nmap('<leader>ss', builtin.lsp_document_symbols, '[s]search document [s]ymbols')
+  nmap('<leader>sS', builtin.lsp_dynamic_workspace_symbols, '[s]search workspace [S]ymbols')
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
@@ -75,31 +100,28 @@ local on_attach = function(_, bufnr)
   nmap('<leader>k', vim.diagnostic.goto_prev)
   nmap('<leader>j', vim.diagnostic.goto_next)
 
+  -- preview
   nmap('gpd', require('goto-preview').goto_preview_definition)
   nmap('gpi', require('goto-preview').goto_preview_implementation)
   nmap('gP', require('goto-preview').close_all_win)
   nmap('gpr', require('goto-preview').goto_preview_references)
   nmap('gR', '<cmd>Trouble lsp_references<cr>')
+  --}}}
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<leader>K', vim.lsp.buf.signature_help, 'Signature Documentation')
-end
-
-local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro' }
-local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-require('nvim-lsp-installer').setup {
-  ensure_installed = servers,
-}
-
+end --}}}
+-- Base setup {{{
+require('nvim-lsp-installer').setup { ensure_installed = servers, }
 for _, lsp in ipairs(servers) do
-  require('lspconfig')[lsp].setup {
+  lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
     handlers = handlers
   }
 end
-
+-- }}}
+-- TypeScript {{{
 lspconfig.tsserver.setup({
   on_attach = function(client, bufnr)
     local ts_utils = require('nvim-lsp-ts-utils')
@@ -112,7 +134,8 @@ lspconfig.tsserver.setup({
 
     on_attach(client, bufnr)
 
-    client.server_capabilities.document_formatting = false -- 0.7 and earlier
+    P(client.server_capabilities)
+    client.server_capabilities.document_formatting = false -- use
   end,
   commands = {
     OrganizeImports = {
@@ -127,34 +150,9 @@ lspconfig.tsserver.setup({
       description = 'Organize Imports',
     },
   },
-})
-
-local null_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.prettier,
-  },
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = null_augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = null_augroup,
-        buffer = bufnr,
-        callback = function()
-          local params = util.make_formatting_params({})
-          client.request('textDocument/formatting', params, nil, bufnr)
-          -- todo: request code-action autofix autofixable
-        end
-      })
-    else
-      print('no formatting supported')
-    end
-  end,
-})
-
+}) --}}}
+-- Lua {{{
 local runtime_path = vim.split(package.path, ';')
-
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
@@ -184,4 +182,28 @@ lspconfig.sumneko_lua.setup({
     },
   },
   on_attach = on_attach,
-})
+}) --}}}
+
+-- Null LS {{{
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.prettier,
+  },
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = null_augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = null_augroup,
+        buffer = bufnr,
+        callback = function()
+          local params = util.make_formatting_params({})
+          client.request('textDocument/formatting', params, nil, bufnr)
+          -- todo: request code-action autofix autofixable
+        end
+      })
+    else
+      print('no formatting supported')
+    end
+  end,
+}) --}}}
+-- vi: fen fdl=0

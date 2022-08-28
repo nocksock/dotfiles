@@ -1,4 +1,7 @@
-require('nvim-tree').setup({
+local tree = require('nvim-tree')
+local api = require('nvim-tree.api')
+
+tree.setup({
   hijack_cursor = true,
   hijack_netrw = false,
   view = {
@@ -23,3 +26,5 @@ require('nvim-tree').setup({
     }
   }
 })
+
+return api.tree

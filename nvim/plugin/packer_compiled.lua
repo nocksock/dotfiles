@@ -114,11 +114,6 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
-  ["dashboard-nvim"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/dashboard-nvim",
-    url = "https://github.com/glepnir/dashboard-nvim"
-  },
   ["emmet-vim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/emmet-vim",
@@ -199,6 +194,21 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-go"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-dap-go",
+    url = "https://github.com/leoluz/nvim-dap-go"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
   ["nvim-lsp-installer"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
@@ -274,6 +284,11 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/rucksack.nvim",
     url = "/Users/nilsriedemann/personal/rucksack.nvim"
   },
+  ["sqlite.lua"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/sqlite.lua",
+    url = "https://github.com/kkharji/sqlite.lua"
+  },
   ["symbols-outline.nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim",
@@ -288,6 +303,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/telekasten.nvim",
     url = "https://github.com/renerocksai/telekasten.nvim"
+  },
+  ["telescope-frecency.nvim"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/telescope-frecency.nvim",
+    url = "https://github.com/nvim-telescope/telescope-frecency.nvim"
   },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,

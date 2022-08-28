@@ -6,6 +6,7 @@ require('packer').startup({ function(use)
   use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
   use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
   use('https://github.com/dstein64/vim-startuptime') -- find the startup bottleneck
+  use('https://github.com/kkharji/sqlite.lua') -- sqlite client in lua that some plugins use
   -- }}}
   -- general purpose tools {{{
   use('https://github.com/numToStr/Comment.nvim') -- comments, with more smartness
@@ -24,6 +25,7 @@ require('packer').startup({ function(use)
   use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
   use('https://github.com/nvim-telescope/telescope-symbols.nvim') -- emoji/symbol picker
   use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
+  use('https://github.com/nvim-telescope/telescope-frecency.nvim')
   -- }}}
   -- lsp stuff {{{
   use('https://github.com/williamboman/nvim-lsp-installer')
@@ -33,7 +35,7 @@ require('packer').startup({ function(use)
   use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
   use('https://github.com/folke/trouble.nvim') -- pretty list for LSP diagnostics
   use('https://github.com/ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
-    -- }}}
+  -- }}}
   -- treesitter {{{
   use('https://github.com/nvim-treesitter/nvim-treesitter') -- simple API for treesitter for configuration and interactions
   use('https://github.com/nvim-treesitter/playground') -- visual representation and query playground for the AST of TS
@@ -57,6 +59,11 @@ require('packer').startup({ function(use)
   use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
   use('~/personal/rucksack.nvim') -- custom neovim plugin for stashing and persisting code for later user
   -- }}}
+  -- debugging {{{
+  use('https://github.com/mfussenegger/nvim-dap') -- DAP client
+  use('https://github.com/rcarriga/nvim-dap-ui') -- DAP UI
+  use('https://github.com/leoluz/nvim-dap-go') -- DAP Adapter for Go
+  -- }}}
   -- UI {{{
   use('https://github.com/folke/zen-mode.nvim') -- distraction free writing and some other nice things
   use('https://github.com/folke/twilight.nvim') -- highlight only portion of text
@@ -71,7 +78,7 @@ require('packer').startup({ function(use)
   use('https://github.com/stevearc/aerial.nvim') -- alternative to symbols-outline.nvim
   use('https://github.com/folke/todo-comments.nvim') -- easy configurable todo search in comment with support for Trouble
   use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
-  use('https://github.com/glepnir/dashboard-nvim') -- startup screen
+  -- use('https://github.com/glepnir/dashboard-nvim') -- startup screen
   -- }}}
   -- themes {{{
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
@@ -195,7 +202,13 @@ vim.diagnostic.config({
 })
 --}}}
 -- global auto commands {{{
-vim.api.nvim_create_autocmd('insertenter', {--{{{
+vim.api.nvim_create_autocmd('BufAdd', { --{{{
+  callback = function()
+    require('snock.lsp')
+  end,
+  group = group,
+}) --}}}
+vim.api.nvim_create_autocmd('insertenter', { --{{{
   callback = function()
     if vim.o.nu then
       vim.o.rnu = false
@@ -203,7 +216,7 @@ vim.api.nvim_create_autocmd('insertenter', {--{{{
     vim.o.list = true
   end,
   group = group,
-})--}}}
+}) --}}}
 vim.api.nvim_create_autocmd('TermOpen', { --{{{
   callback = function()
     -- vim.wo.number = false
@@ -214,7 +227,7 @@ vim.api.nvim_create_autocmd('TermOpen', { --{{{
   end,
   group = group
 }) --}}}
-vim.api.nvim_create_autocmd('insertleave', {--{{{
+vim.api.nvim_create_autocmd('insertleave', { --{{{
   callback = function()
     if vim.o.nu then
       vim.o.rnu = true
@@ -222,13 +235,14 @@ vim.api.nvim_create_autocmd('insertleave', {--{{{
     vim.o.list = false
   end,
   group = group,
-})--}}}
-vim.api.nvim_create_autocmd('TextYankPost', {--{{{
+}) --}}}
+vim.api.nvim_create_autocmd('TextYankPost', { --{{{
   callback = function()
     vim.highlight.on_yank()
   end,
   group = group,
   pattern = '*',
-})--}}}
+}) --}}}
 -- }}}
--- vim: fen fdm=marker fdl=0
+--
+-- vim: fen fdm=marker fdl=0 wrap linebreak
