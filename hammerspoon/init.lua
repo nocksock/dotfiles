@@ -23,7 +23,7 @@ local function reload_yabai()
 end
 
 hs.pathwatcher.new(HOME .. "/.hammerspoon/", reload_config):start()
-hs.pathwatcher.new(HOME .. "/personal/dotfiles/.yabairc", reload_yabai):start()
+hs.pathwatcher.new(HOME .. "/code/dotfiles/.yabairc", reload_yabai):start()
 
 hs.alert.show("Config loaded")
 
