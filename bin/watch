@@ -1,11 +1,59 @@
-#!/usr/bin/env sh
-# agnostic way to start all kinds of watchers for quick coding loops
+#!/bin/zsh
+#-------------------------------------------------------------------------------
+#                                         .             oooo
+#                                       .o8             `888
+#          oooo oooo    ooo  .oooo.   .o888oo  .ooooo.   888 .oo.
+#           `88. `88.  .8'  `P  )88b    888   d88' `"Y8  888P"Y88b
+#            `88..]88..8'    .oP"888    888   888        888   888
+#             `888'`888'    d8(  888    888 . 888   .o8  888   888
+#              `8'  `8'     `Y888""8o   "888" `Y8bod8P' o888o o888o
+#
+#          a way to start all kinds of watchers for various languages
+#-------------------------------------------------------------------------------
+
+# not sure why i have to include this, whie $DOTDIR working
+source $DOTDIR/zsh/moar_colors.zsh ;
+
 filename=$(basename -- $1)
-extension=${filename##*.}
+extension=${1##*.}
+
+function upsearch () {
+    test / == "$PWD" && return || test -e "$1" && echo "found: " "$PWD" && return || cd .. && upsearch "$1"
+}
+
+function perr() {
+  printf "%s$1%s\n" $FG[001] $FX[reset];
+}
+
+if [[ ! -a $1 ]]; then
+  printf "%sfile not found: %s${1}%s\n" $FG[001] $FX[underline] $FX[reset];
+  exit
+fi
+
 
 case $extension in
-  js|ts) nodemon --exec "bun run $1" -w $1;;
+  js|ts)
+    if [[ $(upsearch .tsconfig) ]]; then
+      nodemon --exec "ts-node $1" -w $1
+      perr "no .tscondif found"
+    fi
+    ;;
   lua) nodemon --exec "lua $1" -w $1;;
   go) nodemon --exec "go run $1" -w . -e go ;;
-  *) echo "unknown extension $extension";;
+  *)
+
+    if [[ -x $1 ]]; then
+      nodemon --exec "./$1" -w $1
+    else
+      printf "${FG[003]}${1}${FX[reset]} is either not executable or extension (${FG[003]}$extension${FX[reset]}) has not yet been configured."
+
+      read "Do you want to edit the script and try again? y/N " -n 1 -r
+
+      if [[ $REPLY =~ ^[Yy]$ ]]; then
+        $EDITOR $(which $0)
+        echo "\n"
+        $0 $@
+      fi
+    fi
+    ;;
 esac
