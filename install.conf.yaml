@@ -8,21 +8,22 @@
       force: true
 
 - link:
-    ~/.zshrc: .zshrc
-    ~/.zsh: zsh
-    ~/.yabairc: .yabairc
-    ~/.tmux.conf: .tmux.conf
-    ~/.doom.d: .doom.d
-    ~/.config/nvim: nvim
     ~/.config/alacritty: alacritty
-    ~/.config/kitty: kitty
+    ~/.config/fish: fish
     ~/.config/herbstluftwm: herbstluftwm
-    ~/.config/rofi: rofi
+    ~/.config/kitty: kitty
+    ~/.config/nvim: nvim
     ~/.config/polybar: polybar
+    ~/.config/rofi: rofi
+    ~/.doom.d: .doom.d
     ~/.hammerspoon: hammerspoon
+    ~/.tmux.conf: .tmux.conf
+    ~/.yabairc: .yabairc
+    ~/.zsh: zsh
+    ~/.zshrc: .zshrc
+    ~/Library/Application Support/lazygit/config.yml: lazygit.yml
 
 - create:
-  - ~/.vim/undo-history
-  - ~/.vim/tmp
-  - ~/.vim/.netrwhist
-
+    - ~/.vim/undo-history
+    - ~/.vim/tmp
+    - ~/.vim/.netrwhist
