@@ -65,7 +65,7 @@ export EDITOR='/usr/local/bin/nvim' # used for commits and such
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-export DOTDIR="$HOME/personal/dotfiles"
+export DOTDIR="$HOME/code/dotfiles"
 export PYENV_ROOT="$HOME/.pyenv"
 
 export BUN_INSTALL="/Users/nilsriedemann/.bun"
@@ -98,6 +98,7 @@ export ZSH_CUSTOM=$DOTDIR/omz-custom
 
 source $ZSH/oh-my-zsh.sh
 source $DOTDIR/zsh/aliases.zsh
+source $DOTDIR/zsh/moar_colors.zsh
 
 ##############################################################################
 # History Configuration
