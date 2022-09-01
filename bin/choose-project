@@ -1,3 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/zsh
 
-find ~/projects/bleepbloop/apps ~/projects ~/personal ~/forks ~/code ~/projects/edeka ~/projects/tally -mindepth 1 -maxdepth 1 -type d | gum filter
+dirs=$(find ~/code/bleepbloop/apps ~/code ~/code/edeka ~/code/tally -mindepth 1 -maxdepth 1 -type d)
+echo ${dirs} | gum filter

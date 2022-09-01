@@ -102,7 +102,6 @@ map('n' , '_'          , ':NnnPicker %:p:h<cr>')
 map('n', '<leader>tb', ':DapToggleBreakpoint<cr>', t('[b]reakpoint'))
 
 -- harpoon: nav_file
-map('n' , "<leader>'" , ':lua require("harpoon.mark").add_file()<CR>')
 map('n' , "''"        , ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 map('n' , "'f"        , ':lua require("harpoon.ui").nav_file(1)<CR>')
 map('n' , "'d"        , ':lua require("harpoon.ui").nav_file(2)<CR>')
