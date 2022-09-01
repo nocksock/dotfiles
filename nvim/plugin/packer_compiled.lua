@@ -84,10 +84,10 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/aerial.nvim",
     url = "https://github.com/stevearc/aerial.nvim"
   },
-  ["bloop-nvim"] = {
+  ["bloop.nvim"] = {
     loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/bloop-nvim",
-    url = "/Users/nilsriedemann/personal/bloop-nvim"
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/bloop.nvim",
+    url = "/Users/nilsriedemann/code/bloop.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
@@ -124,10 +124,10 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/fidget.nvim",
     url = "https://github.com/j-hui/fidget.nvim"
   },
-  ["ghash-nvim"] = {
+  ["ghash.nvim"] = {
     loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/ghash-nvim",
-    url = "/Users/nilsriedemann/personal/ghash-nvim"
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/ghash.nvim",
+    url = "/Users/nilsriedemann/code/ghash.nvim"
   },
   ["gitsigns.nvim"] = {
     loaded = true,
@@ -159,6 +159,12 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
     url = "https://github.com/ray-x/lsp_signature.nvim"
   },
+  ["lspsaga.nvim"] = {
+    config = { "\27LJ\2\n®\1\0\0\5\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\4\0005\4\3\0=\4\5\3B\1\2\1K\0\1\0\23finder_action_keys\1\0\0\1\0\a\ttabe\6t\vvsplit\6s\16scroll_down\n<C-d>\tquit\n<Esc>\topen\6o\14scroll_up\n<C-u>\nsplit\6i\18init_lsp_saga\flspsaga\frequire\0" },
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
+    url = "https://github.com/glepnir/lspsaga.nvim"
+  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -172,7 +178,7 @@ _G.packer_plugins = {
   ["nazgul-vim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/nazgul-vim",
-    url = "/Users/nilsriedemann/personal/nazgul-vim"
+    url = "/Users/nilsriedemann/code/nazgul-vim"
   },
   ["nnn.vim"] = {
     loaded = true,
@@ -267,7 +273,7 @@ _G.packer_plugins = {
   ["plenary.nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/plenary.nvim",
-    url = "https://github.com/nvim-lua/plenary.nvim"
+    url = "/Users/nilsriedemann/code/plenary.nvim"
   },
   ["refactoring.nvim"] = {
     loaded = true,
@@ -282,17 +288,12 @@ _G.packer_plugins = {
   ["rucksack.nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/rucksack.nvim",
-    url = "/Users/nilsriedemann/personal/rucksack.nvim"
+    url = "/Users/nilsriedemann/code/rucksack.nvim"
   },
   ["sqlite.lua"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/sqlite.lua",
     url = "https://github.com/kkharji/sqlite.lua"
-  },
-  ["symbols-outline.nvim"] = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim",
-    url = "https://github.com/simrat39/symbols-outline.nvim"
   },
   tabular = {
     loaded = true,
@@ -397,6 +398,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: lspsaga.nvim
+time([[Config for lspsaga.nvim]], true)
+try_loadstring("\27LJ\2\n®\1\0\0\5\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\4\0005\4\3\0=\4\5\3B\1\2\1K\0\1\0\23finder_action_keys\1\0\0\1\0\a\ttabe\6t\vvsplit\6s\16scroll_down\n<C-d>\tquit\n<Esc>\topen\6o\14scroll_up\n<C-u>\nsplit\6i\18init_lsp_saga\flspsaga\frequire\0", "config", "lspsaga.nvim")
+time([[Config for lspsaga.nvim]], false)
 if should_profile then save_profiles() end
 
 end)

@@ -22,24 +22,13 @@ local t = prefix "[t]oggle"
 local x = prefix "[x] globals"
 local z = prefix "[z]ettel"
 
-
-local mode = function(mode)
-  return function(lhs)
-    return function(rhs)
-      return function(opts)
-        map(mode, lhs, rhs, opts)
-      end
-    end
-  end
-end
-
 -- local nmap = mode 'n'
 -- local vmap = mode 'v'
 --
 -- nmap "<leader>?" ":Telescope help_tags<cr>" (s "[h]elp")
 
 -- git mappings {{{
--- map('n', '<leader>gg', ':tab G<cr>')
+map('n', '<leader>gg', ':tab G<cr>')
 map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
 map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
 map('n', '<leader>hs', gitsigns.stage_hunk, h '[s]tage')
@@ -68,6 +57,7 @@ map('n' , '<leader>sC'      , st .. ".colorscheme({ enable_preview = true })<cr>
 map('n' , '<leader>sf'      , st .. ".search_in(nil)<cr>"                                , s('[f]iles'))
 map('n' , '<leader>sdf'     , st .. ".search_in(vim.fn.getenv('DOTDIR'))<cr>"            , s('[d]ot[f]iles'))
 map('n' , '<leader>sr'      , st .. ".oldfiles()<cr>"                                    , s('[r]ecently opened files'))
+map('n' , '<leader>sR'      , st .. ".reloader()<cr>"                                    , s('[R]eload lua packages'))
 map('n' , '<leader>sh'      , st .. ".help_tags()<cr>"                                   , s('[h]elp'))
 map('n' , '<leader>sk'      , st .. ".keymaps()<cr>"                                     , s('[k]eymaps'))
 map('n' , '<leader>sl'      , st .. ".loclist()<cr>"                                     , s('[l]oclist'))
@@ -99,14 +89,18 @@ map('n' , '<leader>id' , '<Plug>:LspDiagLine<cr>')
 map('n' , '<leader>te' , ':NnnExplorer<cr>'       , t('[e]xplorer (nnn)'))
 map('n' , '<leader>tE' , ':NnnExplorer %:p:h<cr>' , t('[E]xplorer in buffer folder (nnn)'))
 map('n' , '_'          , ':NnnPicker %:p:h<cr>')
-map('n', '<leader>tb', ':DapToggleBreakpoint<cr>', t('[b]reakpoint'))
 
 -- harpoon: nav_file
+map('n' , "<leader>'" , ':lua require("harpoon.mark").add_file()<CR>')
 map('n' , "''"        , ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 map('n' , "'f"        , ':lua require("harpoon.ui").nav_file(1)<CR>')
 map('n' , "'d"        , ':lua require("harpoon.ui").nav_file(2)<CR>')
 map('n' , "'s"        , ':lua require("harpoon.ui").nav_file(3)<CR>')
 map('n' , "'a"        , ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('n' , "'j"        , ':lua require("harpoon.ui").nav_file(5)<CR>')
+map('n' , "'k"        , ':lua require("harpoon.ui").nav_file(6)<CR>')
+map('n' , "'l"        , ':lua require("harpoon.ui").nav_file(7)<CR>')
+map('n' , "';"        , ':lua require("harpoon.ui").nav_file(8)<CR>')
 
 -- harpoon: cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
@@ -133,7 +127,7 @@ map('n' , '<leader>tt' , ':lua require("snock.filetree").toggle()<CR>'     , { d
 
 map('n' , '<leader>xd' , ':Trouble document_diagnostics<CR>'  , x "show [d]ocument_diagnostics")
 map('n' , '<leader>xD' , ':Trouble workspace_diagnostics<CR>' , x "show workspace_[D]iagnostics")
-map('n' , '<leader>xt' , ':TodoTrouble<CR>'                   , x "[t]ree [t]oggle")
+map('n' , '<leader>xt' , ':TodoTrouble<CR>'                   , x "[t]odos")
 
 -- misc convenience {{{
 map('n' , '<leader>sns' , ':source ~/.config/nvim/plugin/completion.lua<cr>'    , { desc = "[sn]ippet [s]ource" })
@@ -148,7 +142,7 @@ map('n' , '<leader>.'   , ':LspCodeAction<cr>')
 map('n' , '<leader>cl'  , ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>'               , { desc = "[cl]ear display" })
 map('n' , '<leader>tl'  , ':lua require("lsp_lines").toggle()<cr>'              , { desc = "[t]oggle [l]sp lines" })
 map('n' , '<leader>tn'  , ':LineNrToggle<CR>'                                   , { desc = "[t]oggle line [n]umbers" })
-map('n' , '<leader>to'  , ':SymbolsOutline<cr>'                                 , { desc = "[t]oggle [o]utline" })
+map('n' , '<leader>to'  , ':AerialToggle<cr>'                                   , { desc = "[t]oggle [o]utline" })
 map('n' , '<leader>gc'  , 'yygccp')
 map('n' , '<leader>gC'  , '')
 map('n', 'z0', 'zMzv') -- close all other folds
@@ -189,7 +183,13 @@ map('v', '<C-j>', ":m '>+1<CR>gv=gv")
 -- type %% in vim's prompt to insert %:h expanded
 vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])
 
--- debuggin
+-- debugging
+map('n', '<leader>db', ':DapToggleBreakpoint<cr>', t('toggle [b]reakpoint'))
+map('n', '<leader>du', ':lua require("dapui").toggle()<cr>', d("toggle [u]i"))
 map('n', '<leader>dc', ':DapContinue<cr>', d("[c]ontinue"))
-map('n', '<leader>du', ':lua require("dapui").toggle()<cr>', d("[u]i toggle"))
+map('n', '<leader>di', ':DapStepInto<cr>', d("step [i]nto"))
+map('n', '<leader>do', ':DapStepOver<cr>', d("step [o]ver"))
+map('n', '<leader>dO', ':DapStepOut<cr>', d("step [O]ut"))
+map('n', '<leader>dl', ':DapRunLast<cr>', d("Run [l]ast"))
+
 -- vim: nowrap

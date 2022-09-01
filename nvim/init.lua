@@ -4,7 +4,7 @@
 require('packer').startup({ function(use)
   -- core utils {{{
   use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
-  use('https://github.com/nvim-lua/plenary.nvim') -- util functions. a dependency of many plugins
+  use('~/code/plenary.nvim') -- https://github.com/nvim-lua/plenary.nvim util functions. a dependency of many plugins
   use('https://github.com/dstein64/vim-startuptime') -- find the startup bottleneck
   use('https://github.com/kkharji/sqlite.lua') -- sqlite client in lua that some plugins use
   -- }}}
@@ -35,6 +35,26 @@ require('packer').startup({ function(use)
   use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
   use('https://github.com/folke/trouble.nvim') -- pretty list for LSP diagnostics
   use('https://github.com/ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
+  use({
+    "glepnir/lspsaga.nvim",
+    branch = "main",
+    config = function()
+      local saga = require("lspsaga")
+
+      saga.init_lsp_saga({
+        -- your configuration
+        finder_action_keys = {
+          open = "o",
+          vsplit = "s",
+          split = "i",
+          tabe = "t",
+          quit = "<Esc>",
+          scroll_down = "<C-d>",
+          scroll_up = "<C-u>",
+        },
+      })
+    end,
+  })
   -- }}}
   -- treesitter {{{
   use('https://github.com/nvim-treesitter/nvim-treesitter') -- simple API for treesitter for configuration and interactions
@@ -57,7 +77,7 @@ require('packer').startup({ function(use)
   -- }}}
   -- snippets {{{
   use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
-  use('~/personal/rucksack.nvim') -- custom neovim plugin for stashing and persisting code for later user
+  use('~/code/rucksack.nvim') -- custom neovim plugin for stashing and persisting code for later user
   -- }}}
   -- debugging {{{
   use('https://github.com/mfussenegger/nvim-dap') -- DAP client
@@ -74,18 +94,17 @@ require('packer').startup({ function(use)
   use('https://github.com/Maan2003/lsp_lines.nvim') -- better display for inline diagnostic errors
   use('https://github.com/j-hui/fidget.nvim') -- ui for nvm-lsp progress
   use('https://github.com/kyazdani42/nvim-tree.lua') -- filetree when when :Lex or vinegar is not enough
-  use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
+  -- use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
   use('https://github.com/stevearc/aerial.nvim') -- alternative to symbols-outline.nvim
   use('https://github.com/folke/todo-comments.nvim') -- easy configurable todo search in comment with support for Trouble
   use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
-  -- use('https://github.com/glepnir/dashboard-nvim') -- startup screen
   -- }}}
   -- themes {{{
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
   use('https://github.com/folke/tokyonight.nvim')
-  use('~/personal/bloop-nvim') -- 
-  use('~/personal/nazgul-vim') -- minimal hard contrast theme
-  use('~/personal/ghash-nvim') -- dark retro theme all in red
+  use('~/code/bloop.nvim') -- 
+  use('~/code/nazgul-vim') -- minimal hard contrast theme
+  use('~/code/ghash.nvim') -- dark retro theme all in red
   -- }}}
   -- beyond coding {{{
   use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim, works great with Obsidian
@@ -208,19 +227,23 @@ vim.api.nvim_create_autocmd('VimEnter', {
   group = group,
   callback = function()
     if #vim.fn.argv() > 0 then return end -- was called with a filename (probably, idc)
-    for _, ext in ipairs({"", "md", "txt"}) do
+    for _, ext in ipairs({ "", "md", "txt" }) do
       local filename = "readme." .. ext
       if vim.fn.filereadable(filename) == 1 then
-        return vim.schedule(function()
-          vim.cmd("e " .. filename)
-        end)
+        -- vim.defer_fn(function()
+        -- vim.cmd("edit " .. filename)
+        -- end)
+        return nil
       end
     end
   end
 }) -- }}}
 vim.api.nvim_create_autocmd('BufAdd', { --{{{
   callback = function()
-    require('snock.lsp')
+    -- lazy load lsp and git
+    require("snock.lsp")
+    require("snock.git")
+    require("snock.completion")
   end,
   group = group,
 }) --}}}
@@ -235,10 +258,7 @@ vim.api.nvim_create_autocmd('insertenter', { --{{{
 }) --}}}
 vim.api.nvim_create_autocmd('TermOpen', { --{{{
   callback = function()
-    -- vim.wo.number = false
-    -- vim.wo.relativenumber = false
     vim.bo.filetype = "terminal"
-    -- vim.wo.winhighlight = "Normal:TermNormal"
     vim.keymap.set('n', '<C-c>', 'i<C-c>', { buffer = true })
   end,
   group = group
@@ -261,4 +281,4 @@ vim.api.nvim_create_autocmd('TextYankPost', { --{{{
 }) --}}}
 -- }}}
 --
--- vim: fen fdm=marker fdl=0 wrap linebreak
+-- vim: fen fdm=marker fdl=0 nowrap nolinebreak

@@ -65,13 +65,9 @@ require('lualine').setup {
     lualine_b = {},
     lualine_c = {
       {
-        marks
+        marks,
+        cond = has_marks,
       },
-      {
-        "buffers",
-        cond = invert(has_marks),
-        mode = 2
-      }
     },
 
     lualine_x = {},
@@ -79,6 +75,7 @@ require('lualine').setup {
     lualine_z = { {
       'tabs',
       mode = 0,
+      cond = has_marks,
       tabs_color = {
         active = 'lualine_b_normal',
         inactive = 'lualine_c_normal'

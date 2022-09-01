@@ -4,7 +4,6 @@ require("fidget").setup {}
 require('goto-preview').setup {}
 require("trouble").setup {}
 require("lsp_signature").setup {}
-
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
@@ -13,7 +12,7 @@ local builtin = require('telescope.builtin')
 
 -- }}}
 
-local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit' }
+local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit', 'bashls' }
 local null_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -81,7 +80,7 @@ local on_attach = function(client, bufnr)
   cmd('LspSignatureHelp', vim.lsp.buf.signature_help)
   --}}}
   -- mappings {{{
-  nmap('<leader>.', vim.lsp.buf.code_action, 'Code Action (vscodey)')
+  nmap('<leader>.', ':Lspsaga code_action<cr>', 'Code Action (vscodey)')
   nmap('<leader>e', vim.diagnostic.open_float)
   nmap('<leader>q', vim.diagnostic.setloclist)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
@@ -93,19 +92,18 @@ local on_attach = function(client, bufnr)
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
   nmap('<leader>ss', builtin.lsp_document_symbols, '[s]search document [s]ymbols')
   nmap('<leader>sS', builtin.lsp_dynamic_workspace_symbols, '[s]search workspace [S]ymbols')
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  nmap('gr', builtin.lsp_references)
-  nmap('<leader>k', vim.diagnostic.goto_prev)
-  nmap('<leader>j', vim.diagnostic.goto_next)
+  nmap('gr', '<cmd>Lspsaga lsp_finder<cr>')
+  nmap('gd', vim.lsp.buf.definition, '[g]oto [d]efinition')
+  nmap('gD', vim.lsp.buf.declaration, '[g]oto [D]eclaration')
+  nmap('gi', vim.lsp.buf.implementation, '[g]oto [i]mplementation')
+  nmap('<leader>k', ':Lspsaga diagnostic_jump_prev<cr>')
+  nmap('<leader>j', ':Lspsaga diagnostic_jump_next<cr>')
 
   -- preview
   nmap('gpd', require('goto-preview').goto_preview_definition)
   nmap('gpi', require('goto-preview').goto_preview_implementation)
   nmap('gP', require('goto-preview').close_all_win)
   nmap('gpr', require('goto-preview').goto_preview_references)
-  nmap('gR', '<cmd>Trouble lsp_references<cr>')
   --}}}
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -134,8 +132,7 @@ lspconfig.tsserver.setup({
 
     on_attach(client, bufnr)
 
-    P(client.server_capabilities)
-    client.server_capabilities.document_formatting = false -- use
+    client.server_capabilities.document_formatting = false
   end,
   commands = {
     OrganizeImports = {
@@ -206,4 +203,20 @@ null_ls.setup({
     end
   end,
 }) --}}}
+
+
+vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
+
+require("aerial").setup({
+  on_attach = function(bufnr)
+    -- Toggle the aerial window with <leader>a
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
+    -- Jump forwards/backwards with '{' and '}'
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
+    -- Jump up the tree with '[[' or ']]'
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
+  end
+})
 -- vi: fen fdl=0

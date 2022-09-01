@@ -1,5 +1,18 @@
 local dap = require('dap')
-local ui = require('dapui')
+local dapui = require('dapui')
+
+-- DAPUI listeners
+dap.listeners.after.event_initialized["dapui_config"] = function()
+	dapui.open()
+end
+
+dap.listeners.before.event_terminated["dapui_config"] = function()
+	dapui.close()
+end
+
+dap.listeners.before.event_exited["dapui_config"] = function()
+	dapui.close()
+end
 
 dap.adapters.delve = {
   type = 'server',
@@ -20,15 +33,14 @@ dap.configurations.go = {
   },
   {
     type = "delve",
-    name = "Debug test", -- configuration for debugging test files
+    name = "Debug test", 
     request = "launch",
     mode = "test",
     program = "${file}"
   },
-  -- works with go.mod packages and sub packages 
   {
     type = "delve",
-    name = "Debug test (go.mod)",
+    name = "Debug test (with go.mod and sub packages)",
     request = "launch",
     mode = "test",
     program = "./${relativeFileDirname}"
@@ -36,4 +48,5 @@ dap.configurations.go = {
 }
 
 require('dap-go').setup {}
-ui.setup {}
+
+dapui.setup {}
