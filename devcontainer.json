@@ -5,5 +5,5 @@
       "shallow": false
     }
   },
-  "postCreateCommand": "yarn global add @devcontainers/cli && brew install neovim --HEAD"
+  "postCreateCommand": "yarn global add @devcontainers/cli && brew install neovim"
 }

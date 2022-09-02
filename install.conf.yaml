@@ -16,12 +16,29 @@
     ~/.config/polybar: polybar
     ~/.config/rofi: rofi
     ~/.doom.d: .doom.d
-    ~/.hammerspoon: hammerspoon
     ~/.tmux.conf: .tmux.conf
-    ~/.yabairc: .yabairc
     ~/.zsh: zsh
     ~/.zshrc: .zshrc
-    ~/Library/Application Support/lazygit/config.yml: lazygit.yml
+
+    # macos only
+    ~/.hammerspoon:
+      if: "[ `uname` = Darwin ]"
+      path: hammerspoon
+    ~/.yabairc:
+      if: "[ `uname` = Darwin ]"
+      path: .yabairc
+    ~/Library/Application Support/Code/User/keybindings.json:
+      if: "[ `uname` = Darwin ]"
+      path: vscode/keybindings.json
+    ~/Library/Application Support/Code/User/settings.json:
+      if: "[ `uname` = Darwin ]"
+      path: vscode/settings.json
+    ~/Library/Application Support/Code/User/snippets:
+      if: "[ `uname` = Darwin ]"
+      path: vscode/snippets
+    ~/Library/Application Support/lazygit/config.yml:
+      if: "[ `uname` = Darwin ]"
+      path: lazygit.yml
 
 - create:
     - ~/.vim/undo-history

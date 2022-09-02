@@ -1,0 +1,165 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+    {
+        "key": "ctrl+shift+0",
+        "command": "workbench.files.action.showActiveFileInExplorer"
+    },
+    {
+        "key": "alt+cmd+\\",
+        "command": "-workbench.files.action.showActiveFileInExplorer"
+    },
+    {
+        "key": "ctrl+s",
+        "command": "workbench.action.files.save"
+    },
+    {
+        "key": "ctrl+0",
+        "command": "workbench.files.action.focusFilesExplorer"
+    },
+    {
+        "key": "shift+cmd+j",
+        "command": "workbench.action.terminal.focusNext"
+    },
+    {
+        "key": "shift+cmd+k",
+        "command": "workbench.action.terminal.focusPrevious"
+    },
+    {
+        "key": "shift+cmd+g",
+        "command": "workbench.view.scm"
+    },
+    {
+        "key": "ctrl+shift+g",
+        "command": "-workbench.view.scm"
+    },
+    {
+        "key": "shift+cmd+c",
+        "command": "workbench.action.terminal.new"
+    },
+    {
+        "key": "shift+cmd+d d",
+        "command": "workbench.view.debug"
+    },
+    {
+        "key": "shift+cmd+d",
+        "command": "-workbench.view.debug"
+    },
+    {
+        "key": "shift+cmd+o",
+        "command": "projectManager.listProjects"
+    },
+    {
+        "key": "alt+cmd+p",
+        "command": "-projectManager.listProjects"
+    },
+    {
+        "key": "-",
+        "command": "quickOpenCreate.open",
+        "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Normal'"
+    },
+    {
+        "key": "alt-space 1",
+        "command": "workbench.action.focusFirstEditorGroup"
+    },
+    {
+        "key": "alt-space 2",
+        "command": "workbench.action.focusSecondEditorGroup"
+    },
+    {
+        "key": "alt-space 3",
+        "command": "workbench.action.focusThirdEditorGroup"
+    },
+    {
+        "key": "shift+cmd+'",
+        "command": "workbench.action.focusActiveEditorGroup"
+    },
+    {
+        "key": "cmd+k o",
+        "command": "-workbench.action.files.showOpenedFileInNewWindow"
+    },
+    {
+        "key": "cmd+k o",
+        "command": "outline.focus"
+    },
+    {
+        "key": "ctrl+cmd+c",
+        "command": "git.checkout"
+    },
+    {
+        "key": "cmd+r",
+        "command": "workbench.action.gotoSymbol"
+    },
+    {
+        "key": "shift+cmd+o",
+        "command": "-workbench.action.gotoSymbol"
+    },
+    {
+        "key": "shift+cmd+d j",
+        "command": "workbench.action.positionPanelBottom"
+    },
+    {
+        "key": "shift+cmd+d l",
+        "command": "workbench.action.positionPanelRight"
+    },
+    {
+        "key": "shift+cmd+d h",
+        "command": "workbench.action.positionPanelLeft"
+    },
+    {
+        "key": "ctrl-d",
+        "command": "explorer.newFolder",
+        "when": "explorerViewletFocus"
+    },
+    {
+        "key": "ctrl-f",
+        "command": "explorer.newFile",
+        "when": "explorerViewletFocus && !renameInputVisible"
+    },
+    {
+        "key": "alt+cmd+j",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    {
+        "key": "cmd+;",
+        "command": "workbench.action.terminal.focus",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+;",
+        "command": "workbench.action.focusLastEditorGroup",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "cmd+k b",
+        "command": "breadcrumbs.toggle"
+    },
+    {
+        "key": "cmd+k m",
+        "command": "editor.action.toggleMinimap",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+k a",
+        "command": "workbench.action.toggleActivityBarVisibility"
+    },
+    {
+        "key": "shift+alt+]",
+        "command": "editor.action.marker.next",
+        "when": "editorFocus"
+    },
+    {
+        "key": "alt+f8",
+        "command": "-editor.action.marker.next",
+        "when": "editorFocus"
+    },
+    {
+        "key": "shift+alt+[",
+        "command": "editor.action.marker.prev",
+        "when": "editorFocus"
+    },
+    {
+        "key": "shift+alt+f8",
+        "command": "-editor.action.marker.prev",
+        "when": "editorFocus"
+    },
+]
