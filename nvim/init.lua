@@ -1,6 +1,17 @@
 --
 -- welcome to my nvim config.
 --
+
+-- make sure packer is installed {{{
+local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local is_bootstrap = false
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  is_bootstrap = true
+  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  vim.cmd [[packadd packer.nvim]]
+end
+--}}}
+
 require('packer').startup({ function(use)
   -- core utils {{{
   use('https://github.com/wbthomason/packer.nvim') -- packer can manage itself
@@ -113,9 +124,24 @@ require('packer').startup({ function(use)
   use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
   use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
   use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
+  use('https://github.com/metakirby5/codi.vim') -- repl/scratchpad
   -- }}}
+
+  if is_bootstrap then
+    require('packer').sync()
+  end
 end,
 })
+
+if is_bootstrap then
+  print '=================================='
+  print '    Plugins are being installed'
+  print '    Wait until Packer completes,'
+  print '       then restart nvim'
+  print '=================================='
+  return
+end
+
 -- global helper utils {{{
 if pcall(require, 'plenary') then
   RELOAD = require('plenary.reload').reload_module
@@ -163,9 +189,8 @@ vim.o.gdefault = true -- add g flag by default for :substitutions
 vim.o.ignorecase = true -- ignore case by default - unless using uppercase/lowercase via smartcase
 vim.o.smartcase = true -- ignore 'ignorecase' when search contains uppercase characters
 vim.o.list = false -- do not show invisible characters (there's an auto-command to show only in insert mode)
-vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪' -- define characters for invisible characters
+vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,' -- define characters for invisible characters
 vim.o.mouse = 'a' -- enable scrolling and selecting with mouse
-vim.o.nu = true -- show numbers
 vim.o.rnu = true -- show *HYBRID* line numbers, relative line numbers + current line number
 vim.o.pumheight = 12 -- limit popupmenu to 10 lines
 vim.o.scrolloff = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
@@ -230,9 +255,9 @@ vim.api.nvim_create_autocmd('VimEnter', {
     for _, ext in ipairs({ "", "md", "txt" }) do
       local filename = "readme." .. ext
       if vim.fn.filereadable(filename) == 1 then
-        -- vim.defer_fn(function()
-        -- vim.cmd("edit " .. filename)
-        -- end)
+        vim.defer_fn(function()
+        vim.cmd("edit " .. filename)
+        end)
         return nil
       end
     end
