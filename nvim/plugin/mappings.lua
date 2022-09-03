@@ -145,7 +145,7 @@ map('n' , '<leader>tn'  , ':LineNrToggle<CR>'                                   
 map('n' , '<leader>to'  , ':AerialToggle<cr>'                                   , { desc = "[t]oggle [o]utline" })
 map('n' , '<leader>gc'  , 'yygccp')
 map('n' , '<leader>gC'  , '')
-map('n', 'z0', 'zMzv') -- close all other folds
+map('n', 'z0', 'zMzvzz') -- close all other folds and center
 -- }}}
 
 map({ 'i', 'n' }, '<M-s>', '<cmd>:w<cr>')
