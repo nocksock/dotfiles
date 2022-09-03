@@ -1,10 +1,18 @@
---
--- welcome to my nvim config.
---
-
+--                                                               
+--                 888        888    .d888d8b888                 
+--                 888        888   d88P" Y8P888                 
+--                 888        888   888      888                 
+--             .d88888 .d88b. 888888888888888888 .d88b. .d8888b  
+--            d88" 888d88""88b888   888   888888d8P  Y8b88K      
+--            888  888888  888888   888   88888888888888"Y8888b. 
+--            Y88b 888Y88..88PY88b. 888   888888Y8b.         X88 
+--             "Y88888 "Y88P"  "Y888888   888888 "Y8888  88888P' 
+--                                                               
+                                                                 
 -- make sure packer is installed {{{
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
+
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   is_bootstrap = true
   vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
@@ -254,12 +262,13 @@ vim.api.nvim_create_autocmd('VimEnter', {
     if #vim.fn.argv() > 0 then return end -- was called with a filename (probably, idc)
     for _, ext in ipairs({ "", "md", "txt" }) do
       local filename = "readme." .. ext
-      if vim.fn.filereadable(filename) == 1 then
-        vim.defer_fn(function()
-        vim.cmd("edit " .. filename)
-        end)
-        return nil
-      end
+      -- throws an error atm
+      -- if vim.fn.filereadable(filename) == 1 then
+      --   vim.defer_fn(function()
+      --   vim.cmd("edit " .. filename)
+      --   end)
+      --   return nil
+      -- end
     end
   end
 }) -- }}}
@@ -305,5 +314,5 @@ vim.api.nvim_create_autocmd('TextYankPost', { --{{{
   pattern = '*',
 }) --}}}
 -- }}}
---
+
 -- vim: fen fdm=marker fdl=0 nowrap nolinebreak
