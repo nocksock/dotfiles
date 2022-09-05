@@ -1,4 +1,9 @@
-#!/bin/zsh
+#!/usr/bin/env fish
 
-dirs=$(find ~/code/bleepbloop/apps ~/code ~/code/edeka ~/code/tally -mindepth 1 -maxdepth 1 -type d)
-echo ${dirs} | gum filter
+set dirs $(find ~/code/bleepbloop/apps ~/code ~/code/edeka ~/code/tally -mindepth 1 -maxdepth 1 -type d)
+
+set -a dirs "$HOME/code/edeka/de.git/monorepo/"
+set -a dirs "$HOME/code/edeka/de.git/dev/"
+set -a dirs "$HOME/code/edeka/de.git/dev-mono/"
+
+string split " " $dirs | gum filter
