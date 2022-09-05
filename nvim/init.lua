@@ -228,7 +228,6 @@ vim.o.wildignore = table.concat({
   '**/tmp/*',
 }, ',')
 vim.o.path = vim.o.path .. ',**'
--- vim.g.colors_name = 'tokyonight'
 vim.g.colors_name = 'bloop_nvim'
 vim.o.background = 'dark'
 vim.o.guifont = 'JetBrains Mono:h16'
