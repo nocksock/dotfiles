@@ -1,14 +1,13 @@
---                                                               
---                 888        888    .d888d8b888                 
---                 888        888   d88P" Y8P888                 
---                 888        888   888      888                 
---             .d88888 .d88b. 888888888888888888 .d88b. .d8888b  
---            d88" 888d88""88b888   888   888888d8P  Y8b88K      
---            888  888888  888888   888   88888888888888"Y8888b. 
---            Y88b 888Y88..88PY88b. 888   888888Y8b.         X88 
---             "Y88888 "Y88P"  "Y888888   888888 "Y8888  88888P' 
---                                                               
-                                                                 
+--
+--                                                 o8o
+--                                                 `"'
+--    ooo. .oo.    .ooooo.   .ooooo.  oooo    ooo oooo  ooo. .oo.  .oo.
+--    `888P"Y88b  d88' `88b d88' `88b  `88.  .8'  `888  `888P"Y88bP"Y88b
+--     888   888  888ooo888 888   888   `88..8'    888   888   888   888
+--     888   888  888    .o 888   888    `888'     888   888   888   888
+--    o888o o888o `Y8bod8P' `Y8bod8P'     `8'     o888o o888o o888o o888o
+--
+--
 -- make sure packer is installed {{{
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -54,26 +53,7 @@ require('packer').startup({ function(use)
   use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
   use('https://github.com/folke/trouble.nvim') -- pretty list for LSP diagnostics
   use('https://github.com/ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
-  use({
-    "glepnir/lspsaga.nvim",
-    branch = "main",
-    config = function()
-      local saga = require("lspsaga")
-
-      saga.init_lsp_saga({
-        -- your configuration
-        finder_action_keys = {
-          open = "o",
-          vsplit = "s",
-          split = "i",
-          tabe = "t",
-          quit = "<Esc>",
-          scroll_down = "<C-d>",
-          scroll_up = "<C-u>",
-        },
-      })
-    end,
-  })
+  use("https://github.com/glepnir/lspsaga.nvim")
   -- }}}
   -- treesitter {{{
   use('https://github.com/nvim-treesitter/nvim-treesitter') -- simple API for treesitter for configuration and interactions
@@ -113,6 +93,7 @@ require('packer').startup({ function(use)
   use('https://github.com/Maan2003/lsp_lines.nvim') -- better display for inline diagnostic errors
   use('https://github.com/j-hui/fidget.nvim') -- ui for nvm-lsp progress
   use('https://github.com/kyazdani42/nvim-tree.lua') -- filetree when when :Lex or vinegar is not enough
+  use('https://github.com/nvim-treesitter/nvim-treesitter-context') -- sticky header
   -- use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
   use('https://github.com/stevearc/aerial.nvim') -- alternative to symbols-outline.nvim
   use('https://github.com/folke/todo-comments.nvim') -- easy configurable todo search in comment with support for Trouble
@@ -200,6 +181,7 @@ vim.o.list = false -- do not show invisible characters (there's an auto-command 
 vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,' -- define characters for invisible characters
 vim.o.mouse = 'a' -- enable scrolling and selecting with mouse
 vim.o.rnu = true -- show *HYBRID* line numbers, relative line numbers + current line number
+vim.o.nu = true
 vim.o.pumheight = 12 -- limit popupmenu to 10 lines
 vim.o.scrolloff = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
 vim.o.shell = '/bin/zsh' -- set default shell for :shell
@@ -215,6 +197,13 @@ vim.o.splitbelow = true -- When on, splitting a window will put the new window b
 vim.o.tabstop = 2
 vim.o.termguicolors = true -- enable 24bit colors
 vim.o.textwidth = 80
+vim.o.undofile = true
+vim.o.wrap = false -- don't wrap text around when the window is too small
+vim.o.wildignore = table.concat({
+  '.DS_Store',
+  '**/.git/*',
+  '*.jpg,*.bmp,*.gif,*.png,*.jpeg', -- ignore binary images
+  '**/coverage/*' })
 vim.o.undofile = true
 vim.o.wrap = false -- don't wrap text around when the window is too small
 vim.o.wildignore = table.concat({

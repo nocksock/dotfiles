@@ -9,10 +9,22 @@ local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local util = require('vim.lsp.util')
 local builtin = require('telescope.builtin')
+local saga = require("lspsaga")
 
+saga.init_lsp_saga({
+  code_action_lightbulb = {
+    enable = false,
+    enable_in_insert = false,
+    sign = false,
+    update_time = 150,
+    sign_priority = 20,
+    virtual_text = false,
+  }
+})
 -- }}}
 
-local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit', 'bashls' }
+local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit',
+  'bashls' }
 local null_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -86,18 +98,23 @@ local on_attach = function(client, bufnr)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
   nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>rN', vim.lsp.buf.rename, '[R]e[N]ame File')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wl', list_workspace_folders, '[W]orkspace [L]ist Folders')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>ss', builtin.lsp_document_symbols, '[s]search document [s]ymbols')
-  nmap('<leader>sS', builtin.lsp_dynamic_workspace_symbols, '[s]search workspace [S]ymbols')
+  nmap('<leader>sS', builtin.lsp_document_symbols, '[s]search document [s]ymbols')
+  nmap('<leader>ss', builtin.lsp_dynamic_workspace_symbols, '[s]search workspace [S]ymbols')
   nmap('gr', '<cmd>Lspsaga lsp_finder<cr>')
   nmap('gd', vim.lsp.buf.definition, '[g]oto [d]efinition')
   nmap('gD', vim.lsp.buf.declaration, '[g]oto [D]eclaration')
   nmap('gi', vim.lsp.buf.implementation, '[g]oto [i]mplementation')
   nmap('<leader>k', ':Lspsaga diagnostic_jump_prev<cr>')
   nmap('<leader>j', ':Lspsaga diagnostic_jump_next<cr>')
+  nmap("<leader>K", function()
+    require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  end)
+  nmap("<leader>J", function()
+    require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+  end)
 
   -- preview
   nmap('gpd', require('goto-preview').goto_preview_definition)

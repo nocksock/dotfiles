@@ -61,7 +61,9 @@ require('lualine').setup {
     lualine_z = {}
   },
   tabline = {
-    lualine_a = {},
+    lualine_a = {
+      { 'buffers', mode = 2, cond = invert(has_marks) }
+    },
     lualine_b = {},
     lualine_c = {
       {

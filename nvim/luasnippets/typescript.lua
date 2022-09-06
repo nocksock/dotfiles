@@ -32,7 +32,7 @@ return {
 			fmt([[console.timeEnd({});]], { i(0) }),
 		})
 	),
-	s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
+	s('json', fmt([[JSON.stringify({}, null, 2)]], { i(0) })),
 	-- todo: describe (with current file name, and maybe all exports?)
 	s(
 		'describe',
