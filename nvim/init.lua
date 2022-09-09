@@ -98,6 +98,7 @@ require('packer').startup({ function(use)
   use('https://github.com/stevearc/aerial.nvim') -- alternative to symbols-outline.nvim
   use('https://github.com/folke/todo-comments.nvim') -- easy configurable todo search in comment with support for Trouble
   use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
+  use('https://github.com/sunjon/Shade.nvim') -- dim inactive windows
   -- }}}
   -- themes {{{
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
@@ -217,7 +218,7 @@ vim.o.wildignore = table.concat({
   '**/tmp/*',
 }, ',')
 vim.o.path = vim.o.path .. ',**'
-vim.g.colors_name = 'bloop_nvim'
+vim.g.colors_name = 'tokyonight-night'
 vim.o.background = 'dark'
 vim.o.guifont = 'JetBrains Mono:h16'
 
