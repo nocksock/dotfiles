@@ -17,10 +17,6 @@ source $DOTDIR/zsh/moar_colors.zsh ;
 filename=$(basename -- $1)
 extension=${1##*.}
 
-function upsearch () {
-    test / == "$PWD" && return || test -e "$1" && echo "found: " "$PWD" && return || cd .. && upsearch "$1"
-}
-
 function perr() {
   printf "%s$1%s\n" $FG[001] $FX[reset];
 }
@@ -33,9 +29,10 @@ fi
 
 case $extension in
   js|ts)
-    if [[ $(upsearch .tsconfig) ]]; then
-      nodemon --exec "ts-node $1" -w $1
-      perr "no .tscondif found"
+    if [[ -f tsconfig.json ]]; then
+      nodemon --exec "bun $1" -w $1
+    else
+      perr "no .tsconfig found"
     fi
     ;;
   lua) nodemon --exec "lua $1" -w $1;;
