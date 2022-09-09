@@ -20,6 +20,7 @@ alias ll='exa --icons -l --group-directories-first'
 bw () {
   nodemon --exec "bun run $1" -w $1
 }
+alias gw='cd $(git worktree list --porcelain | grep -Po "(?<=worktree ).*" | gum filter)'
 
 n () { # via https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
   if [[ "${NNNLVL:-0}" -ge 1 ]]; then
