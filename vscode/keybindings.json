@@ -162,4 +162,12 @@
         "command": "-editor.action.marker.prev",
         "when": "editorFocus"
     },
+    {
+        "key": "ctrl+cmd+k",
+        "command": "workbench.action.terminal.moveToEditor"
+    },
+    {
+        "key": "ctrl+cmd+j",
+        "command": "workbench.action.terminal.moveToTerminalPanel"
+    },
 ]
