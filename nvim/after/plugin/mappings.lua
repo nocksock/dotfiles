@@ -114,6 +114,7 @@ map('n', '"2', ':lua require("harpoon.tmux").gotoTerminal(2)<CR>')
 local gitsigns = require('gitsigns.actions')
 
 map('n', '<leader>gg', ':tab G<cr>')
+map('n', '<leader>gs', ':Telescope git_status<cr>')
 map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
 map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
 map('n', '<leader>hs', gitsigns.stage_hunk, h '[s]tage')
