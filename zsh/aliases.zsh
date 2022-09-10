@@ -16,10 +16,6 @@ alias nnn='nnn -ei'
 alias c='cd $(choose-project)'
 alias ls='exa --icons -1 --group-directories-first'
 alias ll='exa --icons -l --group-directories-first'
-
-bw () {
-  nodemon --exec "bun run $1" -w $1
-}
 alias gw='cd $(git worktree list --porcelain | grep -Po "(?<=worktree ).*" | gum filter)'
 
 n () { # via https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
