@@ -84,7 +84,7 @@ export PATH="$DOTDIR/bin/:$PATH"
 export PATH="$PYENV_ROOT/bin/:$PATH"
 export PATH="/usr/local/cuda-11.6/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
+export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH" # to use the "right" gnubins, eg grep
 export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
 export CDPATH=".:$HOME:$HOME/projects:$HOME/code"
 
