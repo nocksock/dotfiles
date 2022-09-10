@@ -1,9 +1,5 @@
 #!/usr/bin/env fish
 
-set dirs $(find ~/code/bleepbloop/apps ~/code ~/code/edeka ~/code/tally -mindepth 1 -maxdepth 1 -type d)
-
-set -a dirs "$HOME/code/edeka/de.git/monorepo/"
-set -a dirs "$HOME/code/edeka/de.git/dev/"
-set -a dirs "$HOME/code/edeka/de.git/dev-mono/"
+set dirs $(find ~/code/bleepbloop/apps ~/code ~/code/trials ~/code/edeka ~/code/tally -mindepth 1 -maxdepth 1 -type d)
 
 string split " " $dirs | gum filter
