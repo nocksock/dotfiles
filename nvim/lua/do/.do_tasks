@@ -1,0 +1,10 @@
+make things work again
+add option to determine whether to create task file
+add option for the file_name
+add option to disable kaomojis
+use custom highlight groups
+handle :cd :tcd and such
+write basic readme
+write basic docs (generate from md)
+tests with plenary
+idea: adapter to sync with other sources (eg. get tasks from things)
