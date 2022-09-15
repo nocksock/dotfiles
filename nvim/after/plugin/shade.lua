@@ -1,9 +1,0 @@
--- R'shade'.setup({
---   overlay_opacity = 50,
---   opacity_step = 3,
---   keys = {
---     brightness_up    = '<Leader>usk',
---     brightness_down  = '<Leader>usj',
---     toggle           = '<Leader>ts',
---   }
--- })

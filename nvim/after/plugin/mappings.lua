@@ -35,50 +35,40 @@ local st = ":lua require('snock.telescope')"
 map('n', '<leader><space>', st .. ".buffers()<cr>", { desc = '[ ] Find existing buffers' })
 map('n', '<leader><cr>', st .. ".resume()<cr>", { desc = '[] resume previous search' })
 map('n', '<leader>T', st .. ".builtin()<cr>", { desc = 'builtin [T]elescope commands' })
-map('n', '<leader>rf', ":lua require('snock.refactoring').select_refactor()<CR>")
-
+map('n', '<M-p>', st .. ".search_in(nil)<cr>", s('[f]iles'))
 map('n', '<leader>sC', st .. ".colorscheme({ enable_preview = true })<cr>", s("[C]olors"))
+
 map('n', '<leader>sf', st .. ".search_in(nil)<cr>", s('[f]iles'))
 map('n', '<leader>sdf', st .. ".search_in(vim.fn.getenv('DOTDIR'))<cr>", s('[d]ot[f]iles'))
 map('n', '<leader>sr', st .. ".oldfiles()<cr>", s('[r]ecently opened files'))
 map('n', '<leader>sR', st .. ".reloader()<cr>", s('[R]eload lua packages'))
 map('n', '<leader>sh', st .. ".help_tags()<cr>", s('[h]elp'))
 map('n', '<leader>sk', st .. ".keymaps()<cr>", s('[k]eymaps'))
-map('n', '<leader>sl', st .. ".loclist()<cr>", s('[l]oclist'))
 map('n', '<leader>sc', st .. ".commands()<cr>", s('[c]ommands'))
 map('n', '<leader>sw', st .. ".grep_string()<cr>", s('current [w]ord'))
 map('n', '<leader>sg', st .. ".live_grep()<cr>", s('by [g]rep'))
-map('n', '<leader>gb', st .. ".git_branches()<cr>")
+map('n', '<leader>sb', st .. ".git_branches()<cr>")
 map('n', '<leader>/', st .. '.current_buffer_fuzzy_find()<cr>', { desc = '[/] Fuzzily search in current buffer' })
 map('n', '<leader>sp', ":lua R('search-plugins').search()<cr>", s('[p]lugins'))
-map('n', '<M-p>', st .. ".search_in(nil)<cr>", s('[f]iles'))
-map('n', '<M-P>', st .. ".commands()<cr>", s('[c]ommands'))
-map('n', '<C-0>', ':lua require("snock.filetree").find_file()<CR>')
+map('n', '<M-C-P>', st .. ".commands()<cr>", s('[c]ommands'))
 --}}}
 -- Buffer {{{
 map('n', '<leader>bd', ':b#|bd#<cr>', b("[D]elete    , keep layout"))
 map('n', '<leader>bD', ':bd', b("[D]elete"))
 map('n', '<leader>bO', ':%bd|e#<cr>', b("[O]nly"))
-map('n', '<leader>1', ':LualineBuffersJump 1<cr>', b("#1"))
-map('n', '<leader>2', ':LualineBuffersJump 2<cr>', b("#2"))
-map('n', '<leader>3', ':LualineBuffersJump 3<cr>', b("#3"))
-map('n', '<leader>4', ':LualineBuffersJump 4<cr>', b("#4"))
-map('n', '<leader>5', ':LualineBuffersJump 5<cr>', b("#5"))
-map('n', '<leader>6', ':LualineBuffersJump 6<cr>', b("#6"))
-map('n', '<leader>7', ':LualineBuffersJump 7<cr>', b("#7"))
-map('n', '<leader>8', ':LualineBuffersJump 8<cr>', b("#8"))
-map('n', '<leader>9', ':LualineBuffersJump 9<cr>', b("#9"))
 --}}}
 -- Terminal {{{
 map('n', '<F12>', ':Ts<CR>i')
+map('n', '<M-j>', ':Ts<CR>i')
 map('t', '<F12>', [[<C-\><C-n>:T<CR>]])
+map('t', '<M-j>', [[<C-\><C-n>:T<CR>]])
 
 -- better terminal exits
 map('t', '<c-[>', '<C-\\><C-n>')
 map('t', '<Esc>', '<C-\\><C-n>')
 -- }}}
 -- Debugging{{{
-map('n', '<leader>db', ':DapToggleBreakpoint<cr>', t('toggle [b]reakpoint'))
+map('n', '<leader>db', ':DapToggleBreakpoint<cr>', d('toggle [b]reakpoint'))
 map('n', '<leader>du', ':lua require("dapui").toggle()<cr>', d("toggle [u]i"))
 map('n', '<leader>dc', ':DapContinue<cr>', d("[c]ontinue"))
 map('n', '<leader>di', ':DapStepInto<cr>', d("step [i]nto"))
@@ -148,9 +138,10 @@ map('n', '<leader>te', ':NnnExplorer<cr>', t('[e]xplorer (nnn)'))
 map('n', '<leader>tE', ':NnnExplorer %:p:h<cr>', t('[E]xplorer in buffer folder (nnn)'))
 map('n', '_', ':NnnPicker %:p:h<cr>')
 map('n', '<leader>tt', ':lua require("snock.filetree").toggle()<CR>', { desc = "[t]ree [t]oggle" })
+map('n', '<M-b>', ':lua require("snock.filetree").toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tl', ':lua require("lsp_lines").toggle()<cr>', { desc = "[t]oggle [l]sp lines" })
 map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
-map('n', '<leader>to', ':AerialToggle<cr>', { desc = "[t]oggle [o]utline" })
+map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
 --}}}
 -- Misc convenience {{{
 -- more undo stops in insert mode {{{

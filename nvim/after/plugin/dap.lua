@@ -3,24 +3,29 @@ local dapui = require('dapui')
 
 -- DAPUI listeners
 dap.listeners.after.event_initialized["dapui_config"] = function()
-	dapui.open()
+  dapui.open()
 end
 
 dap.listeners.before.event_terminated["dapui_config"] = function()
-	dapui.close()
+  dapui.close()
 end
 
 dap.listeners.before.event_exited["dapui_config"] = function()
-	dapui.close()
+  dapui.close()
 end
 
+-- dap.adapters.delve = {
+--   type = 'server',
+--   port = '${port}',
+--   executable = {
+--     command = 'dlv',
+--     args = {'dap', '-l', '127.0.0.1:${port}'},
+--   }
+-- }
 dap.adapters.delve = {
-  type = 'server',
-  port = '${port}',
-  executable = {
-    command = 'dlv',
-    args = {'dap', '-l', '127.0.0.1:${port}'},
-  }
+  type = "server",
+  host = "127.0.0.1",
+  port = 38697,
 }
 
 -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
@@ -33,7 +38,7 @@ dap.configurations.go = {
   },
   {
     type = "delve",
-    name = "Debug test", 
+    name = "Debug test",
     request = "launch",
     mode = "test",
     program = "${file}"
@@ -44,7 +49,7 @@ dap.configurations.go = {
     request = "launch",
     mode = "test",
     program = "./${relativeFileDirname}"
-  } 
+  }
 }
 
 require('dap-go').setup {}

@@ -1,9 +1,10 @@
 -- imports {{{
-require("lsp_lines").setup()
 require("fidget").setup {}
 require('goto-preview').setup {}
 require("trouble").setup {}
 require("lsp_signature").setup {}
+require("symbols-outline").setup {}
+
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
@@ -23,8 +24,7 @@ saga.init_lsp_saga({
 })
 -- }}}
 
-local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit',
-  'bashls' }
+local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit', 'bashls' }
 local null_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -92,6 +92,10 @@ local on_attach = function(client, bufnr)
   cmd('LspSignatureHelp', vim.lsp.buf.signature_help)
   --}}}
   -- mappings {{{
+  nmap('<M-r>', builtin.lsp_document_symbols, '[s]search document [s]ymbols')
+  nmap('<M-.>', ':Lspsaga code_action<cr>', 'Code Action (vscodey)')
+  nmap('<F2>', vim.lsp.buf.rename, '[R]e[n]ame')
+
   nmap('<leader>.', ':Lspsaga code_action<cr>', 'Code Action (vscodey)')
   nmap('<leader>e', vim.diagnostic.open_float)
   nmap('<leader>q', vim.diagnostic.setloclist)
@@ -222,18 +226,4 @@ null_ls.setup({
 }) --}}}
 
 
-vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
-
-require("aerial").setup({
-  on_attach = function(bufnr)
-    -- Toggle the aerial window with <leader>a
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
-    -- Jump forwards/backwards with '{' and '}'
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
-    -- Jump up the tree with '[[' or ']]'
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
-  end
-})
 -- vi: fen fdl=0

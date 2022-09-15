@@ -33,3 +33,4 @@ end, { bang = true })
 create("LazyGit", function()
   R('snock.utils').open_float_term("lazygit", {})
 end, { nargs = "?" })
+

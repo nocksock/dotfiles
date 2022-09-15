@@ -35,25 +35,26 @@ require('packer').startup({ function(use)
   use('https://github.com/theprimeagen/refactoring.nvim') -- Treesitter powered refactorings
   use('https://github.com/ThePrimeagen/harpoon') -- navigating to important files and commands at ludicrous speed
   use('https://github.com/godlygeek/tabular') -- align text at character. More powerful than :!column
-
-  -- use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
+  use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
+  use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
   use("https://github.com/kylechui/nvim-surround") -- replacement of vim-surround with some neat features like `dsf` powered by TreeSitter
   -- }}}
   -- telescope  {{{
   use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
   use('https://github.com/nvim-telescope/telescope-symbols.nvim') -- emoji/symbol picker
   use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
-  use('https://github.com/nvim-telescope/telescope-frecency.nvim')
+  use('https://github.com/nvim-telescope/telescope-frecency.nvim') --
   -- }}}
   -- lsp stuff {{{
   use('https://github.com/williamboman/nvim-lsp-installer')
-  -- use('https://github.com/williamboman/mason.nvim') -- package manager
+  -- use('https://github.com/williamboman/mason.nvim') -- TODO: use mason
   use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
   use('https://github.com/jose-elias-alvarez/null-ls.nvim') -- use neovim as ls server to inject code-actions and mor via lua
   use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
   use('https://github.com/folke/trouble.nvim') -- pretty list for LSP diagnostics
   use('https://github.com/ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
   use("https://github.com/glepnir/lspsaga.nvim")
+  use('https://github.com/rmagatti/goto-preview') -- open gotos in floating windows
   -- }}}
   -- treesitter {{{
   use('https://github.com/nvim-treesitter/nvim-treesitter') -- simple API for treesitter for configuration and interactions
@@ -84,35 +85,27 @@ require('packer').startup({ function(use)
   use('https://github.com/leoluz/nvim-dap-go') -- DAP Adapter for Go
   -- }}}
   -- UI {{{
+  use('https://github.com/kyazdani42/nvim-web-devicons') -- bunch of icons for web development
   use('https://github.com/folke/zen-mode.nvim') -- distraction free writing and some other nice things
   use('https://github.com/folke/twilight.nvim') -- highlight only portion of text
-  use('https://github.com/rmagatti/goto-preview') -- open gotos in floating windows
   use('https://github.com/folke/which-key.nvim') -- show possible keys when nvim is waiting for a key press
   use('https://github.com/nvim-lualine/lualine.nvim') -- easy to configure and extend statusline (+tabline, +windowline)
-  use('https://github.com/kyazdani42/nvim-web-devicons') -- bunch of icons for web development
-  use('https://github.com/Maan2003/lsp_lines.nvim') -- better display for inline diagnostic errors
   use('https://github.com/j-hui/fidget.nvim') -- ui for nvm-lsp progress
-  use('https://github.com/kyazdani42/nvim-tree.lua') -- filetree when when :Lex or vinegar is not enough
   use('https://github.com/nvim-treesitter/nvim-treesitter-context') -- sticky header
-  -- use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
-  use('https://github.com/stevearc/aerial.nvim') -- alternative to symbols-outline.nvim
   use('https://github.com/folke/todo-comments.nvim') -- easy configurable todo search in comment with support for Trouble
   use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
-  use('https://github.com/sunjon/Shade.nvim') -- dim inactive windows
+  use('https://github.com/kyazdani42/nvim-tree.lua') -- filetree when when :Lex or vinegar is not enough
+  use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
   -- }}}
   -- themes {{{
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
   use('https://github.com/folke/tokyonight.nvim')
-  use('~/code/bloop.nvim') -- 
-  use('~/code/nazgul-vim') -- minimal hard contrast theme
-  use('~/code/ghash.nvim') -- dark retro theme all in red
+  use('~/code/bloop.nvim')
   -- }}}
   -- beyond coding {{{
   use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim, works great with Obsidian
   use('https://github.com/jbyuki/instant.nvim') -- collaborative editing in nvim
   use('https://github.com/rest-nvim/rest.nvim') -- REST client
-  use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
-  use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
   use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
   use('https://github.com/metakirby5/codi.vim') -- repl/scratchpad
   -- }}}
@@ -167,6 +160,7 @@ vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.clipboard = 'unnamed'
 vim.o.fillchars = 'eob:⸱'
+vim.o.cmdheight = 0 -- hide command line (testing)
 vim.o.showtabline = 1
 vim.o.hidden = true -- makes it possible to leave a buffer if it has unsaved changes. `gd` etc fail horribly in those cases.
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
@@ -239,8 +233,7 @@ vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-c
 local group = vim.api.nvim_create_augroup('snock', { clear = true })
 
 vim.diagnostic.config({
-  virtual_text = false,
-  virtual_lines = false
+  virtual_text = true,
 })
 --}}}
 -- global auto commands {{{
@@ -304,4 +297,5 @@ vim.api.nvim_create_autocmd('TextYankPost', { --{{{
 }) --}}}
 -- }}}
 
+require("do").setup({})
 -- vim: fen fdm=marker fdl=0 nowrap nolinebreak
