@@ -28,6 +28,7 @@ local default_opts = {
 
   ---@class TaskStoreOptions
   store = {
+    auto_create_file = false,
     file_name = ".do_tasks",
   }
 }
@@ -47,17 +48,25 @@ function M.view()
   local ok, display = pcall(function()
     local count = state.tasks:count()
     local display = ""
+    local aligned = false
 
     if state.message then
       return state.message
     end
 
-    if count ~= 0 then
-      display = "%#TablineSel# Doing: " .. state.tasks:current()
+    if count == 0 then
+      return ""
     end
+
+    display = "%#TablineSel# Doing: " .. state.tasks:current()
 
     if count > 1 then
       display = display .. "%=+" .. (count - 1 ) .. " more "
+      aligned = true
+    end
+
+    if not state.tasks.state.file then
+      display = display .. (aligned and "" or "%=") .."(:DoSave)"
     end
 
     return display
@@ -138,14 +147,12 @@ _G.DoStatusline = M.view
 
 ---@param opts DoOptions
 M.setup = function(opts)
-  state.options = vim.tbl_deep_extend("keep", default_opts, opts or {})
+  state.options = vim.tbl_deep_extend("force", default_opts, opts or {})
   state.tasks = R("do.store").init(state.options.store)
 
   if state.options.use_winbar then
     vim.o.winbar = "%!v:lua.DoStatusline()"
   end
 end
-
-M.setup({})
 
 return M

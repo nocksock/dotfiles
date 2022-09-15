@@ -4,44 +4,61 @@
 local M = {}
 
 ---@class TaskStoreState
----@field tasks string[]
 local default_state = {
   options = {},
+  ---@type nil | string
   file = nil,
   ---@alias Tasks string[]
   tasks = {}
 }
 
----comment
 ---@param options TaskStoreOptions
-local function get_file(options)
-  local f = vim.fn.findfile(options.file_name, ".;")
-  return f
-end
-
-local function read_file(file)
-  local is_readable = vim.fn.filereadable(file) == 1
-  assert(is_readable, string.format("file not %s readable", file))
-  return vim.fn.readfile(file)
-end
-
----@param options any
 local function create_file(options)
   local f = io.open(options.file_name, "w")
   assert(f, "couldn't create " .. options.file_name)
   f:write("")
   f:close()
-  return get_file(options)
+  return options.file_name
+end
+
+---comment
+---@param options TaskStoreOptions
+---@param force? boolean force creation of file
+local function get_file(options, force)
+  local file = vim.fn.findfile(options.file_name, ".;")
+
+  if file == "" and force then
+    file = create_file(options)
+  end
+
+  if file == "" then
+    return nil
+  end
+
+  local is_readable = vim.fn.filereadable(file) == 1
+  assert(is_readable, string.format("file not %s readable", file))
+
+  return file
+end
+
+---@param options TaskStoreOptions
+local function read_file(options)
+  local file = get_file(options)
+
+  if not file then
+    return {}
+  end
+
+  return vim.fn.readfile(file)
 end
 
 function M:save(force)
-  if not self.state.file and force then
-    self.state.file = create_file(self.state.file)
+  if not self.state.file and (force or self.state.options.auto_create_file) then
+    self.state.file = get_file(self.state.options, true)
     assert(self.state.file, "file not set despite saving")
   end
 
   if not self.state.file then
-    print("not saving")
     return
   end
 
@@ -91,13 +108,10 @@ end
 ---initialize task store
 ---@return TaskStore
 M.init = function(options)
-  local file = get_file(options)
-
   ---@type TaskStoreState
   local state = {
-    file = file,
     options = options,
-    tasks = file and read_file(file) or {}
+    tasks = read_file(options) or {}
   }
 
   local o = {
