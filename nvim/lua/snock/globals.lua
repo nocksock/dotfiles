@@ -1,29 +1,75 @@
-local utils = {}
+_G.snock = {}
 
-function utils.maybe_call(fn, ...)
-  if fn then
-    fn(...)
+-- global auto commands {{{
+local group = vim.api.nvim_create_augroup('snock', { clear = true })
+vim.api.nvim_create_autocmd('BufAdd', { --{{{
+  callback = function()
+    -- lazy load lsp and git
+    -- require("snock.lsp")
+    -- require("snock.git")
+    -- require("snock.completion")
+  end,
+  group = group,
+}) --}}}
+vim.api.nvim_create_autocmd('insertenter', { --{{{
+  callback = function()
+    if vim.o.nu then
+      vim.o.rnu = false
+    end
+    vim.o.list = true
+  end,
+  group = group,
+}) --}}}
+vim.api.nvim_create_autocmd('TermOpen', { --{{{
+  callback = function()
+    vim.bo.filetype = "terminal"
+    vim.keymap.set('n', '<C-c>', 'i<C-c>', { buffer = true })
+  end,
+  group = group
+}) --}}}
+vim.api.nvim_create_autocmd('insertleave', { --{{{
+  callback = function()
+    if vim.o.nu then
+      vim.o.rnu = true
+    end
+    vim.o.list = false
+  end,
+  group = group,
+}) --}}}
+vim.api.nvim_create_autocmd('TextYankPost', { --{{{
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = group,
+  pattern = '*',
+}) --}}}
+-- }}}
+
+function snock.maybe_call(f, ...)
+  if f then
+    f(...)
   end
 end
-function utils.cycle(values, value) --{{{
-  local next_val_idx = ((utils.index_of(values, value)) % #values) + 1
+
+function snock.cycle(values, value) --{{{
+  local next_val_idx = ((snock.index_of(values, value)) % #values) + 1
   return values[next_val_idx]
 end --}}}
-function utils.default(val, default)--{{{
+function snock.default(val, default)--{{{
   if val == "" or val == nil then
     return default
   end
 
   return val
 end--}}}
-function utils.index_of(tbl, value) --{{{
+function snock.index_of(tbl, value) --{{{
   for idx, tval in ipairs(tbl) do
     if value == tval then
       return idx
     end
   end
 end --}}}
-function utils.is_visible(bufnr) --{{{
+function snock.is_visible(bufnr) --{{{
   local wins = vim.api.nvim_tabpage_list_wins(0)
   for _, handle in ipairs(wins) do
     if vim.api.nvim_win_get_buf(handle) == bufnr then
@@ -32,7 +78,7 @@ function utils.is_visible(bufnr) --{{{
   end
   return false, nil
 end --}}}
-function utils.invert(fn) --{{{
+function snock.invert(fn) --{{{
   return function(...)
     return not fn(...)
   end
@@ -40,7 +86,7 @@ end --}}}
 
 -- buffer helper:
 
-function utils.open_float_buf(bufnr) --{{{
+function snock.open_float_buf(bufnr) --{{{
   local padding = {
     x = 8,
     y = 4,
@@ -66,7 +112,7 @@ function utils.open_float_buf(bufnr) --{{{
     window = win
   }
 end --}}}
-function utils.create_term_buf(win, buf, cmd, opts) --{{{
+function snock.create_term_buf(win, buf, cmd, opts) --{{{
   if opts == nil then opts = {} end
 
   local function on_exit()
@@ -86,7 +132,7 @@ end --}}}
 
 -- term helper:
 
-function utils.open_term_split(cmd, opts) --{{{
+function snock.open_term_split(cmd, opts) --{{{
   local buf = opts.buffer or vim.api.nvim_create_buf(true, true)
 
   vim.cmd(opts.type or "split")
@@ -98,19 +144,17 @@ function utils.open_term_split(cmd, opts) --{{{
     return win
   end
 
-  return utils.create_term_buf(win, buf, cmd, opts)
+  return snock.create_term_buf(win, buf, cmd, opts)
 end --}}}
-function utils.open_term_float(cmd, opts) --{{{
+function snock.open_term_float(cmd, opts) --{{{
   local buf = opts.buffer or vim.api.nvim_create_buf(not not opts.listed, true)
-  local win = utils.open_float_buf(buf)
+  local win = snock.open_float_buf(buf)
 
   if vim.fn.getbufvar(buf, "&buftype") == "terminal" then
     return win
   end
 
-  return utils.create_term_buf(win, buf, cmd, opts)
+  return snock.create_term_buf(win, buf, cmd, opts)
 end --}}}
-
-return utils
 
 -- vim: fen fdm=marker fdl=0

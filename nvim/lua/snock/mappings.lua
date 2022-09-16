@@ -30,7 +30,7 @@ map('n', '<M-j>', ']d')
 map('n', '<M-k>', '[d')
 --}}}
 -- Telescope and file finding {{{
-local st = ":lua require('snock.telescope')"
+local st = ":lua require('snock.plugins.telescope')"
 
 map('n', '<leader><space>', st .. ".buffers()<cr>", { desc = '[ ] Find existing buffers' })
 map('n', '<leader><cr>', st .. ".resume()<cr>", { desc = '[] resume previous search' })
@@ -139,7 +139,6 @@ map('n', '<leader>tE', ':NnnExplorer %:p:h<cr>', t('[E]xplorer in buffer folder 
 map('n', '_', ':NnnPicker %:p:h<cr>')
 map('n', '<leader>tt', ':lua require("snock.filetree").toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<M-b>', ':lua require("snock.filetree").toggle()<CR>', { desc = "[t]ree [t]oggle" })
-map('n', '<leader>tl', ':lua require("lsp_lines").toggle()<cr>', { desc = "[t]oggle [l]sp lines" })
 map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
 map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
 --}}}

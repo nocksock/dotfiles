@@ -1,4 +1,4 @@
-" setlocal textwidth=80
+setlocal textwidth=80
 setlocal fo+=t " auto wrap at text width
 setlocal wrap
 setlocal linebreak

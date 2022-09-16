@@ -2,7 +2,6 @@ local telescope = require('telescope')
 
 telescope.load_extension('fzf')
 telescope.load_extension('refactoring')
-telescope.load_extension("frecency")
 
 telescope.setup({
   defaults = {

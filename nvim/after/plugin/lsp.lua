@@ -1,5 +1,4 @@
 -- imports {{{
-require("fidget").setup {}
 require('goto-preview').setup {}
 require("trouble").setup {}
 require("lsp_signature").setup {}
@@ -92,11 +91,10 @@ local on_attach = function(client, bufnr)
   cmd('LspSignatureHelp', vim.lsp.buf.signature_help)
   --}}}
   -- mappings {{{
-  nmap('<M-r>', builtin.lsp_document_symbols, '[s]search document [s]ymbols')
+  nmap('<M-r>', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
   nmap('<M-.>', ':Lspsaga code_action<cr>', 'Code Action (vscodey)')
-  nmap('<F2>', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('<F2>', vim.lsp.buf.rename, 'rename symbol under cursor')
 
-  nmap('<leader>.', ':Lspsaga code_action<cr>', 'Code Action (vscodey)')
   nmap('<leader>e', vim.diagnostic.open_float)
   nmap('<leader>q', vim.diagnostic.setloclist)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
@@ -105,8 +103,6 @@ local on_attach = function(client, bufnr)
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wl', list_workspace_folders, '[W]orkspace [L]ist Folders')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>sS', builtin.lsp_document_symbols, '[s]search document [s]ymbols')
-  nmap('<leader>ss', builtin.lsp_dynamic_workspace_symbols, '[s]search workspace [S]ymbols')
   nmap('gr', '<cmd>Lspsaga lsp_finder<cr>')
   nmap('gd', vim.lsp.buf.definition, '[g]oto [d]efinition')
   nmap('gD', vim.lsp.buf.declaration, '[g]oto [D]eclaration')
@@ -224,6 +220,5 @@ null_ls.setup({
     end
   end,
 }) --}}}
-
 
 -- vi: fen fdl=0

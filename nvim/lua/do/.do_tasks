@@ -1,7 +1,0 @@
-show indicator when not persisting tasks
-handle :cd :tcd and such
-write basic readme
-write basic docs (generate from md)
-tests with plenary
-add option to disable kaomojis
-use custom highlight groups
