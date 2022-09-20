@@ -16,7 +16,7 @@
   "eslint.alwaysShowStatus": true,
   "explorer.autoReveal": false,
   "editor.matchBrackets": "near",
-  "editor.fontSize": 16,
+  "editor.fontSize": 14,
   "editor.suggestSelection": "recentlyUsedByPrefix",
   "workbench.sideBar.location": "right",
   "javascript.updateImportsOnFileMove.enabled": "always",
@@ -246,7 +246,7 @@
   },
   "terminal.external.osxExec": "kitty.app",
   "extensions.ignoreRecommendations": false,
-  "workbench.colorTheme": "poimandres",
+  "workbench.colorTheme": "Tokyo Night",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.foldingImportsByDefault": true
@@ -258,7 +258,10 @@
   },
   "typescript.tsserver.experimental.enableProjectDiagnostics": true,
   "editor.fontFamily": "JetBrains Mono",
-  "workbench.activityBar.visible": false,
   "vim.foldfix": true,
   "vim.operatorPendingModeKeyBindings": [],
+  "editor.minimap.enabled": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+  "workbench.activityBar.visible": false,
 }
