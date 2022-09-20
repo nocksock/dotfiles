@@ -125,6 +125,7 @@ _G.packer_plugins = {
     url = "https://github.com/mattn/emmet-vim"
   },
   ["fidget.nvim"] = {
+    config = { "\27LJ\2\n8\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\vfidget\frequire\0" },
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/fidget.nvim",
     url = "https://github.com/j-hui/fidget.nvim"
@@ -139,17 +140,13 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/goto-preview",
     url = "https://github.com/rmagatti/goto-preview"
   },
-  harpoon = {
-    loaded = true,
-    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/harpoon",
-    url = "https://github.com/ThePrimeagen/harpoon"
-  },
   ["local-bloop.nvim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/local-bloop.nvim",
     url = "/Users/nilsriedemann/code/personal/bloop.nvim"
   },
   ["local-do.nvim"] = {
+    config = { "\27LJ\2\n4\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ado\frequire\0" },
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/local-do.nvim",
     url = "/Users/nilsriedemann/code/personal/do.nvim"
@@ -159,12 +156,18 @@ _G.packer_plugins = {
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/local-ghash.nvim",
     url = "/Users/nilsriedemann/code/personal/ghash.nvim"
   },
+  ["local-harpoon"] = {
+    loaded = true,
+    path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/local-harpoon",
+    url = "/Users/nilsriedemann/code/forks/harpoon"
+  },
   ["local-nazgul-vim"] = {
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/local-nazgul-vim",
     url = "/Users/nilsriedemann/code/personal/nazgul-vim"
   },
   ["local-t.nvim"] = {
+    config = { "\27LJ\2\n3\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\6t\frequire\0" },
     loaded = true,
     path = "/Users/nilsriedemann/.local/share/nvim/site/pack/packer/start/local-t.nvim",
     url = "/Users/nilsriedemann/code/personal/t.nvim"
@@ -392,6 +395,18 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: local-do.nvim
+time([[Config for local-do.nvim]], true)
+try_loadstring("\27LJ\2\n4\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ado\frequire\0", "config", "local-do.nvim")
+time([[Config for local-do.nvim]], false)
+-- Config for: local-t.nvim
+time([[Config for local-t.nvim]], true)
+try_loadstring("\27LJ\2\n3\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\6t\frequire\0", "config", "local-t.nvim")
+time([[Config for local-t.nvim]], false)
+-- Config for: fidget.nvim
+time([[Config for fidget.nvim]], true)
+try_loadstring("\27LJ\2\n8\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\vfidget\frequire\0", "config", "fidget.nvim")
+time([[Config for fidget.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
