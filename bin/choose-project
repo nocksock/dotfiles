@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
 
-set dirs $(find ~/code/bleepbloop/apps ~/code ~/code/trials ~/code/edeka ~/code/tally -mindepth 1 -maxdepth 1 -type d)
+set dirs $(find ~/code/bleepbloop/apps ~/code/clients ~/code/clients/edeka ~/code/personal ~/code/trials ~/code/forks -mindepth 1 -maxdepth 1 -type d)
 
-string split " " $dirs | gum filter
+string split " " $dirs | fzf
