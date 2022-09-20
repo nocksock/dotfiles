@@ -70,7 +70,7 @@ alias oo='open .'
 alias q='cd ~ && clear'
 
 function take() {
-	mkdir $1
+	mkdir -p $1
 	cd $1
 }
 
