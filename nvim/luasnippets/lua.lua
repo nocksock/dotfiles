@@ -81,6 +81,29 @@ return {
   s(
     'fn',
     c(1, {
+      fmt([[
+        function {}({}) 
+          {} 
+        end
+      ]], { i(1), r(2, "body"), i(3) }),
+      fmt([[
+        local {} = function({}) 
+          {} 
+        end
+      ]], { i(1), r(2, "body"), i(3) }),
+      fmt(
+        [[
+					local function{}({})
+						{}
+					end
+					]]  ,
+        { i(1), r(2, "body"), i(3) }
+      ),
+    })
+  ),
+  s(
+    'cb',
+    c(1, {
       fmt('function{}({}) {} end', { i(1), r(2, "body"), i(3) }),
       fmt(
         [[
@@ -91,16 +114,5 @@ return {
         { i(1), r(2, "body"), i(3) }
       ),
     })
-  ),
-  s(
-    'lf',
-    fmt(
-      [[
-					local function {}({})
-						{}
-					end
-				]] ,
-      { i(1), i(2), i(0) }
-    )
   ),
 }
