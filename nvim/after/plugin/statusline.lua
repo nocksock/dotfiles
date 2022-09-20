@@ -65,6 +65,8 @@ require('lualine').setup {
   winbar = {
     lualine_a = { require("do").view },
   },
-  inactive_winbar = {},
+  inactive_winbar = {
+    lualine_a = { require("do").view_inactive }
+  },
   extensions = {},
 }
