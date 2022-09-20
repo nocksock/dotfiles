@@ -121,7 +121,7 @@ setopt    incappendhistory  # Immediately append to the history file, not just w
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export NNN_BMS="c:$HOME/.config/;f:$HOME/forks;p:$HOME/projects/;b:$HOME/projects/bleepbloop.studio/;e:$HOME/projects/edeka-de/"
+export NNN_BMS="c:$HOME/code/;d:$HOME/code/dotfiles;n:$HOME/code/dotfiles/nvim/;b:$HOME/code/bleepbloop.studio/"
 export NNN_FCOLORS='00001e310000000000000000'
 export NNN_PLUG='o:!open $nnn;p:preview-tui;v:viu;x:!chmod +x $nnn'
 export NNN_FIFO=/tmp/nnn.fifo
