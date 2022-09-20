@@ -4,3 +4,4 @@
 .vim/plugged
 /.vim/.netrwbook
 /.config/nvim/plugin/packer_compiled.lua
+scratch
