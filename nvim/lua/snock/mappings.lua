@@ -49,7 +49,7 @@ map('n', '<leader>sw', st .. ".grep_string()<cr>", s('current [w]ord'))
 map('n', '<leader>sg', st .. ".live_grep()<cr>", s('by [g]rep'))
 map('n', '<leader>sb', st .. ".git_branches()<cr>")
 map('n', '<leader>/', st .. '.current_buffer_fuzzy_find()<cr>', { desc = '[/] Fuzzily search in current buffer' })
-map('n', '<leader>sp', ":lua R('search-plugins').search()<cr>", s('[p]lugins'))
+map('n', '<leader>sp', ":lua R('snock.plugins.search-plugins').search()<cr>", s('[p]lugins'))
 map('n', '<M-C-P>', st .. ".commands()<cr>", s('[c]ommands'))
 --}}}
 -- Buffer {{{
@@ -157,7 +157,7 @@ map('n', '<leader>id', '<Plug>:LspDiagLine<cr>')
 --}}}
 
 -- when moving more than 5 lines , then make a jump , to be able to revert via c-o
-map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'gj']], { expr = true }) 
+map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'gj']], { expr = true })
 map('n', 'k', [[(v:count > 5 ? "m'" . v:count : "") . 'gk']], { expr = true })
 
 map('n', '<leader>sns', ':source ~/.config/nvim/plugin/completion.lua<cr>', { desc = "[sn]ippet [s]ource" })
@@ -166,7 +166,11 @@ map('n', '<leader>M', '<cmd>Messages<cr>', { desc = "[M]essages" })
 map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[cl]ear display" })
 map({ 'i', 'n' }, '<M-s>', '<cmd>:w<cr>')
-map('n', 'z0', 'zMzvzz') 
+map('n', 'z0', 'zMzvzz')
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+map('n', "<C-d>", "<C-d>zz")
+map('n', "<C-u>", "<C-u>zz")
 
 map('n', '<leader>cp', ':LspFormatting<cr>')
 map('n', '<leader>.', ':Lspsaga code_action<cr>')
@@ -174,11 +178,12 @@ map('n', '<leader>.', ':Lspsaga code_action<cr>')
 map('n', 'gV', '`[v`]') -- visual select last inserted text)
 
 map('n', '<leader>gc', ':normal yygccp<cr>')
-map('n', '<leader>gC', ':normal yygccP<cr>')
+-- map('n', '<leader>gC', ':normal yygccP<cr>')
+map('n', '<leader>gC', ':normal yipgcipP<cr>')
 
 -- move text around
-map('v', '<C-k>', ":m '<-2<CR>gv=gv")
-map('v', '<C-j>', ":m '>+1<CR>gv=gv")
+map('v', 'K', ":m '<-2<CR>gv=gv")
+map('v', 'J', ":m '>+1<CR>gv=gv")
 
 -- type %% in vim's prompt to insert %:h expanded
 vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])
