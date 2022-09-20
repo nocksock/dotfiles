@@ -26,7 +26,11 @@ require('packer').startup({ function(use)
   use('https://github.com/mattn/emmet-vim') -- div.emmet>p.is{awesome}
   use('https://github.com/tpope/vim-scriptease') -- helper commands useful when writing vim scripts etc
   use('https://github.com/theprimeagen/refactoring.nvim') -- Treesitter powered refactorings
-  use('https://github.com/ThePrimeagen/harpoon') -- navigating to important files and commands at ludicrous speed
+  -- navigating to important files and commands at ludicrous speed
+  use_local({
+    'ThePrimeagen/harpoon',
+    local_path = 'forks',
+  })
   use('https://github.com/godlygeek/tabular') -- align text at character. More powerful than :!column
 
   -- use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
