@@ -1,1 +1,5 @@
-require('harpoon').setup({ enter_on_sendcmd = true, })
+require('harpoon').setup({
+  global_settings = {
+    enter_on_sendcmd = true
+  }
+})
