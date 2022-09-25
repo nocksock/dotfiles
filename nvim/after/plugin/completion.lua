@@ -4,12 +4,9 @@
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
-if not cmp then
-  print("ERR: cmp not found")
-  return;
-end
+vim.api.nvim_create_user_command("SnippetEdit", function() require('luasnip.loaders.from_lua').edit_snippet_files() end, {})
+vim.api.nvim_create_user_command("SnippetReload", function() require('luasnip.loaders.from_lua').lazy_load() end, {})
 
-require('luasnip.loaders.from_lua').lazy_load({}) -- load filetype based snippets from snippet folder
 
 vim.keymap.set({ 'i', 's' }, '<c-l>', function() --{{{
   if luasnip.expand_or_jumpable() then
@@ -123,3 +120,5 @@ cmp.setup.cmdline(':', {
 		{ name = 'path' },
 	}),
 })
+
+require('luasnip.loaders.from_lua').lazy_load({}) -- load filetype based snippets from snippet folder

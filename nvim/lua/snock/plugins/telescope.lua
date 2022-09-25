@@ -5,6 +5,7 @@ telescope.load_extension('refactoring')
 
 telescope.setup({
   defaults = {
+
     mappings = {
       i = {
         ['<C-E>'] = "insert_symbol",
@@ -20,6 +21,8 @@ telescope.setup({
   pickers = {
     buffers = {
       sort_lastused = true,
+      path_display = { "smart" },
+
       mappings = {
         n = {
           ["dd"] = "delete_buffer"

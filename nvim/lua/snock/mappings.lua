@@ -80,6 +80,16 @@ map('n', '<leader>dl', ':DapRunLast<cr>', d("Run [l]ast"))
 map('n', '<leader>xd', ':Trouble document_diagnostics<CR>', x "show [d]ocument_diagnostics")
 map('n', '<leader>xD', ':Trouble workspace_diagnostics<CR>', x "show workspace_[D]iagnostics")
 map('n', '<leader>xt', ':TodoTrouble<CR>', x "[t]odos")
+map('n', '<leader>k', vim.diagnostic.goto_prev)
+map('n', '<leader>j', vim.diagnostic.goto_next)
+map('n', '<leader>e', vim.diagnostic.open_float)
+map('n', '<leader>q', vim.diagnostic.setloclist)
+map('n', "<leader>K", function()
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end)
+map('n',"<leader>J", function()
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end)
 -- }}}
 
 -- Harpoon {{{
@@ -137,8 +147,7 @@ map('n', '<leader>zN', zettel .. '.new_templated_note()<cr>', z('[N]ew templated
 map('n', '<leader>te', ':NnnExplorer<cr>', t('[e]xplorer (nnn)'))
 map('n', '<leader>tE', ':NnnExplorer %:p:h<cr>', t('[E]xplorer in buffer folder (nnn)'))
 map('n', '_', ':NnnPicker %:p:h<cr>')
-map('n', '<leader>tt', ':lua require("snock.filetree").toggle()<CR>', { desc = "[t]ree [t]oggle" })
-map('n', '<M-b>', ':lua require("snock.filetree").toggle()<CR>', { desc = "[t]ree [t]oggle" })
+map('n', '<M-b>', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
 map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
 --}}}
@@ -172,8 +181,8 @@ map('n', 'N', 'Nzzzv')
 map('n', "<C-d>", "<C-d>zz")
 map('n', "<C-u>", "<C-u>zz")
 
-map('n', '<leader>cp', ':LspFormatting<cr>')
-map('n', '<leader>.', ':Lspsaga code_action<cr>')
+map('n', '<leader>cp', ':Format<cr>')
+map('n', '<leader>.', ':Telescop code_action<cr>')
 
 map('n', 'gV', '`[v`]') -- visual select last inserted text)
 
@@ -182,8 +191,8 @@ map('n', '<leader>gc', ':normal yygccp<cr>')
 map('n', '<leader>gC', ':normal yipgcipP<cr>')
 
 -- move text around
-map('v', 'K', ":m '<-2<CR>gv=gv")
-map('v', 'J', ":m '>+1<CR>gv=gv")
+map('v', '<c-k>', ":m '<-2<CR>gv=gv")
+map('v', '<c-j>', ":m '>+1<CR>gv=gv")
 
 -- type %% in vim's prompt to insert %:h expanded
 vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])

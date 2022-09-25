@@ -1,4 +1,6 @@
--- imports {{{
+-- imports
+require("mason").setup({})
+
 require('goto-preview').setup {}
 require("trouble").setup {}
 require("lsp_signature").setup {}
@@ -7,25 +9,14 @@ require("symbols-outline").setup {}
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
-local util = require('vim.lsp.util')
 local builtin = require('telescope.builtin')
-local saga = require("lspsaga")
+local augroup_lsp = vim.api.nvim_create_augroup("LspFormatting", {})
 
-saga.init_lsp_saga({
-  code_action_lightbulb = {
-    enable = false,
-    enable_in_insert = false,
-    sign = false,
-    update_time = 150,
-    sign_priority = 20,
-    virtual_text = false,
-  }
-})
--- }}}
-
-local servers = { 'clangd', 'terraformls', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'eslint', 'astro', 'sourcekit', 'bashls' }
-local null_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local servers = { 'clangd', 'tsserver', 'sumneko_lua', 'gopls', 'bashls' }
+local manual_servers = { 'tsserver', 'sumneko_lua' }
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+require("mason-lspconfig").setup({ ensure_installed = servers })
 
 -- add rounded borders to vim.lsp.buf.hover and signatureHelp
 local handlers = {
@@ -33,25 +24,13 @@ local handlers = {
   ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 }
 
--- Helper functions {{{
-local map = function(bufnr, mode, lhs, rhs, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {})
-end
-
-local function list_workspace_folders()
-  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-end
-
--- }}}
--- on_attach callback {{{
+-- function on_attach, runs when LSP is connected {{{
 local on_attach = function(client, bufnr)
-  -- local helpers nmap, cmd {{{
   local nmap = function(keys, func, desc)
     if desc then desc = 'LSP: ' .. desc end
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
   local cmd = function(name, func) vim.api.nvim_create_user_command(name, func, {}) end
-  -- }}}
 
   require "lsp_signature".on_attach({
     bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -76,45 +55,46 @@ local on_attach = function(client, bufnr)
     })
   end
   --}}}
-  -- commands {{{
-  cmd('LspDef', vim.lsp.buf.definition)
-  cmd('LspFormatting', vim.lsp.buf.formatting)
-  cmd('LspCodeAction', vim.lsp.buf.code_action)
-  cmd('LspHover', vim.lsp.buf.hover)
-  cmd('LspRename', vim.lsp.buf.rename)
-  cmd('LspRefs', vim.lsp.buf.references)
-  cmd('LspTypeDef', vim.lsp.buf.type_definition)
-  cmd('LspImplementation', vim.lsp.buf.implementation)
-  cmd('LspDiagPrev', vim.diagnostic.goto_prev)
-  cmd('LspDiagNext', vim.diagnostic.goto_next)
-  cmd('LspDiagLine', vim.diagnostic.open_float)
-  cmd('LspSignatureHelp', vim.lsp.buf.signature_help)
-  --}}}
+
+  cmd('Format', function()
+    if vim.lsp.buf.format then
+      vim.lsp.buf.format()
+    elseif vim.lsp.buf.formatting then
+      vim.lsp.buf.formatting()
+    end
+  end)
+
+  cmd('FixAll', function()
+    if vim.lsp.buf.code_action then
+      vim.lsp.buf.code_action({
+        apply = true,
+        filter = function(action)
+          return action.command.command == "eslint.applyAllFixes"
+        end
+      })
+    end
+  end)
+
   -- mappings {{{
   nmap('<M-r>', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
-  nmap('<M-.>', ':Lspsaga code_action<cr>', 'Code Action (vscodey)')
+  nmap('<M-.>', vim.lsp.buf.code_action, 'Code Action (vscodey)')
   nmap('<F2>', vim.lsp.buf.rename, 'rename symbol under cursor')
 
-  nmap('<leader>e', vim.diagnostic.open_float)
-  nmap('<leader>q', vim.diagnostic.setloclist)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
   nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wl', list_workspace_folders, '[W]orkspace [L]ist Folders')
+  nmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+    '[W]orkspace [L]ist Folders')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('gr', '<cmd>Lspsaga lsp_finder<cr>')
+  nmap('gr', require('telescope.builtin').lsp_references)
+
   nmap('gd', vim.lsp.buf.definition, '[g]oto [d]efinition')
   nmap('gD', vim.lsp.buf.declaration, '[g]oto [D]eclaration')
   nmap('gi', vim.lsp.buf.implementation, '[g]oto [i]mplementation')
-  nmap('<leader>k', ':Lspsaga diagnostic_jump_prev<cr>')
-  nmap('<leader>j', ':Lspsaga diagnostic_jump_next<cr>')
-  nmap("<leader>K", function()
-    require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
-  end)
-  nmap("<leader>J", function()
-    require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
-  end)
+
+  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  nmap('<leader>K', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- preview
   nmap('gpd', require('goto-preview').goto_preview_definition)
@@ -123,48 +103,51 @@ local on_attach = function(client, bufnr)
   nmap('gpr', require('goto-preview').goto_preview_references)
   --}}}
 
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<leader>K', vim.lsp.buf.signature_help, 'Signature Documentation')
 end --}}}
--- Base setup {{{
-require('nvim-lsp-installer').setup { ensure_installed = servers, }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    handlers = handlers
-  }
-end
--- }}}
--- TypeScript {{{
-lspconfig.tsserver.setup({
-  on_attach = function(client, bufnr)
-    local ts_utils = require('nvim-lsp-ts-utils')
 
-    ts_utils.setup({})
-    ts_utils.setup_client(client)
+-- do basic setup for installed lsp
+require("mason-lspconfig").setup_handlers({
+  function(server_name) -- default handler (optional)
+    if vim.tbl_contains(manual_servers, server_name) then
+      return -- do not autoconfig these
+    end
 
-    map(bufnr, 'n', 'go', '<cmd>TSLspOrganize<CR>')
-    map(bufnr, 'n', 'gO', '<cmd>TSLspImportAll<CR><cmd>TSLspOrganize<cr>')
-
-    on_attach(client, bufnr)
-
-    client.server_capabilities.document_formatting = false
+    require("lspconfig")[server_name].setup {
+      on_attach = on_attach,
+      capabilities = capabilities,
+      handlers = handlers
+    }
   end,
-  commands = {
-    OrganizeImports = {
-      function()
-        local params = {
-          command = '_typescript.organizeImports',
-          arguments = { vim.api.nvim_buf_get_name(0) },
-          title = '',
-        }
-        vim.lsp.buf.execute_command(params)
-      end,
-      description = 'Organize Imports',
-    },
-  },
-}) --}}}
+})
+
+-- TypeScript {{{
+require("typescript").setup({
+  server = {
+    capabilities = capabilities,
+    handlers = handlers,
+    on_attach = function(client, bufnr)
+      vim.keymap.set('n', 'go', require('typescript').actions.organizeImports, {
+        buffer = bufnr
+      })
+      vim.keymap.set('n', 'fa', ':FixAll<cr>', { buffer = bufnr })
+
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup_lsp,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({
+            bufnr = bufnr,
+            filter = function(lsp_client)
+              P(lsp_client.name)
+                return lsp_client.name == "null-ls"
+            end,
+          })
+        end})
+      on_attach(client, bufnr)
+    end,
+  }
+})
+--}}}
 -- Lua {{{
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
@@ -185,7 +168,7 @@ lspconfig.sumneko_lua.setup({
         path = runtime_path, -- Setup your lua path
       },
       diagnostics = {
-        globals = { 'vim', 'hs' }, -- Get the language server to recognize the `vim` global
+        globals = { 'vim' }, -- Get the language server to recognize the `vim` global
       },
       workspace = {
         library = vim.api.nvim_get_runtime_file('', true), -- Make the server aware of Neovim runtime files
@@ -198,27 +181,13 @@ lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
 }) --}}}
 
--- Null LS {{{
 null_ls.setup({
   sources = {
     null_ls.builtins.formatting.prettier,
   },
   on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = null_augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = null_augroup,
-        buffer = bufnr,
-        callback = function()
-          local params = util.make_formatting_params({})
-          client.request('textDocument/formatting', params, nil, bufnr)
-          -- todo: request code-action autofix autofixable
-        end
-      })
-    else
-      print('no formatting supported')
-    end
+    on_attach(client, bufnr)
   end,
-}) --}}}
+})
 
 -- vi: fen fdl=0

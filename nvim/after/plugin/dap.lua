@@ -3,25 +3,17 @@ local dapui = require('dapui')
 
 -- DAPUI listeners
 dap.listeners.after.event_initialized["dapui_config"] = function()
-  dapui.open()
+  dapui.open({})
 end
 
 dap.listeners.before.event_terminated["dapui_config"] = function()
-  dapui.close()
+  dapui.close({})
 end
 
 dap.listeners.before.event_exited["dapui_config"] = function()
-  dapui.close()
+  dapui.close({})
 end
 
--- dap.adapters.delve = {
---   type = 'server',
---   port = '${port}',
---   executable = {
---     command = 'dlv',
---     args = {'dap', '-l', '127.0.0.1:${port}'},
---   }
--- }
 dap.adapters.delve = {
   type = "server",
   host = "127.0.0.1",
@@ -52,6 +44,5 @@ dap.configurations.go = {
   }
 }
 
-require('dap-go').setup {}
-
-dapui.setup {}
+require('dap-go').setup()
+require('dapui').setup {}

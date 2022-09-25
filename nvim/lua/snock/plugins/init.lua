@@ -20,7 +20,10 @@ require('packer').startup({ function(use)
   use('https://github.com/kkharji/sqlite.lua') -- sqlite client in lua that some plugins use
   -- }}}
   -- general purpose tools {{{
-  use('https://github.com/numToStr/Comment.nvim') -- comments, with more smartness
+  use({ 'https://github.com/numToStr/Comment.nvim', config = function()
+    -- comments, with more smartness
+    require('comment').setup {}
+  end })
   use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
   use('https://github.com/tpope/vim-repeat') -- makes `.` even more powerful by adding support for plugins
   use('https://github.com/mattn/emmet-vim') -- div.emmet>p.is{awesome}
@@ -30,25 +33,37 @@ require('packer').startup({ function(use)
   use_local({
     'ThePrimeagen/harpoon',
     local_path = 'forks',
+    config = function()
+      require('harpoon').setup({
+        global_settings = {
+          enter_on_sendcmd = true
+        }
+      })
+    end
   })
   use('https://github.com/godlygeek/tabular') -- align text at character. More powerful than :!column
 
   -- use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
-  use("https://github.com/kylechui/nvim-surround") -- replacement of vim-surround with some neat features like `dsf` powered by TreeSitter
+  use({ 'https://github.com/kylechui/nvim-surround', config = function()
+    -- replacement of vim-surround with some neat features like `dsf` powered by TreeSitter
+    require("nvim-surround").setup()
+  end })
   -- }}}
   -- telescope  {{{
   use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
   use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
   -- }}}
   -- lsp stuff {{{
-  use('https://github.com/williamboman/nvim-lsp-installer')
-  -- use('https://github.com/williamboman/mason.nvim') -- TODO: use mason
-  use('https://github.com/neovim/nvim-lspconfig') --  easy configs for language servers
-  use('https://github.com/jose-elias-alvarez/null-ls.nvim') -- use neovim as ls server to inject code-actions and mor via lua
-  use('https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils')
-  use('https://github.com/folke/trouble.nvim') -- pretty list for LSP diagnostics
-  use('https://github.com/ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
-  use("https://github.com/glepnir/lspsaga.nvim")
+  use {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  }
+
+  use('jose-elias-alvarez/null-ls.nvim') -- use neovim as ls server to inject code-actions and mor via lua
+  use('jose-elias-alvarez/typescript.nvim') -- more ts lsp stuff
+  use('folke/trouble.nvim') -- pretty list for LSP diagnostics
+  use('ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
   -- }}}
   -- treesitter {{{
   use('https://github.com/nvim-treesitter/nvim-treesitter') -- simple API for treesitter for configuration and interactions
@@ -57,10 +72,19 @@ require('packer').startup({ function(use)
   -- }}}
   -- git things {{{
   use('https://github.com/tpope/vim-fugitive') -- a git wrapper in vim
-  use('https://github.com/lewis6991/gitsigns.nvim') -- show diff markers in the gutter + gitlens
+  -- gitsigns.nvim: show diff markers in the gutter + gitlens {{{
+  use({ 'lewis6991/gitsigns.nvim', config = function()
+    require('gitsigns').setup {}
+  end })-- }}}
   -- }}}
   -- completers {{{
-  use('https://github.com/windwp/nvim-autopairs') -- auto pairs in lua
+  use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
+  -- nvim-autopairs: auto pairs in lua{{{
+  use({ 'https://github.com/windwp/nvim-autopairs', config = function()
+    require('nvim-autopairs').setup({
+      disable_filetype = { "TelescopePrompt", "fennel" }
+    })
+  end }) -- }}}
   use('https://github.com/windwp/nvim-ts-autotag') -- use TreeSitter to close and rename tags
   use('https://github.com/hrsh7th/nvim-cmp') -- completion engine written in lua, extendable via plugins
   use('https://github.com/hrsh7th/cmp-nvim-lsp') -- lsp source
@@ -69,33 +93,149 @@ require('packer').startup({ function(use)
   use('https://github.com/hrsh7th/cmp-cmdline') -- source for cmdline (:, /)
   use('https://github.com/hrsh7th/cmp-buffer') -- buffer source
   -- }}}
-  -- snippets {{{
-  use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
-  -- }}}
   -- debugging {{{
   use('https://github.com/mfussenegger/nvim-dap') -- DAP client
   use('https://github.com/rcarriga/nvim-dap-ui') -- DAP UI
   use('https://github.com/leoluz/nvim-dap-go') -- DAP Adapter for Go
   -- }}}
   -- UI {{{
-  use('https://github.com/folke/zen-mode.nvim') -- distraction free writing and some other nice things
-  use('https://github.com/folke/twilight.nvim') -- highlight only portion of text
+  use({ 'https://github.com/folke/zen-mode.nvim', config = function() -- {{{
+    -- distraction free writing and some other nice things
+    require('zen-mode').setup({
+      plugins = {
+        kitty = {
+          enabled = true,
+          font = '+4',
+        },
+        twilight = {
+          enabled = true,
+        },
+        tmux = {
+          enabled = true,
+        },
+        gitsigns = {
+          enabled = true,
+        },
+        options = {
+          enabled = true,
+          showcmd = true,
+        },
+      },
+      window = {
+        backdrop = 0.75,
+        width = 120,
+        options = {
+          signcolumn = 'yes',
+          number = false,
+          relativenumber = false,
+          list = false,
+        },
+      },
+    })
+  end }) -- }}}
+  use({ 'https://github.com/folke/twilight.nvim', config = function() -- {{{
+    -- highlight only portion of text
+    require('twilight').setup({})
+  end }) -- }}}
   use({ 'https://github.com/rmagatti/goto-preview' }) -- open gotos in floating windows
-  use('https://github.com/folke/which-key.nvim') -- show possible keys when nvim is waiting for a key press
-  use('https://github.com/nvim-lualine/lualine.nvim') -- easy to configure and extend statusline (+tabline, +windowline)
+  use({ 'https://github.com/folke/which-key.nvim', config = function() -- {{{
+    -- show possible keys when nvim is waiting for a key press
+    require('which-key').setup({
+      window = {
+        border = 'double',
+        position = 'center',
+        margin = { 4, 4, 4, 6 }
+      }
+    })
+  end }) -- }}}
+  -- lualine.nvim: easy to configure and extend statusline (+tabline, +windowline) {{{
+  use({ 'nvim-lualine/lualine.nvim', config = function()
+    require('lualine').setup {
+      options = {
+        icons_enabled = false,
+        theme = 'auto',
+        component_separators = '',
+        section_separators = { left = '', right = '' },
+        disabled_filetypes = {},
+      },
+      sections = {
+        lualine_a = { { 'mode' } },
+        lualine_b = { { 'branch' }, 'diff', 'diagnostics' },
+        lualine_c = { { 'filename', path = 1 } },
+        lualine_x = { 'location' },
+        lualine_y = { {
+          'filetype',
+          fmt = function(str)
+            return vim.lsp.buf.server_ready() and str .. "+" or str
+          end,
+          icons_enabled = true
+        } },
+        lualine_z = {}
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { { 'filename' } },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+      },
+      tabline = {
+        lualine_a = { { require("snock.plugins.harpoon-lualine") } },
+        lualine_z = { { 'tabs', mode = 0 } },
+      },
+      -- currently using the implementation of do.nvim
+      -- winbar = {
+      --   -- lualine_a = { require("do").view },
+      -- },
+      -- inactive_winbar = {
+      --   -- lualine_a = { require("do").view_inactive }
+      -- },
+      extensions = {},
+    }
+  end }) -- }}}
   use('https://github.com/kyazdani42/nvim-web-devicons') -- bunch of icons for web development
-  -- ui for nvm-lsp progress
-  use({
-    'https://github.com/j-hui/fidget.nvim',
-    config = function ()
-      require("fidget").setup {}
-    end
-  })
-  use('https://github.com/kyazdani42/nvim-tree.lua') -- filetree when when :Lex or vinegar is not enough
+  -- fidget.nvim: ui for nvm-lsp progress {{{
+  use({ 'https://github.com/j-hui/fidget.nvim', config = function()
+    require("fidget").setup {}
+  end }) -- }}}
+  use({ 'https://github.com/kyazdani42/nvim-tree.lua', config = function() -- {{{
+    -- filetree when when :Lex or vinegar is not enough
+    require('nvim-tree').setup({
+      hijack_cursor = true,
+      hijack_netrw = false,
+      view = {
+        preserve_window_proportions = true,
+        side = "right",
+        centralize_selection = true
+      },
+      diagnostics = {
+        enable = true
+      },
+      renderer = {
+        icons = {
+          git_placement = "after"
+        }
+      },
+      actions = {
+        change_dir = {
+          enable = false
+        },
+        expand_all = {
+          exclude = { ".git", "node_modules" }
+        }
+      }
+    })
+  end }) -- }}}
   use('https://github.com/nvim-treesitter/nvim-treesitter-context') -- sticky header
   use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
-  -- use('https://github.com/stevearc/aerial.nvim') -- alternative to symbols-outline.nvim
-  use('https://github.com/folke/todo-comments.nvim') -- easy configurable todo search in comment with support for Trouble
+  use({ 'https://github.com/folke/todo-comments.nvim', config = function() -- {{{
+    -- easy configurable todo search in comment with support for Trouble
+    require('todo-comments').setup {
+      signs = false,
+      highlight = { keyword = "" } -- using TreeSitter for highlights
+    }
+  end }) -- }}}
   use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
   use('https://github.com/sunjon/Shade.nvim') -- dim inactive windows
   -- }}}
@@ -116,30 +256,38 @@ require('packer').startup({ function(use)
     local_path = 'personal'
   })
   -- }}}
-
   -- beyond coding {{{
-  use('https://github.com/renerocksai/telekasten.nvim') -- zettelkasten within vim, works great with Obsidian
-  use('https://github.com/tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
-  use('https://github.com/tpope/vim-vinegar') -- improved netrw for file browsing.
-  use('https://github.com/mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
-  use('https://github.com/metakirby5/codi.vim') -- repl/scratchpad
+  use({ 'renerocksai/telekasten.nvim', config = function() -- {{{
+    -- zettelkasten within vim, works great with Obsidian
+    local telekastenHome = vim.fn.expand(
+      '/Users/nilsriedemann/Library/Mobile Documents/iCloud~md~obsidian/Documents/Development'
+    )
 
-  -- a tiny task helper plugin
-  use_local({
-    'nocksock/do.nvim',
-    local_path = 'personal' ,
-    config = function()
-      require("do").setup({})
-    end
-  })
-  -- tiny term-toggle plugin
-  use_local({
-    'nocksock/t.nvim',
-    local_path = 'personal',
-    config = function()
-      require("t").setup({})
-    end
-  })
+    require('telekasten').setup({
+      home = telekastenHome,
+      dailies = telekastenHome .. '/' .. 'Journal',
+      weeklies = telekastenHome .. '/' .. 'Journal',
+      templates = telekastenHome .. '/' .. 'Templates',
+      subdirs_in_links = false,
+      -- markdown file extension
+      extension = '.md',
+    })
+  end }) -- }}}
+  use('tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
+  use('tpope/vim-vinegar') -- improved netrw for file browsing.
+  use('mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
+  use('metakirby5/codi.vim') -- repl/scratchpad
+
+  -- do.nvim: a tiny task helper plugin{{{
+  use_local({ 'nocksock/do.nvim', local_path = 'personal', config = function()
+    require("do").setup({
+      use_winbar = true,
+    })
+  end }) -- }}}
+  -- t.nvim: tiny term-toggle plugin{{{
+  use_local({ 'nocksock/t.nvim', local_path = 'personal', config = function()
+    require("t").setup({})
+  end }) -- }}}
   -- }}}
 
   if is_bootstrap then
@@ -156,4 +304,3 @@ if is_bootstrap then
   print '=================================='
   return
 end
-
