@@ -1,6 +1,4 @@
--- imports
 require("mason").setup({})
-
 require('goto-preview').setup {}
 require("trouble").setup {}
 require("lsp_signature").setup {}
@@ -10,7 +8,6 @@ local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local builtin = require('telescope.builtin')
-local augroup_lsp = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local servers = { 'clangd', 'tsserver', 'sumneko_lua', 'gopls', 'bashls' }
 local manual_servers = { 'tsserver', 'sumneko_lua' }
@@ -105,7 +102,7 @@ local on_attach = function(client, bufnr)
 
 end --}}}
 
--- do basic setup for installed lsp
+-- autoconfig of lsps {{{
 require("mason-lspconfig").setup_handlers({
   function(server_name) -- default handler (optional)
     if vim.tbl_contains(manual_servers, server_name) then
@@ -118,7 +115,7 @@ require("mason-lspconfig").setup_handlers({
       handlers = handlers
     }
   end,
-})
+})-- }}}
 
 -- TypeScript {{{
 require("typescript").setup({
@@ -129,25 +126,16 @@ require("typescript").setup({
       vim.keymap.set('n', 'go', require('typescript').actions.organizeImports, {
         buffer = bufnr
       })
-      vim.keymap.set('n', 'fa', ':FixAll<cr>', { buffer = bufnr })
 
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup_lsp,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({
-            bufnr = bufnr,
-            filter = function(lsp_client)
-              P(lsp_client.name)
-                return lsp_client.name == "null-ls"
-            end,
-          })
-        end})
+      vim.keymap.set('n', '<leader>fa', ':FixAll<cr>', { buffer = bufnr })
+      vim.keymap.set('n', '<leader>ff', ':Format<cr>', { buffer = bufnr })
+
       on_attach(client, bufnr)
     end,
   }
 })
 --}}}
+
 -- Lua {{{
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
@@ -181,7 +169,7 @@ lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
 }) --}}}
 
-null_ls.setup({
+null_ls.setup({-- {{{
   sources = {
     null_ls.builtins.formatting.prettier,
   },
@@ -189,5 +177,6 @@ null_ls.setup({
     on_attach(client, bufnr)
   end,
 })
+-- }}}
 
 -- vi: fen fdl=0
