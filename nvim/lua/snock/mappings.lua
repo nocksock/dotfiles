@@ -148,6 +148,7 @@ map('n', '<leader>te', ':NnnExplorer<cr>', t('[e]xplorer (nnn)'))
 map('n', '<leader>tE', ':NnnExplorer %:p:h<cr>', t('[E]xplorer in buffer folder (nnn)'))
 map('n', '_', ':NnnPicker %:p:h<cr>')
 map('n', '<M-b>', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
+map('n', '<leader>tt', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
 map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
 --}}}
