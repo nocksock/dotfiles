@@ -4,6 +4,7 @@ vim.g.maplocalleader = ','
 vim.g.colors_name = 'bloop'
 
 vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
+
 vim.g.symbols_outline = {
   auto_close = true,
   auto_preview = false,

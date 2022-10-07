@@ -41,7 +41,8 @@ require('packer').startup({ function(use)
       })
     end
   })
-  use('https://github.com/godlygeek/tabular') -- align text at character. More powerful than :!column
+
+  use('https://github.com/junegunn/vim-easy-align')
 
   -- use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
   use({ 'https://github.com/kylechui/nvim-surround', config = function()
@@ -237,7 +238,18 @@ require('packer').startup({ function(use)
     }
   end }) -- }}}
   use('https://github.com/simnalamburt/vim-mundo') -- browser for vim's undo tree, for when git is not enough
-  use('https://github.com/sunjon/Shade.nvim') -- dim inactive windows
+  use({
+    "folke/noice.nvim",
+    event = "VimEnter",
+    config = function()
+      require("noice").setup()
+    end,
+    requires = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    }
+  })
   -- }}}
   -- themes {{{
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
@@ -304,3 +316,15 @@ if is_bootstrap then
   print '=================================='
   return
 end
+
+require "snock.plugins.bg"
+require "snock.plugins.completion"
+require "snock.plugins.dap"
+require "snock.plugins.e"
+require "snock.plugins.glow"
+require "snock.plugins.harpoon-lualine"
+require "snock.plugins.hide-linenumbers"
+require "snock.plugins.lsp"
+require "snock.plugins.on-save"
+require "snock.plugins.search-plugins"
+require "snock.plugins.telescope"

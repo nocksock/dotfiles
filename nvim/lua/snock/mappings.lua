@@ -24,10 +24,8 @@ map('n', '<c-j>', '<c-w>j')
 map('n', '<c-k>', '<c-w>k')
 map('n', '<c-l>', '<c-w>l')
 map('n', '<c-h>', '<c-w>h')
-map('n', '<c-n>', 'gt')
-map('n', '<c-p>', 'gT')
-map('n', '<M-j>', ']d')
-map('n', '<M-k>', '[d')
+map('n', 'ñ', 'gt') -- alt n
+map('n', 'œ', 'gT') -- alt p
 --}}}
 -- Telescope and file finding {{{
 local st = ":lua require('snock.plugins.telescope')"
@@ -87,7 +85,7 @@ map('n', '<leader>q', vim.diagnostic.setloclist)
 map('n', "<leader>K", function()
   vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end)
-map('n',"<leader>J", function()
+map('n', "<leader>J", function()
   vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end)
 -- }}}
@@ -150,6 +148,7 @@ map('n', '_', ':NnnPicker %:p:h<cr>')
 map('n', '<M-b>', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tt', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
+map('n', '<leader>tu', ':MundoToggle<CR>', { desc = "[t]oggle [u]ndo tree" })
 map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
 --}}}
 -- Misc convenience {{{
@@ -175,8 +174,10 @@ map('n', 'gx', ":execute '!open ' . shellescape(expand('<cWORD>')    , 1)<cr>")
 map('n', '<leader>M', '<cmd>Messages<cr>', { desc = "[M]essages" })
 map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
 map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[cl]ear display" })
-map({ 'i', 'n' }, '<M-s>', '<cmd>:w<cr>')
+map({ 'i', 'n' }, '<M-s>', '<cmd>:Format<cr>:FixAll<cr>:w<cr>', { silent = true })
 map('n', 'z0', 'zMzvzz')
+map('n', 'ì', 'zMzvzz') -- alt v
+map('n', 'ä', 'za') -- alt a
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 map('n', "<C-d>", "<C-d>zz")
@@ -188,7 +189,6 @@ map('n', '<leader>.', ':Telescop code_action<cr>')
 map('n', 'gV', '`[v`]') -- visual select last inserted text)
 
 map('n', '<leader>gc', ':normal yygccp<cr>')
--- map('n', '<leader>gC', ':normal yygccP<cr>')
 map('n', '<leader>gC', ':normal yipgcipP<cr>')
 
 -- move text around
@@ -196,7 +196,10 @@ map('v', '<c-k>', ":m '<-2<CR>gv=gv")
 map('v', '<c-j>', ":m '>+1<CR>gv=gv")
 
 -- type %% in vim's prompt to insert %:h expanded
-vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])
+--vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])
+
+map('x', 'ga', '<Plug>(EasyAlign)')
+map('n', 'ga', '<Plug>(EasyAlign)')
 
 -- }}}
 

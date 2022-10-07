@@ -1,4 +1,7 @@
 -- source: https://github.com/akinsho/dotfiles/blob/main/.config/nvim/lua/as/utils/plugins.lua
+-- this is all mostly to be able to load local version of a plugin in favor of
+-- a hosted one, IF it is present. Makes it easier to contribute or work on own
+-- plugins.
 local M = {}
 
 local fmt = string.format

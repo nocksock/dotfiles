@@ -62,6 +62,10 @@ require('nvim-treesitter.configs').setup({
 
 -- use('https://github.com/simrat39/symbols-outline.nvim') -- treeview for symbols in current buf
 
+local function asdf() 
+  print("asdf")
+end
+
 require'treesitter-context'.setup{
   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
   max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
