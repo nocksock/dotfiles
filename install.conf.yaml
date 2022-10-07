@@ -13,6 +13,8 @@
     ~/.config/herbstluftwm: herbstluftwm
     ~/.config/kitty: kitty
     ~/.config/nvim: nvim
+    ~/.config/sketchybar: sketchybar
+    ~/.config/skhd: skhd
     ~/.config/polybar: polybar
     ~/.config/rofi: rofi
     ~/.doom.d: .doom.d
