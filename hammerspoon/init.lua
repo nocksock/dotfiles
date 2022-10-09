@@ -22,11 +22,4 @@ local function reload_yabai()
   end)
 end
 
-hs.pathwatcher.new(HOME .. "/.hammerspoon/", reload_config):start()
-hs.pathwatcher.new(HOME .. "/code/dotfiles/.yabairc", reload_yabai):start()
-
 hs.alert.show("Config loaded")
-
-require('applauncher')
-require('yabai')
-require('kitty_quake')
