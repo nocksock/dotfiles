@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+switch $argv
+case launch-or-focus
+  set -l window_id (yabai -m query --windows | jq '.[] | select(."app" == "Obsidian") | .id | tonumber')
+  if test "$window_id" != ""
+    yabai -m window --focus $window_id
+  else
+    open -a "obsidian"
+  end
+end

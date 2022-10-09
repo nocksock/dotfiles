@@ -1,14 +1,10 @@
-# common tasks: default layer
-# ctrl-shift: window related (navigation, layout)
 # modes
-:: default  : yabai -m config window_border_width 2
-:: yctrl  @ : yabai -m config window_border_width 16
-:: apps   @ : yabai -m config window_opacity 0.5
-:: gaps
-:: layout
+:: default   : ~/.config/sketchybar/plugins/skhd-mode default
+:: yctrl   @ : ~/.config/sketchybar/plugins/skhd-mode yctrl
+:: gaps    @ : ~/.config/sketchybar/plugins/skhd-mode gaps
+:: layout  @ : ~/.config/sketchybar/plugins/skhd-mode layout
 
 hyper - y ; yctrl
-hyper - a ; apps
 hyper - g ; gaps
 
 layout < escape ; default
@@ -23,8 +19,8 @@ yctrl < return ; default
 yctrl < escape ; default
 yctrl < return ; default
 
-apps < return ; default
-apps < escape ; default
+# ctrl+shift layer
+# common window focussed actions
 
 ctrl + shift - left  : yabai -m window --swap west
 ctrl + shift - right : yabai -m window --swap east
@@ -32,7 +28,6 @@ ctrl + shift - down  : yabai -m window --swap south
 ctrl + shift - up    : yabai -m window --swap north
 
 ctrl + shift - r     : yabai -m space --rotate 90
-ctrl + shift - x     : yabai -m space --mirror x-axis
 ctrl + shift - y     : yabai -m space --mirror y-axis
 
 ctrl + shift - h     : yabai -m window --focus west
@@ -43,7 +38,6 @@ ctrl + shift - l     : yabai -m window --focus east
 ctrl + shift - o    : yabai -m space --balance
 ctrl + shift - i    : yabai -m window --ratio abs:0.66
 ctrl + shift - u    : yabai -m window --ratio abs:0.33
-ctrl + shift - 0x2C : yabai -m window --ratio abs:0.50
 
 ctrl + shift - 1 : yabai -m window --space 1
 ctrl + shift - 2 : yabai -m window --space 2
@@ -53,20 +47,34 @@ ctrl + shift - 5 : yabai -m window --space 5
 ctrl + shift - 6 : yabai -m window --space 6
 
 ctrl + shift - f : yabai -m window --toggle float
-ctrl + shift - s : yabai -m window --toggle split
+ctrl + shift - 0x2C: yabai -m window --toggle split
+ctrl + shift - w : yabai -m window --toggle float --grid 1:6:2:0:3:1
+ctrl + shift - t : yabai -m window --toggle float --toggle sticky --toggle topmost
 
-hyper - right    : yabai -m window --insert west
-hyper - left     : yabai -m window --insert east
-hyper - up       : yabai -m window --insert north
-hyper - down     : yabai -m window --insert south
+# hyper layer
+
+hyper - right : yabai -m window --insert west
+hyper - left  : yabai -m window --insert east
+hyper - up    : yabai -m window --insert north
+hyper - down  : yabai -m window --insert south
+
+# direct focus
+hyper - x     : yabai -m window --focus recent
 
 # navigate spaces
-hyper - 1: yabai -m space --focus 1
-hyper - 2: yabai -m space --focus 2
-hyper - 3: yabai -m space --focus 3
-hyper - 4: yabai -m space --focus 4
-hyper - 5: yabai -m space --focus 5
-hyper - 6: yabai -m space --focus 6
+hyper - 1     : yabai -m space --focus 1
+hyper - 2     : yabai -m space --focus 2
+hyper - 3     : yabai -m space --focus 3
+hyper - 4     : yabai -m space --focus 4
+hyper - 5     : yabai -m space --focus 5
+hyper - 6     : yabai -m space --focus 6
+
+# app launcher
+hyper - f: ~/.config/skhd/apps/kitty launch-or-focus
+hyper - r: ~/.config/skhd/apps/kitty new-window
+hyper - o: ~/.config/skhd/apps/obsidian launch-or-focus
+
+# yctrl mode
 
 yctrl < h : yabai -m window --focus west  || yabai -m display --focus west
 yctrl < j : yabai -m window --focus south || yabai -m display --focus south
@@ -74,6 +82,7 @@ yctrl < k : yabai -m window --focus north || yabai -m display --focus north
 yctrl < l : yabai -m window --focus east  || yabai -m display --focus east
 
 yctrl < r : skhd --reload
+yctrl < shift - r : skhd -r; brew services restart sketchybar ; brew services restart yabai
 
 yctrl < 1 : yabai -m window --space 1
 yctrl < 2 : yabai -m window --space 2
@@ -89,4 +98,3 @@ gaps < p : yabai -m space --gap abs:256 --padding abs:128:128:256:256
 gaps < i : yabai -m space --gap abs:32 --padding abs:32:32:32:32
 gaps < u : yabai -m space --gap abs:0 --padding abs:0:0:0:0
 
-apps < shift - r : skhd -r; brew services restart sketchybar ; brew services restart yabai
