@@ -94,14 +94,10 @@ end)
 -- file nav
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
 map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
-map('n', "'f", ':lua require("harpoon.ui").nav_file(1)<CR>')
-map('n', "'d", ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('n', "'s", ':lua require("harpoon.ui").nav_file(3)<CR>')
-map('n', "'a", ':lua require("harpoon.ui").nav_file(4)<CR>')
-map('n', "'j", ':lua require("harpoon.ui").nav_file(5)<CR>')
-map('n', "'k", ':lua require("harpoon.ui").nav_file(6)<CR>')
-map('n', "'l", ':lua require("harpoon.ui").nav_file(7)<CR>')
-map('n', "';", ':lua require("harpoon.ui").nav_file(8)<CR>')
+map('n', "è", ':lua require("harpoon.ui").nav_file(1)<CR>')
+map('n', "đ", ':lua require("harpoon.ui").nav_file(2)<CR>')
+map('n', "ß", ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('n', "ä", ':lua require("harpoon.ui").nav_file(4)<CR>')
 
 -- cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
@@ -177,7 +173,7 @@ map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[cl]ea
 map({ 'i', 'n' }, '<M-s>', '<cmd>:Format<cr>:FixAll<cr>:w<cr>', { silent = true })
 map('n', 'z0', 'zMzvzz')
 map('n', 'ì', 'zMzvzz') -- alt v
-map('n', 'ä', 'za') -- alt a
+map('n', 'à', 'za') -- alt z
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 map('n', "<C-d>", "<C-d>zz")
