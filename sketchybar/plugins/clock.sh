@@ -1,8 +1,18 @@
 #!/usr/bin/env sh
+source $HOME/.config/sketchybar/vars.sh
 
-# The $NAME variable is passed from sketchybar and holds the name of
-# the item invoking this script:
-# https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
+if [[ $1 == "setup" ]]; then
+  NAME=clock
+
+  sketchybar                   \
+    --add item $NAME $POSITION \
+    --set $NAME                \
+      update_freq=25           \
+      script="$PLUGIN_DIR/clock.sh"
+
+fi
+
+# UPDATE
 
 sketchybar --set $NAME label="$(date '+%d/%m %H:%M')"
 

@@ -1,9 +1,24 @@
 #!/usr/bin/env sh
+source $HOME/.config/sketchybar/vars.sh
+
+if [[ $1 == "setup" ]]; then
+  NAME=battery
+
+  sketchybar                          \
+    --add item $NAME $POSITION        \
+    --set $NAME                       \
+      script="$PLUGIN_DIR/battery.sh" \
+      update_freq=10                  \
+    --subscribe battery system_woke
+
+fi
+
+# UPDATE
 
 PERCENTAGE=$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)
 CHARGING=$(pmset -g batt | grep 'AC Power')
 
-if [ $PERCENTAGE = "" ]; then
+if [[ $PERCENTAGE = "" ]]; then
   exit 0
 fi
 

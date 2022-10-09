@@ -1,8 +1,19 @@
 #!/usr/bin/env sh
+source $HOME/.config/sketchybar/vars.sh
 
-# Some events send additional information specific to the event in the $INFO
-# variable. E.g. the front_app_switched event sends the name of the newly
-# focused application in the $INFO variable:
-# https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
+if [[ $1 == "setup" ]]; then
+  NAME=front_app
+
+  sketchybar                            \
+    --add item $NAME $POSITION          \
+    --set $NAME                         \
+      script="$PLUGIN_DIR/front_app.sh" \
+      label.color=$COLOR_ACTIVE         \
+      icon.drawing=off                  \
+    --subscribe front_app front_app_switched
+
+fi
+
+# UPDATE
 
 sketchybar --set $NAME label="$INFO"
