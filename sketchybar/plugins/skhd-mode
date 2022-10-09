@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+source $HOME/.config/sketchybar/vars.sh
+NAME=mode
+
+case $1 in
+  "setup")
+
+    sketchybar                       \
+      --add item $NAME $POSITION     \
+      --set $NAME                    \
+        drawing=no                   \
+        icon.drawing=no              \
+        label.color=$BLACK           \
+        label.padding_left=$SPACE_2  \
+        label.padding_right=$SPACE_2 \
+        background.color=$COLOR_INFO \
+        background.corner_radius=$RADIUS
+        
+    ;;
+  "default")
+    sketchybar --set $NAME label="" drawing=no
+    ;;
+  "yctrl" | "gaps" | "layout")
+    sketchybar --set $NAME label=$1 drawing=yes
+    ;;
+  *)
+    ;;
+esac

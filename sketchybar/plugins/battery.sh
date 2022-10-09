@@ -4,11 +4,17 @@ source $HOME/.config/sketchybar/vars.sh
 if [[ $1 == "setup" ]]; then
   NAME=battery
 
-  sketchybar                          \
-    --add item $NAME $POSITION        \
-    --set $NAME                       \
-      script="$PLUGIN_DIR/battery.sh" \
-      update_freq=10                  \
+  sketchybar                            \
+    --add item $NAME $POSITION          \
+    --set $NAME                         \
+      script="$PLUGIN_DIR/battery.sh"   \
+      update_freq=10                    \
+      background.padding_left=$SPACE_2  \
+      background.padding_right=$SPACE_2 \
+      icon.padding_left=$SPACE          \
+      icon.padding_right=$SPACE         \
+      label.padding_left=$SPACE         \
+      label.padding_right=$SPACE        \
     --subscribe battery system_woke
 
 fi

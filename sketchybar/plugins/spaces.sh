@@ -4,10 +4,10 @@ source $HOME/.config/sketchybar/vars.sh
 update() {
   if [[ $SELECTED == true ]]; then
 
-    sketchybar                    \
-      --set $1                    \
-        icon.color=$BLACK  \
-        label.color=$BLACK \
+    sketchybar                      \
+      --set $1                      \
+        icon.color=$BLACK           \
+        label.color=$BLACK          \
         background.color=$COLOR_ACTIVE
 
   else
@@ -16,7 +16,7 @@ update() {
       --set $1                      \
         icon.color=$COLOR_INACTIVE  \
         label.color=$COLOR_INACTIVE \
-        background.color=$BLACK
+        background.color=$BLACK_ALPHA
 
   fi
 }
@@ -36,7 +36,6 @@ if [[ $1 == "setup" ]]; then
         icon=${SPACE_ICONS[i]}         \
         icon.padding_left=8            \
         icon.padding_right=4           \
-        background.padding_left=8      \
         background.padding_right=8     \
         background.corner_radius=5     \
         background.height=24           \

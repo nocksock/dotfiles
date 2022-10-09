@@ -26,11 +26,11 @@ if [[ $1 == "click" ]]; then
   state=$(sketchybar --query $NAME | jq -a '.label.drawing ==  "on"')
 
   if [ $state = "true" ]; then
-      sketchybar --set $NAME label.drawing=off 
+      sketchybar --set $NAME icon.color=$COLOR_INACTIVE label.drawing=off
   fi
 
   if [ $state = "false" ]; then
-      sketchybar --set $NAME label.drawing=on 
+      sketchybar --set $NAME icon.color=$COLOR_HIGHLIGHT label.drawing=on
   fi
 
   exit
@@ -49,7 +49,7 @@ end if
 
 tell application "Things3"
   set todayTodos to to dos of list "Today"
-  
+
   repeat with i from 1 to count of todayToDos
     set todo to item i of todayToDos
 
