@@ -34,6 +34,12 @@ export POSITION=right
   $PLUGIN_DIR/music setup
   $PLUGIN_DIR/skhd-mode setup
 
+sketchybar                            \
+  --add bracket sysinfo clock battery \
+  --set sysinfo                       \
+      background.color=$BLACK_ALPHA   \
+      background.corner_radius=5
+
 export POSITION=center
   $PLUGIN_DIR/front_app.sh setup
 
