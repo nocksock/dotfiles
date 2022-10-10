@@ -22,6 +22,11 @@ yctrl < return ; default
 # ctrl+shift layer
 # common window focussed actions
 
+ctrl + cmd - left  : yabai -m window --warp west
+ctrl + cmd - right : yabai -m window --warp east
+ctrl + cmd - down  : yabai -m window --warp south
+ctrl + cmd - up    : yabai -m window --warp north
+
 ctrl + shift - left  : yabai -m window --swap west
 ctrl + shift - right : yabai -m window --swap east
 ctrl + shift - down  : yabai -m window --swap south
@@ -38,6 +43,8 @@ ctrl + shift - l     : yabai -m window --focus east
 ctrl + shift - o    : yabai -m space --balance
 ctrl + shift - i    : yabai -m window --ratio abs:0.66
 ctrl + shift - u    : yabai -m window --ratio abs:0.33
+ctrl + shift - p    : yabai -m window --ratio abs:0.5
+ctrl + shift - z    : yabai -m window --toggle zoom-parent
 
 ctrl + shift - 1 : yabai -m window --space 1
 ctrl + shift - 2 : yabai -m window --space 2
@@ -91,10 +98,17 @@ yctrl < 4 : yabai -m window --space 4
 yctrl < 5 : yabai -m window --space 5
 yctrl < 6 : yabai -m window --space 6
 
+yctrl < b : yabai -m space --layout bsp
+yctrl < f : yabai -m space --layout float
+
+# gaps mode
+
 gaps < k : yabai -m space --gap rel:8 --padding rel:8:8:8:8
 gaps < j : yabai -m space --gap rel:-8 --padding rel:-8:-8:-8:-8
-gaps < o : yabai -m space --gap abs:128 --padding abs:128:128:128:128
-gaps < p : yabai -m space --gap abs:256 --padding abs:128:128:256:256
-gaps < i : yabai -m space --gap abs:32 --padding abs:32:32:32:32
+
+gaps < y : yabai -m space --gap abs:320 --padding abs:64:64:256:256
 gaps < u : yabai -m space --gap abs:0 --padding abs:0:0:0:0
+gaps < i : yabai -m space --gap abs:32 --padding abs:32:32:32:32
+gaps < p : yabai -m space --gap abs:256 --padding abs:128:128:256:256
+gaps < o : yabai -m space --gap abs:128 --padding abs:128:128:128:128
 
