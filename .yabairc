@@ -10,35 +10,36 @@ yabai -m signal --add event=display_removed action="sleep 1 && $HOME/.config/yab
 yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
 yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
 
-yabai -m config                              \
-  top_padding                32              \
-  bottom_padding             32              \
-  left_padding               32              \
-  right_padding              32              \
-                                             \
-  window_gap                 32              \
-  window_topmost             off             \
-  window_border              on              \
-  window_border_width        4               \
-  window_border_radius       10              \
-  window_placement           second_child    \
-  window_opacity             on              \
-  window_opacity_duration    0.15            \
-  active_window_opacity      1.0             \
-  normal_window_opacity      0.95            \
-  active_window_border_color $COLOR_ACTIVE   \
-  normal_window_border_color $COLOR_INACTIVE \
-                                             \
-  insert_feedback_color      $COLOR_INFO     \
-  mouse_modifier             ctrl            \
-  mouse_action1              move            \
-  mouse_action2              resize          \
-  mouse_follows_focus        off             \
-  focus_follows_mouse        off             \
-                                             \
-  split_type                 auto            \
-  auto_balance               off             \
-  layout                     bsp             \
+yabai -m config                            \
+  top_padding                32            \
+  bottom_padding             32            \
+  left_padding               32            \
+  right_padding              32            \
+                                           \
+  window_gap                 32            \
+  window_topmost             off           \
+  window_border              on            \
+  window_border_width        4             \
+  window_border_radius       10            \
+  window_placement           second_child  \
+  window_opacity             on            \
+  window_opacity_duration    0.15          \
+  window_animation_duration  1             \
+  active_window_opacity      1.0           \
+  normal_window_opacity      0.80          \
+  active_window_border_color $COLOR_ACTIVE \
+  normal_window_border_color $BLACK        \
+                                           \
+  insert_feedback_color      $COLOR_INFO   \
+  mouse_modifier             ctrl          \
+  mouse_action1              move          \
+  mouse_action2              resize        \
+  mouse_follows_focus        off           \
+  focus_follows_mouse        off           \
+                                           \
+  split_type                 auto          \
+  auto_balance               off           \
+  layout                     bsp           \
   external_bar               main:32:0
 
 yabai -m space 1 --layout bsp   --label side
