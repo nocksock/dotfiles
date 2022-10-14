@@ -35,7 +35,7 @@ export POSITION=right
   $PLUGIN_DIR/skhd-mode setup
 
 sketchybar                            \
-  --add bracket sysinfo clock battery \
+  --add bracket sysinfo clock battery music \
   --set sysinfo                       \
       background.color=$BLACK_ALPHA   \
       background.corner_radius=5
