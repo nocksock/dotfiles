@@ -80,3 +80,12 @@ vim.o.guifont = 'JetBrains Mono:h16'
 vim.diagnostic.config({
   virtual_text = true,
 })
+
+vim.g.easy_align_delimiters = {
+  -- align \, which I often use in bash scripts etc.
+  [ [[\]] ]= {
+    pattern=      [[\\]],
+    left_margin=  1,
+    right_margin= 0
+  }
+}
