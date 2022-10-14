@@ -5,19 +5,20 @@ update() {
   if [[ $SELECTED == true ]]; then
 
     sketchybar                         \
+      --animate sin 20                 \
       --set $1                         \
         icon.color=$BLACK              \
         label.color=$BLACK             \
-        background.color=$COLOR_ACTIVE \
-        background.drawing=on
+        background.color=$COLOR_ACTIVE
 
   else
 
     sketchybar                      \
+      --animate sin 20              \
       --set $1                      \
         icon.color=$COLOR_INACTIVE  \
         label.color=$COLOR_INACTIVE \
-        background.drawing=off
+        background.color=$COLOR_ACTIVE_TRANSP
 
   fi
 }
@@ -47,7 +48,7 @@ if [[ $1 == "setup" ]]; then
         background.padding_left=$margin_left            \
         background.corner_radius=5                      \
         background.height=24                            \
-        background.drawing=off                          \
+        background.drawing=on                           \
         label.drawing=on                                \
         label.padding_right=8                           \
         label=${SPACE_LABELS[i]}                        \

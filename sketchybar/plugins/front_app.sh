@@ -13,6 +13,7 @@ if [[ $1 == "setup" ]]; then
       background.color=$BLACK_ALPHA     \
       background.padding_left=32        \
       label.color=$COLOR_ACTIVE         \
+      label.drawing=on                  \
       icon.drawing=off                  \
     --subscribe front_app front_app_switched
 
