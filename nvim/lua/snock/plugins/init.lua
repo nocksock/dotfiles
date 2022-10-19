@@ -150,9 +150,7 @@ require('packer').startup({ function(use)
     })
   end }) -- }}}
   -- lualine.nvim: easy to configure and extend statusline (+tabline, +windowline) {{{
-  use({ 'nvim-lualine/lualine.nvim', config = function()
-    require "snock.plugins.lualine"
-  end }) -- }}}
+  use({ 'nvim-lualine/lualine.nvim' }) -- }}}
   use('https://github.com/kyazdani42/nvim-web-devicons') -- bunch of icons for web development
   -- fidget.nvim: ui for nvm-lsp progress {{{
   use({ 'https://github.com/j-hui/fidget.nvim', config = function()
@@ -285,4 +283,5 @@ require "snock.plugins.hide-linenumbers"
 require "snock.plugins.lsp"
 require "snock.plugins.on-save"
 require "snock.plugins.search-plugins"
-require "snock.plugins.telescope"
+require "snock.plugins.treesitter"
+require "snock.plugins.lualine"

@@ -34,9 +34,9 @@ require('lualine').setup {
     lualine_z = {}
   },
   tabline = {
-    lualine_a = { { require("snock.plugins.harpoon-lualine") } },
+    lualine_a = { { 'tabs', mode = 1 }, { require("snock.plugins.harpoon-lualine") } },
     lualine_b = {},
-    lualine_z = { { 'tabs', mode = 0 } },
+    lualine_z = {},
   },
   -- currently using the implementation of do.nvim
   -- winbar = {
