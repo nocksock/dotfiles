@@ -50,7 +50,7 @@ local mapping = {
     else
       fallback()
     end
-  end, { 'i', 's' }),
+  end, { 'i', 's', 'c' }),
   ['<c-n>'] = cmp.mapping(function(fallback)
     if cmp.visible() then
       cmp.select_next_item()
@@ -59,7 +59,7 @@ local mapping = {
     else
       fallback()
     end
-  end, { 'i', 's' }),
+  end, { 'i', 's', 'c' }),
   ['<c-p>'] = cmp.mapping(function(fallback)
     if cmp.visible() then
       cmp.select_prev_item()
@@ -68,7 +68,7 @@ local mapping = {
     else
       fallback()
     end
-  end, { 'i', 's' }),
+  end, { 'i', 's', 'c'}),
 }
 
 cmp.setup({
