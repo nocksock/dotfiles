@@ -17,6 +17,8 @@ vim.g.netrw_winsize = 33
 
 vim.o.laststatus = 2
 vim.o.backupskip = '/tmp/*,/private/tmp/*' -- Make Vim able to edit crontab files again.
+vim.o.briopt = 'shift:4'
+vim.o.wrap = true
 vim.o.backup = true -- enable backups
 vim.o.backupdir = '/tmp'
 vim.o.breakindent = true -- wrapped lines appear indendet
@@ -55,14 +57,12 @@ vim.o.tabstop = 2
 vim.o.termguicolors = true -- enable 24bit colors
 vim.o.textwidth = 80
 vim.o.undofile = true
-vim.o.wrap = false -- don't wrap text around when the window is too small
 vim.o.wildignore = table.concat({
   '.DS_Store',
   '**/.git/*',
   '*.jpg,*.bmp,*.gif,*.png,*.jpeg', -- ignore binary images
   '**/coverage/*' })
 vim.o.undofile = true
-vim.o.wrap = false -- don't wrap text around when the window is too small
 vim.o.wildignore = table.concat({
   '.DS_Store',
   '**/.git/*',
