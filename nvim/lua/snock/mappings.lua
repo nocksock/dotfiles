@@ -161,6 +161,9 @@ map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
 map('n', '<leader>id', '<Plug>:LspDiagLine<cr>')
 --}}}
 
+-- clear highlights, close popups, redraw screen to fix bunch of render bugs
+map('n', '<esc>', ':nohlsearch<cr>:pclose<cr><c-l>', { desc = "close things, nohl" })
+
 -- when moving more than 5 lines , then make a jump , to be able to revert via c-o
 map('n', 'j', [[(v:count > 5 ? "m'" . v:count : "") . 'gj']], { expr = true })
 map('n', 'k', [[(v:count > 5 ? "m'" . v:count : "") . 'gk']], { expr = true })
