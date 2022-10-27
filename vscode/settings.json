@@ -1,6 +1,6 @@
 {
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -8,10 +8,11 @@
   "terminal.integrated.persistentSessionReviveProcess": "never",
   "files.defaultLanguage": "typescript",
   "editor.fontLigatures": true,
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}",
+  "window.title": "${rootName}",
   "eslint.packageManager": "yarn",
   "go.toolsManagement.autoUpdate": true,
   "editor.snippetSuggestions": "top",
+  "explorer.compactFolders": false,
   "editor.formatOnPaste": false,
   "eslint.alwaysShowStatus": true,
   "explorer.autoReveal": false,
@@ -67,7 +68,6 @@
   "terminal.explorerKind": "external",
   "editor.unfoldOnClickAfterEndOfLine": true,
   "diffEditor.renderSideBySide": true,
-  "workbench.layoutControl.enabled": false,
   "terminal.integrated.fontWeight": "400",
   "security.workspace.trust.untrustedFiles": "open",
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -240,13 +240,12 @@
   ],
   "editor.tabCompletion": "on",
   "editor.stickyScroll.enabled": true,
-  "breadcrumbs.enabled": false,
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "terminal.external.osxExec": "kitty.app",
   "extensions.ignoreRecommendations": false,
-  "workbench.colorTheme": "Tokyo Night",
+  "workbench.colorTheme": "Ayu Light",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.foldingImportsByDefault": true
@@ -260,8 +259,17 @@
   "editor.fontFamily": "JetBrains Mono",
   "vim.foldfix": true,
   "vim.operatorPendingModeKeyBindings": [],
-  "editor.minimap.enabled": false,
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.recentChange.enabled": false,
+  "remote.SSH.remotePlatform": {
+    "nocksock.full-t3-app.main.csb": "linux"
+  },
+  "workbench.layoutControl.enabled": false,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.showSlider": "always",
+  "editor.minimap.enabled": false,
+  "workbench.statusBar.visible": false,
+  "breadcrumbs.enabled": false,
+  "gitlens.advanced.fileHistoryShowAllBranches": true,
   "workbench.activityBar.visible": false,
 }

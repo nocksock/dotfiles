@@ -170,4 +170,21 @@
         "key": "ctrl+cmd+j",
         "command": "workbench.action.terminal.moveToTerminalPanel"
     },
+    {
+        "key": "ctrl+cmd+b ctrl",
+        "command": "workbench.action.toggleAuxiliaryBar"
+    },
+    {
+        "key": "shift+cmd+]",
+        "command": "workbench.action.nextEditor",
+        "when": "editorFocus"
+    },
+    {
+        "key": "shift+cmd+]",
+        "command": "-workbench.action.nextEditor"
+    },
+    {
+        "key": "ctrl",
+        "command": "workbench.action.nextPanelView"
+    },
 ]
