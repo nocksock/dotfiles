@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# tmux-fuzzy-session: fuzzy session switcher
+#
+# suggested mappings:
+#   # fuzzy windows in current session
+#   bind s popup -E -w 20% -h 20% $DOTDIR/bin/tmux-fuzzy-session
+#
+
+selected_name=$(tmux ls -F '#S'| gum filter)
+
+if [[ -z $selected_name ]]; then
+    exit 0
+fi
+
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]]; then
+    tmux attach -t $selected_name
+else
+    tmux switch-client -t $selected_name
+fi
