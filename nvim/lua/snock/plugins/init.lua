@@ -75,7 +75,10 @@ require('packer').startup({ function(use)
   use('ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
   -- }}}
   -- treesitter {{{
-  use('https://github.com/nvim-treesitter/nvim-treesitter') -- simple API for treesitter for configuration and interactions
+  use({ 'https://github.com/nvim-treesitter/nvim-treesitter',
+    -- simple API for treesitter for configuration and interactions
+    commit = "4cccb6f494eb255b32a290d37c35ca12584c74d0"
+  }) 
   use('https://github.com/nvim-treesitter/playground') -- visual representation and query playground for the AST of TS
   use('https://github.com/nvim-treesitter/nvim-treesitter-textobjects') -- create additional textobjects via TreeSitter (eg `if` => `@function.inner`)
   -- }}}
