@@ -1,3 +1,6 @@
+-- local harpoon_line = require("snock.plugins.harpoon-lualine")
+-- 
+
 require('lualine').setup {
   options = {
     icons_enabled = false,
@@ -8,11 +11,12 @@ require('lualine').setup {
   },
   sections = {
     lualine_a = { { 'mode' } },
-    lualine_b = {},
+    lualine_b = { { 'tabs', mode = 0, cond = function() return vim.fn.tabpagenr('$') > 1 end } },
     lualine_c = {
       {
         'filename',
         newfile_status = true,
+        path = 1,
         symbols = {
           modified = '*',
           readonly = '',
@@ -21,22 +25,25 @@ require('lualine').setup {
         }
       }
     },
-    lualine_x = { 'diagnostics', 'branch' },
-    lualine_y = {},
-    lualine_z = {}
+    lualine_x = { 'diagnostics' },
+    lualine_y = { 'branch' },
+    lualine_z = { }
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename' } },
+    lualine_c = { { 'filename', path = 1 } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}
   },
   tabline = {
-    lualine_a = { { 'tabs', mode = 1 }, { require("snock.plugins.harpoon-lualine") } },
-    lualine_b = {},
-    lualine_z = {},
+    -- lualine_a = {},
+    -- lualine_b = {},
+    -- lualine_c = {},
+    -- lualine_x = {},
+    -- lualine_y = {},
+    -- lualine_z = {},
   },
   -- currently using the implementation of do.nvim
   -- winbar = {
