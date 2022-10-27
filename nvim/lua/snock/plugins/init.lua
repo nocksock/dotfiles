@@ -51,8 +51,16 @@ require('packer').startup({ function(use)
   end })
   -- }}}
   -- telescope  {{{
-  use('https://github.com/nvim-telescope/telescope.nvim') -- extensive picker plugin/framework
-  use({ 'https://github.com/nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
+  use {
+    "nvim-telescope/telescope.nvim",
+    requires = {
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    },
+    config = function()
+      require "snock.plugins.telescope"
+    end
+  }
   -- }}}
   -- lsp stuff {{{
   use {

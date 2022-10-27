@@ -2,6 +2,7 @@ local telescope = require('telescope')
 
 telescope.load_extension('fzf')
 telescope.load_extension('refactoring')
+telescope.load_extension("live_grep_args")
 
 telescope.setup({
   defaults = {
@@ -42,7 +43,7 @@ telescope.setup({
 
 local builtin = require('telescope.builtin')
 
-function search_in(path, search_fn) -- {{{
+local function search_in(path, search_fn) -- {{{
   local options = { hidden = true }
 
   if path ~= nil then
