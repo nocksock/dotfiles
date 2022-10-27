@@ -1,3 +1,4 @@
+-- vi: fdl=0
 local utils = require('snock.utils.plugins')
 local use_local = utils.use_local
 local conf = utils.conf
