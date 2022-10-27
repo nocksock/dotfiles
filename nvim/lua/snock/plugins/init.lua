@@ -221,8 +221,16 @@ require('packer').startup({ function(use)
   -- themes {{{
   use('https://github.com/rktjmp/lush.nvim') -- for easily creating colorschemes via DSL
   use('https://github.com/folke/tokyonight.nvim')
-
-  use_local({
+  use {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+      require("catppuccin").setup({})
+      vim.g.colors_name = 'catppuccin'
+    end
+  }
+  use_local {
     'nocksock/bloop.nvim',
     local_path = 'personal'
   })
