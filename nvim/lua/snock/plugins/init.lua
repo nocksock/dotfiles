@@ -272,7 +272,7 @@ require('packer').startup({ function(use)
   -- do.nvim: a tiny task helper plugin{{{
   use_local({ 'nocksock/do.nvim', local_path = 'personal', config = function()
     require("do").setup({
-      use_winbar = true,
+      winbar = true,
     })
   end }) -- }}}
   -- t.nvim: tiny term-toggle plugin{{{
