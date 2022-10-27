@@ -234,6 +234,10 @@ require('packer').startup({ function(use)
     'nocksock/ghash.nvim',
     local_path = 'personal'
   })
+  use {
+    'rose-pine/neovim',
+    as = 'rose-pine',
+  }
   -- }}}
   -- beyond coding {{{
   use({ 'renerocksai/telekasten.nvim', config = function() -- {{{
