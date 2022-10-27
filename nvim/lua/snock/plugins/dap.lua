@@ -46,3 +46,58 @@ dap.configurations.go = {
 
 require('dap-go').setup()
 require('dapui').setup {}
+
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = { os.getenv('HOME') .. '/code/forks/vscode-node-debug2/out/src/nodeDebug.js' }
+}
+
+dap.adapters.chrome = {
+  type = "executable",
+  command = "node",
+  args = { os.getenv("HOME") .. "/code/forks/vscode-chrome-debug/out/src/chromeDebug.js" }
+}
+
+local chrome_config = {
+  type = "chrome",
+  request = "attach",
+  program = "${file}",
+  cwd = vim.fn.getcwd(),
+  sourceMaps = true,
+  protocol = "inspector",
+  port = 9229,
+  webRoot = "${workspaceFolder}"
+}
+
+dap.configurations.javascript = {
+  {
+    name = 'Launch',
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+  {
+    name = 'Attach to process',
+    type = 'node2',
+    request = 'attach',
+    processId = require 'dap.utils'.pick_process,
+  },
+}
+
+dap.configurations.javascriptreact = {
+  chrome_config
+}
+
+dap.configurations.typescriptreact = {
+  chrome_config
+}
+
+dap.configurations.typescript = {
+  chrome_config
+}
+
