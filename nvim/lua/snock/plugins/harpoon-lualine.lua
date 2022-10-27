@@ -1,6 +1,11 @@
 local harpoon = require('harpoon')
 local harpoon_mark = require('harpoon.mark')
 
+local function has_marks()
+  local marks = harpoon.get_mark_config().marks
+  return #marks < 0
+end
+
 -- TODO: create proper lualine extension (see lualine/components/buffer)
 local mark_keys = { "f", "d", "s", "a", "j", "k", "l", ";" } -- or use asdfg, 12345 or whatever.
 local harpoon_component = function() --{{{
@@ -25,4 +30,4 @@ local harpoon_component = function() --{{{
   return '%#TabLineFill#' .. table.concat(output, '')
 end --}}}
 
-return harpoon_component
+return { component = harpoon_component, cond = has_marks }
