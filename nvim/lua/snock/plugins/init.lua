@@ -147,7 +147,13 @@ require('packer').startup({ function(use)
   end }) -- }}}
   use({ 'https://github.com/folke/twilight.nvim', config = function() -- {{{
     -- highlight only portion of text
-    require('twilight').setup({})
+    require('twilight').setup({
+      inactive = true,
+      context = 0, -- amount of lines we will try to show around the current line
+      expand = {
+        "function", "method", "if_statement", "table"
+      }
+    })
   end }) -- }}}
   use({ 'https://github.com/rmagatti/goto-preview' }) -- open gotos in floating windows
   use({ 'https://github.com/folke/which-key.nvim', config = function() -- {{{
