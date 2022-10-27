@@ -28,23 +28,22 @@ map('n', 'ñ', 'gt') -- alt n
 map('n', 'œ', 'gT') -- alt p
 --}}}
 -- Telescope and file finding {{{
-local st = ":lua require('snock.plugins.telescope')"
+local st = ":lua require('telescope.builtin')"
 
 map('n', '<leader><space>', st .. ".buffers()<cr>", { desc = '[ ] Find existing buffers' })
 map('n', '<leader><cr>', st .. ".resume()<cr>", { desc = '[] resume previous search' })
 map('n', '<leader>T', st .. ".builtin()<cr>", { desc = 'builtin [T]elescope commands' })
-map('n', '<M-p>', st .. ".search_in(nil)<cr>", s('[f]iles'))
+map('n', '<M-p>', st .. ".find_files()<cr>", s('[f]iles'))
 map('n', '<leader>sC', st .. ".colorscheme({ enable_preview = true })<cr>", s("[C]olors"))
 
-map('n', '<leader>sf', st .. ".search_in(nil)<cr>", s('[f]iles'))
-map('n', '<leader>sdf', st .. ".search_in(vim.fn.getenv('DOTDIR'))<cr>", s('[d]ot[f]iles'))
+map('n', '<leader>sf', st .. ".find_files()<cr>", s('[f]iles'))
 map('n', '<leader>sr', st .. ".oldfiles()<cr>", s('[r]ecently opened files'))
 map('n', '<leader>sR', st .. ".reloader()<cr>", s('[R]eload lua packages'))
 map('n', '<leader>sh', st .. ".help_tags()<cr>", s('[h]elp'))
 map('n', '<leader>sk', st .. ".keymaps()<cr>", s('[k]eymaps'))
 map('n', '<leader>sc', st .. ".commands()<cr>", s('[c]ommands'))
 map('n', '<leader>sw', st .. ".grep_string()<cr>", s('current [w]ord'))
-map('n', '<leader>sg', st .. ".live_grep()<cr>", s('by [g]rep'))
+map('n', '<leader>sg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>", s('by [g]rep'))
 map('n', '<leader>sb', st .. ".git_branches()<cr>")
 map('n', '<leader>/', st .. '.current_buffer_fuzzy_find()<cr>', { desc = '[/] Fuzzily search in current buffer' })
 map('n', '<leader>sp', ":lua R('snock.plugins.search-plugins').search()<cr>", s('[p]lugins'))
@@ -54,6 +53,15 @@ map('n', '<M-C-P>', st .. ".commands()<cr>", s('[c]ommands'))
 map('n', '<leader>bd', ':b#|bd#<cr>', b("[D]elete    , keep layout"))
 map('n', '<leader>bD', ':bd', b("[D]elete"))
 map('n', '<leader>bO', ':%bd|e#<cr>', b("[O]nly"))
+map('n', '<leader>1', ':LualineBuffersJump 1<cr>')
+map('n', '<leader>2', ':LualineBuffersJump 2<cr>')
+map('n', '<leader>3', ':LualineBuffersJump 3<cr>')
+map('n', '<leader>4', ':LualineBuffersJump 4<cr>')
+map('n', '<leader>5', ':LualineBuffersJump 5<cr>')
+map('n', '<leader>6', ':LualineBuffersJump 6<cr>')
+map('n', '<leader>7', ':LualineBuffersJump 7<cr>')
+map('n', '<leader>8', ':LualineBuffersJump 8<cr>')
+map('n', '<leader>9', ':LualineBuffersJump 9<cr>')
 --}}}
 -- Terminal {{{
 map('n', '<F12>', ':Ts<CR>i')
@@ -94,10 +102,12 @@ end)
 -- file nav
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
 map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
-map('n', "è", ':lua require("harpoon.ui").nav_file(1)<CR>')
-map('n', "đ", ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('n', "ß", ':lua require("harpoon.ui").nav_file(3)<CR>')
+
+-- left hand alt+asdf
 map('n', "ä", ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('n', "ß", ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('n', "đ", ':lua require("harpoon.ui").nav_file(2)<CR>')
+map('n', "è", ':lua require("harpoon.ui").nav_file(1)<CR>')
 
 -- cmd
 map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
@@ -109,8 +119,9 @@ local gitsigns = require('gitsigns.actions')
 
 map('n', '<leader>gg', ':tab G<cr>')
 map('n', '<leader>gs', ':Telescope git_status<cr>')
-map('n', ']h', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-map('n', '[h', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+map('n', '<leader>cc', ':Git commit<cr>')
+map('n', ']h', "<cmd>Gitsigns next_hunk<CR>")
+map('n', '[h', "<cmd>Gitsigns prev_hunk<CR>")
 map('n', '<leader>hs', gitsigns.stage_hunk, h '[s]tage')
 map('v', '<leader>hs', gitsigns.stage_hunk, h '[s]tage')
 map('n', '<leader>hr', gitsigns.reset_hunk, h '[r]eset')
@@ -159,6 +170,13 @@ map('i', ',', ',<c-g>u')
 -- infos {{{
 map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
 map('n', '<leader>id', '<Plug>:LspDiagLine<cr>')
+map('n', '<leader>il', function ()
+  local servers = {}
+  for _, server in ipairs(vim.lsp.get_active_clients()) do
+    table.insert(servers, server.name)
+  end
+  print("Attached LSP servers: " .. table.concat(servers, ', '))
+end, {})
 --}}}
 
 -- clear highlights, close popups, redraw screen to fix bunch of render bugs
@@ -172,13 +190,10 @@ map('n', '<leader>sns', ':source ~/.config/nvim/plugin/completion.lua<cr>', { de
 map('n', 'gx', ":execute '!open ' . shellescape(expand('<cWORD>')    , 1)<cr>")
 map('n', '<leader>M', '<cmd>Messages<cr>', { desc = "[M]essages" })
 map('n', '<leader>dts', [[mz:%s/ \+$//<cr>`z<cr>]]) -- delete trailing spaces
-map('n', '<leader>cl', ':<c-u>:nohlsearch<cr>:pclose<cr><c-l>', { desc = "[cl]ear display" })
 map({ 'i', 'n' }, '<M-s>', '<cmd>:Format<cr>:FixAll<cr>:w<cr>', { silent = true })
 map('n', 'z0', 'zMzvzz')
 map('n', 'ì', 'zMzvzz') -- alt v
 map('n', 'à', 'za') -- alt z
-map('n', 'n', 'nzzzv')
-map('n', 'N', 'Nzzzv')
 map('n', "<C-d>", "<C-d>zz")
 map('n', "<C-u>", "<C-u>zz")
 
@@ -212,11 +227,17 @@ map('n', '<leader>gC', ':normal yipgcipP<cr>')
 map('v', '<c-k>', ":m '<-2<CR>gv=gv")
 map('v', '<c-j>', ":m '>+1<CR>gv=gv")
 
--- type %% in vim's prompt to insert %:h expanded
---vim.cmd([[cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%']])
+-- TODO: convert these into lua
+vim.cmd([[
+" write and close buffer
+cnoreabb wd w\|:bd
+" path to current file's folder, useful for :e %%
+cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+]])
 
 map('x', 'ga', '<Plug>(EasyAlign)')
 map('n', 'ga', '<Plug>(EasyAlign)')
+
 
 -- }}}
 
