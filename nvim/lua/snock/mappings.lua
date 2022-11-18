@@ -19,14 +19,6 @@ local t = prefix "[t]oggle"
 local x = prefix "[x] globals"
 local z = prefix "[z]ettel"
 --}}}
--- Window navigation {{{
-map('n', '<c-j>', '<c-w>j')
-map('n', '<c-k>', '<c-w>k')
-map('n', '<c-l>', '<c-w>l')
-map('n', '<c-h>', '<c-w>h')
-map('n', 'ñ', 'gt') -- alt n
-map('n', 'œ', 'gT') -- alt p
---}}}
 -- Telescope and file finding {{{
 local st = ":lua require('telescope.builtin')"
 
