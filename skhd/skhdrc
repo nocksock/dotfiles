@@ -42,7 +42,7 @@ ctrl + shift - u    : yabai -m window --ratio abs:0.33
 ctrl + shift - p    : yabai -m window --ratio abs:0.5
 ctrl + shift - z    : yabai -m window --toggle zoom-parent
 
-ctrl + shift - f : yabai -m window --toggle float
+ctrl + shift - f : yabai -m window --toggle native-fullscreen
 ctrl + shift - 0x2C: yabai -m window --toggle split
 ctrl + shift - w : yabai -m window --toggle float --grid 1:6:1:0:4:1
 ctrl + shift - c : yabai -m window --toggle float --grid 6:8:2:1:4:4

@@ -22,11 +22,7 @@ yabai -m config                            \
   window_border_width        4             \
   window_border_radius       10            \
   window_placement           second_child  \
-  window_opacity             on            \
-  window_opacity_duration    0.15          \
-  window_animation_duration  1             \
-  active_window_opacity      1.0           \
-  normal_window_opacity      0.80          \
+  window_opacity             off           \
   active_window_border_color $COLOR_ACTIVE \
   normal_window_border_color $BLACK        \
                                            \
@@ -63,10 +59,12 @@ yabai -m rule --add app="^Dash$" manage=off
 yabai -m rule --add app="^Telephone$" manage=off
 yabai -m rule --add app="^Hammerspoon Console$" manage=off
 yabai -m rule --add title="Software Update" manage=off
+yabai -m rule --add title="Cursor Pro" manage=off
 yabai -m rule --add app="System Information" title="About This Mac" manage=off
 yabai -m rule --add app="Microsoft Teams" space=comm
-yabai -m rule --add app="MailMate" space=3
-yabai -m rule --add app="Discord" space=6 grid=1:1:0:0:1:1 manage=off
+yabai -m rule --add title="Microsoft Teams Notifications" space=comm manage=off
+yabai -m rule --add app="MailMate" space=comm
+yabai -m rule --add app="Discord" space= grid=2:1:0:0:1:1 manage=off
 yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off
 
 printf "yabai: configuration loaded...\\n"

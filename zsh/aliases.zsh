@@ -2,6 +2,7 @@
 #    http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
 alias sudo='sudo '
 alias -g G='| grep'
+alias zz='cd $(z | awk "{print $2}" | fzf)'
 
 alias -g L='| less'
 alias ..='cd ..'

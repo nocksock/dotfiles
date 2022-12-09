@@ -55,8 +55,9 @@ zstyle ':omz:update' frequency 13
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git brew aliases dash fzf gh npm nvm tmux golang)
-export NVM_AUTOLOAD=1
+plugins=(aliases npm yarn nvm tmux z)
+export NVM_LAZY=1
+# export NVM_AUTOLOAD=1
 
 # User configuration
 
@@ -74,6 +75,7 @@ export BUN_INSTALL="/Users/nilsriedemann/.bun"
 export PATH="/usr/local/bin:$PATH" # some apps put there stuff here (eg vscode, mullvad)
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/code/bleepbloop.git/main/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/bin/gh/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -85,11 +87,12 @@ export PATH="$PYENV_ROOT/bin/:$PATH"
 export PATH="/usr/local/cuda-11.6/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH" # to use the "right" gnubins, eg grep
+export PATH="$PATH./node_modules/.bin"
+export PATH="$PATH./node_modules/.bin"
 export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
-export CDPATH=".:$HOME:$HOME/projects:$HOME/code"
 
-# PyEnv, but not doing any python atm
-eval "$(pyenv init --path)"
+# # PyEnv, but not doing any python atm
+# eval "$(pyenv init --path)"
 
 # changing the default command to ignore vcs, git, node_modules etcp
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
@@ -112,19 +115,13 @@ setopt    appendhistory     # Append history to the history file (no overwriting
 setopt    sharehistory      # Share history across terminals
 setopt    incappendhistory  # Immediately append to the history file, not just when a term is killed
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+# NNN Config
 export NNN_BMS="c:$HOME/code/;d:$HOME/code/dotfiles;n:$HOME/code/dotfiles/nvim/;b:$HOME/code/bleepbloop.studio/"
 export NNN_FCOLORS='00001e310000000000000000'
 export NNN_PLUG='o:!open $nnn;p:preview-tui;v:viu;x:!chmod +x $nnn'
 export NNN_FIFO=/tmp/nnn.fifo
+
+
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 autoload -U +X bashcompinit && bashcompinit

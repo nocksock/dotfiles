@@ -1,0 +1,92 @@
+#!/usr/bin/env sh
+# just a small script to quickly create a sandbox to test something
+if [[ $# -eq 1 ]]; then
+  NAME=$1
+else
+  NAME=$(gum input --prompt="name: ")
+fi
+
+STAMP=$(date +"%Y%m%d%H%M%S")
+DIRNAME="${NAME}-${STAMP}"
+ROOT="$HOME/code/sandboxes"
+FULL_PATH="$ROOT/$DIRNAME"
+
+if [[ -z $NAME ]]; then
+  exit;
+fi
+
+RECIPE=$(cat <<EOF | fzf
+react
+vanilla
+next
+empty
+EOF
+)
+
+cd $ROOT
+
+if [[ -z $RECIPE ]]; then
+  exit;
+fi
+
+case $RECIPE in
+  react) 
+    yarn create vite $DIRNAME --template react-ts
+    ;;
+  vanilla) 
+    yarn create vite $DIRNAME --template vanilla-ts
+    ;;
+  next) 
+    yarn create t3-app $DIRNAME
+    ;;
+  empty) 
+    mkdir -p $FULL_PATH
+    ;;
+esac
+
+cd $FULL_PATH
+yarn
+
+case $RECIPE in
+  react|vanilla)
+
+    yarn add lodash ramda jotai date-fns @faker-js/faker
+    yarn add -D tailwindcss postcss autoprefixer @types/lodash @types/ramda
+    yarn run tailwindcss init -p
+    cat <<EOF >> tailwind.config.cjs
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+EOF
+
+  ;; 
+  next)
+
+  yarn add lodash ramda jotai date-fns @faker-js/faker
+  yarn add -D @types/lodash @types/ramda
+
+  ;;
+esac
+
+yarn
+
+git init
+git add . 
+git commit -m "-- start --"
+
+tmux-qp $FULL_PATH
+
+if [[ $RECIPE != "empty" ]]; then
+  tmux split-window -t $DIRNAME:1.1 -p 25
+  tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
+  tmux send-keys -t $DIRNAME:1.2 "yarn dev" Enter
+  tmux select-pane -t $DIRNAME:1.1
+fi
