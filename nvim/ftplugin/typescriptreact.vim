@@ -1,4 +1,4 @@
-nmap <localleader>s :e %:r:r.stories.tsx<cr>
-nmap <localleader>t :e %:r:r.spec.tsx<cr>
-nmap <localleader>m :e %:r:r.tsx<cr>
-nmap <f5> :!bun %<cr>
+nmap <buffer> <localleader>s :e %:r:r.stories.tsx<cr>
+nmap <buffer> <localleader>t :e %:r:r.spec.tsx<cr>
+nmap <buffer> <localleader>m :e %:r:r.tsx<cr>
+nmap <buffer> <f5> :!bun %<cr>

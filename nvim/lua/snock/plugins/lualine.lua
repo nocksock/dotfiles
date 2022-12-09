@@ -25,7 +25,7 @@ require('lualine').setup {
         }
       }
     },
-    lualine_x = { 'diagnostics' },
+    lualine_x = { 'diagnostics', { function() return vim.lsp.buf.server_ready() and "lsp" or "nolsp" end } },
     lualine_y = { 'branch' },
     lualine_z = { }
   },
@@ -37,14 +37,7 @@ require('lualine').setup {
     lualine_y = {},
     lualine_z = {}
   },
-  tabline = {
-    -- lualine_a = {},
-    -- lualine_b = {},
-    -- lualine_c = {},
-    -- lualine_x = {},
-    -- lualine_y = {},
-    -- lualine_z = {},
-  },
+  tabline = nil,
   -- currently using the implementation of do.nvim
   -- winbar = {
   --   -- lualine_a = { require("do").view },

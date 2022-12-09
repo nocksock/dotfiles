@@ -45,7 +45,6 @@ require('packer').startup({ function(use)
 
   use('https://github.com/junegunn/vim-easy-align')
 
-  -- use('https://github.com/tpope/vim-surround') -- quoting/parenthesizing made simple. Extends functionality of s
   use({ 'https://github.com/kylechui/nvim-surround', config = function()
     -- replacement of vim-surround with some neat features like `dsf` powered by TreeSitter
     require("nvim-surround").setup()
@@ -56,6 +55,7 @@ require('packer').startup({ function(use)
     "nvim-telescope/telescope.nvim",
     requires = {
       { "nvim-telescope/telescope-live-grep-args.nvim" },
+      { "nvim-telescope/telescope-file-browser.nvim" },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     },
     config = function()
@@ -64,12 +64,12 @@ require('packer').startup({ function(use)
   }
   -- }}}
   -- lsp stuff {{{
+  use { "lbrayner/vim-rzip" }
   use {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   }
-
   use('jose-elias-alvarez/null-ls.nvim') -- use neovim as ls server to inject code-actions and mor via lua
   use('jose-elias-alvarez/typescript.nvim') -- more ts lsp stuff
   use('folke/trouble.nvim') -- pretty list for LSP diagnostics
@@ -79,7 +79,7 @@ require('packer').startup({ function(use)
   use({ 'https://github.com/nvim-treesitter/nvim-treesitter',
     -- simple API for treesitter for configuration and interactions
     commit = "4cccb6f494eb255b32a290d37c35ca12584c74d0"
-  }) 
+  })
   use('https://github.com/nvim-treesitter/playground') -- visual representation and query playground for the AST of TS
   use('https://github.com/nvim-treesitter/nvim-treesitter-textobjects') -- create additional textobjects via TreeSitter (eg `if` => `@function.inner`)
   -- }}}
@@ -124,7 +124,7 @@ require('packer').startup({ function(use)
           enabled = true,
         },
         tmux = {
-          enabled = true,
+          enabled = false,
         },
         gitsigns = {
           enabled = true,
@@ -135,12 +135,12 @@ require('packer').startup({ function(use)
         },
       },
       window = {
-        backdrop = 0.75,
+        backdrop = 0.95,
         width = 120,
         options = {
           signcolumn = 'yes',
-          number = false,
-          relativenumber = false,
+          number = true,
+          relativenumber = true,
           list = false,
         },
       },
@@ -239,15 +239,15 @@ require('packer').startup({ function(use)
   }
   use_local {
     'nocksock/bloop.nvim',
-    local_path = 'personal'
-  })
+    local_path = 'plugins.nvim'
+  }
   use_local({
     'nocksock/nazgul-vim',
-    local_path = 'personal'
+    local_path = 'plugins.nvim'
   })
   use_local({
     'nocksock/ghash.nvim',
-    local_path = 'personal'
+    local_path = 'plugins.nvim'
   })
   use {
     'rose-pine/neovim',
@@ -255,35 +255,17 @@ require('packer').startup({ function(use)
   }
   -- }}}
   -- beyond coding {{{
-  use({ 'renerocksai/telekasten.nvim', config = function() -- {{{
-    -- zettelkasten within vim, works great with Obsidian
-    local telekastenHome = vim.fn.expand(
-      '/Users/nilsriedemann/Library/Mobile Documents/iCloud~md~obsidian/Documents/Development'
-    )
-
-    require('telekasten').setup({
-      home = telekastenHome,
-      dailies = telekastenHome .. '/' .. 'Journal',
-      weeklies = telekastenHome .. '/' .. 'Journal',
-      templates = telekastenHome .. '/' .. 'Templates',
-      subdirs_in_links = false,
-      -- markdown file extension
-      extension = '.md',
-    })
-  end }) -- }}}
   use('tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
   use('tpope/vim-vinegar') -- improved netrw for file browsing.
   use('mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
   use('metakirby5/codi.vim') -- repl/scratchpad
 
   -- do.nvim: a tiny task helper plugin{{{
-  use_local({ 'nocksock/do.nvim', local_path = 'personal', config = function()
-    require("do").setup({
-      winbar = true,
-    })
+  use_local({ 'nocksock/do.nvim', local_path = 'plugins.nvim', config = function()
+    require("do").setup({ winbar = true, })
   end }) -- }}}
   -- t.nvim: tiny term-toggle plugin{{{
-  use_local({ 'nocksock/t.nvim', local_path = 'personal', config = function()
+  use_local({ 'nocksock/t.nvim', local_path = 'plugins.nvim', config = function()
     require("t").setup({})
   end }) -- }}}
   -- }}}

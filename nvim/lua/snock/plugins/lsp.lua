@@ -73,9 +73,12 @@ local on_attach = function(client, bufnr)
   end)
 
   -- mappings {{{
-  nmap('<M-r>', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
-  nmap('<M-.>', vim.lsp.buf.code_action, 'Code Action (vscodey)')
+  nmap('<leader>ss', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
+  nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Action (vscodey)')
   nmap('<F2>', vim.lsp.buf.rename, 'rename symbol under cursor')
+
+  nmap('<leader>ff', ':Format<cr>', 'format file')
+  nmap('<leader>fa', ':FixAll<cr>', 'fix all autofixables')
 
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
   nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
@@ -96,10 +99,10 @@ local on_attach = function(client, bufnr)
   -- preview
   nmap('gpd', require('goto-preview').goto_preview_definition)
   nmap('gpi', require('goto-preview').goto_preview_implementation)
-  nmap('gP', require('goto-preview').close_all_win)
+  nmap('gpt', require('goto-preview').goto_preview_type_definition)
   nmap('gpr', require('goto-preview').goto_preview_references)
+  nmap('gP', require('goto-preview').close_all_win)
   --}}}
-
 end --}}}
 
 -- autoconfig of lsps {{{
@@ -115,7 +118,7 @@ require("mason-lspconfig").setup_handlers({
       handlers = handlers
     }
   end,
-})-- }}}
+}) -- }}}
 
 -- TypeScript {{{
 require("typescript").setup({
@@ -123,12 +126,12 @@ require("typescript").setup({
     capabilities = capabilities,
     handlers = handlers,
     on_attach = function(client, bufnr)
-      vim.keymap.set('n', 'go', require('typescript').actions.organizeImports, {
-        buffer = bufnr
-      })
-
-      vim.keymap.set('n', '<leader>fa', ':FixAll<cr>', { buffer = bufnr })
-      vim.keymap.set('n', '<leader>ff', ':Format<cr>', { buffer = bufnr })
+      vim.keymap.set('n', '<leader>fi', ':TypescriptAddMissingImports<cr>', { buffer = bufnr })
+      vim.keymap.set('n', '<leader>fo', ':TypescriptOrganizeImports<cr>', { buffer = bufnr })
+      vim.keymap.set('n', '<leader>fu', ':TypescriptRemoveUnused<cr>', { buffer = bufnr })
+      vim.keymap.set('n', '<leader>fA',
+        ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', { buffer = bufnr })
+      vim.keymap.set('n', '<leader>rN', ':TypescriptRenameFile<cr>', { buffer = bufnr })
 
       on_attach(client, bufnr)
     end,
@@ -169,7 +172,7 @@ lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
 }) --}}}
 
-null_ls.setup({-- {{{
+null_ls.setup({ -- {{{
   sources = {
     null_ls.builtins.formatting.prettier,
   },
