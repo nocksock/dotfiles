@@ -17,29 +17,28 @@ local h = prefix "[h]unk"
 local s = prefix "[s]earch"
 local t = prefix "[t]oggle"
 local x = prefix "[x] globals"
-local z = prefix "[z]ettel"
+
 --}}}
 -- Telescope and file finding {{{
-local st = ":lua require('telescope.builtin')"
+map('n', '<leader><space>', ":Telescope buffers<cr>", { desc = '[ ] Find existing buffers' })
+map('n', '<leader><cr>', ":Telescope resume<cr>", { desc = '[] resume previous search' })
+map('n', '<leader>T', ":Telescope builtin<cr>", { desc = 'builtin [T]elescope commands' })
+map('n', '<leader>/', ':Telescop current_buffer_fuzzy_find<cr>', { desc = '[/] Fuzzily search in current buffer' })
 
-map('n', '<leader><space>', st .. ".buffers()<cr>", { desc = '[ ] Find existing buffers' })
-map('n', '<leader><cr>', st .. ".resume()<cr>", { desc = '[] resume previous search' })
-map('n', '<leader>T', st .. ".builtin()<cr>", { desc = 'builtin [T]elescope commands' })
-map('n', '<M-p>', st .. ".find_files()<cr>", s('[f]iles'))
-map('n', '<leader>sC', st .. ".colorscheme({ enable_preview = true })<cr>", s("[C]olors"))
+map('n', '<M-p>', ":Telescope find_files<cr>", s('[f]iles'))
+map('n', '<leader>sC', ":Telescop colorscheme enable_preview=true<cr>", s("[C]olors"))
+map('n', '<leader>sf', ":Telescope find_files hidden=true<cr>", s('[f]iles'))
+map('n', '<leader>-', ":Telescope file_browser path=%:p:h<cr>", s('[f]iles'))
+map('n', '<leader>sr', ":Telescope oldfiles<cr>", s('[r]ecently opened files'))
+map('n', '<leader>sh', ":Telescop help_tags<cr>", s('[h]elp'))
+map('n', '<leader>sc', ":Telescop commands<cr>", s('[c]ommands'))
+map('n', '<leader>*', ":Telescop grep_string<cr>", s('current [w]ord'))
+map('n', '<leader>sb', ":Telescop git_branches<cr>", s('[b]ranches'))
+map('n', '<leader>gs', ':Telescope git_status<cr>', { desc = '[g]it [s]tatus' })
+map('n', '<M-C-P>', ":Telescope commands<cr>", s('[c]ommands'))
 
-map('n', '<leader>sf', st .. ".find_files()<cr>", s('[f]iles'))
-map('n', '<leader>sr', st .. ".oldfiles()<cr>", s('[r]ecently opened files'))
-map('n', '<leader>sR', st .. ".reloader()<cr>", s('[R]eload lua packages'))
-map('n', '<leader>sh', st .. ".help_tags()<cr>", s('[h]elp'))
-map('n', '<leader>sk', st .. ".keymaps()<cr>", s('[k]eymaps'))
-map('n', '<leader>sc', st .. ".commands()<cr>", s('[c]ommands'))
-map('n', '<leader>sw', st .. ".grep_string()<cr>", s('current [w]ord'))
 map('n', '<leader>sg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>", s('by [g]rep'))
-map('n', '<leader>sb', st .. ".git_branches()<cr>")
-map('n', '<leader>/', st .. '.current_buffer_fuzzy_find()<cr>', { desc = '[/] Fuzzily search in current buffer' })
 map('n', '<leader>sp', ":lua R('snock.plugins.search-plugins').search()<cr>", s('[p]lugins'))
-map('n', '<M-C-P>', st .. ".commands()<cr>", s('[c]ommands'))
 --}}}
 -- Buffer {{{
 map('n', '<leader>bd', ':b#|bd#<cr>', b("[D]elete    , keep layout"))
@@ -57,9 +56,7 @@ map('n', '<leader>9', ':LualineBuffersJump 9<cr>')
 --}}}
 -- Terminal {{{
 map('n', '<F12>', ':Ts<CR>i')
-map('n', '<M-j>', ':Ts<CR>i')
 map('t', '<F12>', [[<C-\><C-n>:T<CR>]])
-map('t', '<M-j>', [[<C-\><C-n>:T<CR>]])
 
 -- better terminal exits
 map('t', '<c-[>', '<C-\\><C-n>')
@@ -82,17 +79,13 @@ map('n', '<leader>k', vim.diagnostic.goto_prev)
 map('n', '<leader>j', vim.diagnostic.goto_next)
 map('n', '<leader>e', vim.diagnostic.open_float)
 map('n', '<leader>q', vim.diagnostic.setloclist)
-map('n', "<leader>K", function()
-  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end)
-map('n', "<leader>J", function()
-  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end)
+map('n', "<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
+map('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
 -- }}}
 
 -- Harpoon {{{
 -- file nav
-map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
+map('n', "é", ':lua require("harpoon.mark").add_file()<CR>') -- alt g
 map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 
 -- left hand alt+asdf
@@ -101,16 +94,11 @@ map('n', "ß", ':lua require("harpoon.ui").nav_file(3)<CR>')
 map('n', "đ", ':lua require("harpoon.ui").nav_file(2)<CR>')
 map('n', "è", ':lua require("harpoon.ui").nav_file(1)<CR>')
 
--- cmd
-map('n', '""', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>')
-map('n', '"1', ':lua require("harpoon.tmux").gotoTerminal(1)<CR>')
-map('n', '"2', ':lua require("harpoon.tmux").gotoTerminal(2)<CR>')
 --}}}
 -- Git hunk handling {{{
 local gitsigns = require('gitsigns.actions')
 
 map('n', '<leader>gg', ':tab G<cr>')
-map('n', '<leader>gs', ':Telescope git_status<cr>')
 map('n', '<leader>cc', ':Git commit<cr>')
 map('n', ']h', "<cmd>Gitsigns next_hunk<CR>")
 map('n', '[h', "<cmd>Gitsigns prev_hunk<CR>")
@@ -128,22 +116,7 @@ map('n', '<leader>hD', ':lua require"gitsigns".diffthis("~")<CR>')
 map('o', 'ih', gitsigns.select_hunk)
 map('x', 'ih', gitsigns.select_hunk)
 -- }}}
--- Zettelkasten{{{
-local zettel = ':lua require("zettel")'
-map('n', '<leader>zf', zettel .. '.find_notes()<cr>', z('[f]ind notes'))
-map('n', '<leader>zd', zettel .. '.find_daily_notes()<cr>', z('find [d]aily notes'))
-map('n', '<leader>zg', zettel .. '.search_notes()<cr>', z('[g]rep notes'))
-map('n', '<leader>zz', zettel .. '.follow_link()<cr>', z('[z] follow link'))
-map('n', '<leader>zt', zettel .. '.goto_today()<cr>', z('goto [t]oday'))
-map('n', '<leader>zW', zettel .. '.goto_thisweek()<cr>', z('goto this [W]eek'))
-map('n', '<leader>zw', zettel .. '.find_weekly_notes()<cr>', z('find [w]eekly notes'))
-map('n', '<leader>zn', zettel .. '.new_note()<cr>', z('[n]ew note'))
-map('n', '<leader>zN', zettel .. '.new_templated_note()<cr>', z('[N]ew templated note'))
---}}}
 -- Toggles {{{
-map('n', '<leader>te', ':NnnExplorer<cr>', t('[e]xplorer (nnn)'))
-map('n', '<leader>tE', ':NnnExplorer %:p:h<cr>', t('[E]xplorer in buffer folder (nnn)'))
-map('n', '_', ':NnnPicker %:p:h<cr>')
 map('n', '<M-b>', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tt', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
@@ -162,7 +135,7 @@ map('i', ',', ',<c-g>u')
 -- infos {{{
 map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
 map('n', '<leader>id', '<Plug>:LspDiagLine<cr>')
-map('n', '<leader>il', function ()
+map('n', '<leader>il', function()
   local servers = {}
   for _, server in ipairs(vim.lsp.get_active_clients()) do
     table.insert(servers, server.name)
@@ -192,20 +165,29 @@ map('n', "<C-u>", "<C-u>zz")
 -- Refactoring {{{
 
 -- prompt for a refactor to apply when the remap is triggered
-vim.api.nvim_set_keymap( "v", "<leader>rr", ":lua require('refactoring').select_refactor()<CR>", {noremap = true, silent = true, expr = false })
+vim.api.nvim_set_keymap("v", "<leader>rr", ":lua require('refactoring').select_refactor()<CR>",
+  { noremap = true, silent = true, expr = false })
 
 -- Remaps for the refactoring operations currently offered by the plugin
-vim.api.nvim_set_keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+  { noremap = true, silent = true, expr = false })
+vim.api.nvim_set_keymap("v", "<leader>rf",
+  [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
+  { noremap = true, silent = true, expr = false })
+vim.api.nvim_set_keymap("v", "<leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+  { noremap = true, silent = true, expr = false })
+vim.api.nvim_set_keymap("v", "<leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+  { noremap = true, silent = true, expr = false })
 
 -- Extract block doesn't need visual mode
-vim.api.nvim_set_keymap("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
+  { noremap = true, silent = true, expr = false })
+vim.api.nvim_set_keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
+  { noremap = true, silent = true, expr = false })
 
 -- Inline variable can also pick up the identifier currently under the cursor without visual mode
-vim.api.nvim_set_keymap("n", "<leader>ri", [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})-- }}}
+vim.api.nvim_set_keymap("n", "<leader>ri", [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+  { noremap = true, silent = true, expr = false }) -- }}}
 
 map('n', '<leader>cp', ':Format<cr>')
 map('n', '<leader>.', ':Telescop code_action<cr>')
