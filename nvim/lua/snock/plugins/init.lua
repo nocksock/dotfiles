@@ -88,7 +88,7 @@ require('packer').startup({ function(use)
   -- gitsigns.nvim: show diff markers in the gutter + gitlens {{{
   use({ 'lewis6991/gitsigns.nvim', config = function()
     require('gitsigns').setup {}
-  end })-- }}}
+  end }) -- }}}
   -- }}}
   -- completers {{{
   use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
@@ -245,6 +245,7 @@ require('packer').startup({ function(use)
     'nocksock/nazgul-vim',
     local_path = 'plugins.nvim'
   })
+  use { 'nyoom-engineering/oxocarbon.nvim' }
   use_local({
     'nocksock/ghash.nvim',
     local_path = 'plugins.nvim'
