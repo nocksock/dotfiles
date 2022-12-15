@@ -24,6 +24,9 @@ map('n', '<leader><space>', ":Telescope buffers<cr>", { desc = '[ ] Find existin
 map('n', '<leader><cr>', ":Telescope resume<cr>", { desc = '[] resume previous search' })
 map('n', '<leader>T', ":Telescope builtin<cr>", { desc = 'builtin [T]elescope commands' })
 map('n', '<leader>/', ':Telescop current_buffer_fuzzy_find<cr>', { desc = '[/] Fuzzily search in current buffer' })
+map('n', '<C-P>', ":Telescope find_files hidden=true<cr>", s('[f]iles'))
+map('n', '<C-B>', ":Telescope buffers<cr>", { desc = '[ ] Find existing buffers' })
+map('n', '<M-C-P>', ":Telescope commands<cr>", s('[c]ommands'))
 
 map('n', '<M-p>', ":Telescope find_files<cr>", s('[f]iles'))
 map('n', '<leader>sC', ":Telescop colorscheme enable_preview=true<cr>", s("[C]olors"))
@@ -33,9 +36,8 @@ map('n', '<leader>sr', ":Telescope oldfiles<cr>", s('[r]ecently opened files'))
 map('n', '<leader>sh', ":Telescop help_tags<cr>", s('[h]elp'))
 map('n', '<leader>sc', ":Telescop commands<cr>", s('[c]ommands'))
 map('n', '<leader>*', ":Telescop grep_string<cr>", s('current [w]ord'))
-map('n', '<leader>sb', ":Telescop git_branches<cr>", s('[b]ranches'))
+map('n', '<leader>gb', ":Telescop git_branches<cr>", {desc = '[g]it [b]ranches'})
 map('n', '<leader>gs', ':Telescope git_status<cr>', { desc = '[g]it [s]tatus' })
-map('n', '<M-C-P>', ":Telescope commands<cr>", s('[c]ommands'))
 
 map('n', '<leader>sg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>", s('by [g]rep'))
 map('n', '<leader>sp', ":lua R('snock.plugins.search-plugins').search()<cr>", s('[p]lugins'))
@@ -87,6 +89,7 @@ map('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagn
 -- file nav
 map('n', "é", ':lua require("harpoon.mark").add_file()<CR>') -- alt g
 map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
+map('n', "<c-h>", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 
 -- left hand alt+asdf
 map('n', "ä", ':lua require("harpoon.ui").nav_file(4)<CR>')
