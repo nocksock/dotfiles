@@ -23,7 +23,7 @@ require('packer').startup({ function(use)
   -- general purpose tools {{{
   use({ 'https://github.com/numToStr/Comment.nvim', config = function()
     -- comments, with more smartness
-    require('comment').setup {}
+    require('Comment').setup {}
   end })
   use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
   use('https://github.com/tpope/vim-repeat') -- makes `.` even more powerful by adding support for plugins
