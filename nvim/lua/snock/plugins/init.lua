@@ -267,7 +267,7 @@ require('packer').startup({ function(use)
   end }) -- }}}
   -- t.nvim: tiny term-toggle plugin{{{
   use_local({ 'nocksock/t.nvim', local_path = 'plugins.nvim', config = function()
-    require("t").setup({})
+    require("t")
   end }) -- }}}
   -- }}}
 
