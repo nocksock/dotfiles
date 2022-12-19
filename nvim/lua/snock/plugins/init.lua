@@ -91,6 +91,7 @@ require('packer').startup({ function(use)
   end }) -- }}}
   -- }}}
   -- completers {{{
+  use({'https://github.com/github/copilot.vim' })
   use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
   -- nvim-autopairs: auto pairs in lua{{{
   use({ 'https://github.com/windwp/nvim-autopairs', config = function()
