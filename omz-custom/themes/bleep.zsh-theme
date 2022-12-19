@@ -27,7 +27,7 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="$fg[red]c"
 
 function zsh_bleep_hostname {
 	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-		echo "$HOST:"
+		echo "ssh://$USER@$HOST:"
 	fi
 }
 

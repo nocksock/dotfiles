@@ -19,7 +19,6 @@ require('nvim-treesitter.configs').setup({
     "php",
     "prisma",
     "query",
-    "swift",
     "toml",
     "tsx",
     "typescript",

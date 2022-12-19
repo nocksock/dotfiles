@@ -23,7 +23,7 @@ require('packer').startup({ function(use)
   -- general purpose tools {{{
   use({ 'https://github.com/numToStr/Comment.nvim', config = function()
     -- comments, with more smartness
-    require('comment').setup {}
+    require('Comment').setup {}
   end })
   use('https://github.com/tpope/vim-abolish') -- working with words (drastic understatement)
   use('https://github.com/tpope/vim-repeat') -- makes `.` even more powerful by adding support for plugins
@@ -91,6 +91,7 @@ require('packer').startup({ function(use)
   end }) -- }}}
   -- }}}
   -- completers {{{
+  use({'https://github.com/github/copilot.vim' })
   use('https://github.com/L3MON4D3/LuaSnip') -- the first snippet plugin to beat UltiSnips for me?
   -- nvim-autopairs: auto pairs in lua{{{
   use({ 'https://github.com/windwp/nvim-autopairs', config = function()
@@ -267,7 +268,7 @@ require('packer').startup({ function(use)
   end }) -- }}}
   -- t.nvim: tiny term-toggle plugin{{{
   use_local({ 'nocksock/t.nvim', local_path = 'plugins.nvim', config = function()
-    require("t").setup({})
+    require("t")
   end }) -- }}}
   -- }}}
 
