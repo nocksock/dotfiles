@@ -31,10 +31,10 @@ ctrl + shift - up    : yabai -m window --swap north
 
 ctrl + shift - y     : yabai -m space --mirror y-axis
 
-ctrl + shift - h     : yabai -m window --focus west
-ctrl + shift - j     : yabai -m window --focus south
-ctrl + shift - k     : yabai -m window --focus north
-ctrl + shift - l     : yabai -m window --focus east
+ctrl + shift - h : yabai -m window --focus west  || yabai -m display --focus west
+ctrl + shift - j : yabai -m window --focus south || yabai -m display --focus south
+ctrl + shift - k : yabai -m window --focus north || yabai -m display --focus north
+ctrl + shift - l : yabai -m window --focus east  || yabai -m display --focus east
 
 ctrl + shift - o    : yabai -m space --balance
 ctrl + shift - i    : yabai -m window --ratio abs:0.66
@@ -78,6 +78,9 @@ hyper - 3     : yabai -m space --focus 3
 hyper - 4     : yabai -m space --focus 4
 hyper - 5     : yabai -m space --focus 5
 hyper - 6     : yabai -m space --focus 6
+hyper - 7     : yabai -m space --focus 7
+hyper - 8     : yabai -m space --focus 8
+hyper - 9     : yabai -m space --focus 9
 
 # app launcher
 hyper - f      : ~/.config/skhd/apps/kitty launch-or-focus
