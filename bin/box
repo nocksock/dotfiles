@@ -74,7 +74,7 @@ tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
 
 if [[ $RECIPE != "empty" ]]; then
   tmux split-window -t $DIRNAME:1.1 -p 25
-  tmux send-keys -t $DIRNAME:1.2 "pnpm dev --open" Enter
+  tmux send-keys -t $DIRNAME:1.2 "pnpm dev" Enter
   tmux select-pane -t $DIRNAME:1.1
 fi
 
