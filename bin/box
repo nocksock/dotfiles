@@ -1,14 +1,24 @@
 #!/usr/bin/env sh
-# just a small script to quickly create a sandbox to test something
+#
+# $ box
+#    a helper to quickly create local code sandboxes
+#
+# TODO: use relative path when NAME was provided and skip STAMP suffic
+
 if [[ $# -eq 1 ]]; then
   NAME=$1
+  DIRNAME=$1
+  ROOT=$(pwd)
+  if [[ -a "$ROOT/$DIRNAME" ]]; then
+    echo "$DIRNAME already exists"
+    exit 1;
+  fi
 else
   NAME=$(gum input --prompt="name: ")
+  DIRNAME="${NAME}-$(date +"%Y%m%d%H%M%S")"
+  ROOT="$HOME/code/sandboxes"
 fi
 
-STAMP=$(date +"%Y%m%d%H%M%S")
-DIRNAME="${NAME}-${STAMP}"
-ROOT="$HOME/code/sandboxes"
 FULL_PATH="$ROOT/$DIRNAME"
 
 if [[ -z $NAME ]]; then
