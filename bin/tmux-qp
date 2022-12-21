@@ -14,13 +14,10 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
-    exit 0
-fi
+tmux has-session -t $selected_name 2>/dev/null
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -c $selected
+if [ $? != 0 ]; then
+  tmux new-session -ds $selected_name -c $selected
     # tmux source-file .tmux.conf
     # tmux send-keys -t $selected_name "nv" Enter
 fi
