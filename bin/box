@@ -16,9 +16,9 @@ if [[ -z $NAME ]]; then
 fi
 
 RECIPE=$(cat <<EOF | fzf
-react
-vanilla
-next
+template
+vite
+t3
 empty
 EOF
 )
@@ -30,14 +30,17 @@ if [[ -z $RECIPE ]]; then
 fi
 
 case $RECIPE in
-  react) 
-    yarn create vite $DIRNAME --template react-ts
+  template)
+    TEMPLATE=$(find $HOME/code/templates -type d -depth 1 | fzf)
+    git clone file://$TEMPLATE $DIRNAME --depth=1
+    cd $FULL_PATH
+    rm -rf .git
     ;;
-  vanilla) 
-    yarn create vite $DIRNAME --template vanilla-ts
+  vite) 
+    pnpm create vite $DIRNAME
     ;;
-  next) 
-    yarn create t3-app $DIRNAME
+  t3) 
+    pnpm create t3-app $DIRNAME
     ;;
   empty) 
     mkdir -p $FULL_PATH
@@ -45,48 +48,38 @@ case $RECIPE in
 esac
 
 cd $FULL_PATH
-yarn
+
 
 case $RECIPE in
   react|vanilla)
-
-    yarn add lodash ramda jotai date-fns @faker-js/faker
-    yarn add -D tailwindcss postcss autoprefixer @types/lodash @types/ramda
-    yarn run tailwindcss init -p
-    cat <<EOF >> tailwind.config.cjs
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-EOF
-
+    pnpm add lodash ramda jotai date-fns @faker-js/faker
+    pnpm add -D tailwindcss postcss autoprefixer @types/lodash @types/ramda
+    pnpm run tailwindcss init -p
   ;; 
-  next)
-
-  yarn add lodash ramda jotai date-fns @faker-js/faker
-  yarn add -D @types/lodash @types/ramda
-
+  t3)
+    pnpm add lodash ramda jotai date-fns @faker-js/faker
+    pnpm add -D @types/lodash @types/ramda
   ;;
 esac
 
-yarn
+pnpm install
 
 git init
 git add . 
 git commit -m "-- start --"
 
-tmux-qp $FULL_PATH
+tmux new-session -ds $DIRNAME -c $FULL_PATH
+
+tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
 
 if [[ $RECIPE != "empty" ]]; then
   tmux split-window -t $DIRNAME:1.1 -p 25
-  tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
-  tmux send-keys -t $DIRNAME:1.2 "yarn dev" Enter
+  tmux send-keys -t $DIRNAME:1.2 "pnpm dev --open" Enter
   tmux select-pane -t $DIRNAME:1.1
+fi
+
+if [[ -z $TMUX ]]; then
+    tmux attach -t $selected_name
+else
+    tmux switch-client -t $selected_name
 fi
