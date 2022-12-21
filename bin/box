@@ -3,25 +3,37 @@
 # $ box
 #    a helper to quickly create local code sandboxes
 #
-# TODO: use relative path when NAME was provided and skip STAMP suffic
+#
 
-if [[ $# -eq 1 ]]; then
-  NAME=$1
-  DIRNAME=$1
+for i in "$@"
+do
+case $i in
+  -t|--tools)
+    TOOLS=1
+    shift
+  ;;
+  *)
+    # unknown option
+    DIRNAME="${i#*=}"
+  ;;
+esac
+done
+
+if [[ $DIRNAME ]]; then
   ROOT=$(pwd)
   if [[ -a "$ROOT/$DIRNAME" ]]; then
     echo "$DIRNAME already exists"
     exit 1;
   fi
 else
-  NAME=$(gum input --prompt="name: ")
-  DIRNAME="${NAME}-$(date +"%Y%m%d%H%M%S")"
+  DIRNAME="$(gum input --prompt="name: ")-$(date +"%Y%m%d%H%M%S")"
   ROOT="$HOME/code/sandboxes"
 fi
 
 FULL_PATH="$ROOT/$DIRNAME"
 
-if [[ -z $NAME ]]; then
+if [[ -z $DIRNAME ]]; then
+  echo "abort: no name given."
   exit;
 fi
 
@@ -36,6 +48,7 @@ EOF
 cd $ROOT
 
 if [[ -z $RECIPE ]]; then
+  echo "abort: no recipe chosen."
   exit;
 fi
 
@@ -59,18 +72,10 @@ esac
 
 cd $FULL_PATH
 
-
-case $RECIPE in
-  react|vanilla)
-    pnpm add lodash ramda jotai date-fns @faker-js/faker
-    pnpm add -D tailwindcss postcss autoprefixer @types/lodash @types/ramda
-    pnpm run tailwindcss init -p
-  ;; 
-  t3)
-    pnpm add lodash ramda jotai date-fns @faker-js/faker
-    pnpm add -D @types/lodash @types/ramda
-  ;;
-esac
+if [[ $TOOLS ]]; then
+  pnpm add lodash ramda date-fns @faker-js/faker chalk
+  pnpm add -D @types/lodash @types/ramda
+fi
 
 pnpm install
 
