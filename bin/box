@@ -57,6 +57,9 @@ case $RECIPE in
     TEMPLATE=$(find $HOME/code/templates -type d -depth 1 | fzf)
     git clone file://$TEMPLATE $DIRNAME --depth=1
     cd $FULL_PATH
+    if [[ -a ".env.example" ]]; then
+      cp .env.example .env
+    fi
     rm -rf .git
     ;;
   vite) 
@@ -71,6 +74,19 @@ case $RECIPE in
 esac
 
 cd $FULL_PATH
+
+
+if [[ ! $TOOLS ]]; then
+  read -p "Install common tools like ramda, faker etc? (y/N) " -n 1 yn
+  case $yn in 
+    y ) 
+      TOOLS=1
+      ;;
+    * ) 
+      TOOLS=0
+      ;;
+  esac
+fi
 
 if [[ $TOOLS ]]; then
   pnpm add lodash ramda date-fns @faker-js/faker chalk
@@ -98,3 +114,6 @@ if [[ -z $TMUX ]]; then
 else
     tmux switch-client -t $selected_name
 fi
+
+echo ""
+echo "done."
