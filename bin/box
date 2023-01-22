@@ -60,7 +60,7 @@ case $RECIPE in
     if [[ -a ".env.example" ]]; then
       cp .env.example .env
     fi
-    rm -rf .git
+    # rm -rf .git
     ;;
   vite) 
     pnpm create vite $DIRNAME
@@ -95,9 +95,9 @@ fi
 
 pnpm install
 
-git init
+# git init
 git add . 
-git commit -m "-- start --"
+git commit -m "-- start from $TEMPLATE --"
 
 tmux new-session -ds $DIRNAME -c $FULL_PATH
 
