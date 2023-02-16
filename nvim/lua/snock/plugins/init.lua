@@ -1,7 +1,6 @@
 -- vi: fdl=0
 local utils = require('snock.utils.plugins')
 local use_local = utils.use_local
-local conf = utils.conf
 
 -- make sure packer is installed {{{
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
@@ -74,11 +73,13 @@ require('packer').startup({ function(use)
   use('jose-elias-alvarez/typescript.nvim') -- more ts lsp stuff
   use('folke/trouble.nvim') -- pretty list for LSP diagnostics
   use('ray-x/lsp_signature.nvim') -- show function signatures from LSP when typing
+
+  use("https://github.com/marilari88/twoslash-queries.nvim") -- // ^?
   -- }}}
   -- treesitter {{{
   use({ 'https://github.com/nvim-treesitter/nvim-treesitter',
     -- simple API for treesitter for configuration and interactions
-    commit = "4cccb6f494eb255b32a290d37c35ca12584c74d0"
+    -- commit = "4cccb6f494eb255b32a290d37c35ca12584c74d0"
   })
   use('https://github.com/nvim-treesitter/playground') -- visual representation and query playground for the AST of TS
   use('https://github.com/nvim-treesitter/nvim-treesitter-textobjects') -- create additional textobjects via TreeSitter (eg `if` => `@function.inner`)
@@ -260,7 +261,6 @@ require('packer').startup({ function(use)
   use('tpope/vim-eunuch') -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
   use('tpope/vim-vinegar') -- improved netrw for file browsing.
   use('mcchrish/nnn.vim') -- using nnn in a floating window (and open file in vim)
-  use('metakirby5/codi.vim') -- repl/scratchpad
 
   -- do.nvim: a tiny task helper plugin{{{
   use_local({ 'nocksock/do.nvim', local_path = 'plugins.nvim', config = function()

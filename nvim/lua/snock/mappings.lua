@@ -122,7 +122,6 @@ map('x', 'ih', gitsigns.select_hunk)
 -- Toggles {{{
 map('n', '<M-b>', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tt', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
-map('n', '<leader>tn', ':LineNrToggle<CR>', { desc = "[t]oggle line [n]umbers" })
 map('n', '<leader>tu', ':MundoToggle<CR>', { desc = "[t]oggle [u]ndo tree" })
 map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
 --}}}

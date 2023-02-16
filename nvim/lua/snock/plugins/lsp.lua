@@ -9,8 +9,8 @@ local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local builtin = require('telescope.builtin')
 
-local servers = { 'clangd', 'tsserver', 'sumneko_lua', 'gopls', 'bashls' }
-local manual_servers = { 'tsserver', 'sumneko_lua' }
+local servers = { 'clangd', 'tsserver', 'lua_ls', 'bashls' }
+local manual_servers = { 'tsserver', 'lua_ls' }
 local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require("mason-lspconfig").setup({ ensure_installed = servers })
@@ -40,11 +40,11 @@ local on_attach = function(client, bufnr)
   if client.server_capabilities.documentHighlightProvider then
     vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
     vim.api.nvim_clear_autocmds { buffer = bufnr, group = "lsp_document_highlight" }
-    vim.api.nvim_create_autocmd("CursorHold", {
-      callback = vim.lsp.buf.document_highlight,
-      buffer = bufnr,
-      group = "lsp_document_highlight",
-    })
+    -- vim.api.nvim_create_autocmd("CursorHold", {
+    --   callback = vim.lsp.buf.document_highlight,
+    --   buffer = bufnr,
+    --   group = "lsp_document_highlight",
+    -- })
     vim.api.nvim_create_autocmd("CursorMoved", {
       callback = vim.lsp.buf.clear_references,
       buffer = bufnr,
@@ -112,7 +112,12 @@ require("mason-lspconfig").setup_handlers({
       return -- do not autoconfig these
     end
 
-    require("lspconfig")[server_name].setup {
+    if lspconfig[server_name] == nil then
+      print("lspconfig[" .. server_name .. "] is nil")
+      return
+    end
+
+    lspconfig[server_name].setup {
       on_attach = on_attach,
       capabilities = capabilities,
       handlers = handlers
@@ -126,13 +131,14 @@ require("typescript").setup({
     capabilities = capabilities,
     handlers = handlers,
     on_attach = function(client, bufnr)
+      require("twoslash-queries").attach(client, bufnr)
+      vim.keymap.set('n', "<C-k>", "<cmd>InspectTwoslashQueries<CR>", { buffer = bufnr })
       vim.keymap.set('n', '<leader>fi', ':TypescriptAddMissingImports<cr>', { buffer = bufnr })
       vim.keymap.set('n', '<leader>fo', ':TypescriptOrganizeImports<cr>', { buffer = bufnr })
       vim.keymap.set('n', '<leader>fu', ':TypescriptRemoveUnused<cr>', { buffer = bufnr })
       vim.keymap.set('n', '<leader>fA',
         ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', { buffer = bufnr })
       vim.keymap.set('n', '<leader>rN', ':TypescriptRenameFile<cr>', { buffer = bufnr })
-
       on_attach(client, bufnr)
     end,
   }
@@ -144,7 +150,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
   settings = {
     Lua = {
       format = {
@@ -172,7 +178,8 @@ lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
 }) --}}}
 
-null_ls.setup({ -- {{{
+null_ls.setup({
+-- {{{
   sources = {
     null_ls.builtins.formatting.prettier,
   },
