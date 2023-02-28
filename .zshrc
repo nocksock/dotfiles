@@ -55,8 +55,8 @@ zstyle ':omz:update' frequency 13
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aliases npm yarn nvm fzf tmux z)
-export NVM_LAZY=1
+plugins=(aliases npm yarn nvm fzf tmux z git)
+# export NVM_LAZY=1
 # export NVM_AUTOLOAD=1
 
 # User configuration
@@ -73,23 +73,17 @@ export PYENV_ROOT="$HOME/.pyenv"
 export BUN_INSTALL="/Users/nilsriedemann/.bun"
 
 export PATH="/usr/local/bin:$PATH" # some apps put there stuff here (eg vscode, mullvad)
-export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/code/bleepbloop.git/main/bin:$PATH"
-export PATH="$HOME/go/bin:$PATH"
-export PATH="$HOME/bin/gh/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
-export PATH="$HOME/.emacs.d/bin:$PATH"
-export PATH="$HOME/.poetry/bin:$PATH"
-export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 export PATH="$DOTDIR/bin/:$PATH"
-export PATH="$PYENV_ROOT/bin/:$PATH"
 export PATH="/usr/local/cuda-11.6/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH" # to use the "right" gnubins, eg grep
 export PATH="$PATH./node_modules/.bin"
 export PATH="$PATH./node_modules/.bin"
 export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 
 # # PyEnv, but not doing any python atm
 # eval "$(pyenv init --path)"
@@ -127,5 +121,9 @@ export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
+
+eval "$(op completion zsh)"; compdef _op op
+
 # bun completions
 [ -s "/Users/nilsriedemann/.bun/_bun" ] && source "/Users/nilsriedemann/.bun/_bun"
+export PATH="/opt/homebrew/opt/bison/bin:$PATH"
