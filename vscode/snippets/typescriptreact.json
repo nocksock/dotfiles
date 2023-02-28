@@ -15,5 +15,11 @@
 	"pretty json": {
 		"prefix": "pjson",
 		"body": "<pre>{JSON.stringify($1, null, 2)}</pre>"
-	}
+	},
+	"Arrow Function": {
+		"prefix": "fn",
+		"body": [
+			"() => $1"
+		]
+	},
 }

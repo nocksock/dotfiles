@@ -171,7 +171,7 @@
         "command": "workbench.action.terminal.moveToTerminalPanel"
     },
     {
-        "key": "ctrl+cmd+b ctrl",
+        "key": "ctrl+shift+alt+b",
         "command": "workbench.action.toggleAuxiliaryBar"
     },
     {
@@ -186,5 +186,9 @@
     {
         "key": "ctrl",
         "command": "workbench.action.nextPanelView"
+    },
+    {
+        "key": "ctrl+shift+alt+enter",
+        "command": "github.copilot.toggleCopilot"
     },
 ]

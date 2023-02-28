@@ -19,7 +19,6 @@
   "editor.matchBrackets": "near",
   "editor.fontSize": 14,
   "editor.suggestSelection": "recentlyUsedByPrefix",
-  "workbench.sideBar.location": "right",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "workbench.editor.enablePreviewFromCodeNavigation": true,
   "gitlens.hovers.avatars": false,
@@ -40,7 +39,7 @@
   "prettier.trailingComma": "none",
   "zenMode.fullScreen": false,
   "vim.smartRelativeLine": true,
-  "vim.neovimConfigPath": "~\/.config\/nvim\/init.vim",
+  "vim.neovimConfigPath": "~/.config/nvim/init.vim",
   "files.exclude": {
     "**\/CVS": true,
     "**\/.DS_Store": true,
@@ -109,7 +108,7 @@
       ],
       "commands": [
         {
-          "command": "editor.action.marker.previous"
+          "command": "editor.action.marker.prev"
         }
       ]
     },
@@ -262,15 +261,40 @@
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.recentChange.enabled": false,
   "remote.SSH.remotePlatform": {
-    "nocksock.full-t3-app.main.csb": "linux"
+    "nocksock.full-t3-app.main.csb": "linux",
+    "sandbox.z5grtb.csb": "linux",
+    "sandbox.u6nmhf.csb": "linux"
   },
   "workbench.layoutControl.enabled": false,
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
-  "breadcrumbs.enabled": false,
   "gitlens.advanced.fileHistoryShowAllBranches": true,
   "editor.minimap.size": "fill",
   "redhat.telemetry.enabled": false,
   "editor.minimap.enabled": false,
-  "workbench.activityBar.visible": false,
+  "editor.inlineSuggest.enabled": true,
+  "totalTypeScript.hideAllTips": false,
+  "totalTypeScript.hideBasicTips": true,
+  "godot_tools.editor_path": "/Applications/Godot.app/Contents/MacOS/Godot",
+  "godot_tools.reconnect_attempts": 2,
+  "omnisharp.dotnetPath": "/usr/local/share/dotnet/dotnet",
+  "omnisharp.monoPath": "/Library/Frameworks/Mono.framework/Versions/Current",
+  "omnisharp.sdkPath": "/usr/local/share/dotnet/sdk/7.0.102",
+  "settingsSync.ignoredSettings": [
+    "omnisharp.dotnetPath",
+    "omnisharp.sdkPath",
+    "omnisharp.useModernNet"
+  ],
+  "totalTypeScript.hiddenTips": [
+    "passing-generics-to-types"
+  ],
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": false
+  },
+  "editor.fontVariations": false,
+  "workbench.sideBar.location": "right",
+  "workbench.editor.labelFormat": "medium",
 }
