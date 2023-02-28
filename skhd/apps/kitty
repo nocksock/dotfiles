@@ -4,7 +4,7 @@ switch $argv
 case launch-or-focus
   set -l kitty_id (yabai -m query --windows | jq '.[] | select(."is-visible" == true and ."app" == "kitty") | .id | tonumber')
   if test "$kitty_id" != ""
-    yabai -m window --focus $kitty_id
+    focus-or-recent $window_id
   else
     kitty @ new-window --window-type=os
   end
