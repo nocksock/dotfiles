@@ -4,7 +4,11 @@ switch $argv
 case launch-or-focus
   set -l window_id (yabai -m query --windows | jq '.[] | select(."app" == "Obsidian") | .id | tonumber')
   if test "$window_id" != ""
-    yabai -m window --focus $window_id
+    if test (yabai -m query --windows --window "$window_id" | jq '."has-focus"') = "true"
+      yabai -m window --focus recent
+    else
+      yabai -m window --focus "$window_id"
+    end
   else
     open -a "obsidian"
   end
