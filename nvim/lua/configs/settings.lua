@@ -31,7 +31,6 @@ vim.o.smartcase = true -- ignore 'ignorecase' when search contains uppercase cha
 -- }}}
 
 -- basic ui things{{{
-vim.g.colors_name = 'rose-pine'
 vim.o.list = false -- do not show invisible characters (there's an auto-command to show only in insert mode)
 vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,' -- define characters for invisible characters
 vim.o.fillchars = 'eob:⸱'

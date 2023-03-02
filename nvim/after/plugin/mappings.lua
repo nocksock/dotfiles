@@ -87,20 +87,17 @@ map('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagn
 
 -- Harpoon {{{
 -- file nav
-map('n', "é", ':lua require("harpoon.mark").add_file()<CR>') -- alt g
-map('n', "''", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
+map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
 map('n', "<c-h>", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 
--- left hand alt+asdf
-map('n', "ä", ':lua require("harpoon.ui").nav_file(4)<CR>')
-map('n', "ß", ':lua require("harpoon.ui").nav_file(3)<CR>')
-map('n', "đ", ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('n', "è", ':lua require("harpoon.ui").nav_file(1)<CR>')
+map('n', "ú", ':lua require("harpoon.ui").nav_file(1)<CR>') -- alt + j
+map('n', "ĳ", ':lua require("harpoon.ui").nav_file(2)<CR>') -- alt + k
+map('n', "ø", ':lua require("harpoon.ui").nav_file(3)<CR>') -- alt + l
+map('n', "°", ':lua require("harpoon.ui").nav_file(4)<CR>') -- alt + ;
 
 --}}}
 -- Git hunk handling {{{
 local gitsigns = require('gitsigns.actions')
-
 map('n', '<leader>gg', ':tab G<cr>')
 map('n', '<leader>cc', ':Git commit<cr>')
 map('n', ']h', "<cmd>Gitsigns next_hunk<CR>")
