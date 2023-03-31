@@ -15,6 +15,7 @@
     ~/.config/nvim: nvim
     ~/.config/polybar: polybar
     ~/.config/rofi: rofi
+    ~/.config/zellij: zellij
     ~/.doom.d: .doom.d
     ~/.tmux.conf: .tmux.conf
     ~/.zsh: zsh
