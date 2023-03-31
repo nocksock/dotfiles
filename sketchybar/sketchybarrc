@@ -30,14 +30,13 @@ export POSITION=left
 
 export POSITION=right
   $PLUGIN_DIR/clock.sh setup
-  $PLUGIN_DIR/battery.sh setup
   $PLUGIN_DIR/music setup
   $PLUGIN_DIR/skhd-mode setup
 
-sketchybar                            \
-  --add bracket sysinfo clock battery music \
-  --set sysinfo                       \
-      background.color=$BLACK_ALPHA   \
+sketchybar                          \
+  --add bracket sysinfo clock music \
+  --set sysinfo                     \
+      background.color=$BLACK_ALPHA \
       background.corner_radius=5
 
 export POSITION=center
