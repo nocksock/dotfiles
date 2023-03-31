@@ -42,9 +42,11 @@ yabai -m space 1 --layout bsp --label side    # side stuff, docs etc
 yabai -m space 2 --layout bsp --label work    # main work stuff
 yabai -m space 3 --layout bsp --label comm    # work related communication, teams, slack, mails
 yabai -m space 4 --layout bsp --label plan    # calendar,
-yabai -m space 5 --layout bsp --label play    # music, graphics, youtube
-yabai -m space 6 --layout bsp --label chat    # discord etc
-yabai -m space 7 --layout bsp --label todo    # things
+yabai -m space 5 --layout float --label play    # music, graphics, youtube
+yabai -m space 6 --layout float --label chat    # discord etc
+
+# these are usually on a second screen
+yabai -m space 7 --layout bsp --label todo    # things etc
 yabai -m space 8 --layout bsp --label note    # obsidian
 yabai -m space 9 --layout bsp --label meep    # photos, messages.app
 
@@ -60,18 +62,20 @@ yabai -m rule --add app="^Dash$" manage=off
 yabai -m rule --add app="^Telephone$" manage=off
 yabai -m rule --add app="^Hammerspoon Console$" manage=off
 yabai -m rule --add title="Software Update" manage=off
-yabai -m rule --add title="Cursor Pro" manage=off
+yabai -m rule --add title="Cursor Pro" app="Cursor Pro" manage=off border=off 
 yabai -m rule --add title="Setapp" manage=off
 yabai -m rule --add app="System Information" title="About This Mac" manage=off
 yabai -m rule --add app="Raycast" manage=off
 yabai -m rule --add app="Numi" manage=off sticky=on
+yabai -m rule --add app="Stickies" manage=off sticky=on
+yabai -m rule --add title="New Note" manage=off sticky=on
 yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off
 
 # auto space assignments
 yabai -m rule --add app="Microsoft Teams" space=comm
 yabai -m rule --add title="Microsoft Teams Notifications" space=comm manage=off
-yabai -m rule --add app="MailMate" space=comm
-yabai -m rule --add app="Things" space=todo
+# yabai -m rule --add app="MailMate" space=comm
+# yabai -m rule --add app="Things" space=plan
 yabai -m rule --add app="Discord" space=chat
 
 printf "yabai: configuration loaded...\\n"
