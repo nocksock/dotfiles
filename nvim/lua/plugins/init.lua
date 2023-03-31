@@ -196,12 +196,12 @@ return {
   'simnalamburt/vim-mundo', -- browser for vim's undo tree, for when git is not enough
   'rktjmp/lush.nvim', -- for easily creating colorschemes via DSL
   'folke/tokyonight.nvim',
-  { 'nocksock/bloop.nvim',    dev = true, },
-  { 'nocksock/nazgul-vim',    dev = true, },
-  { 'nocksock/ghash.nvim',    dev = true, },
+  { 'nocksock/bloop.nvim' , dev = true, },
+  { 'nocksock/nazgul-vim' , dev = true, },
+  { 'nocksock/ghash.nvim' , dev = true, },
+  { 'nocksock/do.nvim'    , opts = { winbar = true }, dev = true },
+  { 'nocksock/t.nvim'     , dev= true }, -- t.nvim: tiny term-toggle plugin
   'tpope/vim-eunuch', -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
   'tpope/vim-vinegar', -- improved netrw for file browsing.
   'mcchrish/nnn.vim', -- using nnn in a floating window (and open file in vim)
-  { 'nocksock/do.nvim', opts = { winbar = true } },
-  'nocksock/t.nvim' -- t.nvim: tiny term-toggle plugin
 }
