@@ -40,6 +40,10 @@ ctrl + shift - o    : yabai -m space --balance
 ctrl + shift - i    : yabai -m window --ratio abs:0.66
 ctrl + shift - u    : yabai -m window --ratio abs:0.33
 ctrl + shift - p    : yabai -m window --ratio abs:0.5
+ctrl + shift - 0x21    : yabai -m window --ratio abs:0.25 # [
+ctrl + shift - 0x1E    : yabai -m window --ratio abs:0.75 # ]
+ctrl + shift - 0x27    : yabai -m window --ratio abs:0.80 # '
+
 ctrl + shift - z    : yabai -m window --toggle zoom-parent
 
 ctrl + shift - f : yabai -m window --toggle native-fullscreen
