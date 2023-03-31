@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+#
+
+DIRNAME=$(basename $PWD | tr . _)
+FULL_PATH=$PWD
+has_package_json=$(find . -name "package.json" | wc -l)
+
+# check whether to use pnpm, yarn or npm
+if [[ -f pnpm-lock.yaml ]]; then
+  package_manager="pnpm"
+  package_manager_install="pnpm install"
+  package_manager_run="pnpm run"
+  package_manager_dev="pnpm dev"
+elif [[ -f yarn.lock ]]; then
+  package_manager="yarn"
+  package_manager_install="yarn install"
+  package_manager_run="yarn run"
+  package_manager_dev="yarn dev"
+else
+  package_manager="npm"
+  package_manager_install="npm install"
+  package_manager_run="npm run"
+  package_manager_dev="npm run dev"
+fi
+
+tmux has-session -t $DIRNAME 2>/dev/null
+
+
+if [ $? != 0 ]; then
+  echo "Creating new session"
+  tmux new-session -ds $DIRNAME -c $FULL_PATH
+  tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
+  tmux split-window -t $DIRNAME:1.1 -p 25
+  if [[ $has_package_json -gt 0 ]]; then
+    tmux send-keys -t $DIRNAME:1.2 "$package_manager_dev" Enter
+  fi
+  tmux select-pane -t $DIRNAME:1.1
+fi
+
+if [[ -z $TMUX ]]; then
+    tmux attach -t $selected_name
+else
+    tmux switch-client -t $selected_name
+fi
