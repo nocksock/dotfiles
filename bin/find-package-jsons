@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+# description: Find all package.json files in the current directory and its parents until $HOME
+local curdir="$PWD"
+local package_jsons=()
+
+while [[ "$curdir" != $HOME ]]; do
+  if [[ -f "$curdir/package.json" ]]; then
+    echo "$curdir/package.json"
+  fi
+
+  curdir="${curdir%/*}"
+done
+

@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+# a sript to run tasks from package.json uses whatever package manager is used
+# for the project. If no package manager is found, it will use pnpm. Checks for
+# pnpm, yarn and npm in that order.
+
+# find the package manager used in the project
+pm=$(
+  while [[ "$PWD" != "$HOME" ]]; do
+    if [[ -f "yarn.lock" ]]; then
+      echo "yarn"
+      break
+    elif [[ -f "package-lock.json" ]]; then
+      echo "npm"
+      break
+    elif [[ -f "pnpm-lock.yaml" ]]; then
+      echo "pnpm"
+      break
+    fi
+
+    cd ..
+  done
+)
+
+# if no package manager is found, use pnpm
+if [[ -z "$pm" ]]; then
+  pm="pnpm"
+fi
+
+$pm run "$@"

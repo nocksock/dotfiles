@@ -127,3 +127,5 @@ eval "$(op completion zsh)"; compdef _op op
 # bun completions
 [ -s "/Users/nilsriedemann/.bun/_bun" ] && source "/Users/nilsriedemann/.bun/_bun"
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
+# load custom completions
+source $DOTDIR/bin/*_completion
