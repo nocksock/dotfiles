@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
 
-set dirs $(find ~/code/sandboxes ~/code/bleepbloop/apps ~/code/clients ~/code/clients/edeka ~/code/personal ~/code/trials ~/code/forks ~/code -mindepth 1 -maxdepth 1 -type d)
+set dirs $(find ~/code/sandboxes ~/code/plugins.nvim ~/code/clients ~/code/clients/edeka ~/code/personal ~/code/forks ~/code -mindepth 1 -maxdepth 1 -type d)
 
 string split " " $dirs | fzf

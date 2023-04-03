@@ -90,7 +90,7 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "editor.fontWeight": 500,
+  "editor.fontWeight": 400,
   "git.enableSmartCommit": true,
   "workbench.fontAliasing": "auto",
   "editor.bracketPairColorization.enabled": false,
@@ -244,7 +244,7 @@
   },
   "terminal.external.osxExec": "kitty.app",
   "extensions.ignoreRecommendations": false,
-  "workbench.colorTheme": "Rosé Pine Moon",
+  "workbench.colorTheme": "Rosé Pine",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.foldingImportsByDefault": true
@@ -255,7 +255,7 @@
     "FIG_NEW_SESSION": "1"
   },
   "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontFamily": "Operator Mono",
   "vim.foldfix": true,
   "vim.operatorPendingModeKeyBindings": [],
   "gitlens.codeLens.authors.enabled": false,
@@ -263,7 +263,10 @@
   "remote.SSH.remotePlatform": {
     "nocksock.full-t3-app.main.csb": "linux",
     "sandbox.z5grtb.csb": "linux",
-    "sandbox.u6nmhf.csb": "linux"
+    "sandbox.u6nmhf.csb": "linux",
+    "sandbox.5whdbw.csb": "linux",
+    "sandbox.c5v62o.csb": "linux",
+    "sandbox.8hg9u2.csb": "linux"
   },
   "workbench.layoutControl.enabled": false,
   "editor.minimap.renderCharacters": false,
@@ -286,15 +289,18 @@
     "omnisharp.useModernNet"
   ],
   "totalTypeScript.hiddenTips": [
-    "passing-generics-to-types"
+    "passing-generics-to-types",
+    "record-utility-type"
   ],
   "github.copilot.enable": {
     "*": true,
     "yaml": false,
-    "plaintext": false,
+    "plaintext": true,
     "markdown": false
   },
   "editor.fontVariations": false,
   "workbench.sideBar.location": "right",
   "workbench.editor.labelFormat": "medium",
+  "cmake.configureOnOpen": false,
+  "git.openRepositoryInParentFolders": "always",
 }
