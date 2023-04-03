@@ -2,6 +2,9 @@
 # a sript to run tasks from package.json uses whatever package manager is used
 # for the project. If no package manager is found, it will use pnpm. Checks for
 # pnpm, yarn and npm in that order.
+# Usage: run <task> [args]
+task=$1
+args=${@:2}
 
 # find the package manager used in the project
 pm=$(
@@ -16,7 +19,6 @@ pm=$(
       echo "pnpm"
       break
     fi
-
     cd ..
   done
 )
@@ -26,4 +28,12 @@ if [[ -z "$pm" ]]; then
   pm="pnpm"
 fi
 
-$pm run "$@"
+# run first level tasks like install
+case $task in
+  add|build|install|start|test|lint)
+    $pm $task $args
+    exit
+  ;;
+esac
+
+$pm run $task $args
