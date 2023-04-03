@@ -90,10 +90,10 @@ map('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagn
 map('n', "<leader>'", ':lua require("harpoon.mark").add_file()<CR>')
 map('n', "<c-h>", ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 
-map('n', "ú", ':lua require("harpoon.ui").nav_file(1)<CR>') -- alt + j
-map('n', "ĳ", ':lua require("harpoon.ui").nav_file(2)<CR>') -- alt + k
-map('n', "ø", ':lua require("harpoon.ui").nav_file(3)<CR>') -- alt + l
-map('n', "°", ':lua require("harpoon.ui").nav_file(4)<CR>') -- alt + ;
+map('n', "'f", ':lua require("harpoon.ui").nav_file(1)<CR>') -- alt + j
+map('n', "'d", ':lua require("harpoon.ui").nav_file(2)<CR>') -- alt + k
+map('n', "'s", ':lua require("harpoon.ui").nav_file(3)<CR>') -- alt + l
+map('n', "'a", ':lua require("harpoon.ui").nav_file(4)<CR>') -- alt + ;
 
 --}}}
 -- Git hunk handling {{{
