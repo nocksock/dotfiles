@@ -30,7 +30,6 @@ map('n', '<M-C-P>', ":Telescope commands<cr>", s('[c]ommands'))
 
 map('n', '<M-p>', ":Telescope find_files<cr>", s('[f]iles'))
 map('n', '<leader>sC', ":Telescop colorscheme enable_preview=true<cr>", s("[C]olors"))
-map('n', '<leader>sf', ":Telescope find_files hidden=true<cr>", s('[f]iles'))
 map('n', '<leader>-', ":Telescope file_browser path=%:p:h<cr>", s('[f]iles'))
 map('n', '<leader>sr', ":Telescope oldfiles<cr>", s('[r]ecently opened files'))
 map('n', '<leader>sh', ":Telescop help_tags<cr>", s('[h]elp'))
