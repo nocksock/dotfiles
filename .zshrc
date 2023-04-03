@@ -127,5 +127,14 @@ eval "$(op completion zsh)"; compdef _op op
 # bun completions
 [ -s "/Users/nilsriedemann/.bun/_bun" ] && source "/Users/nilsriedemann/.bun/_bun"
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/nilsriedemann/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
 # load custom completions
 source $DOTDIR/bin/*_completion
