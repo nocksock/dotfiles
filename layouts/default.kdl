@@ -1,9 +1,8 @@
 layout {
-    pane split_direction="vertical" {
-        pane
-        pane split_direction="horizontal" {
-            pane
-            pane
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
         }
+        children
     }
 }

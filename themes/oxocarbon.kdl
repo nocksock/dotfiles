@@ -1,16 +1,16 @@
 themes {
-    oxocarbon {
-        fg "#ffffff"
-        bg "#161616"
-        red "#ffffff"
-        green "#BE95FF"
-        yellow "#ffffff"
-        blue "#ffffff"
-        magenta "#BE95FF"
-        orange "#BE95FF"
-        cyan "#ffffff"
-        black "#161616"
-        white "#3DDBD9"
-    }
+  oxocarbon {
+    fg "#ffffff"
+    bg "#161616"
+    red "#ffffff"
+    green "#BE95FF"
+    yellow "#ffffff"
+    blue "#ffffff"
+    magenta "#BE95FF"
+    orange "#BE95FF"
+    cyan "#ffffff"
+    black "#161616"
+    white "#3DDBD9"
+  }
 }
 
