@@ -1,5 +1,6 @@
 theme "flatwhite"
-default_layout "compact"
+default_shell "zsh"
+default_layout "default"
 pane_frames false
 mouse_mode false
 copy_on_select false
