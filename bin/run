@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# a sript to run tasks from package.json uses whatever package manager is used
+# a script to run tasks from package.json uses whatever package manager is used
 # for the project. If no package manager is found, it will use pnpm. Checks for
 # pnpm, yarn and npm in that order.
 # Usage: run <task> [args]
