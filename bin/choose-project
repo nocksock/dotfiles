@@ -1,5 +1,17 @@
-#!/usr/bin/env fish
+#!/usr/bin/env bash
 
-set dirs $(find ~/code/sandboxes ~/code/plugins.nvim ~/code/clients ~/code/clients/edeka ~/code/personal ~/code/forks ~/code -mindepth 1 -maxdepth 1 -type d)
+# find all directories in the dirs array
+# and pass them to fzf
 
-string split " " $dirs | fzf
+dirs=(
+  ~/code/sandboxes
+  ~/code/plugins.nvim
+  ~/code/projects/bleepbloop.git/main/apps
+  ~/code/clients
+  ~/code/clients/edeka
+  ~/code/personal
+  ~/code/forks
+  ~/code
+)
+
+find ${dirs[@]} -maxdepth 1 -type d -print | fzf
