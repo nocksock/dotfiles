@@ -32,6 +32,7 @@ return {
       "nvim-telescope/telescope-live-grep-args.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', },
+      "nvim-telescope/telescope-ui-select.nvim"
     },
     config = function() require "configs.telescope" end
   },
