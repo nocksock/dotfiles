@@ -4,7 +4,7 @@ vim.g.maplocalleader = ','
 vim.o.clipboard = 'unnamed'
 vim.o.hidden = true -- makes it possible to leave a buffer if it has unsaved changes. `gd` etc fail horribly in those cases.
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
-vim.o.foldmethod = "manual"
+vim.o.foldmethod = "marker"
 vim.o.formatoptions = 'qrn1j' -- format options when writing, joining lines or `gq` see  :he fo-table for meanings
 vim.o.mouse = 'a' -- enable scrolling and selecting with mouse
 vim.o.updatetime = 250
@@ -36,7 +36,7 @@ vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace
 vim.o.fillchars = 'eob:⸱'
 vim.o.rnu = true
 vim.o.nu = true
-vim.o.cursorline = true -- Highlight the line of in which the cursor is present or not)
+vim.o.cursorline = false -- Highlight the line of in which the cursor is present (or not)
 vim.o.showtabline = 0 -- tabs are in my statusline
 vim.o.scrolloff = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
 vim.o.background = 'dark'
@@ -92,4 +92,5 @@ vim.g.easy_align_delimiters = {
     right_margin= 0
   }
 }
+
 -- }}}
