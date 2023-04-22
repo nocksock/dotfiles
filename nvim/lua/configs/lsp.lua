@@ -21,6 +21,7 @@ local handlers = {
   ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 }
 
+-- Show line diagnostics automatically in hover window
 -- function on_attach, runs when LSP is connected {{{
 local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
@@ -74,6 +75,7 @@ local on_attach = function(client, bufnr)
 
   -- mappings {{{
   nmap('<leader>ss', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
+  nmap('M-r', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
   nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Action (vscodey)')
   nmap('<F2>', vim.lsp.buf.rename, 'rename symbol under cursor')
 
