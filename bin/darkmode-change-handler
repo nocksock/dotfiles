@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# run these commands when the darkmode changes
+
+kitty-sync-theme

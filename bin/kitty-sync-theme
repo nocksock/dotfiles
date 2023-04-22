@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [[ "$DARKMODE" -eq 1 ]]; then
+	kitty +kitten themes --reload-in=all Snazzy 
+fi
+
+if [[ "$DARKMODE" -eq 0 ]]; then
+	kitty +kitten themes --reload-in=all Material
+fi

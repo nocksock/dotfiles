@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# I use tmux to manage some of my services, so I can restart them easily or see
+# their logs when I need to debug something.
+
+session_name="services"
+
+tmux has-session -t $session_name 2>/dev/null
+
+if [ $? != 0 ]; then
+  sudo yabai --load-sa # asks for password
+
+  echo "Starting services..."
+  tmux new-session -ds $session_name -c $FULL_PATH
+
+  services=(
+    "yabai"
+    "skhd"
+    "sketchybar"
+    "darkmode-notifier $DOTDIR/bin/darkmode-change-handler"
+  )
+  for service in "${services[@]}"; do
+    index=$(($index + 1))
+
+    # Could start them with the new window command, but that makes restarting
+    # them a bit more annoying.
+    tmux new-window -t $session_name
+    tmux send-keys -t $session_name:$index.1 "$service" Enter
+  done
+
+fi
+
+if [[ -z $TMUX ]]; then
+    tmux attach -t $selected_name
+else
+    tmux switch-client -t $selected_name
+fi
