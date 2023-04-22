@@ -15,7 +15,6 @@ local b = prefix "[b]uffer"
 local d = prefix "[d]ebug"
 local h = prefix "[h]unk"
 local s = prefix "[s]earch"
-local t = prefix "[t]oggle"
 local x = prefix "[x] globals"
 
 --}}}
@@ -28,7 +27,9 @@ map('n', '<C-P>', ":Telescope find_files hidden=true<cr>", s('[f]iles'))
 map('n', '<C-B>', ":Telescope buffers<cr>", { desc = '[ ] Find existing buffers' })
 map('n', '<M-C-P>', ":Telescope commands<cr>", s('[c]ommands'))
 
-map('n', '<M-p>', ":Telescope find_files<cr>", s('[f]iles'))
+map('n', '_', ':vnew .<cr>') -- open netrw in side pslit
+map('n', '<c-f>', 'z') -- I use folds a lot, this takes some load off of my pinky
+
 map('n', '<leader>sC', ":Telescop colorscheme enable_preview=true<cr>", s("[C]olors"))
 map('n', '<leader>-', ":Telescope file_browser path=%:p:h<cr>", s('[f]iles'))
 map('n', '<leader>sr', ":Telescope oldfiles<cr>", s('[r]ecently opened files'))
@@ -37,7 +38,6 @@ map('n', '<leader>sc', ":Telescop commands<cr>", s('[c]ommands'))
 map('n', '<leader>*', ":Telescop grep_string<cr>", s('current [w]ord'))
 map('n', '<leader>gb', ":Telescop git_branches<cr>", {desc = '[g]it [b]ranches'})
 map('n', '<leader>gs', ':Telescope git_status<cr>', { desc = '[g]it [s]tatus' })
-
 map('n', '<leader>sg', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>", s('by [g]rep'))
 map('n', '<leader>sp', ":lua R('snock.plugins.search-plugins').search()<cr>", s('[p]lugins'))
 --}}}
@@ -45,15 +45,6 @@ map('n', '<leader>sp', ":lua R('snock.plugins.search-plugins').search()<cr>", s(
 map('n', '<leader>bd', ':b#|bd#<cr>', b("[D]elete    , keep layout"))
 map('n', '<leader>bD', ':bd', b("[D]elete"))
 map('n', '<leader>bO', ':%bd|e#<cr>', b("[O]nly"))
-map('n', '<leader>1', ':LualineBuffersJump 1<cr>')
-map('n', '<leader>2', ':LualineBuffersJump 2<cr>')
-map('n', '<leader>3', ':LualineBuffersJump 3<cr>')
-map('n', '<leader>4', ':LualineBuffersJump 4<cr>')
-map('n', '<leader>5', ':LualineBuffersJump 5<cr>')
-map('n', '<leader>6', ':LualineBuffersJump 6<cr>')
-map('n', '<leader>7', ':LualineBuffersJump 7<cr>')
-map('n', '<leader>8', ':LualineBuffersJump 8<cr>')
-map('n', '<leader>9', ':LualineBuffersJump 9<cr>')
 --}}}
 -- Terminal {{{
 map('n', '<F12>', ':Ts<CR>i')
@@ -63,6 +54,7 @@ map('t', '<F12>', [[<C-\><C-n>:T<CR>]])
 map('t', '<c-[>', '<C-\\><C-n>')
 map('t', '<Esc>', '<C-\\><C-n>')
 -- }}}
+--
 -- Debugging{{{
 map('n', '<leader>db', ':DapToggleBreakpoint<cr>', d('toggle [b]reakpoint'))
 map('n', '<leader>du', ':lua require("dapui").toggle()<cr>', d("toggle [u]i"))
@@ -95,12 +87,12 @@ map('n', "'s", ':lua require("harpoon.ui").nav_file(3)<CR>') -- alt + l
 map('n', "'a", ':lua require("harpoon.ui").nav_file(4)<CR>') -- alt + ;
 
 --}}}
--- Git hunk handling {{{
+-- Git handling {{{
 local gitsigns = require('gitsigns.actions')
 map('n', '<leader>gg', ':tab G<cr>')
 map('n', '<leader>cc', ':Git commit<cr>')
-map('n', ']h', "<cmd>Gitsigns next_hunk<CR>")
-map('n', '[h', "<cmd>Gitsigns prev_hunk<CR>")
+map('n', '<leader>hn', "<cmd>Gitsigns next_hunk<CR>")
+map('n', '<leader>hp', "<cmd>Gitsigns prev_hunk<CR>")
 map('n', '<leader>hs', gitsigns.stage_hunk, h '[s]tage')
 map('v', '<leader>hs', gitsigns.stage_hunk, h '[s]tage')
 map('n', '<leader>hr', gitsigns.reset_hunk, h '[r]eset')
@@ -112,14 +104,19 @@ map('n', '<leader>hp', gitsigns.preview_hunk)
 map('n', '<leader>hb', ':lua require"gitsigns".blame_line{full=true}<CR>')
 map('n', '<leader>hd', gitsigns.diffthis)
 map('n', '<leader>hD', ':lua require"gitsigns".diffthis("~")<CR>')
-map('o', 'ih', gitsigns.select_hunk)
-map('x', 'ih', gitsigns.select_hunk)
+map('o', 'ic', gitsigns.select_hunk)
+map('x', 'ic', gitsigns.select_hunk)
 -- }}}
 -- Toggles {{{
-map('n', '<M-b>', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tt', ':lua require("nvim-tree.api").tree.toggle()<CR>', { desc = "[t]ree [t]oggle" })
 map('n', '<leader>tu', ':MundoToggle<CR>', { desc = "[t]oggle [u]ndo tree" })
 map('n', '<leader>to', ':SymbolsOutline<cr>', { desc = "[t]oggle [o]utline" })
+map('n', '<leader>ti', function()
+  local previous = vim.diagnostic.config()
+  vim.diagnostic.config({
+    virtual_text = not previous.virtual_text
+  })
+end, { desc = "[t]oggle [i]nlay hints"})
 --}}}
 -- Misc convenience {{{
 -- more undo stops in insert mode {{{
@@ -166,7 +163,7 @@ map('n', "<C-u>", "<C-u>zz")
 vim.api.nvim_set_keymap("v", "<leader>rr", ":lua require('refactoring').select_refactor()<CR>",
   { noremap = true, silent = true, expr = false })
 
--- Remaps for the refactoring operations currently offered by the plugin
+-- Remaps for the refactoring operaeions currently offered by the plugin
 vim.api.nvim_set_keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
   { noremap = true, silent = true, expr = false })
 vim.api.nvim_set_keymap("v", "<leader>rf",
@@ -188,7 +185,8 @@ vim.api.nvim_set_keymap("n", "<leader>ri", [[ <Cmd>lua require('refactoring').re
   { noremap = true, silent = true, expr = false }) -- }}}
 
 map('n', '<leader>cp', ':Format<cr>')
-map('n', '<leader>.', ':Telescop code_action<cr>')
+map('n', '<M-.>', ':Telescop code_action<cr>')
+map('n', '<M-r>', ':Telescope lsp_dynamic_workspace_symbols<cr>', { desc = 'workspace symbols' })
 
 map('n', 'gV', '`[v`]') -- visual select last inserted text)
 
@@ -199,7 +197,7 @@ map('n', '<leader>gC', ':normal yipgcipP<cr>')
 map('v', '<c-k>', ":m '<-2<CR>gv=gv")
 map('v', '<c-j>', ":m '>+1<CR>gv=gv")
 
--- TODO: convert these into lua
+-- -- TODO: convert these into lua
 vim.cmd([[
 " write and close buffer
 cnoreabb wd w\|:bd
@@ -209,8 +207,6 @@ cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 map('x', 'ga', '<Plug>(EasyAlign)')
 map('n', 'ga', '<Plug>(EasyAlign)')
-
-
 -- }}}
 
 -- vim: nowrap fen fdl=0
