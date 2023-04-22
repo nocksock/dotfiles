@@ -20,4 +20,4 @@ tmux set -t "$scratch_session_name" status-left ' '
 tmux set -t "$scratch_session_name" status-justify left
 tmux set -t "$scratch_session_name" status-style bg=colour0,fg=colour8
 
-tmux display-popup -b heavy -S fg=colour8,bg=default -E tmux attach -t "$scratch_session_name"
+tmux display-popup -b heavy -w 80% -h 75% -S fg=colour8,bg=default -E tmux attach -t "$scratch_session_name"
