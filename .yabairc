@@ -20,11 +20,11 @@ yabai -m config                            \
   window_topmost             off           \
   window_border              on            \
   window_border_width        2             \
-  window_border_radius       10            \
+  window_border_radius       12            \
   window_placement           second_child  \
   window_opacity             off           \
   active_window_border_color $COLOR_ACTIVE \
-  normal_window_border_color $BLACK_ALPHA  \
+  normal_window_border_color $COLOR_INACTIVE  \
                                            \
   insert_feedback_color      $COLOR_INFO   \
   mouse_modifier             fn            \
@@ -34,7 +34,7 @@ yabai -m config                            \
   focus_follows_mouse        off           \
                                            \
   split_type                 auto          \
-  auto_balance               on            \
+  auto_balance               off           \
   layout                     bsp           \
   external_bar               main:40:0
 

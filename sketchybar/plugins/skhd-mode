@@ -20,9 +20,7 @@ case $1 in
   "default")
     sketchybar --set $NAME label="" drawing=no
     ;;
-  "yctrl" | "gaps" | "layout")
-    sketchybar --set $NAME label=$1 drawing=yes
-    ;;
   *)
+    sketchybar --set $NAME label=$1 drawing=yes
     ;;
 esac
