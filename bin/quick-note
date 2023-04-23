@@ -10,7 +10,7 @@
 --  that instead?
 -- todo: tell vipe to set ft to telekasten?
 
--- probably way to clunky way of (hopefully) safe way to run commands
+-- TODO: require from ./lua/utils.lua, which is not working for some reason.
 local function cmd(cmd_str, mode)
   local ok, result = pcall(function()
     local handle = io.popen(cmd_str, mode)
@@ -31,23 +31,23 @@ end
 
 assert(cmd("command -v gum") ~= "", "gum is not installed")
 
-local target_folder = os.getenv("HOME") .. "/brain/00 Unsorted/"
+local target_folder = os.getenv("HOME") .. "/brain/HEAP/"
 local has_vipe = cmd("command -v vipe") ~= ""
-local date = os.date("%Y%m%d-%H%M%S")
+local date = os.date("%Y%m%d%H%M")
 local text_input = cmd(has_vipe and "vipe" or "gum write")
+if text_input == "" then
+  cmd('read -p "\nNo input, nothing happed. Press any key to close"')
+  return
+end
 local text_fmt = string.format(([[
----
-state: to be reviewed
-from: quicknote
----
-#note
+#via:quick-note
 
 %s
 ]]):gsub("^\n", ""), text_input)
 
 local title = cmd(string.format([[gum input --value=%s --prompt="Title: "]], date))
-local filename = target_folder .. title:gsub("\n", "") .. ".md"
-local file = assert(io.open(filename, "w"))
+local filename = target_folder .. date .. ".md"
+local file = assert(io.open(filename, "a"))
 
 file:write(text_fmt)
 file:close()
