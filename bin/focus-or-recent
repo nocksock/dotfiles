@@ -1,10 +1,8 @@
 #!/usr/bin/env fish
 
 if test (yabai -m query --windows --window "$window_id" | jq '."has-focus"') = "true"
-  say "window focused"
   yabai -m window --focus recent
 else
-  say "window not focused"
   yabai -m window --focus "$window_id"
 end
 
