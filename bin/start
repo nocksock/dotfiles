@@ -9,11 +9,11 @@ if [ $? != 0 ]; then
   echo "Creating new session"
   tmux new-session -ds $DIRNAME -c $FULL_PATH
   tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
-  tmux split-window -t $DIRNAME:1.1 -p 25
+  tmux new-window -t $DIRNAME
   if [[ $has_package_json -gt 0 ]]; then
-    tmux send-keys -t $DIRNAME:1.2 "run dev" Enter # `run` is a script that checks which package manager is used and runs the appropriate command.
+    tmux send-keys -t $DIRNAME:2.1 "run dev" Enter # `run` is a script that checks which package manager is used and runs the appropriate command.
   fi
-  tmux select-pane -t $DIRNAME:1.1
+  tmux select-window -t $DIRNAME:1
 fi
 
 if [[ -z $TMUX ]]; then
