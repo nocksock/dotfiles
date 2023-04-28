@@ -1,46 +1,31 @@
-#!/bin/zsh
-#-------------------------------------------------------------------------------
-#                                         .             oooo
-#                                       .o8             `888
-#          oooo oooo    ooo  .oooo.   .o888oo  .ooooo.   888 .oo.
-#           `88. `88.  .8'  `P  )88b    888   d88' `"Y8  888P"Y88b
-#            `88..]88..8'    .oP"888    888   888        888   888
-#             `888'`888'    d8(  888    888 . 888   .o8  888   888
-#              `8'  `8'     `Y888""8o   "888" `Y8bod8P' o888o o888o
-#
-#          a way to start all kinds of watchers for various languages
-#-------------------------------------------------------------------------------
-
-# not sure why i have to include this, whie $DOTDIR working
-source $DOTDIR/zsh/moar_colors.zsh ;
+#!/usr/bin/env zsh
+# a way to start all kinds of watchers for various languages
+# usage: watch <file>
+source $DOTDIR/zsh/colors.zsh # TODO: make this work without this line
 
 filename=$(basename -- $1)
 extension=${1##*.}
-
-function perr() {
-  printf "%s$1%s\n" $FG[001] $FX[reset];
-}
 
 if [[ ! -a $1 ]]; then
   printf "%sfile not found: %s${1}%s\n" $FG[001] $FX[underline] $FX[reset];
   exit
 fi
 
-
 case $extension in
   js|ts)
     if [[ -f tsconfig.json ]]; then
-      nodemon --exec "bun $1" -w $1
+      watch-and-run $1 bun $1
     else
-      perr "no .tsconfig found"
+      style -fg red "no .tsconfig found"
     fi
     ;;
-  lua) nodemon --exec "lua $1" -w $1;;
-  go) nodemon --exec "go run $1" -w . -e go ;;
+  lua) 
+    watch-and-run $1 lua $1
+  go) 
+    nodemon --exec "go run $1" -w . -e go ;;
   *)
-
     if [[ -x $1 ]]; then
-      nodemon --exec "./$1" -w $1
+      watch-and-run $1 $1
     else
       printf "${FG[003]}${1}${FX[reset]} is either not executable or extension (${FG[003]}$extension${FX[reset]}) has not yet been configured."
 

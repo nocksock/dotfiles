@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# small script to run grep on a file and update the output on change. Useful
+# in combination with tmux in split to explore log files.
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 <file> <grep_file>"
+  exit 1;
+fi
+
+file="$1"
+grep_file="$2"
+
+if [ ! -f "$grep_file" ]; then
+  echo "grep_file $grep_file does not exist"
+  touch "$grep_file"
+fi
+
+run_grep() {
+  clear
+  grep -f "$grep_file" "$file"
+}
+
+# Initial run
+run_grep
+
+fswatch -0 "$grep_file" | while read -d "" event; do
+  run_grep
+done
