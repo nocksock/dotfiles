@@ -1,4 +1,3 @@
-#
 # NVM
 #
 # Auto load NVM Version for folder

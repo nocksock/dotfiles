@@ -2,8 +2,6 @@
 #    http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
 alias sudo='sudo '
 alias -g G='| grep'
-alias zz='cd $(z | awk "{print $2}" | fzf)'
-
 alias -g L='| less'
 alias ..='cd ..'
 alias tower='open . -a Tower'
@@ -14,10 +12,21 @@ alias nv=/usr/local/bin/nvim
 alias p=tmux-qp
 alias love='open -n -a love'
 alias nnn='nnn -ei'
-alias c='cd $(choose-project)'
+alias c='cd $(list-projects | fzf)'
 alias ls='exa --icons -1 --group-directories-first'
 alias ll='exa --icons -l --group-directories-first'
 alias gw='cd $(git worktree list --porcelain | grep -Po "(?<=worktree ).*" | gum filter)'
+alias tml="tmux-live"
+alias reload="source ~/.zshrc"
+
+zz () {
+  cd $(z | awk '{print $2}' | sed "s#$HOME#~#" | fzf | sed "s#~#$HOME#")
+}
+
+tz () {
+  local dir=$(z | awk '{print $2}' | sed "s#$HOME#~#" | fzf | sed "s#~#$HOME#")
+	tmux -u new -s ${dir##*/}
+}
 
 n () { # via https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
   if [[ "${NNNLVL:-0}" -ge 1 ]]; then
@@ -32,17 +41,6 @@ n () { # via https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zs
       . "$NNN_TMPFILE"
       rm -f "$NNN_TMPFILE" > /dev/null
   fi
-}
-
-# sometimes I might want to append to a path of some other function,
-# this way I don't have to remember sed syntax - and deal with escaping of
-# slashes.
-# eg.:
-#     $ npm get prefix | append /bin
-#     /Users/the-user/.nvm/versions/node/v16.7.0/bin
-append()
-{
-  sed "s/$/${1/\//\\/}/g"
 }
 
 # Avoid rm mistakes  with trash-cli:
@@ -121,65 +119,3 @@ gshow() {
                 {}
 FZF-EOF"
 } # }}}
-
-# git-log-by-day: Generates git changelog grouped by day {{{
-# optional parameters
-# -a, --author       to filter by author
-# -s, --since        to select start date
-# -u, --until        to select end date
-git-log-by-day () {
-  local NEXT=$(date +%F)
-
-  local RED="\x1B[31m"
-  local YELLOW="\x1B[32m"
-  local BLUE="\x1B[34m"
-  local RESET="\x1B[0m"
-
-  local SINCE="1970-01-01"
-  local UNTIL=$NEXT
-
-  for i in "$@"
-  do
-  case $i in
-    -a=*|--author=*)
-    local AUTHOR="${i#*=}"
-    shift
-    ;;
-    -s=*|--since=*)
-    SINCE="${i#*=}"
-    shift
-    ;;
-    -u=*|--until=*)
-    UNTIL="${i#*=}"
-    shift
-    ;;
-    *)
-      # unknown option
-    ;;
-  esac
-  done
-
-  local LOG_FORMAT=" %Cgreen*%Creset %s"
-
-  if [ -z "$AUTHOR" ]
-  then
-    LOG_FORMAT="$LOG_FORMAT %Cblue(%an)%Creset"
-  else
-    echo
-    echo -e "${BLUE}Logs filtered by author: ${AUTHOR}${RESET}"
-  fi
-
-  git log --no-merges --author="${AUTHOR}" --since="${SINCE}" --until="${UNTIL}" --format="%cd" --date=short | sort -u | while read DATE ; do
-
-    local GIT_PAGER=$(git log --no-merges --reverse --format="${LOG_FORMAT}" --since="${DATE} 00:00:00" --until="${DATE} 23:59:59" --author="${AUTHOR}")
-
-    if [ ! -z "$GIT_PAGER" ]
-    then
-      echo
-      echo -e "${RED}[$DATE]${RESET}"
-      echo -e "${GIT_PAGER}"
-    fi
-
-  done
-}
-# }}}
