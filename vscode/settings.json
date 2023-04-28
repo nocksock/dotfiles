@@ -17,7 +17,7 @@
   "eslint.alwaysShowStatus": true,
   "explorer.autoReveal": false,
   "editor.matchBrackets": "near",
-  "editor.fontSize": 14,
+  "editor.fontSize": 15,
   "editor.suggestSelection": "recentlyUsedByPrefix",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "workbench.editor.enablePreviewFromCodeNavigation": true,
@@ -244,7 +244,7 @@
   },
   "terminal.external.osxExec": "kitty.app",
   "extensions.ignoreRecommendations": false,
-  "workbench.colorTheme": "Rosé Pine",
+  "workbench.colorTheme": "Ayu Mirage Bordered",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.foldingImportsByDefault": true
@@ -255,7 +255,6 @@
     "FIG_NEW_SESSION": "1"
   },
   "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "editor.fontFamily": "Operator Mono",
   "vim.foldfix": true,
   "vim.operatorPendingModeKeyBindings": [],
   "gitlens.codeLens.authors.enabled": false,
@@ -266,15 +265,14 @@
     "sandbox.u6nmhf.csb": "linux",
     "sandbox.5whdbw.csb": "linux",
     "sandbox.c5v62o.csb": "linux",
-    "sandbox.8hg9u2.csb": "linux"
+    "sandbox.8hg9u2.csb": "linux",
+    "sandbox.n5oogl.csb": "linux"
   },
   "workbench.layoutControl.enabled": false,
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
   "gitlens.advanced.fileHistoryShowAllBranches": true,
-  "editor.minimap.size": "fill",
   "redhat.telemetry.enabled": false,
-  "editor.minimap.enabled": false,
   "editor.inlineSuggest.enabled": true,
   "totalTypeScript.hideAllTips": false,
   "totalTypeScript.hideBasicTips": true,
@@ -290,7 +288,8 @@
   ],
   "totalTypeScript.hiddenTips": [
     "passing-generics-to-types",
-    "record-utility-type"
+    "record-utility-type",
+    "typeof"
   ],
   "github.copilot.enable": {
     "*": true,
@@ -299,8 +298,12 @@
     "markdown": false
   },
   "editor.fontVariations": false,
-  "workbench.sideBar.location": "right",
   "workbench.editor.labelFormat": "medium",
   "cmake.configureOnOpen": false,
   "git.openRepositoryInParentFolders": "always",
+  "editor.minimap.enabled": false,
+  "telemetry.telemetryLevel": "crash",
+  "workbench.sideBar.location": "right",
+  "gitlens.currentLine.enabled": false,
+  "workbench.activityBar.visible": false,
 }

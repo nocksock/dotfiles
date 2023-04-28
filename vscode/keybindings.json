@@ -191,4 +191,8 @@
         "key": "ctrl+shift+alt+enter",
         "command": "github.copilot.toggleCopilot"
     },
+    {
+        "key": "cmd+k cmd+p",
+        "command": "workbench.view.extension.copilot-labs"
+    },
 ]
