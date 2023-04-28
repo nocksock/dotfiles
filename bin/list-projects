@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 
 # find all directories in the dirs array
-# and pass them to fzf
 
 dirs=(
   ~/code/sandboxes
   ~/code/plugins.nvim
   ~/code/projects/bleepbloop.git/main/apps
-  ~/code/clients
-  ~/code/clients/edeka
+  ~/code/clients/edeka/de.git/feature
+  ~/code/clients/edeka/de.git
   ~/code/personal
   ~/code/forks
   ~/code
 )
 
-find ${dirs[@]} -maxdepth 1 -type d -print | fzf
+find ${dirs[@]} -maxdepth 1 -type d -print 
