@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+# search files content and then filter the results with fzf
+rg -n -i -H --no-heading --color=always "$@" | fzf --ansi +m --preview 'rg --color=always --line-number --no-heading {} $1 | head -500' | cut -d: -f1,2 | sed 's/:/ +/g' | xargs -o nvim
