@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Get macOS dark mode status (returns 'Dark' or 'Light')
+result=$(defaults read -g AppleInterfaceStyle)
+
+if [ "$result" = "Dark" ]; then
+  echo 1
+else
+  echo 0
+fi
