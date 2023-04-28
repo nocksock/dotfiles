@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
-DIRNAME=$(basename $PWD | tr . _)
+# cd to the first argument if given
+if [ -n "$1" ]; then
+  cd "$1"
+fi
+
 FULL_PATH=$PWD
+DIRNAME=$(basename $FULL_PATH | tr . _)
+
 has_package_json=$(find . -name "package.json" | wc -l)
 
 tmux has-session -t $DIRNAME 2>/dev/null
@@ -17,7 +23,7 @@ if [ $? != 0 ]; then
 fi
 
 if [[ -z $TMUX ]]; then
-    tmux attach -t $selected_name
+    tmux attach -t $DIRNAME
 else
-    tmux switch-client -t $selected_name
+    tmux switch-client -t $DIRNAME
 fi
