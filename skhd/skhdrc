@@ -1,11 +1,11 @@
 # modes
 :: default   : ~/.config/sketchybar/plugins/skhd-mode default
-:: resize   @ : ~/.config/sketchybar/plugins/skhd-mode resize
-:: gaps    @ : ~/.config/sketchybar/plugins/skhd-mode gaps
-:: layout  @ : ~/.config/sketchybar/plugins/skhd-mode layout
+:: resize @ : ~/.config/sketchybar/plugins/skhd-mode resize
+:: gaps   @ : ~/.config/sketchybar/plugins/skhd-mode gaps
+:: layout @ : ~/.config/sketchybar/plugins/skhd-mode layout
 :: move   @ : ~/.config/sketchybar/plugins/skhd-mode move
-:: launch   @ : ~/.config/sketchybar/plugins/skhd-mode launch
-:: system   @ : ~/.config/sketchybar/plugins/skhd-mode system
+:: launch @ : ~/.config/sketchybar/plugins/skhd-mode launch
+:: system @ : ~/.config/sketchybar/plugins/skhd-mode system
 
 ctrl + cmd - r ; resize
 ctrl + cmd - o ; layout
@@ -16,10 +16,17 @@ ctrl + cmd - x ; system
 
 layout < escape ; default
 gaps   < escape ; default
-resize  < escape ; default
+resize < escape ; default
 move   < escape ; default
 launch < escape ; default
 system < escape ; default
+
+layout < return ; default
+gaps   < return ; default
+resize < return ; default
+move   < return ; default
+launch < return ; default
+system < return ; default
 
 # default mode {{{
 ctrl + cmd - h: yabai -m window --focus west  || yabai -m display --focus west
@@ -56,10 +63,11 @@ move < 7 : yabai -m window --space 7
 move < 8 : yabai -m window --space 8
 move < 9 : yabai -m window --space 9
 
-move < h : yabai -m window --warp west
-move < j : yabai -m window --warp south
-move < k : yabai -m window --warp north
-move < l : yabai -m window --warp east
+move < shift - h: yabai -m window --swap west
+move < shift - l: yabai -m window --swap east
+move < shift - j: yabai -m window --swap south
+move < shift - j: yabai -m window --swap north
+
 # }}}
 
 # mode: launch {{{
@@ -78,43 +86,46 @@ resize < shift - k     : yabai -m window --resize bottom:0:-64 || yabai -m windo
 resize < shift - l  : yabai -m window --resize right:64:0   || yabai -m window --resize left:64:0
 # }}}
 # mode: gaps {{{
-gaps < k : yabai -m space --gap rel:8 --padding rel:8:8:8
+gaps < k : yabai -m space --gap rel:8 --padding rel:8:8:8:8
 gaps < j : yabai -m space --gap rel:-8 --padding rel:-8:-8:-8:-8
 gaps < y : yabai -m space --gap abs:320 --padding abs:64:64:256:256
 gaps < u : yabai -m space --gap abs:0 --padding abs:0:0:0:0
 gaps < i : yabai -m space --gap abs:32 --padding abs:32:32:32:32
 gaps < p : yabai -m space --gap abs:256 --padding abs:128:128:256:256
-gaps < o : yabai -m space --gap abs:128 --padding abs:128:128:128:128; skhd -k 'escape'
+gaps < o : yabai -m space --gap abs:128 --padding abs:128:128:128:128
 # }}}
 # mode: layout {{{
-layout < y: yabai -m space --mirror y-axis; skhd -k 'escape'
-layout < h: yabai -m window --swap west
-layout < l: yabai -m window --swap east
-layout < j: yabai -m window --swap south
-layout < j: yabai -m window --swap north
+layout < y: yabai -m space --mirror y-axis
 
-layout < shift - h : yabai -m window  west --stack $(yabai -m query --windows --window | jq -r '.id') ; skhd -k 'escape'
-layout < shift - k : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id') ; skhd -k 'escape'
-layout < shift - j : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id') ; skhd -k 'escape'
-layout < shift - l : yabai -m window  east --stack $(yabai -m query --windows --window | jq -r '.id') ; skhd -k 'escape'
+layout < h : yabai -m window --warp west
+layout < j : yabai -m window --warp south
+layout < k : yabai -m window --warp north
+layout < l : yabai -m window --warp east
 
-layout < o    : yabai -m space --balance
-layout < i    : yabai -m window --ratio abs:0.66
-layout < u    : yabai -m window --ratio abs:0.33
-layout < p    : yabai -m window --ratio abs:0.5
+layout < shift - h : yabai -m window  west --stack $(yabai -m query --windows --window | jq -r '.id')
+layout < shift - k : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
+layout < shift - j : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
+layout < shift - l : yabai -m window  east --stack $(yabai -m query --windows --window | jq -r '.id') 
+
+layout < o    : yabai -m space --balance         
+layout < i    : yabai -m window --ratio abs:0.66 
+layout < u    : yabai -m window --ratio abs:0.33 
+layout < p    : yabai -m window --ratio abs:0.5  
 layout < 0x21 : yabai -m window --ratio abs:0.25 # [
 layout < 0x1E : yabai -m window --ratio abs:0.75 # ]
 layout < 0x27 : yabai -m window --ratio abs:0.80 # '
+
 layout < z    : yabai -m window --toggle zoom-parent
-layout < f    : yabai -m window --toggle native-fullscreen
+layout < f    : yabai -m window --toggle native-fullscreen ; skhd -k 'escape'
 layout < 0x2C : yabai -m window --toggle split
+
 layout < w    : yabai -m window --toggle float --grid 1:6:1:0:4:1
 layout < c    : yabai -m window --toggle float --grid 6:8:2:1:4:4
 layout < t    : yabai -m window --toggle float --toggle sticky --toggle topmost
 
-layout < z : yabai -m space --layout bsp
-layout < x : yabai -m space --layout float
-layout < c : yabai -m space --layout stack
+layout < b : yabai -m space --layout bsp
+layout < f : yabai -m space --layout float
+layout < s : yabai -m space --layout stack
 # }}}
 # mode: system {{{
 system < r : skhd --reload ; skhd -k 'escape' ; ~/.config/sketchybar/plugins/skhd-mode default
