@@ -15,7 +15,15 @@ return {
     event = { "BufReadPost", "BufNewFile" },
   },
   {
+  'tpope/vim-eunuch',                       -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
+    event = "VeryLazy"
+  },
+  {
     'tpope/vim-abolish', -- working with words (drastic understatement)
+    event = { "BufReadPost", "BufNewFile" },
+  },
+  {
+    'tpope/vim-speeddating',
     event = { "BufReadPost", "BufNewFile" },
   },
   {
@@ -113,5 +121,5 @@ return {
   {
     'mcchrish/nnn.vim', -- using nnn in a floating window (and open file in vim)
     event = 'VeryLazy',
-  }
+  },
 }

@@ -75,20 +75,33 @@ local on_attach = function(client, bufnr)
 
   -- mappings {{{
   nmap('<leader>ss', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
-  nmap('M-r', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
+  nmap('<M-r>', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
   nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Action (vscodey)')
-  nmap('<F2>', vim.lsp.buf.rename, 'rename symbol under cursor')
-
   nmap('<leader>ff', ':Format<cr>', 'format file')
   nmap('<leader>fa', ':FixAll<cr>', 'fix all autofixables')
 
+  nmap('[d', vim.diagnostic.goto_prev)
+  nmap(']d', vim.diagnostic.goto_next)
+  nmap("[e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
+  nmap("]e", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
+
+  nmap('<leader>k', vim.diagnostic.goto_prev)
+  nmap('<leader>j', vim.diagnostic.goto_next)
+  nmap('<leader>e', vim.diagnostic.open_float)
+  nmap('<leader>q', vim.diagnostic.setloclist)
+  nmap("<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
+  nmap("<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
-  nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
+
+  nmap('<leader>e', vim.diagnostic.open_float)
+  nmap('<leader>q', vim.diagnostic.setloclist)
+  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
+  nmap('<leader>ds', builtin.lsp_document_symbols, 'document symbols')
+  nmap('<leader>rn', vim.lsp.buf.rename, 'rename symbol')
+  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, 'add folder to workspace')
   nmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-    '[W]orkspace [L]ist Folders')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+    'list workspace folders')
+  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, 'remove workspace folder')
   nmap('gr', require('telescope.builtin').lsp_references)
 
   nmap('gd', vim.lsp.buf.definition, '[g]oto [d]efinition')

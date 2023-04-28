@@ -16,6 +16,14 @@ return {
     config = function() require "configs.lsp" end
   },
   {
+    'folke/trouble.nvim',                   -- pretty list for LSP diagnostics
+    keys = {
+      { '<leader>xd', ':Trouble document_diagnostics<CR>', desc = "show document_diagnostics" },
+      { '<leader>xD', ':Trouble workspace_diagnostics<CR>', desc = "show workspace_[D]iagnostics" },
+      { '<leader>xt', ':TodoTrouble<CR>', desc= "[t]odos" }
+    }
+  },
+  {
     'jose-elias-alvarez/typescript.nvim', -- more ts lsp stuff
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
