@@ -20,6 +20,8 @@
     ~/.tmux.conf: .tmux.conf
     ~/.zsh: zsh
     ~/.zshrc: .zshrc
+    ~/.vimrc: .vimrc
+    ~/.vim: vim
 
     # macos only
     ~/.config/sketchybar: 
