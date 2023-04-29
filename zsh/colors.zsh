@@ -33,6 +33,7 @@ done
 # Define the color names and their corresponding numbers.
 typeset -A colors
 colors=(
+    black   000
     red     001
     green   002
     yellow  003
@@ -49,29 +50,7 @@ for color num in ${(kv)colors}; do
     UC[$color]=$UC[$num]
 done
 
-# function style {
-#     local fg bg uc fx
-#     local args=("$@")
-#
-#     for (( i=0; i<${#args[@]}; i++ )); do
-#         case "${args[$i]}" in
-#             -fg) fg="${FG[${args[$((i+1))]}]}" ;;
-#             -bg) bg="${BG[${args[$((i+1))]}]}" ;;
-#             -uc) uc="${UC[${args[$((i+1))]}]}" ;;
-#             -fx) 
-#                 if [[ -z $fx ]]; then
-#                     fx="${FX[${args[$((i+1))]}]}"
-#                 else
-#                     fx+="${FX[${args[$((i+1))]}]}"
-#                 fi
-#             ;;
-#         esac
-#     done
-#
-#     echo "${fx}${fg}${bg}${uc}${args[-1]}${FX[reset]}"
-# }
-
-function style() {
+export function style() {
   local text fg bg fx curl;
 
   # Parse the options.
@@ -108,3 +87,10 @@ function style() {
   # Apply the styles and print the text.
   echo "${fg}${bg}${fx}${curl}${text}${FX[reset]}"
 }
+
+export FG
+export BG
+export UC
+export SU
+export DU
+export FX
