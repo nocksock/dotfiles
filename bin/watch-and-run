@@ -1,11 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # small script to run a command on a file and update the output on change.
-source ../zsh/moar_colors.zsh
-echo $DOTDIR
-exit 0
+source ~/code/dotfiles/zsh/colors.zsh
 
 file="$1"
-command="${@:2}"
+command=${@:2}
 
 if [ "$#" -lt 2 ]; then
   echo "Usage: $0 <file-to-watch> <command>"
@@ -14,9 +12,9 @@ fi
 
 run () {
   clear
-  echo "$FG;;[watch-and-run]: running $command"
-  $command
-  echo -e "\x1b[32m;;[watch-and-run]: done, waiting for changes.\x1b[0m"
+  style -bg yellow ";;[watch-and-run]: running $command"
+  eval $command
+  style -bg yellow -fx underline ";;[watch-and-run]: done, waiting for changes to $file."
 }
 
 clear
