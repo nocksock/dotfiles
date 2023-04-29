@@ -6,24 +6,56 @@ alias tp="tmux-qp"
 alias tmux="TERM=screen-256color-bce tmux"
 
 
-# x and z keys are too unconvenient to type for aliases and I observed
-# how I didn't use as much as I wanted to.
+alias tr="tmux-recent"
+function tmux-recent {
+  local dir
 
-# mnemonic: Tmux Recent
-tr () {
-  local dir=$(z | awk '{print $2}' | sed "s#$HOME#~#" | fzf | sed "s#~#$HOME#")
-	tmux new -s ${dir##*/}
+  if [[ -z $1 ]]; then
+    dir=$(select-z)
+  else
+    dir=$(z -e $1)
+  fi
+
+  [[ -z $dir ]] && return 1
+
+  local session_name=${dir##/*/}
+
+	tmux new -s $session_name -c $dir
 }
 
-# mnemonic: Tmux Recent Nvim
-trn () {
-  local dir=$(z | awk '{print $2}' | sed "s#$HOME#~#" | fzf | sed "s#~#$HOME#")
-  tmux new -s ${dir##*/}
-  tmux send-keys -t ${dir##*/} "nvim" C-m
+alias trn="tmux-recent-nvim"
+function tmux-recent-nvim {
+  local dir
+  if [[ -z $1 ]]; then
+    dir=$(select-z)
+  else
+    dir=$(z $1)
+  fi
+  [[ -z $dir ]] && return 1
+  local dir=$(select-z)
+  [[ -z $dir ]] && return 1
+
+  local session_name=${dir##/*/}
+
+	tmux new       -s $session_name -c $dir -d
+  tmux send-keys -t $session_name:1.1 "nvim" C-m
+  tmux attach    -t $session_name
 }
 
-# mnemonic: TMux New
-function tmn() {
-	tmux -u new -s ${PWD##*/}
+alias tn="tmux-new"
+function tmux-new {
+	tmux new -s ${PWD##*/}
 }
 
+alias tnn="tmux-new-nvim"
+function  tmux-new-nvim {
+  local session_name="${PWD##/*/}"
+
+	tmux new       -s $session_name -c $PWD -d
+  tmux send-keys -t $session_name:1.1 "nvim" C-m
+  tmux attach    -t $session_name
+}
+
+function pwd-session-name {
+  echo ${PWD##/*/}
+}

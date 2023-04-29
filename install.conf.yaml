@@ -13,6 +13,7 @@
     ~/.config/herbstluftwm: herbstluftwm
     ~/.config/kitty: kitty
     ~/.config/nvim: nvim
+    ~/.config/starship.toml: starship.toml
     ~/.config/polybar: polybar
     ~/.config/rofi: rofi
     ~/.config/zellij: zellij

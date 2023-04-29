@@ -1,4 +1,5 @@
 export DOTDIR="$HOME/code/dotfiles"
+# zmodload zsh/zprof # uncomment to profile startup time
 
 # Terminal Setup {{{
 export EDITOR='/usr/local/bin/nvim' # used for commits and such
@@ -30,16 +31,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
-# oh my zsh {{{
-export ZSH_CUSTOM=$DOTDIR/omz-custom
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="bleep"
-zstyle ':omz:update' mode disabled  # just remind me to update when it's time
-zstyle ':omz:update' frequency 13
-plugins=(aliases npm yarn nvm fzf tmux z git)
-source $ZSH/oh-my-zsh.sh
-# }}}
-
 # load custom zsh modules
 for file in "$DOTDIR"/zsh/*.zsh "$DOTDIR"/bin/*_completion; do
     if [ -f "$file" ]; then
@@ -50,3 +41,4 @@ done
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 eval "$(op completion zsh)"; compdef _op op
+eval "$(starship init zsh)"

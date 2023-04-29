@@ -1,3 +1,0 @@
-format = """
-$directory$git_state$git_branch$git_status$git_commit
-$character"""
