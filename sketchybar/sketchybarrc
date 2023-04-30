@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-source $HOME/.config/sketchybar/vars.sh
+#!/usr/bin/env zsh
+source $DOTDIR/sketchybar/vars.sh
 
 sketchybar --bar    height=32                         \
                     position=top                      \
@@ -26,7 +26,7 @@ sketchybar --bar    height=32                         \
 
 export POSITION=left
   $PLUGIN_DIR/spaces.sh setup
-  $PLUGIN_DIR/task.sh setup
+  # $PLUGIN_DIR/task.sh setup # TODO: fix this
 
 export POSITION=right
   $PLUGIN_DIR/clock.sh setup
