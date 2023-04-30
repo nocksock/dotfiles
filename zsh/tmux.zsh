@@ -1,10 +1,16 @@
+# check if tmux is installed
+if ! command -v tmux &> /dev/null; then
+    style -fg yellow "Warning: tmux wast not found"
+    return
+fi
+
 alias tml="tmux-live"
 alias tat="tmux -u attach -t"
 alias tp="tmux-qp"
+alias ta="tmux attach -t"
 
 # TODO: find out why I created this alias
 alias tmux="TERM=screen-256color-bce tmux"
-
 
 alias tr="tmux-recent"
 function tmux-recent {
