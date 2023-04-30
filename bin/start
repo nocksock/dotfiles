@@ -14,13 +14,14 @@ tmux has-session -t $DIRNAME 2>/dev/null
 if [ $? != 0 ]; then
   echo "Creating new session"
   tmux new-session -ds $DIRNAME -c $FULL_PATH
-  tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
-  tmux new-window -t $DIRNAME
-  if [[ $has_package_json -gt 0 ]]; then
-    tmux send-keys -t $DIRNAME:2.1 "run dev" Enter # `run` is a script that checks which package manager is used and runs the appropriate command.
-  fi
-  tmux select-window -t $DIRNAME:1
 fi
+
+tmux send-keys -t $DIRNAME:1.1 "nvim" Enter
+tmux new-window -t $DIRNAME
+if [[ $has_package_json -gt 0 ]]; then
+  tmux send-keys -t $DIRNAME:2.1 "run dev" Enter # `run` is a script that checks which package manager is used and runs the appropriate command.
+fi
+tmux select-window -t $DIRNAME:1
 
 if [[ -z $TMUX ]]; then
     tmux attach -t $DIRNAME
