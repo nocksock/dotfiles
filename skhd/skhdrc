@@ -14,42 +14,31 @@ ctrl + cmd - m ; move
 ctrl + cmd - a ; launch
 ctrl + cmd - x ; system
 
-layout < escape ; default
-gaps   < escape ; default
-resize < escape ; default
-move   < escape ; default
-launch < escape ; default
-system < escape ; default
-
-layout < return ; default
-gaps   < return ; default
-resize < return ; default
-move   < return ; default
-launch < return ; default
-system < return ; default
+layout, gaps, resize, launch, system < escape ; default
+layout, gaps, resize, launch, system < return ; default
 
 # default mode {{{
-ctrl + cmd - h: yabai -m window --focus west  || yabai -m display --focus west
-ctrl + cmd - j: yabai -m window --focus south || yabai -m display --focus south
-ctrl + cmd - k: yabai -m window --focus north || yabai -m display --focus north
-ctrl + cmd - l: yabai -m window --focus east  || yabai -m display --focus east
-ctrl + cmd - n: yabai -m window --focus stack.next || yabai -m window --focus stack.first
-ctrl + cmd - p: yabai -m window --focus stack.prev || yabai -m window --focus stack.last
-
-hyper - 1     : yabai -m space --focus 1
-hyper - 2     : yabai -m space --focus 2
-hyper - 3     : yabai -m space --focus 3
-hyper - 4     : yabai -m space --focus 4
-hyper - 5     : yabai -m space --focus 5
-hyper - 6     : yabai -m space --focus 6
-hyper - 7     : yabai -m space --focus 7
-hyper - 8     : yabai -m space --focus 8
-hyper - 9     : yabai -m space --focus 9
-
-cmd + alt - right : yabai -m space --focus next || yabai -m space --focus 1
-cmd + alt - left  : yabai -m space --focus prev || yabai -m space --focus last
-
+default, move, layout, resize, gaps < ctrl + cmd - h    : yabai -m window --focus west  || yabai -m display --focus west
+default, move, layout, resize, gaps < ctrl + cmd - j    : yabai -m window --focus south || yabai -m display --focus south
+default, move, layout, resize, gaps < ctrl + cmd - k    : yabai -m window --focus north || yabai -m display --focus north
+default, move, layout, resize, gaps < ctrl + cmd - l    : yabai -m window --focus east  || yabai -m display --focus east
+default, move, layout, resize, gaps < ctrl + cmd - n    : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+default, move, layout, resize, gaps < ctrl + cmd - p    : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+default, move, layout, resize, gaps < hyper - 1         : yabai -m space --focus 1
+default, move, layout, resize, gaps < hyper - 2         : yabai -m space --focus 2
+default, move, layout, resize, gaps < hyper - 3         : yabai -m space --focus 3
+default, move, layout, resize, gaps < hyper - 4         : yabai -m space --focus 4
+default, move, layout, resize, gaps < hyper - 5         : yabai -m space --focus 5
+default, move, layout, resize, gaps < hyper - 6         : yabai -m space --focus 6
+default, move, layout, resize, gaps < hyper - 7         : yabai -m space --focus 7
+default, move, layout, resize, gaps < hyper - 8         : yabai -m space --focus 8
+default, move, layout, resize, gaps < hyper - 9         : yabai -m space --focus 9
+default, move, layout, resize, gaps < cmd + alt - right : yabai -m space --focus next || yabai -m space --focus 1
+default, move, layout, resize, gaps < cmd + alt - left  : yabai -m space --focus prev || yabai -m space --focus last
+default, move, layout, resize, gaps < cmd + ctrl - 0x21 : yabai -m space --focus next || yabai -m space --focus 1
+default, move, layout, resize, gaps < cmd + ctrl - 0x1E : yabai -m space --focus prev || yabai -m space --focus last
 # }}}
+
 # mode: move {{{
 move < 1 : yabai -m window --space 1
 move < 2 : yabai -m window --space 2
@@ -69,7 +58,6 @@ move < shift - j: yabai -m window --swap south
 move < shift - j: yabai -m window --swap north
 
 # }}}
-
 # mode: launch {{{
 launch < f      : ~/.config/skhd/apps/kitty launch-or-focus ; skhd -k 'escape'
 launch < return : ~/.config/skhd/apps/kitty new-window ; skhd -k 'escape'
