@@ -17,11 +17,11 @@
     ~/.config/polybar: polybar
     ~/.config/rofi: rofi
     ~/.config/zellij: zellij
-    ~/.doom.d: .doom.d
-    ~/.tmux.conf: .tmux.conf
+    ~/.doom.d: doom.d
+    ~/.tmux.conf: tmux.conf
     ~/.zsh: zsh
-    ~/.zshrc: .zshrc
-    ~/.vimrc: .vimrc
+    ~/.zshrc: zshrc
+    ~/.vimrc: vimrc
     ~/.vim: vim
 
     # macos only
@@ -36,7 +36,7 @@
       path: hammerspoon
     ~/.yabairc:
       if: "[ `uname` = Darwin ]"
-      path: .yabairc
+      path: yabairc
     ~/Library/Application Support/Code/User/keybindings.json:
       if: "[ `uname` = Darwin ]"
       path: vscode/keybindings.json

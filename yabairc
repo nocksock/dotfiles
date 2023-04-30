@@ -17,7 +17,7 @@ yabai -m config                            \
   right_padding              16            \
                                            \
   window_gap                 24            \
-  window_topmost             off           \
+  window_topmost             on            \
   window_border              on            \
   window_border_width        2             \
   window_border_radius       12            \
@@ -68,6 +68,7 @@ yabai -m rule --add app="System Information" title="About This Mac" manage=off
 yabai -m rule --add app="Raycast" manage=off
 yabai -m rule --add app="Numi" manage=off sticky=on
 yabai -m rule --add app="Stickies" manage=off sticky=on
+yabai -m rule --add app="Obsidian" manage=off sticky=on
 yabai -m rule --add title="New Note" manage=off sticky=on
 yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off
 

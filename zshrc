@@ -1,5 +1,5 @@
 export DOTDIR="$HOME/code/dotfiles"
-# zmodload zsh/zprof # uncomment to profile startup time
+zmodload zsh/zprof # uncomment to profile startup time
 
 # Terminal Setup {{{
 export EDITOR='/usr/local/bin/nvim' # used for commits and such
@@ -37,6 +37,8 @@ for file in "$DOTDIR"/zsh/*.zsh "$DOTDIR"/bin/*_completion; do
         source "$file"
     fi
 done
+
+source $DOTDIR/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
