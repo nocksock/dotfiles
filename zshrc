@@ -1,11 +1,14 @@
 export DOTDIR="$HOME/code/dotfiles"
-zmodload zsh/zprof # uncomment to profile startup time
+zmodload zsh/zprof # profile startup time
 
 # Terminal Setup {{{
 export EDITOR='/usr/local/bin/nvim' # used for commits and such
 export TERM='xterm-kitty'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+bindkey -e                          # use emacs keybindings
+bindkey "^[" vi-cmd-mode            # use esc to enter vi-cmd-mode
+unset MANPATH                       # use default manpath directories; it was different within tmux for some reason I do not yet know
 # }}}
 
 declare -U PATH path
@@ -33,7 +36,7 @@ export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 # load custom zsh modules
 for file in "$DOTDIR"/zsh/*.zsh "$DOTDIR"/bin/*_completion; do
-    if [ -f "$file" ]; then
+    if [[ -f "$file" ]]; then
         source "$file"
     fi
 done
