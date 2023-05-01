@@ -42,7 +42,6 @@ for file in "$DOTDIR"/zsh/*.zsh "$DOTDIR"/bin/*_completion; do
 done
 
 source $DOTDIR/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $DOTDIR/zsh/zgen/zgen.zsh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
