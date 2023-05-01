@@ -14,6 +14,9 @@ return {
     config = true,
     event = { "BufReadPost", "BufNewFile" },
   },
+
+  { 'nocksock/do.nvim',       opts = { winbar = true }, dev = true, event= "VeryLazy"},
+  { 'nocksock/t.nvim',        dev = true, even = "VeryLazy" }, -- t.nvim: tiny term-toggle plugin
   {
   'tpope/vim-eunuch',                       -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
     event = "VeryLazy"
