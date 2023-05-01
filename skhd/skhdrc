@@ -14,8 +14,8 @@ ctrl + cmd - m ; move
 ctrl + cmd - a ; launch
 ctrl + cmd - x ; system
 
-layout, gaps, resize, launch, system < escape ; default
-layout, gaps, resize, launch, system < return ; default
+layout, gaps, resize, launch, system, move < escape ; default
+layout, gaps, resize, launch, system, move < return ; default
 
 # default mode {{{
 default, move, layout, resize, gaps < ctrl + cmd - h    : yabai -m window --focus west  || yabai -m display --focus west
