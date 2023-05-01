@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-source $HOME/.config/sketchybar/vars.sh
+source $HOME/.config/sketchybar/vars.zsh
 
 update() {
   if [[ $SELECTED == true ]]; then

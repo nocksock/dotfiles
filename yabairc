@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source $HOME/.config/sketchybar/vars.sh
+source $HOME/.config/sketchybar/vars.zsh
 
 sudo yabai --load-sa
 
