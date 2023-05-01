@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-source $HOME/.config/sketchybar/vars.sh
+#!/usr/bin/env zsh
+source $HOME/.config/sketchybar/vars.zsh
 NAME=mode
 
 case $1 in

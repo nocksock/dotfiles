@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-source $DOTDIR/sketchybar/vars.sh
+source $DOTDIR/sketchybar/vars.zsh
 
 sketchybar --bar    height=32                         \
                     position=top                      \

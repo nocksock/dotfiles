@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-source $HOME/.config/sketchybar/vars.sh
+source $HOME/.config/sketchybar/vars.zsh
 
 if [[ $1 == "setup" ]]; then
   NAME=clock
