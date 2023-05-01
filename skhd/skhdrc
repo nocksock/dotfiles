@@ -35,8 +35,8 @@ default, move, layout, resize, gaps < hyper - 8         : yabai -m space --focus
 default, move, layout, resize, gaps < hyper - 9         : yabai -m space --focus 9
 default, move, layout, resize, gaps < cmd + alt - right : yabai -m space --focus next || yabai -m space --focus 1
 default, move, layout, resize, gaps < cmd + alt - left  : yabai -m space --focus prev || yabai -m space --focus last
-default, move, layout, resize, gaps < cmd + ctrl - 0x21 : yabai -m space --focus next || yabai -m space --focus 1
-default, move, layout, resize, gaps < cmd + ctrl - 0x1E : yabai -m space --focus prev || yabai -m space --focus last
+default, move, layout, resize, gaps < cmd + ctrl - 0x1E : yabai -m space --focus next || yabai -m space --focus 1
+default, move, layout, resize, gaps < cmd + ctrl - 0x21 : yabai -m space --focus prev || yabai -m space --focus last
 # }}}
 
 # mode: move {{{
@@ -52,10 +52,15 @@ move < 7 : yabai -m window --space 7
 move < 8 : yabai -m window --space 8
 move < 9 : yabai -m window --space 9
 
-move < shift - h: yabai -m window --swap west
-move < shift - l: yabai -m window --swap east
-move < shift - j: yabai -m window --swap south
-move < shift - j: yabai -m window --swap north
+move < h: yabai -m window --swap west
+move < l: yabai -m window --swap east
+move < j: yabai -m window --swap south
+move < j: yabai -m window --swap north
+
+move < shift - h: yabai -m window --warp west
+move < shift - l: yabai -m window --warp east
+move < shift - j: yabai -m window --warp south
+move < shift - j: yabai -m window --warp north
 
 # }}}
 # mode: launch {{{
@@ -109,7 +114,7 @@ layout < 0x2C : yabai -m window --toggle split
 
 layout < w    : yabai -m window --toggle float --grid 1:6:1:0:4:1
 layout < c    : yabai -m window --toggle float --grid 6:8:2:1:4:4
-layout < t    : yabai -m window --toggle float --toggle sticky --toggle topmost
+layout < t    : yabai -m window --toggle sticky
 
 layout < b : yabai -m space --layout bsp
 layout < f : yabai -m space --layout float
