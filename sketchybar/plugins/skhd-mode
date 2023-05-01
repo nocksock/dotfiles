@@ -15,12 +15,25 @@ case $1 in
         label.padding_right=$SPACE_2 \
         background.color=$COLOR_INFO \
         background.corner_radius=$RADIUS
-        
+
     ;;
   "default")
     sketchybar --set $NAME label="" drawing=no
+    yabai -m config active_window_border_color $COLOR_ACTIVE window_border_width 2
     ;;
   *)
-    sketchybar --set $NAME label=$1 drawing=yes
+    COLOR=$COLOR_INFO
+
+    # second argument is optional and can set a color
+    if [[ -n "$2" ]]; then
+      if [[ -n "${WM_COLORS[$2]}" ]]; then
+        COLOR="${WM_COLORS[$2]}"
+      else
+        echo "Invalid color: $2"
+      fi
+    fi
+
+    sketchybar --set $NAME label=$1 drawing=yes background.color=$COLOR
+    yabai -m config active_window_border_color $COLOR
     ;;
 esac
