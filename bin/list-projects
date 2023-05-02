@@ -1,16 +1,20 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-# find all directories in the dirs array
+PROJECTS_FILE="$HOME/.projects"
 
-dirs=(
-  ~/code/sandboxes
-  ~/code/plugins.nvim
-  ~/code/projects/bleepbloop.git/main/apps
-  ~/code/clients/edeka/de.git/feature
-  ~/code/clients/edeka/de.git
-  ~/code/personal
-  ~/code/forks
-  ~/code
-)
+if [[ ! -f $PROJECTS_FILE ]]; then
+  echo "The file $PROJECTS_FILE does not exist"
+  exit 1
+fi
 
-find ${dirs[@]} -maxdepth 1 -type d -print 
+while IFS= read -r dir; do
+  dir="${dir#"${dir%%[![:space:]]*}"}"  # Trim leading whitespace
+  dir="${dir%"${dir##*[![:space:]]}"}"  # Trim trailing whitespace
+
+  expanded_dir="${dir/\~/$HOME}"
+  if [[ "$expanded_dir" == *\** ]]; then
+    find "${expanded_dir%/*}" -maxdepth 1 -type d -print
+  else
+    echo "${expanded_dir}"
+  fi
+done < $PROJECTS_FILE
