@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
 
 update() {
@@ -27,9 +27,9 @@ if [[ $1 == "setup" ]]; then
   SPACE_ICONS=("" "" "" "" "" "")
   SPACE_LABELS=("SIDE" "MAIN" "COMM" "PLAN" "PLAY" "CHAT")
 
-  for i in "${!SPACE_ICONS[@]}"; do
+  for i in {1..6}; do
 
-    sid=$(($i+1))
+    sid=$((i))
     case "$sid" in
       1) margin_left=0 ;;
       *) margin_left=$SPACE_2 ;;
@@ -52,8 +52,8 @@ if [[ $1 == "setup" ]]; then
         label.drawing=on                                \
         label.padding_right=8                           \
         label=${SPACE_LABELS[i]}                        \
-        script="$PLUGIN_DIR/spaces.sh"                  \
-        click_script="$PLUGIN_DIR/spaces.sh click $sid" \
+        script="$PLUGIN_DIR/spaces.zsh"                  \
+        click_script="$PLUGIN_DIR/spaces.zsh click $sid" \
 
     update space.$sid
   done

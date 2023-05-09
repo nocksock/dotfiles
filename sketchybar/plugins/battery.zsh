@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
 
 if [[ $1 == "setup" ]]; then
@@ -7,7 +7,7 @@ if [[ $1 == "setup" ]]; then
   sketchybar                            \
     --add item $NAME $POSITION          \
     --set $NAME                         \
-      script="$PLUGIN_DIR/battery.sh"   \
+      script="$PLUGIN_DIR/battery.zsh"   \
       update_freq=10                    \
       background.padding_left=$SPACE_2  \
       background.padding_right=$SPACE_2 \

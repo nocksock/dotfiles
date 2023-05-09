@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
 
 if [[ $1 == "setup" ]]; then
@@ -8,8 +8,8 @@ if [[ $1 == "setup" ]]; then
     --add item $NAME $POSITION                 \
     --set $NAME                                \
       update_freq=10                           \
-      script="$PLUGIN_DIR/task.sh"             \
-      click_script="$PLUGIN_DIR/task.sh click" \
+      script="$PLUGIN_DIR/task.zsh"             \
+      click_script="$PLUGIN_DIR/task.zsh click" \
       background.padding_left=8                \
       background.padding_right=8               \
       background.height=24                     \
