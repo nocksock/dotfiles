@@ -1,6 +1,6 @@
 # modes
 :: default   : ~/.config/sketchybar/plugins/skhd-mode default
-:: resize @ : ~/.config/sketchybar/plugins/skhd-mode blue
+:: resize @ : ~/.config/sketchybar/plugins/skhd-mode resize blue
 :: gaps   @ : ~/.config/sketchybar/plugins/skhd-mode gaps blue
 :: layout @ : ~/.config/sketchybar/plugins/skhd-mode layout pink
 :: move   @ : ~/.config/sketchybar/plugins/skhd-mode move blue
@@ -86,6 +86,9 @@ gaps < u : yabai -m space --gap abs:0 --padding abs:0:0:0:0
 gaps < i : yabai -m space --gap abs:32 --padding abs:32:32:32:32
 gaps < p : yabai -m space --gap abs:256 --padding abs:128:128:256:256
 gaps < o : yabai -m space --gap abs:128 --padding abs:128:128:128:128
+gaps < 0x1E : yabai -m config --space $(yabai -m query --spaces --space | jq .index) right_padding 16
+gaps < 0x21 : yabai -m config --space $(yabai -m query --spaces --space | jq .index) right_padding 320
+
 # }}}
 # mode: layout {{{
 layout < y: yabai -m space --mirror y-axis
@@ -114,7 +117,7 @@ layout < 0x2C : yabai -m window --toggle split
 
 layout < w    : yabai -m window --toggle float --grid 1:6:1:0:4:1
 layout < c    : yabai -m window --toggle float --grid 6:8:2:1:4:4
-layout < t    : yabai -m window --toggle sticky
+layout < t    : yabai -m window --toggle float --toggle sticky
 
 layout < b : yabai -m space --layout bsp
 layout < f : yabai -m space --layout float
