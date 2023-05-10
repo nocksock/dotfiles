@@ -9,6 +9,11 @@ export LC_ALL=en_US.UTF-8
 bindkey -e                          # use emacs keybindings
 bindkey "^[" vi-cmd-mode            # use esc to enter vi-cmd-mode
 unset MANPATH                       # use default manpath directories; it was different within tmux for some reason I do not yet know
+autoload -U edit-command-line
+zle -N edit-command-line # Emacs style
+# Enable Ctrl-x-e to edit command line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
 # }}}
 
 declare -U PATH path
@@ -40,8 +45,6 @@ for file in "$DOTDIR"/zsh/*.zsh "$DOTDIR"/bin/*_completion; do
         source "$file"
     fi
 done
-
-source $DOTDIR/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
