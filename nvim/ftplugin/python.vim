@@ -1,0 +1,1 @@
+command! Run :!python3 %

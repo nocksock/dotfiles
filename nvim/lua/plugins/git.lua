@@ -1,6 +1,7 @@
 return {
   {
     'tpope/vim-fugitive', -- a git wrapper in vim
+    event = { "BufReadPost", "BufNewFile" },
     keys = {
       { '<leader>gg', ':tab G<cr>' },
       { '<leader>cc', ':Git commit<cr>' },

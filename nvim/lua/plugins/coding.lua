@@ -11,7 +11,13 @@ return {
       'hrsh7th/cmp-path',     -- path completions
       'hrsh7th/cmp-cmdline',  -- source for cmdline (:, /)
       'hrsh7th/cmp-buffer',   -- buffer source
-      'L3MON4D3/LuaSnip',     -- the first snippet plugin to beat UltiSnips for me?
+      {
+        'L3MON4D3/LuaSnip',     -- the first snippet plugin to beat UltiSnips for me?
+      }
+      -- {
+      --   'zbirenbaum/copilot-cmp', -- copilot source
+      --   config = true
+      -- }
     }
   }
 }

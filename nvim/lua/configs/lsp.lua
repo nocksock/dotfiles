@@ -1,27 +1,59 @@
 require("mason").setup({})
+require("symbols-outline").setup {}
 require('goto-preview').setup {}
 require("trouble").setup {}
-require("lsp_signature").setup {}
-require("symbols-outline").setup {}
+require("lsp_signature").setup {
+  bind = true,
+  handler_opts = {
+    border = "single",
+    toggle_key = "<c-i>"
+  }
+}
 
-local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local builtin = require('telescope.builtin')
+local mason = require('mason-lspconfig')
 
-local servers = { 'clangd', 'tsserver', 'lua_ls', 'bashls' }
-local manual_servers = { 'tsserver', 'lua_ls' }
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
+
 local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-require("mason-lspconfig").setup({ ensure_installed = servers })
-
--- add rounded borders to vim.lsp.buf.hover and signatureHelp
-local handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+-- servers {{{
+local servers = {
+  clangd = {
+    capabilities = capabilities,
+    cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
+    -- root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+    init_options = {
+      clangdFileStatus = true,
+      -- usePlaceholders = true,
+      -- completeUnimported = true,
+      -- semanticHighlighting = true,
+    },
+  },
+  gopls = {},
+  pyright = {},
+  rust_analyzer = {},
+  tsserver = {},
+  null_ls = {
+    sources = {
+      null_ls.builtins.formatting.prettier,
+    },
+  },
+  lua_ls = {
+    Lua = {
+      workspace = {
+        library = vim.api.nvim_get_runtime_file('', true), -- Make the server aware of Neovim runtime files
+        checkThirdParty = false,
+      },
+      telemetry = { enable = false },
+    },
+  }
 }
-
--- Show line diagnostics automatically in hover window
+-- }}}
 -- function on_attach, runs when LSP is connected {{{
 local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
@@ -84,6 +116,8 @@ local on_attach = function(client, bufnr)
   nmap(']d', vim.diagnostic.goto_next)
   nmap("[e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
   nmap("]e", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
+  nmap("<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
+  nmap("<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
 
   nmap('<leader>k', vim.diagnostic.goto_prev)
   nmap('<leader>j', vim.diagnostic.goto_next)
@@ -91,7 +125,6 @@ local on_attach = function(client, bufnr)
   nmap('<leader>q', vim.diagnostic.setloclist)
   nmap("<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
   nmap("<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
-  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
 
   nmap('<leader>e', vim.diagnostic.open_float)
   nmap('<leader>q', vim.diagnostic.setloclist)
@@ -104,9 +137,9 @@ local on_attach = function(client, bufnr)
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, 'remove workspace folder')
   nmap('gr', require('telescope.builtin').lsp_references)
 
-  nmap('gd', vim.lsp.buf.definition, '[g]oto [d]efinition')
-  nmap('gD', vim.lsp.buf.declaration, '[g]oto [D]eclaration')
-  nmap('gi', vim.lsp.buf.implementation, '[g]oto [i]mplementation')
+  nmap('gd', vim.lsp.buf.definition, 'goto definition')
+  nmap('gD', vim.lsp.buf.declaration, 'goto Declaration')
+  nmap('gi', vim.lsp.buf.implementation, 'goto implementation')
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<leader>K', vim.lsp.buf.signature_help, 'Signature Documentation')
@@ -119,32 +152,26 @@ local on_attach = function(client, bufnr)
   nmap('gP', require('goto-preview').close_all_win)
   --}}}
 end --}}}
-
 -- autoconfig of lsps {{{
 require("mason-lspconfig").setup_handlers({
   function(server_name) -- default handler (optional)
-    if vim.tbl_contains(manual_servers, server_name) then
-      return -- do not autoconfig these
-    end
-
-    if lspconfig[server_name] == nil then
-      print("lspconfig[" .. server_name .. "] is nil")
-      return
-    end
-
-    lspconfig[server_name].setup {
+    require('lspconfig')[server_name].setup {
       on_attach = on_attach,
       capabilities = capabilities,
-      handlers = handlers
+      settings = servers[server_name],
+      handlers = {
+            ["window/progress"] = function(params, client_id, bufnr, config)
+          params.value.title = "[" .. params.value.kind .. "] " .. params.value.title
+          vim.lsp.util.window_progress(params, client_id, bufnr, config)
+        end,
+      },
     }
   end,
 }) -- }}}
-
 -- TypeScript {{{
 require("typescript").setup({
   server = {
     capabilities = capabilities,
-    handlers = handlers,
     on_attach = function(client, bufnr)
       require("twoslash-queries").attach(client, bufnr)
       vim.keymap.set('n', "<C-k>", "<cmd>InspectTwoslashQueries<CR>", { buffer = bufnr })
@@ -160,48 +187,5 @@ require("typescript").setup({
 })
 --}}}
 
--- Lua {{{
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
-
-lspconfig.lua_ls.setup({
-  settings = {
-    Lua = {
-      format = {
-        enable = true,
-        defaultConfig = {
-          indent_style = "space",
-          indent_size = "2",
-        }
-      },
-      runtime = {
-        version = 'LuaJIT', -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        path = runtime_path, -- Setup your lua path
-      },
-      diagnostics = {
-        globals = { 'vim' }, -- Get the language server to recognize the `vim` global
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file('', true), -- Make the server aware of Neovim runtime files
-      },
-      telemetry = {
-        enable = false, -- Do not send telemetry data containing a randomized but unique identifier
-      },
-    },
-  },
-  on_attach = on_attach,
-}) --}}}
-
-null_ls.setup({
--- {{{
-  sources = {
-    null_ls.builtins.formatting.prettier,
-  },
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-  end,
-})
--- }}}
-
+mason.setup({ ensure_installed = vim.tbl_keys(servers) })
 -- vi: fen fdl=0

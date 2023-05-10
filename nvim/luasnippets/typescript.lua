@@ -22,7 +22,7 @@ end
 -- }}}
 
 return {
-	s('fn', fmt([[({}) => {}]], { i(1), i(0) })),
+	s('kt', fmt([[keyof typeof {}]], { i(0) })),
 	s('clg', fmt([[console.log({});]], { i(0) })),
 	s('log', fmt([[console.log({});]], { i(0) })),
 	s(
@@ -65,9 +65,9 @@ return {
         return {}
       }}]], {i(1), i(2), i(3)}),
     fmt([[
-      const {} = function {}({}) {{
+      function {}({}) {{
         return {}
-      }}]], {i(1), i(2), i(3), i(4)}),
+      }}]], {i(1), i(2), i(3)}),
   })),
 	s('cb', c(1, {
     fmt([[({}) => {}]], {i(1), i(2)}),
