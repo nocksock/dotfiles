@@ -32,6 +32,7 @@ export POSITION=right
   $PLUGIN_DIR/clock.zsh setup
   $PLUGIN_DIR/music setup
   $PLUGIN_DIR/skhd-mode setup
+  $PLUGIN_DIR/layout setup
 
 sketchybar                          \
   --add bracket sysinfo clock music \
