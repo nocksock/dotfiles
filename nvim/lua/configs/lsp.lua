@@ -1,7 +1,7 @@
 require("mason").setup({})
-require("symbols-outline").setup {}
 require('goto-preview').setup {}
 require("trouble").setup {}
+
 require("lsp_signature").setup {
   bind = true,
   handler_opts = {
@@ -10,18 +10,17 @@ require("lsp_signature").setup {
   }
 }
 
+require("symbols-outline").setup {}
+
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local builtin = require('telescope.builtin')
-local mason = require('mason-lspconfig')
-
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
 local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- servers {{{
 local servers = {
   clangd = {
     capabilities = capabilities,
@@ -38,11 +37,6 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   tsserver = {},
-  null_ls = {
-    sources = {
-      null_ls.builtins.formatting.prettier,
-    },
-  },
   lua_ls = {
     Lua = {
       workspace = {
@@ -53,7 +47,10 @@ local servers = {
     },
   }
 }
--- }}}
+
+require("mason-lspconfig").setup({ ensure_installed = vim.tbl_keys(servers) })
+
+-- Show line diagnostics automatically in hover window
 -- function on_attach, runs when LSP is connected {{{
 local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
@@ -152,6 +149,7 @@ local on_attach = function(client, bufnr)
   nmap('gP', require('goto-preview').close_all_win)
   --}}}
 end --}}}
+
 -- autoconfig of lsps {{{
 require("mason-lspconfig").setup_handlers({
   function(server_name) -- default handler (optional)
@@ -160,7 +158,7 @@ require("mason-lspconfig").setup_handlers({
       capabilities = capabilities,
       settings = servers[server_name],
       handlers = {
-            ["window/progress"] = function(params, client_id, bufnr, config)
+        ["window/progress"] = function(params, client_id, bufnr, config)
           params.value.title = "[" .. params.value.kind .. "] " .. params.value.title
           vim.lsp.util.window_progress(params, client_id, bufnr, config)
         end,
@@ -168,6 +166,7 @@ require("mason-lspconfig").setup_handlers({
     }
   end,
 }) -- }}}
+
 -- TypeScript {{{
 require("typescript").setup({
   server = {
@@ -187,5 +186,15 @@ require("typescript").setup({
 })
 --}}}
 
-mason.setup({ ensure_installed = vim.tbl_keys(servers) })
+-- Lua {{{
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.prettier,
+  },
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+  end,
+})
+
 -- vi: fen fdl=0
