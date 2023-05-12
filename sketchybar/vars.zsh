@@ -1,6 +1,6 @@
 FONT="JetBrainsMono NF:Bold:12.0"
 ICONFONT="JetBrainsMono NF:Bold:16.0"
-PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+PLUGIN_DIR="$HOME/.config/sketchybar/modules"
 
 RADIUS=5
 SPACE=4

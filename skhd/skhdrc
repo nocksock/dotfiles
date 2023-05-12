@@ -1,11 +1,11 @@
 # modes
-:: default   : ~/.config/sketchybar/plugins/skhd-mode default
-:: resize @ : ~/.config/sketchybar/plugins/skhd-mode resize blue
-:: gaps   @ : ~/.config/sketchybar/plugins/skhd-mode gaps blue
-:: layout @ : ~/.config/sketchybar/plugins/skhd-mode layout pink
-:: move   @ : ~/.config/sketchybar/plugins/skhd-mode move blue
-:: launch @ : ~/.config/sketchybar/plugins/skhd-mode launch lavender
-:: system @ : ~/.config/sketchybar/plugins/skhd-mode system white
+:: default   : ~/.config/sketchybar/modules/skhd-mode default
+:: resize @ : ~/.config/sketchybar/modules/skhd-mode resize blue
+:: gaps   @ : ~/.config/sketchybar/modules/skhd-mode gaps blue
+:: layout @ : ~/.config/sketchybar/modules/skhd-mode layout pink
+:: move   @ : ~/.config/sketchybar/modules/skhd-mode move blue
+:: launch @ : ~/.config/sketchybar/modules/skhd-mode launch lavender
+:: system @ : ~/.config/sketchybar/modules/skhd-mode system white
 
 layout, gaps, resize, launch, system, move, default < ctrl + cmd - r ; resize
 layout, gaps, resize, launch, system, move, default < ctrl + cmd - o ; layout

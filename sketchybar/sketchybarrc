@@ -25,11 +25,11 @@ sketchybar --bar    height=32                         \
 
 
 export POSITION=left
-  $PLUGIN_DIR/spaces.zsh setup
+  $PLUGIN_DIR/spaces setup
   # $PLUGIN_DIR/task.zsh setup # TODO: fix this
 
 export POSITION=right
-  $PLUGIN_DIR/clock.zsh setup
+  $PLUGIN_DIR/clock setup
   $PLUGIN_DIR/music setup
   $PLUGIN_DIR/skhd-mode setup
   $PLUGIN_DIR/layout setup

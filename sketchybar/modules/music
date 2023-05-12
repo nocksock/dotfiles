@@ -9,7 +9,7 @@ case $1 in
     sketchybar -m                                     \
       --add item $NAME $POSITION                      \
       --set $NAME                                     \
-          script="~/.config/sketchybar/plugins/music" \
+          script="~/.config/sketchybar/modules/music" \
           icon.drawing=off                            \
           drawing=off                                 \
           label.padding_left=$SPACE_2                 \
@@ -32,7 +32,7 @@ case $1 in
     args=()
 
     if [ $PLAYING -eq 0 ]; then
-      if [ "$ARTIST" == "" ]; then
+      if [ "$ARTIST" -eq "" ]; then
         args+=(--set $NAME label="$TRACK - $ALBUM" drawing=on)
       else
         args+=(--set $NAME label="$TRACK - $ARTIST" drawing=on)
