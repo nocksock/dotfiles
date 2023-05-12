@@ -112,7 +112,6 @@ layout < 0x1E : yabai -m window --ratio abs:0.75 # ]
 layout < 0x27 : yabai -m window --ratio abs:0.80 # '
 
 layout < z    : yabai -m window --toggle zoom-parent
-layout < f    : yabai -m window --toggle native-fullscreen ; skhd -k 'escape'
 layout < 0x2C : yabai -m window --toggle split
 
 layout < w    : yabai -m window --toggle float --grid 1:6:1:0:4:1
