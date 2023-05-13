@@ -1,15 +1,19 @@
-#!/usr/bin/env fish
+#!/usr/bin/env zsh
+#
+case $1 in
+  launch-or-focus)
+    obsidian_info=$(yabai -m query --windows | jq '.[] | select(."app" == "Obsidian")')
+    window_id=$(echo "$obsidian_info" | jq '.id | tonumber')
+    has_focus=$(echo "$obsidian_info" | jq '."has-focus"')
 
-switch $argv
-case launch-or-focus
-  set -l window_id (yabai -m query --windows | jq '.[] | select(."app" == "Obsidian") | .id | tonumber')
-  if test "$window_id" != ""
-    if test (yabai -m query --windows --window "$window_id" | jq '."has-focus"') = "true"
-      yabai -m window --focus recent
+    if [[ -n $window_id ]]; then
+      if [[ "$has_focus" = "true" ]]; then
+        skhd -k "cmd - h"
+      else
+        yabai -m window --focus "$window_id"
+      fi
     else
-      yabai -m window --focus "$window_id"
-    end
-  else
-    open -a "obsidian"
-  end
-end
+      open -a "obsidian"
+    fi
+    ;;
+esac

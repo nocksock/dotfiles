@@ -64,9 +64,11 @@ move < shift - j: yabai -m window --warp north
 
 # }}}
 # mode: launch {{{
+# also accessible via hyper
 launch < f      : ~/.config/skhd/apps/kitty launch-or-focus ; skhd -k 'escape'
 launch < return : ~/.config/skhd/apps/kitty new-window ; skhd -k 'escape'
 launch < o      : ~/.config/skhd/apps/obsidian launch-or-focus ; skhd -k 'escape'
+hyper - o       : ~/.config/skhd/apps/obsidian launch-or-focus ; skhd -k 'escape'
 # }}}
 # mode: resize {{{
 resize < h   : yabai -m window --resize left:-64:0 || yabai -m window --resize right:-64:0
@@ -123,6 +125,6 @@ layout < f : yabai -m space --layout float
 layout < s : yabai -m space --layout stack
 # }}}
 # mode: system {{{
-system < r : skhd --reload ; skhd -k 'escape' ; ~/.config/sketchybar/plugins/skhd-mode default
+system < r : skhd --reload ; skhd -k 'escape' ; ~/.config/sketchybar/modules/skhd-mode default
 # }}}
 # vi: fdm=marker
