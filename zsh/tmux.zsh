@@ -5,14 +5,13 @@ if ! command -v tmux &> /dev/null; then
 fi
 
 alias tml="tmux-live"
-alias tat="tmux -u attach -t"
-alias tp="tmux-qp"
-alias ta="tmux attach -t"
+alias tmp="tmux-qp"
+alias tma="tmux attach -t"
 
 # TODO: find out why I created this alias
 alias tmux="TERM=screen-256color-bce tmux"
 
-alias tr="tmux-recent"
+alias tmr="tmux-recent"
 function tmux-recent {
   local dir
 
@@ -29,7 +28,7 @@ function tmux-recent {
 	tmux new -s $session_name -c $dir
 }
 
-alias trn="tmux-recent-nvim"
+alias tmrn="tmux-recent-nvim"
 function tmux-recent-nvim {
   local dir
   if [[ -z $1 ]]; then
@@ -48,12 +47,12 @@ function tmux-recent-nvim {
   tmux attach    -t $session_name
 }
 
-alias tn="tmux-new"
+alias tmn="tmux-new"
 function tmux-new {
 	tmux new -s ${PWD##*/}
 }
 
-alias tnn="tmux-new-nvim"
+alias tmnn="tmux-new-nvim"
 function  tmux-new-nvim {
   local session_name="${PWD##/*/}"
 
