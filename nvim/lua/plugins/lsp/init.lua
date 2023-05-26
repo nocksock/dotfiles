@@ -9,14 +9,7 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       { 'j-hui/fidget.nvim', config = true }, -- fidget.nvim: ui for nvm-lsp progress
-      {
-        'github/copilot.vim',
-        -- 'zbirenbaum/copilot.lua',
-        -- opts = {
-        --   suggestion = { enabled = false },
-        --   panel = { enabled = false },
-        -- }
-      },
+      'github/copilot.vim',
       'ray-x/lsp_signature.nvim', -- show function signatures from LSP when typing
       'folke/trouble.nvim',       -- pretty list for LSP diagnostics
     },

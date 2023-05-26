@@ -1,7 +1,7 @@
 require("mason").setup({})
 require('goto-preview').setup {}
 require("trouble").setup {}
-
+require("symbols-outline").setup {}
 require("lsp_signature").setup {
   bind = true,
   handler_opts = {
@@ -10,12 +10,12 @@ require("lsp_signature").setup {
   }
 }
 
-require("symbols-outline").setup {}
 
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local null_ls = require('null-ls')
 local builtin = require('telescope.builtin')
 local runtime_path = vim.split(package.path, ';')
+
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 

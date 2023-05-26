@@ -1,5 +1,5 @@
 -- local harpoon_line = require("snock.plugins.harpoon-lualine")
--- 
+--
 
 require('lualine').setup {
   options = {
@@ -25,7 +25,12 @@ require('lualine').setup {
         }
       }
     },
-    lualine_x = { 'diagnostics', { function() return vim.lsp.buf.server_ready() and "lsp" or "nolsp" end } },
+    lualine_x = {
+      'diagnostics',
+        { function() return vim.lsp.buf.server_ready() and "lsp" or "nolsp" end },
+
+
+    },
     lualine_y = { 'branch' },
     lualine_z = { }
   },
