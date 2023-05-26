@@ -14,10 +14,6 @@ return {
       {
         'L3MON4D3/LuaSnip',     -- the first snippet plugin to beat UltiSnips for me?
       }
-      -- {
-      --   'zbirenbaum/copilot-cmp', -- copilot source
-      --   config = true
-      -- }
     }
   }
 }
