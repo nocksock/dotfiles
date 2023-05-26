@@ -1,19 +1,36 @@
 export DOTDIR="$HOME/code/dotfiles"
+
 zmodload zsh/zprof # profile startup time
 
 # Terminal Setup {{{
+autoload -U +X bashcompinit && bashcompinit
+autoload -U edit-command-line
+autoload -U select-word-style
+
 export EDITOR='/usr/local/bin/nvim' # used for commits and such
 export TERM='xterm-kitty'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-bindkey -e                          # use emacs keybindings
-bindkey "^[" vi-cmd-mode            # use esc to enter vi-cmd-mode
 unset MANPATH                       # use default manpath directories; it was different within tmux for some reason I do not yet know
-autoload -U edit-command-line
+
 zle -N edit-command-line # Emacs style
+
 # Enable Ctrl-x-e to edit command line
+bindkey -e                          # use emacs keybindings
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
+bindkey "^[" vi-cmd-mode            # use esc to enter vi-cmd-mode
+
+# make Ctrl-w stop on WORDCHARS
+select-word-style bash
+export WORDCHARS='.-'
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 # }}}
 
 declare -U PATH path
@@ -25,7 +42,6 @@ path=(
   "$HOME/.composer/vendor/bin"
   "$HOME/.local/bin"
   "$HOME/bin"
-  "$HOME/bin:"
   "$HOME/code/bleepbloop.git/main/bin"
   "$PNPM_HOME"
   "./node_modules/.bin"
@@ -46,7 +62,5 @@ for file in "$DOTDIR"/zsh/*.zsh "$DOTDIR"/bin/*_completion; do
     fi
 done
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
 eval "$(op completion zsh)"; compdef _op op
 eval "$(starship init zsh)"
