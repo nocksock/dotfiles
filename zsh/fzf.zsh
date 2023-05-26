@@ -9,5 +9,16 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{node_modules/*,node_modules.*/,.git/*,package-lock.json}" '
 export FZF_DEFAUTLT_OPTS='--height 40% --layout=reverse --border --bind up:preview-up,down:preview-down'
 
-source /opt/homebrew/opt/fzf/shell/completion.zsh
-source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+if [[ $OSTYPE == darwin* ]]; then
+  test -f /opt/homebrew/opt/fzf/shell/completion.zsh   \
+    && source /opt/homebrew/opt/fzf/shell/completion.zsh
+  test -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh \
+    && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+fi
+
+if [[ $OSTYPE == linux-gnu ]]; then
+  test -f /usr/share/doc/fzf/examples/completion.zsh   \
+    && source /usr/share/doc/fzf/examples/completion.zsh
+  test -f /usr/share/doc/fzf/examples/key-bindings.zsh \
+    && source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
