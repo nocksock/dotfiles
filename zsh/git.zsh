@@ -1,6 +1,7 @@
-alias gss='git status -s'
+alias gss='git status -s .'
 alias gs='vim +:Git status'
 alias gr='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
+alias gg='lazygit'
 
 alias gsw='git-select-worktree'
 function git-select-worktree () {
@@ -30,8 +31,8 @@ function git-grouped-log {
 }
 
 # git-select-branch: checkout a branch via fzf 
-alias gsb='git-select-branch'
-git-select-branch () {
+alias gsb='git-switch-branch'
+git-switch-branch () {
   local branches branch
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m)
