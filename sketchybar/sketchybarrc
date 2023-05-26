@@ -1,15 +1,15 @@
 #!/usr/bin/env zsh
 source $DOTDIR/sketchybar/vars.zsh
 
-sketchybar --bar    height=32                         \
+sketchybar --bar    height=24                         \
                     position=top                      \
                     sticky=on                         \
-                    padding_left=8                    \
-                    padding_right=8                   \
-                    y_offset=8                        \
+                    padding_left=4                    \
+                    padding_right=4                   \
+                    y_offset=2                        \
                     display=main                      \
-                    margin=16                         \
-                    corner_radius=$RADIUS             \
+                    margin=2                          \
+                    corner_radius=0                   \
                     color=0x00000000                  \
                                                       \
           --default drawing=on                        \
@@ -26,7 +26,7 @@ sketchybar --bar    height=32                         \
 
 export POSITION=left
   $PLUGIN_DIR/spaces setup
-  # $PLUGIN_DIR/task.zsh setup # TODO: fix this
+  $PLUGIN_DIR/task setup # TODO: fix this
 
 export POSITION=right
   $PLUGIN_DIR/clock setup
@@ -41,6 +41,6 @@ sketchybar                          \
       background.corner_radius=5
 
 export POSITION=center
-  $PLUGIN_DIR/front_app.zsh setup
+  $PLUGIN_DIR/front_app setup
 
 echo "sketchybar configuration loaded.."

@@ -8,8 +8,8 @@ update() {
       --animate sin 20                 \
       --set $1                         \
         icon.color=$BLACK              \
-        label.color=$BLACK             \
-        background.color=$COLOR_ACTIVE
+        label.color=$GREEN             \
+        background.color=$BLACK
 
   else
 
@@ -17,7 +17,7 @@ update() {
       --animate sin 20              \
       --set $1                      \
         icon.color=$COLOR_INACTIVE  \
-        label.color=$COLOR_INACTIVE \
+        label.color=$WHITE_TRANS \
         background.color=$COLOR_ACTIVE_TRANSP
 
   fi
@@ -25,35 +25,28 @@ update() {
 
 if [[ $1 == "setup" ]]; then
   SPACE_ICONS=("" "" "" "" "" "")
-  SPACE_LABELS=("SIDE" "MAIN" "COMM" "PLAN" "PLAY" "CHAT")
+  SPACE_LABELS=("SIDE" "MAIN" "COMM" "PLAN" "PLAY" "CHAT" "WRITE" "TODO" "PRIV")
 
-  for i in {1..6}; do
-
+  for i in {1..9}; do
     sid=$((i))
-    case "$sid" in
-      1) margin_left=0 ;;
-      *) margin_left=$SPACE_2 ;;
-    esac
 
-    echo $margin_left
-
-    sketchybar                                          \
-      --add space space.$sid $POSITION                  \
-      --set space.$sid                                  \
-        associated_space=$sid                           \
-        icon=${SPACE_ICONS[i]}                          \
-        icon.padding_left=8                             \
-        icon.padding_right=4                            \
-        background.padding_right=0                      \
-        background.padding_left=$margin_left            \
-        background.corner_radius=5                      \
-        background.height=24                            \
-        background.drawing=on                           \
-        label.drawing=on                                \
-        label.padding_right=8                           \
-        label=${SPACE_LABELS[i]}                        \
-        script="$PLUGIN_DIR/spaces.zsh"                  \
-        click_script="$PLUGIN_DIR/spaces.zsh click $sid" \
+    sketchybar                         \
+      --add space space.$sid $POSITION \
+      --set space.$sid                 \
+        associated_space=$sid          \
+        icon=${SPACE_ICONS[i]}         \
+        icon.drawing=off               \
+        background.corner_radius=5     \
+        background.height=24           \
+        background.drawing=on          \
+        background.padding_right=2     \
+        background.padding_left=2      \
+        label.drawing=on               \
+        label.padding_right=4          \
+        label.padding_left=4           \
+        label=${i}                     \
+        script="$PLUGIN_DIR/spaces"    \
+        click_script="$PLUGIN_DIR/spaces click $sid" 
 
     update space.$sid
   done
@@ -75,6 +68,7 @@ fi
 
 if [[ $1 == "click" ]]; then
   yabai -m space --focus $2
+else
+  update $NAME
 fi
 
-update $NAME

@@ -9,7 +9,7 @@ if [[ $1 == "setup" ]]; then
     --set $NAME                     \
       update_freq=25                \
       label.padding_right=$SPACE_2 \
-      script="$PLUGIN_DIR/clock.zsh"
+      script="$PLUGIN_DIR/clock"
 
 fi
 

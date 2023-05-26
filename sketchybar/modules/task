@@ -4,20 +4,20 @@ source $HOME/.config/sketchybar/vars.zsh
 if [[ $1 == "setup" ]]; then
   NAME=focus
 
-  sketchybar                                   \
-    --add item $NAME $POSITION                 \
-    --set $NAME                                \
-      update_freq=10                           \
-      script="$PLUGIN_DIR/task.zsh"             \
-      click_script="$PLUGIN_DIR/task.zsh click" \
-      background.padding_left=8                \
-      background.padding_right=8               \
-      background.height=24                     \
-      label.padding_right=8                    \
-      icon.padding_left=8                      \
-      background.color=$BLACK                  \
-      background.corner_radius=4               \
-      label.color=$COLOR_HIGHLIGHT             \
+  sketchybar                                \
+    --add item $NAME $POSITION              \
+    --set $NAME                             \
+      update_freq=10                        \
+      script="$PLUGIN_DIR/task"             \
+      click_script="$PLUGIN_DIR/task click" \
+      background.padding_left=8             \
+      background.padding_right=8            \
+      background.height=24                  \
+      label.padding_right=8                 \
+      icon.padding_left=8                   \
+      background.color=0xbb14161B               \
+      background.corner_radius=4            \
+      label.color=$COLOR_HIGHLIGHT          \
       icon.color=$COLOR_HIGHLIGHT
 
 fi
