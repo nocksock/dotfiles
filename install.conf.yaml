@@ -22,7 +22,7 @@
     ~/.zsh: zsh
     ~/.zshrc: zshrc
     ~/.vimrc: vimrc
-    ~/.vim: vim
+    ~/.vim: vim.d
 
     # macos only
     ~/.config/sketchybar: 
