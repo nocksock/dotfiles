@@ -1,0 +1,28 @@
+themes {
+  grayscaledark {
+    fg "#b9b9b9"
+    bg "#161616"
+    red "#101010"
+    green "#626262"
+    yellow "#101010"
+    blue "#101010"
+    magenta "#101010"
+    orange "#CF5C36"
+    cyan "#101010"
+    black "#252525"
+    white "#b9b9b9"
+  }
+  grayscalewhite {
+    fg "#b9b9b9"
+    bg "#161616"
+    red "#101010"
+    green "#626262"
+    yellow "#101010"
+    blue "#101010"
+    magenta "#101010"
+    orange "#CF5C36"
+    cyan "#101010"
+    black "#e3e3e3"
+    white "#b9b9b9"
+  }
+}

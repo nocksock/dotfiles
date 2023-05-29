@@ -1,0 +1,15 @@
+themes {
+  kaolindark {
+    fg "#e4e4e8"
+    bg "#18181B"
+    red "#CD5C60"
+    green "#6FB593"
+    yellow "#DBAC66"
+    blue "#91B9C7"
+    magenta "#845A84"
+    orange "#CF5C36"
+    cyan "#4d9391"
+    black "#222225"
+    white "#e4e4e8"
+  }
+}
