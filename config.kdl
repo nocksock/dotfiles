@@ -1,4 +1,4 @@
-theme "fleet"
+theme "kaolindark"
 default_shell "zsh"
 default_layout "default"
 pane_frames false
@@ -18,12 +18,11 @@ keybinds clear-defaults=true {
   shared {
     bind "Ctrl g" { SwitchToMode "locked"; }
     bind "Ctrl p" { SwitchToMode "pane"; }
-    bind "Ctrl n" { SwitchToMode "resize"; }
+    bind "Ctrl r" { SwitchToMode "resize"; }
     bind "Ctrl t" { SwitchToMode "tab"; }
     bind "Ctrl s" { SwitchToMode "scroll"; }
     bind "Ctrl o" { SwitchToMode "session"; }
     bind "Ctrl h" { SwitchToMode "move"; }
-    bind "Ctrl b" { SwitchToMode "tmux"; }
     bind "Ctrl q" { Quit; }
     bind "Alt n" { NewPane; }
     bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
@@ -138,28 +137,5 @@ keybinds clear-defaults=true {
   RenamePane {
     bind "Enter" "Ctrl c" "Esc" { SwitchToMode "normal"; }
     bind "Esc" { UndoRenamePane; SwitchToMode "pane"; }
-  }
-  tmux {
-    bind "Ctrl h" { SwitchToMode "move"; }
-    bind "Ctrl o" "Enter" "Space" "Esc" { SwitchToMode "normal"; }
-    bind "[" { SwitchToMode "scroll"; }
-    bind "Ctrl b" { Write 2; SwitchToMode "normal"; }
-    bind "\"" { NewPane "Down"; SwitchToMode "normal"; }
-    bind "%" { NewPane "Right"; SwitchToMode "normal"; }
-    bind "z" { ToggleFocusFullscreen; SwitchToMode "normal"; }
-    bind "c" { NewTab; SwitchToMode "normal"; }
-    bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
-    bind "p" { GoToPreviousTab; SwitchToMode "normal"; }
-    bind "n" { GoToNextTab; SwitchToMode "normal"; }
-    bind "Left" { MoveFocus "Left"; SwitchToMode "normal"; }
-    bind "Right" { MoveFocus "Right"; SwitchToMode "normal"; }
-    bind "Down" { MoveFocus "Down"; SwitchToMode "normal"; }
-    bind "Up" { MoveFocus "Up"; SwitchToMode "normal"; }
-    bind "h" { MoveFocus "Left"; SwitchToMode "normal"; }
-    bind "l" { MoveFocus "Right"; SwitchToMode "normal"; }
-    bind "j" { MoveFocus "Down"; SwitchToMode "normal"; }
-    bind "k" { MoveFocus "Up"; SwitchToMode "normal"; }
-    bind "o" { FocusNextPane; }
-    bind "d" { Detach; }
   }
 }
