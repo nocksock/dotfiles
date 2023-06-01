@@ -26,13 +26,13 @@ sketchybar --bar    height=24                         \
 
 export POSITION=left
   $PLUGIN_DIR/spaces setup
-  $PLUGIN_DIR/task setup # TODO: fix this
+  $PLUGIN_DIR/front_app setup
 
 export POSITION=right
   $PLUGIN_DIR/clock setup
-  $PLUGIN_DIR/music setup
   $PLUGIN_DIR/skhd-mode setup
   $PLUGIN_DIR/layout setup
+  $PLUGIN_DIR/music setup
 
 sketchybar                          \
   --add bracket sysinfo clock music \
@@ -41,6 +41,6 @@ sketchybar                          \
       background.corner_radius=5
 
 export POSITION=center
-  $PLUGIN_DIR/front_app setup
+  $PLUGIN_DIR/task setup
 
 echo "sketchybar configuration loaded.."

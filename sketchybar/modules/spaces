@@ -24,7 +24,7 @@ update() {
 }
 
 if [[ $1 == "setup" ]]; then
-  SPACE_ICONS=("" "" "" "" "" "")
+  SPACE_ICONS=("" "" "" "" "󰴙" "" "■" "⯅" "●")
   SPACE_LABELS=("SIDE" "MAIN" "COMM" "PLAN" "PLAY" "CHAT" "WRITE" "TODO" "PRIV")
 
   for i in {1..9}; do
@@ -44,7 +44,8 @@ if [[ $1 == "setup" ]]; then
         label.drawing=on               \
         label.padding_right=4          \
         label.padding_left=4           \
-        label=${i}                     \
+        label=${SPACE_ICONS[$i]}       \
+        label.font="$ICONFONT" \
         script="$PLUGIN_DIR/spaces"    \
         click_script="$PLUGIN_DIR/spaces click $sid" 
 
@@ -59,6 +60,9 @@ if [[ $1 == "setup" ]]; then
       space.4                       \
       space.5                       \
       space.6                       \
+      space.7                       \
+      space.8                       \
+      space.9                       \
     --set primary_spaces            \
       background.color=$BLACK_ALPHA \
       background.corner_radius=5

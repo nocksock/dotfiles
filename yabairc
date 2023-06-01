@@ -37,7 +37,7 @@ yabai -m config                              \
   split_type                 auto            \
   auto_balance               on              \
   layout                     bsp             \
-  external_bar               main:20:0
+  external_bar               main:24:0
 
 yabai -m space 1 --layout bsp --label side   # side stuff, docs etc
 yabai -m space 2 --layout bsp --label work   # main work stuff

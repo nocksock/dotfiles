@@ -11,7 +11,7 @@ case $1 in
       --set $NAME                                     \
           script="~/.config/sketchybar/modules/music" \
           icon.drawing=off                            \
-          drawing=off                                 \
+          drawing=on                                  \
           label.padding_left=$SPACE_2                 \
           label.padding_right=$SPACE_2                \
           label.color=$COLOR_INFO
@@ -32,7 +32,7 @@ case $1 in
     args=()
 
     if [ $PLAYING -eq 0 ]; then
-      if [ "$ARTIST" -eq "" ]; then
+      if [[ "$ARTIST" -eq "" ]]; then
         args+=(--set $NAME label="$TRACK - $ALBUM" drawing=on)
       else
         args+=(--set $NAME label="$TRACK - $ARTIST" drawing=on)

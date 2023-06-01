@@ -11,7 +11,7 @@ if [[ $1 == "setup" ]]; then
       label.padding_left=$SPACE_2   \
       label.padding_right=$SPACE_2  \
       background.color=$BLACK_Alpha \
-      background.padding_left=32    \
+      background.padding_left=$SPACE_2    \
       label.color=$COLOR_ACTIVE     \
       label.drawing=on              \
       icon.drawing=off              \
