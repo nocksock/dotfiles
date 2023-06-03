@@ -8,6 +8,13 @@ layout {
     tab name="DEV" focus=true {
         pane
     }
+    tab name="RUN" {
+        pane stacked=true {
+            pane name="NEXT"
+            pane name="STORYBOOK"
+            pane name="REDIS"
+        }
+    }
     tab name="EXP" {
         pane
     }
