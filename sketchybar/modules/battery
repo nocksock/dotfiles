@@ -16,17 +16,27 @@ if [[ $1 == "setup" ]]; then
       label.padding_left=$SPACE         \
       label.padding_right=$SPACE        \
     --subscribe battery system_woke
-
 fi
 
 # UPDATE
+STATUS=$(pmset -g batt)
 
-PERCENTAGE=$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)
-CHARGING=$(pmset -g batt | grep 'AC Power')
+if [[ $STATUS == "" ]]; then
+  exit 0
+fi
+
+PERCENTAGE=$(echo $STATUS | grep -Eo '[0-9]+%' | cut -d% -f1)
+CHARGING=$(echo $STATUS | grep 'AC Power')
 
 if [[ $PERCENTAGE = "" ]]; then
   exit 0
 fi
+
+case ${PERCENTAGE%?} in
+  [0-9]) PERCENTAGE=" ${PERCENTAGE}"
+  ;;
+  *) PERCENTAGE="${PERCENTAGE}"
+esac
 
 case ${PERCENTAGE} in
   9[0-9]|100) ICON=""
@@ -44,6 +54,4 @@ if [[ $CHARGING != "" ]]; then
   ICON=""
 fi
 
-# The item invoking this script (name $NAME) will get its icon and label
-# updated with the current battery status
 sketchybar --set $NAME icon="$ICON" label="${PERCENTAGE}%"

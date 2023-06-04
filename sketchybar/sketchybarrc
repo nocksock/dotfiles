@@ -29,6 +29,7 @@ export POSITION=left
   $PLUGIN_DIR/front_app setup
 
 export POSITION=right
+  $PLUGIN_DIR/battery setup
   $PLUGIN_DIR/clock setup
   $PLUGIN_DIR/skhd-mode setup
   $PLUGIN_DIR/layout setup
