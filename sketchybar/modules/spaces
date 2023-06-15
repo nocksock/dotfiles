@@ -7,17 +7,17 @@ update() {
     sketchybar                         \
       --animate sin 20                 \
       --set $1                         \
-        icon.color=$BLACK              \
+        icon.color=$WHITE              \
         label.color=$GREEN             \
-        background.color=$BLACK
+        background.color=$BLACK_ALPHA
 
   else
 
-    sketchybar                      \
-      --animate sin 20              \
-      --set $1                      \
-        icon.color=$COLOR_INACTIVE  \
-        label.color=$WHITE_TRANS \
+    sketchybar                     \
+      --animate sin 20             \
+      --set $1                     \
+        icon.color=${WM_COLORS[white_alpha]} \
+        label.color=$WHITE_TRANS   \
         background.color=$COLOR_ACTIVE_TRANSP
 
   fi
@@ -35,17 +35,19 @@ if [[ $1 == "setup" ]]; then
       --set space.$sid                 \
         associated_space=$sid          \
         icon=${SPACE_ICONS[i]}         \
-        icon.drawing=off               \
+        icon.drawing=on                \
+        icon.color=$BLACK              \
+        icon.padding_right=4           \
         background.corner_radius=5     \
         background.height=24           \
         background.drawing=on          \
         background.padding_right=2     \
         background.padding_left=2      \
-        label.drawing=on               \
-        label.padding_right=4          \
+        label.drawing=off              \
+        label.color=$BLACK             \
         label.padding_left=4           \
         label=${SPACE_ICONS[$i]}       \
-        label.font="$ICONFONT" \
+        label.font="$ICONFONT"         \
         script="$PLUGIN_DIR/spaces"    \
         click_script="$PLUGIN_DIR/spaces click $sid" 
 
@@ -64,10 +66,12 @@ if [[ $1 == "setup" ]]; then
       space.8                       \
       space.9                       \
     --set primary_spaces            \
-      background.color=$BLACK_ALPHA \
-      background.corner_radius=5
+      background.color=${WM_COLORS[black_alpha]}
+      background.corner_radius=2
 
   exit
+
+  space=$(yabai -m query --spaces --space | jq .index)
 fi
 
 if [[ $1 == "click" ]]; then

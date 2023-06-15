@@ -12,7 +12,7 @@ if [[ $1 == "setup" ]]; then
       label.padding_right=$SPACE_2     \
       background.color=$BLACK_ALPHA    \
       background.padding_left=$SPACE_2 \
-      label.color=$GREEN               \
+      label.color=$WHITE               \
       label.drawing=on                 \
       icon.drawing=off                 \
     --subscribe front_app front_app_switched

@@ -6,9 +6,9 @@ sketchybar --bar    height=24                         \
                     sticky=on                         \
                     padding_left=4                    \
                     padding_right=4                   \
-                    y_offset=2                        \
+                    y_offset=4                        \
                     display=main                      \
-                    margin=2                          \
+                    margin=8                          \
                     corner_radius=0                   \
                     color=0x00000000                  \
                                                       \
@@ -27,6 +27,7 @@ sketchybar --bar    height=24                         \
 export POSITION=left
   $PLUGIN_DIR/spaces setup
   $PLUGIN_DIR/front_app setup
+  $PLUGIN_DIR/task setup
 
 export POSITION=right
   $PLUGIN_DIR/battery setup
@@ -36,12 +37,12 @@ export POSITION=right
   $PLUGIN_DIR/music setup
 
 sketchybar                          \
-  --add bracket sysinfo clock music \
+  --add bracket sysinfo clock music battery \
   --set sysinfo                     \
-      background.color=$BLACK_ALPHA \
+      background.color=$BLACK \
       background.corner_radius=5
 
-export POSITION=center
-  $PLUGIN_DIR/task setup
+# export POSITION=center
+#   $PLUGIN_DIR/task setup
 
 echo "sketchybar configuration loaded.."

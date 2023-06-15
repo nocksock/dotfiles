@@ -10,14 +10,14 @@ if [[ $1 == "setup" ]]; then
       update_freq=10                        \
       script="$PLUGIN_DIR/task"             \
       click_script="$PLUGIN_DIR/task click" \
-      background.padding_left=8             \
-      background.padding_right=8            \
+      background.padding_left=$SPACE_2      \
+      background.padding_right$SPACE_2      \
       background.height=24                  \
-      label.padding_right=8                 \
-      icon.padding_left=8                   \
-      background.color=0xbb14161B               \
+      label.padding_right$SPACE_2           \
+      icon.padding_left$SPACE_2             \
+      background.color=0xbb14161B           \
       background.corner_radius=4            \
-      label.color=$COLOR_HIGHLIGHT          \
+      label.color=${WM_COLORS[white]}       \
       icon.color=$COLOR_HIGHLIGHT
 
 fi
@@ -26,7 +26,7 @@ if [[ $1 == "click" ]]; then
   state=$(sketchybar --query $NAME | jq -a '.label.drawing ==  "on"')
 
   if [ $state = "true" ]; then
-      sketchybar --set $NAME icon.color=$COLOR_INACTIVE label.drawing=off
+      sketchybar --set $NAME icon.color=${WM_COLORS[white_alpha]} label.drawing=off
   fi
 
   if [ $state = "false" ]; then
@@ -75,6 +75,6 @@ case $result in
     sketchybar --set $NAME icon="" label="things is not running" label.color=0xffff0000
   ;;
   *)
-    sketchybar --set $NAME icon="" label="$result"
+    sketchybar --set $NAME icon="" label="$result"
   ;;
 esac
