@@ -27,6 +27,8 @@ vim.o.wildignore = table.concat({
 vim.o.gdefault = true -- add g flag by default for :substitutions
 vim.o.ignorecase = true -- ignore case by default - unless using uppercase/lowercase via smartcase
 vim.o.smartcase = true -- ignore 'ignorecase' when search contains uppercase characters
+vim.o.grepprg="rg --vimgrep"
+vim.o.grepformat="%f:%l:%c:%m"
 
 -- }}}
 

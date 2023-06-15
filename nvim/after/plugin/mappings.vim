@@ -51,3 +51,4 @@ nmap [c :cp<cr>
 nmap ]l :lnext<cr>
 nmap [l :lprev<cr>
 
+nmap <c-f> :RG<cr>
