@@ -108,5 +108,17 @@ function M.open_term_float(cmd, opts) --{{{
   return M.create_term_buf(win, buf, cmd, opts)
 end --}}}
 
+---find the root project directory based on filenames
+---@param filenames string
+---@return unknown
+function M.root_dir(filenames)
+  return vim.fs.dirname(
+    vim.fs.find(
+      filenames,
+      { upward = true }
+    )[1]
+  )
+end
+
 return M
 -- vim: fen fdm=marker fdl=0
