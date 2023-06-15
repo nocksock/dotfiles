@@ -10,9 +10,9 @@ return {
       vim.g.colors_name = 'rose-pine'
     end
   },
-  { 'folke/tokyonight.nvim', lazy = true },
-  { 'rktjmp/lush.nvim',      lazy = true },
-  { 'nocksock/bloop.nvim',   dev = true,    lazy = true },
-  { 'nocksock/nazgul-vim',   dev = true,    lazy = true },
-  { 'nocksock/ghash.nvim',   dev = true,    lazy = true },
+  { 'folke/tokyonight.nvim', event = "VeryLazy" },
+  { 'rktjmp/lush.nvim',      event = "VeryLazy" },
+  { 'nocksock/bloop.nvim',   dev = true,    event = "VeryLazy" },
+  { 'nocksock/nazgul-vim',   dev = true,    event = "VeryLazy" },
+  { 'nocksock/ghash.nvim',   dev = true,    event = "VeryLazy" },
 }
