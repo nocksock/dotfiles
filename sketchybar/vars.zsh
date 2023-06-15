@@ -24,6 +24,16 @@ BLUE_TRANS=0x007DCFFF
 PINK=0xFFF7A1C5
 TRANS=0x00F7A1C5
 
+function opacity() {
+  local color=$1
+  local opacity=$(printf '%x' $(( $2 * 2.55 + 1)))
+  local hex=$(printf '%x' $color)
+  local r=${hex:2:2}
+  local g=${hex:4:2}
+  local b=${hex:6:2}
+  echo "0x$opacity$r$g$b"
+}
+
 declare -Ag WM_COLORS
 WM_COLORS=(
   white       "0xFFDEE9F7"
