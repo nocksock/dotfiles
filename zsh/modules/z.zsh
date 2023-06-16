@@ -1,4 +1,4 @@
-source $DOTDIR/zsh/z/z.sh
+source $DOTDIR/zsh/modules/z/z.sh
 
 function select-z {
   echo $(

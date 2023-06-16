@@ -19,9 +19,8 @@
     ~/.config/zellij: zellij
     ~/.doom.d: doom.d
     ~/.tmux.conf: tmux.conf
-    ~/.zsh: zsh
     ~/.muttrc: mutt/muttrc
-    ~/.zshrc: zshrc
+    ~/.zshrc: zsh/zshrc
     ~/.vimrc: vim/vimrc
 
     # macos only

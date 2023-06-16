@@ -56,7 +56,7 @@ export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 # load custom zsh modules
-for file in "$DOTDIR"/zsh/*.zsh "$DOTDIR"/bin/*_completion; do
+for file in "$DOTDIR"/zsh/modules/*.zsh "$DOTDIR"/bin/*_completion; do
     if [[ -f "$file" ]]; then
         source "$file"
     fi
