@@ -13,12 +13,12 @@
     ~/.config/herbstluftwm: herbstluftwm
     ~/.config/kitty: kitty
     ~/.config/nvim: nvim
-    ~/.config/starship.toml: starship.toml
+    ~/.config/starship.toml: starship/starship.toml
     ~/.config/polybar: polybar
     ~/.config/rofi: rofi
     ~/.config/zellij: zellij
     ~/.doom.d: doom.d
-    ~/.tmux.conf: tmux.conf
+    ~/.tmux.conf: tmux/tmux.conf
     ~/.muttrc: mutt/muttrc
     ~/.zshrc: zsh/zshrc
     ~/.vimrc: vim/vimrc
@@ -35,7 +35,7 @@
       path: hammerspoon
     ~/.yabairc:
       if: "[ `uname` = Darwin ]"
-      path: yabairc
+      path: yabai/yabairc
     ~/Library/Application Support/Code/User/keybindings.json:
       if: "[ `uname` = Darwin ]"
       path: vscode/keybindings.json
@@ -47,7 +47,7 @@
       path: vscode/snippets
     ~/Library/Application Support/lazygit/config.yml:
       if: "[ `uname` = Darwin ]"
-      path: lazygit.yml
+      path: lazygit/lazygit.yml
 
 - create:
     - ~/.vim/undo-history

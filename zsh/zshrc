@@ -44,7 +44,7 @@ path=(
   "$HOME/bin"
   "$HOME/code/bleepbloop.git/main/bin"
   "$PNPM_HOME"
-  "./node_modules/.bin"
+  "$HOME/Library/pnpm"
   "/opt/homebrew/bin"
   "/usr/local/bin" 
   "/usr/local/cuda-11.6/bin"
