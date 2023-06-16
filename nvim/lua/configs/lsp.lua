@@ -1,3 +1,5 @@
+local null_ls = require('null-ls')
+
 require("mason").setup({})
 require('goto-preview').setup {}
 require("trouble").setup {}
@@ -10,26 +12,13 @@ require("lsp_signature").setup {
   }
 }
 
-
-local cmp_nvim_lsp = require('cmp_nvim_lsp')
-local null_ls = require('null-ls')
-local runtime_path = vim.split(package.path, ';')
-
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
-
-local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
+-- LSP Server Configuration {{{
 local servers = {
   clangd = {
-    capabilities = capabilities,
+    capabilities = require('snock.lsp').capabilities(),
     cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
-    -- root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
     init_options = {
-      clangdFileStatus = true,
-      -- usePlaceholders = true,
-      -- completeUnimported = true,
-      -- semanticHighlighting = true,
+      clangdFileStatus = true
     },
   },
   gopls = {},
@@ -46,42 +35,26 @@ local servers = {
     },
   }
 }
-
-require("mason-lspconfig").setup({ ensure_installed = vim.tbl_keys(servers) })
-
--- Show line diagnostics automatically in hover window
--- function on_attach, runs when LSP is connected {{{
-local on_attach = function(client, bufnr)
-  require "lsp_signature".on_attach({
-    bind = true, -- This is mandatory, otherwise border config won't get registered.
-    handler_opts = {
-      border = "rounded"
-    }
-  }, bufnr)
-  require('lsp-keymaps').register(client, bufnr)
-end --}}}
-
--- autoconfig of lsps {{{
+require("mason-lspconfig").setup({
+  ensure_installed = vim.tbl_keys(servers)
+})
+-- }}}
+-- Semi-automatic configuration of LSPs {{{
 require("mason-lspconfig").setup_handlers({
   function(server_name) -- default handler (optional)
     require('lspconfig')[server_name].setup {
-      on_attach = on_attach,
-      capabilities = capabilities,
+      on_attach = require("snock.lsp").on_attach,
+      capabilities = require('snock.lsp').capabilities(),
+      handlers = require('snock.lsp').handlers,
       settings = servers[server_name],
-      handlers = {
-        ["window/progress"] = function(params, client_id, bufnr, config)
-          params.value.title = "[" .. params.value.kind .. "] " .. params.value.title
-          vim.lsp.util.window_progress(params, client_id, bufnr, config)
-        end,
-      },
     }
   end,
 }) -- }}}
-
 -- TypeScript {{{
+-- Using the plugin since it adds some useful commands
 require("typescript").setup({
   server = {
-    capabilities = capabilities,
+    capabilities = require('snock.lsp').capabilities(),
     on_attach = function(client, bufnr)
       require("twoslash-queries").attach(client, bufnr)
       vim.keymap.set('n', "<C-k>", "<cmd>InspectTwoslashQueries<CR>", { buffer = bufnr })
@@ -96,17 +69,13 @@ require("typescript").setup({
   }
 })
 --}}}
-
--- Lua {{{
-
+-- Null-LS {{{
 null_ls.setup({
   sources = {
     null_ls.builtins.formatting.prettier,
   },
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-  end,
+  on_attach = require("snock.lsp").on_attach,
 })
-
+-- }}}
 
 -- vi: fen fdl=0

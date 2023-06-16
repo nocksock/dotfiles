@@ -109,7 +109,7 @@ function M.open_term_float(cmd, opts) --{{{
 end --}}}
 
 ---find the root project directory based on filenames
----@param filenames string
+---@param filenames table
 ---@return unknown
 function M.root_dir(filenames)
   return vim.fs.dirname(

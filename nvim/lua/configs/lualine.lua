@@ -1,5 +1,4 @@
 -- local harpoon_line = require("snock.plugins.harpoon-lualine")
---
 
 require('lualine').setup {
   options = {
@@ -43,12 +42,11 @@ require('lualine').setup {
     lualine_z = {}
   },
   tabline = nil,
-  -- currently using the implementation of do.nvim
-  -- winbar = {
-  --   -- lualine_a = { require("do").view },
-  -- },
-  -- inactive_winbar = {
-  --   -- lualine_a = { require("do").view_inactive }
-  -- },
+  winbar = {
+    lualine_a = { require("do").view },
+  },
+  inactive_winbar = {
+    lualine_a = { require("do").view_inactive }
+  },
   extensions = {},
 }

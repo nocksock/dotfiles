@@ -3,6 +3,7 @@
 --  This config is in between haircuts. 
 --
 
+-- Automatically install lazy.nvim when it is not yet installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -16,11 +17,15 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
+
 require("configs.settings")
 
 require('lazy').setup("plugins", {
   dev = {
-    path = '~/code/plugins.nvim',
+    path = '~/code',
     fallback = true
   }
 })

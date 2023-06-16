@@ -1,11 +1,6 @@
-local client = vim.lsp.start({
-  cmd = { 'sourcekit-lsp' },
-  root_dir = require('snock.utils').root_dir(
-    { 'Package.swift', 'buildServer.json', 'compile_commands.json', '.git' }
-  ),
-  on_attach = function(client, bufnr)
-    require("lsp-keymaps").register(client, bufnr)
-  end
+require('lspconfig').sourcekit.setup({
+  on_attach = require("snock.lsp").on_attach,
+  capabilities = require('snock.lsp').capabilities(),
+  handlers = require('snock.lsp').handlers,
 })
 
-vim.lsp.buf_attach_client(0, client)

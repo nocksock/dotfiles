@@ -1,22 +1,43 @@
 local M = {}
-local builtin = require('telescope.builtin')
 
-M.register = function (client, bufnr)
-  local cmd = function(name, func) vim.api.nvim_create_user_command(name, func, {}) end
+-- Capabilities {{{
+function M.capabilities()
+  local cmp_nvim_lsp = require('cmp_nvim_lsp')
+  local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
+  return capabilities
+end -- }}}
+-- Handlers {{{
+M.handlers = {
+  ["window/progress"] = function(params, client_id, bufnr, config)
+    params.value.title = "[" .. params.value.kind .. "] " .. params.value.title
+    vim.lsp.util.window_progress(params, client_id, bufnr, config)
+  end,
+} -- }}}
+-- On Attach {{{
+M.on_attach = function(client, bufnr)
+  require "lsp_signature".on_attach({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    handler_opts = {
+      border = "rounded"
+    }
+  }, bufnr)
+
   local nmap = function(keys, func, desc)
     if desc then desc = 'LSP: ' .. desc end
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  cmd('Format', function()
+  -- :Format {{{
+  vim.api.nvim_create_user_command('Format', function()
     if vim.lsp.buf.format then
       vim.lsp.buf.format()
     elseif vim.lsp.buf.formatting then
       vim.lsp.buf.formatting()
     end
-  end)
-
-  cmd('FixAll', function()
+  end, {})
+  -- }}}
+  -- :FixAll {{{
+  vim.api.nvim_create_user_command('FixAll', function()
     if vim.lsp.buf.code_action then
       vim.lsp.buf.code_action({
         apply = true,
@@ -25,9 +46,9 @@ M.register = function (client, bufnr)
         end
       })
     end
-  end)
-
-  -- highlight references under cursor {{{
+  end, {})
+  -- }}}
+  -- Highlight references under cursor {{{
   if client.server_capabilities.documentHighlightProvider then
     vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
     vim.api.nvim_clear_autocmds { buffer = bufnr, group = "lsp_document_highlight" }
@@ -43,8 +64,8 @@ M.register = function (client, bufnr)
     })
   end
   --}}}
-
-  -- mappings {{{
+  -- LSP Keymap {{{
+  local builtin = require('telescope.builtin')
   nmap('<leader>ss', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
   nmap('<M-r>', builtin.lsp_dynamic_workspace_symbols, 'workspace symbols')
   nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Action (vscodey)')
@@ -91,5 +112,6 @@ M.register = function (client, bufnr)
   nmap('gP', require('goto-preview').close_all_win)
   --}}}
 end
+-- }}}
 
 return M
