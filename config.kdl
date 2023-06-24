@@ -21,7 +21,7 @@ keybinds clear-defaults=true {
     bind "Ctrl r" { SwitchToMode "resize"; }
     bind "Ctrl t" { SwitchToMode "tab"; }
     bind "Ctrl s" { SwitchToMode "scroll"; }
-    bind "Ctrl o" { SwitchToMode "session"; }
+    // bind "Ctrl o" { SwitchToMode "session"; }
     bind "Ctrl h" { SwitchToMode "move"; }
     bind "Ctrl q" { Quit; }
     bind "Alt n" { NewPane; }
