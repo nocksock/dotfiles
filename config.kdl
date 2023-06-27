@@ -1,4 +1,4 @@
-theme "kaolindark"
+theme "ferra"
 default_shell "zsh"
 default_layout "default"
 pane_frames false

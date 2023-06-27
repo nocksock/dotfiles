@@ -1,0 +1,16 @@
+themes {
+  ferra {
+    fg "#d1d1e0"
+    bg "#2b292d"
+    red "#e06b75"
+    green "#b1b695"
+    yellow "#f5d76e"
+    blue "#7382a0"
+    magenta "#a390f0"
+    orange "#ffa07a"
+    cyan "#7ecbc8"
+    black "#383539"
+    white "#d1d1e0"
+  }
+}
+
