@@ -89,15 +89,14 @@ set signcolumn=yes
 set mouse=a
 
 set display+=lastline
-# set display+=truncate
 
-#grep
+# Grep
 set grepprg=rg\ --vimgrep
 
 # Quickfix
 set qftf=quickfix.QFFormat
 
-# wrapping
+# Wrapping
 set breakindent
 set briopt=shift:4
 set linebreak
@@ -108,8 +107,14 @@ set wrap
 g:netrw_altfile = 1 
 g:netrw_banner = 0
 g:netrw_winsize = 33
+
+g:easy_align_delimiters = {
+  # align \, which I often use in bash scripts etc.
+  '\': { 'pattern': '\',  'left_margin': 1, 'right_margin': 0 },
+}
+
 # }}}
-# keymap {{{
+# Keymap {{{
 xnoremap ga <Plug>(EasyAlign)
 nnoremap ga <Plug>(EasyAlign)
 
@@ -130,7 +135,13 @@ nnoremap <silent> <S-Down> <cmd>resize +12<cr>
 nnoremap <silent> <S-Left> <cmd>vertical resize -12<cr>
 nnoremap <silent> <S-Right> <cmd>vertical resize +12<cr>
 
-nnoremap <leader>tu :MundoToggle<cr>
+# More undo stops in insert mode
+imap ! !<c-g>u
+imap . .<c-g>u
+imap : :<c-g>u
+imap ; ;<c-g>u
+imap ? ?<c-g>u
+imap , ,<c-g>u
 
 # List
 nnoremap <leader>l <cmd>ls<cr>:b<space>
@@ -143,12 +154,30 @@ nnoremap <silent> <leader>q :call util#ToggleQuickfix()<cr>
 
 # Grep
 nnoremap <leader>g :Grep <c-r><c-w><cr>
+
 # Line highlight
 nnoremap <silent> <leader>H <cmd>call matchadd('LineHighlight', '\%' .. line('.') .. 'l')<cr>
 nnoremap <silent> <leader>C <cmd>call clearmatches()<cr>
 
+# split a line in two, making the right above the left (usefull to move comments)
+nnoremap X i<cr><esc>ddkP
+
 # Quickfix last spelling error
 inoremap <C-l> <C-g>u<Esc>[s1z=`]a<C-g>u
+
+# Better terminal exits
+tnoremap <c-[> <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
+
+# Visual select last inserted text
+nnoremap gV `[v`] 
+
+# Remove trailing spaces
+nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr>
+
+# Misc shortcuts
+nnoremap <leader>tu :MundoToggle<cr>
+nnoremap _ :vnew .<cr>
 
 g:UltiSnipsExpandTrigger       = "<tab>"
 g:UltiSnipsJumpForwardTrigger  = "<c-b>"

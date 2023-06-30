@@ -47,7 +47,7 @@ git:
     showGraph: "when-maximised"
     # displays the whole git graph by default in the commits panel (equivalent to passing the `--all` argument to `git log`)
     showWholeGraph: false
-  skipHookPrefix: "WIP:"
+  skipHookPrefix: WIP
   autoFetch: true
   autoRefresh: true
   branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
@@ -75,8 +75,9 @@ notARepository: "prompt" # one of: 'prompt' | 'create' | 'skip' | 'quit'
 promptToReturnFromSubprocess: true # display confirmation when subprocess terminates
 keybinding:
   universal:
-    quit: "<c-c>"
-    return: "q" # return to previous menu, will quit if there's nowhere to return
+    quit: "q"
+    quit-alt1: "<c-c>" # alternative/alias of quit
+    return: "<esc>" # return to previous menu, will quit if there's nowhere to return
     quitWithoutChangingDirectory: "Q"
     togglePanel: "<tab>" # goto the next panel
     prevItem: "<up>" # go one line up
@@ -101,8 +102,8 @@ keybinding:
     select: "<space>"
     goInto: "<enter>"
     openRecentRepos: "<c-r>"
-    confirm: "y"
-    confirm-alt1: "<enter>"
+    confirm: "<enter>"
+    confirm-alt1: "y"
     remove: "d"
     new: "n"
     edit: "e"

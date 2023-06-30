@@ -150,7 +150,6 @@ end
 ---for things like lualine
 function C.view_inactive()
   state.tasks = store.init(state.options.store)
-
   return view.render_inactive(state)
 end
 

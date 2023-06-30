@@ -118,11 +118,12 @@ layout < 0x2C : yabai -m window --toggle split
 
 layout < w    : yabai -m window --toggle float --grid 1:6:1:0:4:1
 layout < c    : yabai -m window --toggle float --grid 6:8:2:1:4:4
-layout < t    : yabai -m window --toggle float --toggle sticky
+layout < s    : yabai -m window --toggle sticky
+layout < f    : yabai -m window --toggle float
 
-layout < b : yabai -m space --layout bsp
-layout < f : yabai -m space --layout float
-layout < s : yabai -m space --layout stack
+layout < shift - b : yabai -m space --layout bsp
+layout < shift - f : yabai -m space --layout float
+layout < shift - s : yabai -m space --layout stack
 # }}}
 # mode: system {{{
 system < r : skhd --reload ; skhd -k 'escape' ; ~/.config/sketchybar/modules/skhd-mode default

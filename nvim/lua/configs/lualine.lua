@@ -12,6 +12,7 @@ require('lualine').setup {
     lualine_a = { { 'mode' } },
     lualine_b = { { 'tabs', mode = 0, cond = function() return vim.fn.tabpagenr('$') > 1 end } },
     lualine_c = {
+      {'branch', padding = { left = 1, right = 0 }, separator = "", color = {fg=8} },
       {
         'filename',
         newfile_status = true,
@@ -26,11 +27,9 @@ require('lualine').setup {
     },
     lualine_x = {
       'diagnostics',
-        { function() return vim.lsp.buf.server_ready() and "lsp" or "nolsp" end },
-
-
+        { function() return vim.lsp.buf.server_ready() and "" or "no lsp" end },
     },
-    lualine_y = { 'branch' },
+    lualine_y = { 'searchcount' },
     lualine_z = { }
   },
   inactive_sections = {
@@ -43,10 +42,10 @@ require('lualine').setup {
   },
   tabline = nil,
   winbar = {
-    lualine_a = { require("do").view },
+    -- lualine_a = { require("do.view").stl },
   },
   inactive_winbar = {
-    lualine_a = { require("do").view_inactive }
+    -- lualine_a = { require("do.view").stl_nc }
   },
   extensions = {},
 }

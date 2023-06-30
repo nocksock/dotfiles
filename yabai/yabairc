@@ -2,7 +2,7 @@
 source $HOME/.config/sketchybar/vars.zsh
 
 if [[ ! $1 == "refresh" ]]; then
-  sudo yabai --load-s
+  sudo yabai --load-sa
   yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
   yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
   # yabai -m signal --add event=display_added action="sleep 1 && $HOME/.config/yabai/create_spaces.sh"

@@ -71,8 +71,8 @@ vim.o.briopt = 'shift:4' -- indent wrapped lines
 vim.o.linebreak = true
 vim.o.wrap = true
 -- }}}
-
 -- backup + undo {{{
+vim.o.swapfile = false -- disable swap files
 vim.o.backupskip = '/tmp/*,/private/tmp/*' -- Make Vim able to edit crontab files again.
 vim.o.backup = true -- enable backups
 vim.o.backupdir = '/tmp'

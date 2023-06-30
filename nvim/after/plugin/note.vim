@@ -6,7 +6,7 @@ fun! NoteOpen(filename)
   execute "tabnew " . g:note_root_dir . "/" . ( empty(a:filename) ? file : a:filename )
 endfun
 
-fun! NoteOpenCompletion(A,L,P)
+function! NoteOpenCompletion(A,L,P)
     return split(substitute(glob(g:note_root_dir .. '/*'), expand(g:note_root_dir) .. '/', '', 'g'), "\n")
-endfun
+endfunction
 

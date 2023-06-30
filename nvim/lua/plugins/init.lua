@@ -15,10 +15,10 @@ return {
     event = { "BufReadPost", "BufNewFile" },
   },
 
-  { 'nocksock/do.nvim',       opts = { winbar = true }, dev = true, event= "VeryLazy"},
-  { 'nocksock/t.nvim',        dev = true, even = "VeryLazy" }, -- t.nvim: tiny term-toggle plugin
+  { 'nocksock/do.nvim', opts = { winbar = true }, dev = true,       event = "VeryLazy" },
+  { 'nocksock/t.nvim',  dev = true,               even = "VeryLazy" }, -- t.nvim: tiny term-toggle plugin
   {
-  'tpope/vim-eunuch',                       -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
+    'tpope/vim-eunuch',                                        -- vim sugar for the unix shell commands that need it the most. Like :delete, :move, :chmod
     event = "VeryLazy"
   },
   {
@@ -46,7 +46,7 @@ return {
     'ThePrimeagen/harpoon',
     keys = {
       { "<leader>'", ':lua require("harpoon.mark").add_file()<CR>' },
-      { "<c-h>",     ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
+      { "''",     ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
       { "'f",        ':lua require("harpoon.ui").nav_file(1)<CR>' }, -- alt + j
       { "'d",        ':lua require("harpoon.ui").nav_file(2)<CR>' }, -- alt + k
       { "'s",        ':lua require("harpoon.ui").nav_file(3)<CR>' }, -- alt + l
@@ -75,17 +75,17 @@ return {
     }
   },
   -- }}}
-  {
-    'folke/which-key.nvim', -- show possible keys when nvim is waiting for a key press
-    event = "VeryLazy",
-    opts = {
-      window = {
-        border = 'double',
-        position = 'center',
-        margin = { 4, 4, 4, 6 }
-      }
-    }
-  },
+  -- {
+  --   'folke/which-key.nvim', -- show possible keys when nvim is waiting for a key press
+  --   event = "VeryLazy",
+  --   opts = {
+  --     window = {
+  --       border = 'double',
+  --       position = 'center',
+  --       margin = { 4, 4, 4, 6 }
+  --     }
+  --   }
+  -- },
   {
     'nvim-lualine/lualine.nvim', -- lualine.nvim: easy to configure and extend statusline (+tabline, +windowline)
     event = "VeryLazy",
@@ -125,4 +125,8 @@ return {
     'mcchrish/nnn.vim', -- using nnn in a floating window (and open file in vim)
     event = 'VeryLazy',
   },
+  {
+    'christoomey/vim-tmux-navigator',
+    event = "VeryLazy"
+  }
 }
