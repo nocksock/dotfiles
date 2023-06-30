@@ -7,25 +7,23 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin()
-Plug 'junegunn/vim-easy-align'
+Plug 'SirVer/ultisnips'
+Plug 'airblade/vim-gitgutter'
+Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-fugitive'
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-surround'
-Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-eunuch'
-Plug 'simnalamburt/vim-mundo'
+Plug 'junegunn/vim-easy-align'
 Plug 'mattn/emmet-vim'
 Plug 'rose-pine/vim'
-Plug 'airblade/vim-gitgutter'
+Plug 'simnalamburt/vim-mundo'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
 call plug#end()
 
 colorscheme rosepine
