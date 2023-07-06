@@ -32,6 +32,7 @@ colorscheme rosepine
 # settings {{{
 filetype plugin indent on
 
+g:mapleader = " "
 set noerrorbells
 set textwidth=100
 set scrolloff=10
