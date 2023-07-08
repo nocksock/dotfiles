@@ -27,6 +27,8 @@ require('lazy').setup("plugins", {
   dev = {
     path = '~/code',
     fallback = true
-  }
+  },
+  change_detection = {
+    enabled = false, -- I found this annoying when having multiple long running nvim sessions.
+  },
 })
-
