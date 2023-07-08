@@ -15,16 +15,16 @@ unset MANPATH                       # use default manpath directories; it was di
 
 zle -N edit-command-line # Emacs style
 
-# Enable Ctrl-x-e to edit command line
-bindkey -e                          # use emacs keybindings
-bindkey '^xe' edit-command-line
-bindkey '^x^e' edit-command-line
-bindkey "^[" vi-cmd-mode            # use esc to enter vi-cmd-mode
+bindkey -e                       # use emacs keybindings
+bindkey '^xe' edit-command-line  # Enable Ctrl-x-e to edit command line
+bindkey '^x^e' edit-command-line # + Ctrl-x-Ctrl-e for convenience
+bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
 
 # make Ctrl-w stop on WORDCHARS
 select-word-style bash
 export WORDCHARS='.-'
 
+# make up/down search history use whatever is typed so far
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -37,23 +37,21 @@ declare -U PATH path
 path=(
   "/opt/homebrew/opt/bison/bin"
   "/opt/homebrew/opt/grep/libexec/gnubin" 
+  "/opt/homebrew/bin"
+  "/usr/local/bin" 
+  "/usr/local/cuda-11.6/bin"
   "$DOTDIR/bin/"
   "$BUN_INSTALL/bin"
   "$HOME/.composer/vendor/bin"
   "$HOME/.local/bin"
   "$HOME/bin"
   "$HOME/code/bleepbloop.git/main/bin"
+  "$HOME/.cargo/bin"
   "$PNPM_HOME"
-  "$HOME/Library/pnpm"
-  "/opt/homebrew/bin"
-  "/usr/local/bin" 
-  "/usr/local/cuda-11.6/bin"
   "$path[@]"
 )
 export PATH
-export PYENV_ROOT="$HOME/.pyenv"
-export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
-export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
 
 # load custom zsh modules
 for file in "$DOTDIR"/zsh/modules/*.zsh "$DOTDIR"/bin/*_completion; do
@@ -61,6 +59,3 @@ for file in "$DOTDIR"/zsh/modules/*.zsh "$DOTDIR"/bin/*_completion; do
         source "$file"
     fi
 done
-
-eval "$(op completion zsh)"; compdef _op op
-eval "$(starship init zsh)"

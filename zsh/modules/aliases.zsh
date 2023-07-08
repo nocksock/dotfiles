@@ -5,9 +5,8 @@ alias sudo='sudo '
 alias reload="source ~/.zshrc; rehash"
 
 # ls
-alias la='exa --icons -1 --group-directories-first -a'
-alias ls='exa --icons -1 --group-directories-first'
-alias ll='exa --icons -l --group-directories-first'
+alias ls='exa --icons -1 --group-directories-first -a'
+alias ll='exa --icons -l --group-directories-first -a'
 
 # navigation
 alias c='cd $(list-projects | fzf)'
@@ -19,16 +18,9 @@ function take() {
 	cd $1
 }
 
-zz () {
-  cd $(z | awk '{print $2}' | sed "s#$HOME#~#" | fzf | sed "s#~#$HOME#")
-}
-
 # apps
 alias tf=terraform
-alias nv=/usr/local/bin/nvim
-alias tower='open . -a Tower'
 alias love='open -n -a love'
-alias oo='open .'
 
 # Avoid rm mistakes with trash-cli:
 # 	https://github.com/sindresorhus/trash-cli
