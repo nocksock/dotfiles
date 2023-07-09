@@ -7,23 +7,26 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin()
-Plug 'SirVer/ultisnips'
 Plug 'airblade/vim-gitgutter'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'mattn/emmet-vim'
-Plug 'rose-pine/vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
+Plug 'rose-pine/vim'
+
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 call plug#end()
 
 colorscheme rosepine
@@ -73,8 +76,7 @@ set complete+=k
 set completeopt=menuone,noinsert
 
 # Reduce noise
-set shortmess+=c
-set shortmess+=C
+set shortmess+=cCsmnrf
 
 # UI
 set number
@@ -92,15 +94,25 @@ set display+=lastline
 # Grep
 set grepprg=rg\ --vimgrep
 
-# Quickfix
-set qftf=quickfix.QFFormat
-
 # Wrapping
 set breakindent
 set briopt=shift:4
 set linebreak
 set wrap
 
+g:lsp_log_file = ''
+g:lsp_log_file = expand('~/vim-lsp.log')
+g:lsp_diagnostics_echo_cursor = 1
+g:lsp_diagnostics_virtual_text_enabled = 0
+g:lsp_diagnostics_signs_error = {'text': 'x'}
+g:lsp_diagnostics_signs_warning = {'text': 'w'}
+g:lsp_diagnostics_signs_information = {'text': '@'}
+g:lsp_diagnostics_signs_hint = {'text': '*'}
+g:lsp_document_code_action_signs_hint = {'text': '>'}
+g:lsp_format_sync_timeout = 1000
+
+g:lsp_show_message_log_level = 'none'
+g:lsp_log_file = expand('/tmp/lsp.log')
 # }}}
 # plugin settings {{{
 g:netrw_altfile = 1 
@@ -178,6 +190,33 @@ nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 nnoremap <leader>tu :MundoToggle<cr>
 nnoremap _ :vnew .<cr>
 
+# LSP shortcuts
+au User lsp_setup nnoremap <silent> gd :LspDefinition<CR>
+nnoremap <silent> gR :LspRename<CR>
+nnoremap <silent> ga :LspCodeAction --ui=float<CR>
+nnoremap <silent> gdc :LspDeclaration<cr>
+nnoremap <silent> gds :sp<cr>:LspDefinition<cr>
+nnoremap <silent> gdv :vsp<cr>:LspDefinition<cr>
+nnoremap <silent> gff :LspDocumentFormat<CR>
+nnoremap <silent> gh :LspHover<CR>
+nnoremap <silent> gi :LspImplementation<cr>
+nnoremap <silent> gl :LspCodeLens<CR>
+nnoremap <silent> gn :LspNextError<CR>
+nnoremap <silent> gp :LspPreviousError<CR>
+nnoremap <silent> gr :LspReferences<CR>
+nnoremap <silent> grf :LspDocumentRangeFormat<CR>
+nnoremap <silent> gs :LspWorkspaceSymbol<CR>
+nnoremap <silent> gtd :LspTypeDefinition<CR>
+nnoremap <silent> gth :LspTypeHierarchy<CR>
+
+au User lsp_setup nmap K :LspPeekDefinition<cr>
+
+# autocompletion
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+
 g:UltiSnipsExpandTrigger       = "<tab>"
 g:UltiSnipsJumpForwardTrigger  = "<c-b>"
 g:UltiSnipsJumpBackwardTrigger = "<c-z>"
@@ -188,5 +227,20 @@ set statusline+=\ \ %<%f\ %h%m%r
 set statusline+=%=
 set statusline+=\ \ %P%{\'\ \'}
 #}}}
-
+# lsp configs {{{
+# typescript {{{
 autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+autocmd FileType typescriptreact setlocal formatprg=prettier\ --parser\ typescript
+
+var tsserver = {
+    'name': 'typescript-language-server',
+    'cmd': (server_info) => [&shell, &shellcmdflag, 'typescript-language-server --stdio'],
+    'root_uri': (server_info) => lsp#utils#path_to_uri(
+        lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json')
+    ),
+    'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'],
+}
+
+au User lsp_setup call lsp#register_server(tsserver)
+# }}}
+# }}}
