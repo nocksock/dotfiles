@@ -195,6 +195,13 @@ return {
   },                                                                    -- }}}
   -- navigation {{{
   {
+    'stevearc/oil.nvim',
+    opts = {},
+    keys = {
+      { '-', ':Oil<cr>' },
+    },
+  },
+  {
     'tpope/vim-vinegar', -- improved netrw for file browsing.
     event = 'VeryLazy',
   },
