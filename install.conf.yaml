@@ -22,6 +22,7 @@
     ~/.muttrc: mutt/muttrc
     ~/.zshrc: zsh/zshrc
     ~/.vimrc: vim/vimrc
+    ~/.vim: vim/vim
 
     # macos only
     ~/.config/sketchybar: 

@@ -6,27 +6,44 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+packadd! matchit
+packadd! cfilter
+
 call plug#begin()
-Plug 'airblade/vim-gitgutter'
-Plug 'honza/vim-snippets'
+# filenavigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'mattn/emmet-vim'
-Plug 'simnalamburt/vim-mundo'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
-Plug 'rose-pine/vim'
 
+# lsp
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+# autocomplete
+# Plug 'prabirshrestha/asyncomplete.vim'
+# Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'honza/vim-snippets'
+Plug 'mattn/emmet-vim'
+Plug 'github/copilot.vim'
+
+# versioning
+Plug 'tpope/vim-fugitive'
+Plug 'simnalamburt/vim-mundo'
+
+# vim convenience
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-eunuch'
+Plug 'christoomey/vim-tmux-navigator',
+
+# code convenience
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-commentary'
+
+# ui
+Plug 'airblade/vim-gitgutter'
+Plug 'rose-pine/vim'
 call plug#end()
 
 colorscheme rosepine
@@ -38,7 +55,7 @@ filetype plugin indent on
 g:mapleader = " "
 set noerrorbells
 set textwidth=100
-set scrolloff=10
+set scrolloff=3
 set nomodeline
 set splitright
 set splitbelow
@@ -73,7 +90,7 @@ set cindent
 # basic completion
 set complete-=i
 set complete+=k
-set completeopt=menuone,noinsert
+set completeopt=menuone,noinsert,preview
 
 # Reduce noise
 set shortmess+=cCsmnrf
@@ -93,6 +110,7 @@ set display+=lastline
 
 # Grep
 set grepprg=rg\ --vimgrep
+set grepformat=%f:%l:%c:%m
 
 # Wrapping
 set breakindent
@@ -100,29 +118,29 @@ set briopt=shift:4
 set linebreak
 set wrap
 
-g:lsp_log_file = ''
 g:lsp_log_file = expand('~/vim-lsp.log')
+g:lsp_show_message_log_level = 'none'
+g:lsp_diagnostics_signs_delay = 250
 g:lsp_diagnostics_echo_cursor = 1
 g:lsp_diagnostics_virtual_text_enabled = 0
-g:lsp_diagnostics_signs_error = {'text': 'x'}
-g:lsp_diagnostics_signs_warning = {'text': 'w'}
-g:lsp_diagnostics_signs_information = {'text': '@'}
-g:lsp_diagnostics_signs_hint = {'text': '*'}
-g:lsp_document_code_action_signs_hint = {'text': '>'}
+g:lsp_diagnostics_signs_error = {'text': ''}
+g:lsp_diagnostics_signs_warning = {'text': ''}
+g:lsp_diagnostics_signs_information = {'text': '󰋽'}
+g:lsp_diagnostics_signs_hint = {'text': '‼'}
+g:lsp_document_code_action_signs_hint = {'text': '󰻷'}
 g:lsp_format_sync_timeout = 1000
+g:lsp_use_native_client = 1
+g:lsp_diagnostics_virtual_text_enabled = 1
+g:lsp_diagnostics_virtual_text_align = "after"
 
-g:lsp_show_message_log_level = 'none'
-g:lsp_log_file = expand('/tmp/lsp.log')
 # }}}
 # plugin settings {{{
 g:netrw_altfile = 1 
 g:netrw_banner = 0
 g:netrw_winsize = 33
 
-g:easy_align_delimiters = {
-  # align \, which I often use in bash scripts etc.
-  '\': { 'pattern': '\',  'left_margin': 1, 'right_margin': 0 },
-}
+# align \, which I often use in bash scripts etc.
+g:easy_align_delimiters = { '\\': { pattern: '\',  left_margin: 1, right_margin: 0 } }
 
 # }}}
 # Keymap {{{
@@ -190,27 +208,6 @@ nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 nnoremap <leader>tu :MundoToggle<cr>
 nnoremap _ :vnew .<cr>
 
-# LSP shortcuts
-au User lsp_setup nnoremap <silent> gd :LspDefinition<CR>
-nnoremap <silent> gR :LspRename<CR>
-nnoremap <silent> ga :LspCodeAction --ui=float<CR>
-nnoremap <silent> gdc :LspDeclaration<cr>
-nnoremap <silent> gds :sp<cr>:LspDefinition<cr>
-nnoremap <silent> gdv :vsp<cr>:LspDefinition<cr>
-nnoremap <silent> gff :LspDocumentFormat<CR>
-nnoremap <silent> gh :LspHover<CR>
-nnoremap <silent> gi :LspImplementation<cr>
-nnoremap <silent> gl :LspCodeLens<CR>
-nnoremap <silent> gn :LspNextError<CR>
-nnoremap <silent> gp :LspPreviousError<CR>
-nnoremap <silent> gr :LspReferences<CR>
-nnoremap <silent> grf :LspDocumentRangeFormat<CR>
-nnoremap <silent> gs :LspWorkspaceSymbol<CR>
-nnoremap <silent> gtd :LspTypeDefinition<CR>
-nnoremap <silent> gth :LspTypeHierarchy<CR>
-
-au User lsp_setup nmap K :LspPeekDefinition<cr>
-
 # autocompletion
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -222,25 +219,25 @@ g:UltiSnipsJumpForwardTrigger  = "<c-b>"
 g:UltiSnipsJumpBackwardTrigger = "<c-z>"
 #}}}
 # status line {{{
-set statusline=%{statusline#GitBranch()}
-set statusline+=\ \ %<%f\ %h%m%r
+set statusline=%<%f%h%m%r
 set statusline+=%=
-set statusline+=\ \ %P%{\'\ \'}
+set statusline+=%{statusline#GitBranch()}
+# set statusline+=\ \ %P%{\'\ \'}
 #}}}
 # lsp configs {{{
 # typescript {{{
-autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
-autocmd FileType typescriptreact setlocal formatprg=prettier\ --parser\ typescript
-
 var tsserver = {
     'name': 'typescript-language-server',
     'cmd': (server_info) => [&shell, &shellcmdflag, 'typescript-language-server --stdio'],
     'root_uri': (server_info) => lsp#utils#path_to_uri(
         lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json')
     ),
-    'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'],
-}
+    'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'] }
 
-au User lsp_setup call lsp#register_server(tsserver)
+augroup lsp_install
+    au!
+    au User lsp_setup call lsp#register_server(tsserver)
+    au User lsp_buffer_enabled call g:snock#LspBindings()
+augroup END
 # }}}
 # }}}
