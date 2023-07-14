@@ -1,4 +1,5 @@
----iterate over all relevant windows
+-- :Num to toggle Numbers for all windows
+
 ---@param cb function(window: number)
 local function map_win(cb)
   for _, value in ipairs(vim.api.nvim_list_wins()) do
@@ -32,9 +33,6 @@ local function hide()
     vim.api.nvim_win_set_option(value, "nu", false)
   end)
 end
-
-vim.api.nvim_create_user_command("NumShow", show, {})
-vim.api.nvim_create_user_command("NumHide", hide, {})
 
 vim.api.nvim_create_user_command("Num", function()
   if numbers_visible() then

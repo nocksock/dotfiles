@@ -31,7 +31,6 @@ vim.o.grepprg="rg --vimgrep"
 vim.o.grepformat="%f:%l:%c:%m"
 
 -- }}}
-
 -- basic ui things{{{
 vim.o.list = false -- do not show invisible characters (there's an auto-command to show only in insert mode)
 vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,' -- define characters for invisible characters
@@ -56,8 +55,7 @@ vim.g.symbols_outline = {
   show_quides = false
 }
 -- }}}
-
--- indentation and wrapping{{{
+-- indentation and wrapping {{{
 vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
 vim.o.smartindent = true
@@ -69,7 +67,7 @@ vim.o.expandtab = true
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.briopt = 'shift:4' -- indent wrapped lines
 vim.o.linebreak = true
-vim.o.wrap = true
+vim.o.wrap = false       -- don't wrap by default
 -- }}}
 -- backup + undo {{{
 vim.o.swapfile = false -- disable swap files
@@ -78,7 +76,6 @@ vim.o.backup = true -- enable backups
 vim.o.backupdir = '/tmp'
 vim.o.undofile = true
 -- }}}
---
 -- plugin settings etc {{{
 
 -- netrw

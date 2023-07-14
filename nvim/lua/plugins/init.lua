@@ -1,57 +1,21 @@
 return {
-  { 'nvim-lua/plenary.nvim', lazy = true },
-  { 'kkharji/sqlite.lua',    lazy = true },
-  { 'numToStr/Comment.nvim', config = true, event = { "BufReadPost", "BufNewFile" } },
+  -- basic
   {
-    'nocksock/do.nvim',
-    opts = { winbar = true },
-    dev = true,
-    event = "VeryLazy"
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+      require('Comment.ft').set('jq', '#%s')
+    end,
+    event = { "BufReadPost", "BufNewFile" }
   },
-  { 'nocksock/t.nvim',       dev = true,                             event = "VeryLazy" },
-  { 'tpope/vim-eunuch',      event = "VeryLazy" },
+  { 'tpope/vim-eunuch',      event = "CmdlineEnter" },
   { 'tpope/vim-abolish',     event = { "BufReadPost", "BufNewFile" } },
-  { 'tpope/vim-speeddating', event = { "BufReadPost", "BufNewFile" } },
   { 'tpope/vim-repeat',      event = { "BufReadPost", "BufNewFile" } },
-  { 'mattn/emmet-vim',       event = { "BufReadPost", "BufNewFile" } },
-  { 'tpope/vim-scriptease',  event = { "BufReadPost", "BufNewFile" } },
-  {
-    'ThePrimeagen/harpoon',
-    keys = {
-      { "<leader>'", ':lua require("harpoon.mark").add_file()<CR>' },
-      { "''",        ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
-      { "'f",        ':lua require("harpoon.ui").nav_file(1)<CR>' }, -- alt + j
-      { "'d",        ':lua require("harpoon.ui").nav_file(2)<CR>' }, -- alt + k
-      { "'s",        ':lua require("harpoon.ui").nav_file(3)<CR>' }, -- alt + l
-      { "'a",        ':lua require("harpoon.ui").nav_file(4)<CR>' }  -- alt + ;
-    },
-    opts = {
-      global_settings = {
-        enter_on_sendcmd = true
-      }
-    }
-  },
   {
     'junegunn/vim-easy-align',
     keys = {
       { 'ga', '<Plug>(EasyAlign)', mode = "x" },
       { 'ga', '<Plug>(EasyAlign)' },
-    }
-  },
-  {
-    'windwp/nvim-autopairs', -- nvim-autopairs: auto pairs in lua
-    event = 'InsertEnter',
-    opts = {
-      disable_filetype = { "TelescopePrompt", "fennel" }
-    }
-  },
-  { 'kyazdani42/nvim-web-devicons', lazy = true },
-  {
-    'folke/todo-comments.nvim',
-    event = { "BufReadPre", "BufNewFile" },
-    opts = {
-      signs = false,
-      highlight = { keyword = "" } -- using TreeSitter for highlights
     }
   },
   {
@@ -72,13 +36,14 @@ return {
       vim.g.colors_name = 'rose-pine'
     end
   },
-  { 'folke/tokyonight.nvim',        event = "VeryLazy" },
-  { 'rktjmp/lush.nvim',             event = "VeryLazy" },
-  { 'nocksock/bloop.nvim',          dev = true,        event = "VeryLazy" },
-  { 'nocksock/nazgul-vim',          dev = true,        event = "VeryLazy" },
-  { 'nocksock/ghash.nvim',          dev = true,        event = "VeryLazy" },
+  { 'rktjmp/lush.nvim',      lazy = true },
+  { 'nocksock/bloop.nvim',   dev = true,        event = "VeryLazy" },
   -- }}}
   -- completion {{{
+  {
+    'github/copilot.vim',
+    event = 'InsertEnter',
+  },
   {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
@@ -86,16 +51,23 @@ return {
       require "configs.cmp";
     end,
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp', -- lsp source
-      'hrsh7th/cmp-nvim-lua', -- neovim LUA Api source
-      'hrsh7th/cmp-path',     -- path completions
-      'hrsh7th/cmp-cmdline',  -- source for cmdline (:, /)
-      'hrsh7th/cmp-buffer',   -- buffer source
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-path',
       {
-        'L3MON4D3/LuaSnip',   -- the first snippet plugin to beat UltiSnips for me?
+        'L3MON4D3/LuaSnip',
       }
     }
-  }, -- }}}
+  },
+  { 'mattn/emmet-vim',                         event = { "BufReadPost", "BufNewFile" } },
+  {
+    'windwp/nvim-autopairs', -- nvim-autopairs: auto pairs in lua
+    event = 'InsertEnter',
+    opts = {
+      disable_filetype = { "TelescopePrompt" }
+    }
+  },
+  -- }}}
   -- filetree {{{
   {
     'kyazdani42/nvim-tree.lua',
@@ -142,8 +114,8 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     keys = {
       -- local gitsigns = require('gitsigns.actions')
-      { '<leader>hn', "<cmd>Gitsigns next_hunk<CR>" },
-      { '<leader>hp', "<cmd>Gitsigns prev_hunk<CR>" },
+      { '[h', "<cmd>Gitsigns prev_hunk<CR>" },
+      { ']h', "<cmd>Gitsigns next_hunk<CR>" },
       { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
       { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
       { '<leader>hr', function() require("gitsigns.actions").reset_hunk() end, },
@@ -170,40 +142,45 @@ return {
   }, -- }}}
   -- lspconfig {{{
   {
-    "VonHeikemen/lsp-zero.nvim",
+    -- lsp setup
+    "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
+    config = function() require "configs.lsp" end,
     dependencies = {
-      'rmagatti/goto-preview', -- open gotos in floating windows
-      "neovim/nvim-lspconfig",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      'github/copilot.vim',
-      'ray-x/lsp_signature.nvim', -- show function signatures from LSP when typing
-      'folke/trouble.nvim',       -- pretty list for LSP diagnostics
+      "williamboman/mason.nvim", -- neat ui to handle installation of external lsp, linters, formatters etc. (install only, no configuration)
+      'prettier/vim-prettier',
+      "marilari88/twoslash-queries.nvim",   -- // ^?
+
+      -- lsp convenienves
+      'rmagatti/goto-preview',                -- open gotos in floating windows
+      'ray-x/lsp_signature.nvim',             -- show function signatures from LSP when typing
+      { 'folke/trouble.nvim', config = true }, -- pretty list for LSP diagnostics
     },
-    config = function() require "configs.lsp" end
-  },
-  {
-    'jose-elias-alvarez/typescript.nvim', -- more ts lsp stuff
-    event = { "BufReadPost", "BufNewFile" },
-    dependencies = {
-      { 'windwp/nvim-ts-autotag', opts = { update_on_insert = true } }, -- use TreeSitter to close and rename tags
-      'jose-elias-alvarez/null-ls.nvim',                                -- use neovim as ls server to inject code-actions and mor via lua
-      "lbrayner/vim-rzip",
-      "marilari88/twoslash-queries.nvim",                               -- // ^?
-    },
-  },                                                                    -- }}}
+  }, -- }}}
   -- navigation {{{
-  {
-    'stevearc/oil.nvim',
-    opts = {},
-    keys = {
-      { '-', ':Oil<cr>' },
-    },
-  },
   {
     'tpope/vim-vinegar', -- improved netrw for file browsing.
     event = 'VeryLazy',
+  },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+  },
+  {
+    'ThePrimeagen/harpoon',
+    keys = {
+      { "<leader>'", ':lua require("harpoon.mark").add_file()<CR>' },
+      { "''",        ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
+      { "'f",        ':lua require("harpoon.ui").nav_file(1)<CR>' },
+      { "'d",        ':lua require("harpoon.ui").nav_file(2)<CR>' },
+      { "'s",        ':lua require("harpoon.ui").nav_file(3)<CR>' },
+      { "'a",        ':lua require("harpoon.ui").nav_file(4)<CR>' }
+    },
+    opts = {
+      global_settings = {
+        enter_on_sendcmd = true
+      }
+    }
   },
   {
     'mcchrish/nnn.vim', -- using nnn in a floating window (and open file in vim)
@@ -219,47 +196,41 @@ return {
       {
         '<leader>to', ':SymbolsOutline<cr>'
       }
-    }
-  }, {
-  'kyazdani42/nvim-tree.lua',
-  keys = {
-    { '<leader>tt', function() require("nvim-tree.api").tree.toggle() end }
+    },
+    config = true
   },
-  opts = {
-    hijack_cursor = true,
-    hijack_netrw = false,
-    view = {
-      preserve_window_proportions = true,
-      side = "right",
-      centralize_selection = true
-    },
-    diagnostics = {
-      enable = true
-    },
-    renderer = {
-      icons = {
-        git_placement = "after"
-      }
-    },
-    actions = {
-      change_dir = {
-        enable = false
-      },
-      expand_all = {
-        exclude = { ".git", "node_modules" }
-      }
-    }
-  }
-}, -- }}}
-  -- search {{{
   {
-    'folke/trouble.nvim', -- pretty list for LSP diagnostics
+    'kyazdani42/nvim-tree.lua',
     keys = {
-      { '<leader>xd', ':Trouble document_diagnostics<CR>' },
-      { '<leader>xD', ':Trouble workspace_diagnostics<CR>' },
-      { '<leader>xt', ':TodoTrouble<CR>' }
+      { '<leader>tt', function() require("nvim-tree.api").tree.toggle() end }
+    },
+    opts = {
+      hijack_cursor = true,
+      hijack_netrw = false,
+      view = {
+        preserve_window_proportions = true,
+        side = "right",
+        centralize_selection = true
+      },
+      diagnostics = {
+        enable = true
+      },
+      renderer = {
+        icons = {
+          git_placement = "after"
+        }
+      },
+      actions = {
+        change_dir = {
+          enable = false
+        },
+        expand_all = {
+          exclude = { ".git", "node_modules" }
+        }
+      }
     }
-  },
+  }, -- }}}
+  -- search {{{
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -271,32 +242,30 @@ return {
     cmd = { "Telescope" },
     -- stylua: ignore
     keys = {
-      { '<leader><cr>', ":Telescope resume<cr>" },
-      { '<leader>T',    ":Telescope builtin<cr>" },
-      { '<leader>/',    ':Telescope current_buffer_fuzzy_find<cr>' },
-      { '<leader>f',    ":Telescope find_files hidden=true<cr>" },
-      { '<c-p>',        ":Telescope find_files hidden=true<cr>" },
-      { '<leader>b',    ":Telescope buffers<cr>" },
-      { '<c-b>',        ":Telescope buffers<cr>" },
-      { '<leader>sC',   ":Telescope colorscheme enable_preview=true<cr>" },
       { '<M-r>',        ':Telescope lsp_dynamic_workspace_symbols<cr>' },
-      { '<leader>-',    ":Telescope file_browser path=%:p:h<cr>" },
-      { '<leader>sr',   ":Telescope oldfiles<cr>" },
-      { '<leader>sh',   ":Telescope help_tags<cr>" },
-      { '<leader>sc',   ":Telescope commands<cr>" },
-      { '<leader>*',    ":Telescope grep_string<cr>" },
-      { '<leader>gb',   ":Telescope git_branches<cr>" },
+      { '<c-b>',        ':Telescope buffers<cr>' },
+      { '<c-p>',        ':Telescope find_files hidden=true<cr>' },
+      { '<leader>*',    ':Telescope grep_string<cr>' },
+      { '<leader>/',    ':Telescope current_buffer_fuzzy_find<cr>' },
+      { '<leader><cr>', ':Telescope resume<cr>' },
+      { '<leader>T',    ':Telescope builtin<cr>' },
+      { '<leader>gb',   ':Telescope git_branches<cr>' },
       { '<leader>gs',   ':Telescope git_status<cr>' },
-      { '<leader>sg',   ":lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>", },
-      { '<leader>sp',   ":lua R('snock.plugins.search-plugins'}.search(}<cr>" },
+      { '<leader>sc',   ':Telescope commands<cr>' },
+      { '<leader>sC',   ':Telescope colorscheme enable_preview=true<cr>' },
+      { '<leader>sb',   ':Telescope buffers<cr>' },
+      { '<leader>ss',   ':Telescope lsp_document_symbols<cr>' },
+      { '<leader>sS',   ':Telescope lsp_dynamic_workspace_symbols<cr>' },
+      { '<leader>sf',   ':Telescope find_files hidden=true<cr>' },
+      { '<leader>sg',   ':lua require("telescope").extensions.live_grep_args.live_grep_args()<cr>', },
+      { '<leader>sh',   ':Telescope help_tags<cr>' },
+      { '<leader>sr',   ':Telescope oldfiles<cr>' },
     },
     config = function()
       local telescope = require('telescope')
-
       telescope.load_extension('fzf')
       telescope.load_extension("live_grep_args")
       telescope.load_extension("ui-select")
-
       telescope.setup({
         defaults = {
           mappings = {
@@ -339,21 +308,6 @@ return {
       })
     end,
   },
-  {
-    'junegunn/fzf',
-    install = ':execute fzf#install()',
-    event = 'VeryLazy',
-    dependencies = {
-      {
-        'junegunn/fzf.vim',
-        keys = {
-          -- { '<c-/>', ':Lines<cr>'},
-          -- { '<C-B>', ":Buffers<cr>"},
-          -- { '<C-P>', ":Files<cr>"},
-        }
-      }
-    }
-  },
   -- }}}
   -- treesitter{{{
   {
@@ -364,8 +318,9 @@ return {
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
+        'windwp/nvim-ts-autotag',
+        opts = { update_on_insert = true }, -- use TreeSitter to close and rename tags
         init = function()
-          -- PERF: no need to load the plugin, if we only need its queries for mini.ai
           local plugin = require("lazy.core.config").spec.plugins["nvim-treesitter"]
           local opts = require("lazy.core.plugin").values(plugin, "opts", false)
           local enabled = false
@@ -399,9 +354,7 @@ return {
         "comment",
         "fennel",
         "go",
-        "hcl",
         "html",
-        "http",
         "javascript",
         "json",
         "json5",
@@ -410,8 +363,6 @@ return {
         "luap",
         "markdown",
         "markdown_inline",
-        "php",
-        "prisma",
         "python",
         "query",
         "regex",
@@ -443,6 +394,7 @@ return {
           end
           added[lang] = true
           return true
+          ---@diagnostic disable-next-line: param-type-mismatch
         end, opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
@@ -450,12 +402,22 @@ return {
   },
   { 'nvim-treesitter/nvim-treesitter-context', event = { "BufReadPost", "BufNewFile" } },
   { 'nvim-treesitter/playground',              event = { "BufReadPost", "BufNewFile" } },
-  { 'kylechui/nvim-surround',                  config = true },
+  { 'kylechui/nvim-surround',                  event = { "VeryLazy" },                 config = true },
   -- }}}
   {
     'nvim-lualine/lualine.nvim',
+    event = "VeryLazy",
     config = function()
       require('configs.lualine')
     end
   },
+  {
+    'nocksock/do.nvim',
+    opts = { winbar = true },
+    dev = true,
+    event = "VeryLazy"
+  },
+  { 'nocksock/t.nvim',              dev = true, event = "VeryLazy", config = true },
+  { 'nvim-lua/plenary.nvim',        lazy = true },
+  { 'kyazdani42/nvim-web-devicons', lazy = true },
 }

@@ -13,10 +13,6 @@ inoremap , ,<c-g>u
 cnoreabb wd w\|:bd
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
-" move lines up and down
-vnoremap <c-k> :m '<-2<CR>gv=gv
-vnoremap <c-j> :m '>+1<CR>gv=gv
-
 " visual select last inserted text
 nnoremap gV `[v`] 
 

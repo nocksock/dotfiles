@@ -1,5 +1,3 @@
--- local harpoon_line = require("snock.plugins.harpoon-lualine")
-
 require('lualine').setup {
   options = {
     icons_enabled = false,
@@ -12,7 +10,7 @@ require('lualine').setup {
     lualine_a = { { 'mode' } },
     lualine_b = { { 'tabs', mode = 0, cond = function() return vim.fn.tabpagenr('$') > 1 end } },
     lualine_c = {
-      {'branch', padding = { left = 1, right = 0 }, separator = "", color = {fg=8} },
+      { 'branch', padding = { left = 1, right = 0 }, separator = "", color = { fg = 8 } },
       {
         'filename',
         newfile_status = true,
@@ -27,10 +25,10 @@ require('lualine').setup {
     },
     lualine_x = {
       'diagnostics',
-        { function() return vim.lsp.buf.server_ready() and "" or "no lsp" end },
+      { function() return vim.lsp.buf.server_ready() and "" or "no lsp" end },
     },
     lualine_y = { 'searchcount' },
-    lualine_z = { }
+    lualine_z = {}
   },
   inactive_sections = {
     lualine_a = {},
@@ -40,12 +38,8 @@ require('lualine').setup {
     lualine_y = {},
     lualine_z = {}
   },
-  tabline = nil,
-  winbar = {
-    -- lualine_a = { require("do.view").stl },
-  },
-  inactive_winbar = {
-    -- lualine_a = { require("do.view").stl_nc }
-  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = { },
   extensions = {},
 }
