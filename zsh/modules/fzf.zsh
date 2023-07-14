@@ -7,7 +7,7 @@ fi
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # changing the default command to ignore vcs, git, node_modules etcp
 export FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{node_modules/*,node_modules.*/,.git/*,package-lock.json}" '
-export FZF_DEFAUTLT_OPTS='--height 40% --layout=reverse --border --bind up:preview-up,down:preview-down'
+export FZF_DEFAULT_OPTS='-m --bind shift-up:preview-up,shift-down:preview-down,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-t:toggle-all'
 
 if [[ $OSTYPE == darwin* ]]; then
   test -f /opt/homebrew/opt/fzf/shell/completion.zsh   \
