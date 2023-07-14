@@ -7,6 +7,8 @@ alias reload="source ~/.zshrc; rehash"
 # ls
 alias ls='exa --icons -1 --group-directories-first -a'
 alias ll='exa --icons -l --group-directories-first -a'
+alias pd="pushd"
+alias gd="popd"
 
 # navigation
 alias c='cd $(list-projects | fzf)'

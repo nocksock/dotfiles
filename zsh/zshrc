@@ -52,6 +52,17 @@ path=(
 )
 export PATH
 
+declare -U CDPATH cdpath
+cdpath=(
+  "$HOME"
+  "$HOME/code"
+  "$HOME/code/bleepbloop.git/main/apps"
+  "$HOME/code/clients"
+  "$HOME/code/clients/edeka"
+  "$HOME/code/clients/edeka/de.git/dev"
+  "$cdpath[@]"
+)
+export PATH
 
 # load custom zsh modules
 for file in "$DOTDIR"/zsh/modules/*.zsh "$DOTDIR"/bin/*_completion; do
