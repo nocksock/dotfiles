@@ -13,8 +13,4 @@ M.handlers = {
   end,
 }
 
-function M.on_attach()
-  vim.api.nvim_command('LspAttach')
-end
-
 return M

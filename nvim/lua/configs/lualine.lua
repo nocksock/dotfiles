@@ -23,10 +23,7 @@ require('lualine').setup {
         }
       }
     },
-    lualine_x = {
-      'diagnostics',
-      { function() return vim.lsp.buf.server_ready() and "" or "no lsp" end },
-    },
+    lualine_x = { 'diagnostics' },
     lualine_y = { 'searchcount' },
     lualine_z = {}
   },
