@@ -38,6 +38,7 @@ path=(
   "/opt/homebrew/opt/bison/bin"
   "/opt/homebrew/opt/grep/libexec/gnubin" 
   "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
   "/usr/local/bin" 
   "/usr/local/cuda-11.6/bin"
   "$DOTDIR/bin/"
