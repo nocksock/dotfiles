@@ -54,12 +54,10 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-path',
-      {
-        'L3MON4D3/LuaSnip',
-      }
     }
   },
-  { 'mattn/emmet-vim',                         event = { "BufReadPost", "BufNewFile" } },
+  { 'SirVer/ultisnips', event = { "BufReadPost", "BufNewFile" }, },
+  { 'mattn/emmet-vim', event = 'InsertEnter' },
   {
     'windwp/nvim-autopairs', -- nvim-autopairs: auto pairs in lua
     event = 'InsertEnter',
@@ -161,10 +159,6 @@ return {
   {
     'tpope/vim-vinegar', -- improved netrw for file browsing.
     event = 'VeryLazy',
-  },
-  {
-    'stevearc/oil.nvim',
-    opts = {},
   },
   {
     'ThePrimeagen/harpoon',

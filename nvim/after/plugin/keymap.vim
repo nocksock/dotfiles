@@ -45,5 +45,5 @@ nnoremap [c :cp<cr>
 nnoremap ]l :lnext<cr>
 nnoremap [l :lprev<cr>
 
-" split a in two, making the right above the left (usefull to move comments)
+" split a line in two, making the right above the left (usefull to move comments)
 nnoremap X i<cr><esc>ddkP

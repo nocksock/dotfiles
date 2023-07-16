@@ -18,13 +18,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', '<leader>K', vim.lsp.buf.signature_help, bufopts)
 
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
-    vim.keymap.set('n', "[e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
     vim.keymap.set('n', "]e", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "[e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, bufopts)
-    vim.keymap.set('n', '<leader>q', ':Diagnostics', bufopts)
-    vim.keymap.set('n', '<leader>Q', ':Diagnostics error', bufopts)
+    vim.keymap.set('n', '<leader>q', ':Diagnostics<cr>', bufopts)
+    vim.keymap.set('n', '<leader>Q', ':Diagnostics error<cr>', bufopts)
 
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)

@@ -5,7 +5,7 @@
 
 -- Automatically install lazy.nvim when it is not yet installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -21,7 +21,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
--- settings {{{
+-- settings 
 -- general {{{
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -106,6 +106,7 @@ vim.o.undofile = true
 vim.g.netrw_altfile = 1 -- make CTRL-^ ignore netrw buffers
 vim.g.netrw_banner = 0 -- hide banner
 vim.g.netrw_winsize = 33
+vim.g.netrw_preview = 1
 
 vim.g.easy_align_delimiters = {
   -- align \, which I often use in bash scripts etc.
@@ -116,8 +117,14 @@ vim.g.easy_align_delimiters = {
   }
 }
 
+-- ultisnipets
+vim.g.UltiSnipsExpandTrigger       = "<c-l>"
+vim.g.UltiSnipsJumpForwardTrigger  = "<c-j>"
+vim.g.UltiSnipsJumpBackwardTrigger = "<c-h>"
+vim.g.UltiSnipsEditSplit           = "vertical"
+
 -- }}}
--- }}}
+
 
 require('lazy').setup("plugins", {
   dev = {
