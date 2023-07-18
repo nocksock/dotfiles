@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-source $HOME/.config/sketchybar/vars.zsh
+source $DOTDIR/sketchybar/vars.zsh
 
 if [[ $1 == "setup" ]]; then
   NAME=battery
@@ -7,8 +7,8 @@ if [[ $1 == "setup" ]]; then
   sketchybar                            \
     --add item $NAME $POSITION          \
     --set $NAME                         \
-      script="$PLUGIN_DIR/battery.zsh"   \
-      update_freq=10                    \
+      script="$PLUGIN_DIR/battery"      \
+      update_freq=30                    \
       background.padding_left=$SPACE_2  \
       background.padding_right=$SPACE_2 \
       icon.padding_left=$SPACE          \
@@ -16,6 +16,7 @@ if [[ $1 == "setup" ]]; then
       label.padding_left=$SPACE         \
       label.padding_right=$SPACE        \
     --subscribe battery system_woke
+
 fi
 
 # UPDATE
