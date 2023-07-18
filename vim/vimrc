@@ -1,56 +1,21 @@
 vim9script
 
+
 # plugins {{{
-if empty(glob('~/.vim/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+packadd matchit
+packadd cfilter
 
-packadd! matchit
-packadd! cfilter
+import autoload 'pack.vim'
+import autoload 'statusline.vim'
 
-call plug#begin()
-# filenavigation
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-vinegar'
-
-# lsp
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-
-# autocomplete
-# Plug 'prabirshrestha/asyncomplete.vim'
-# Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'honza/vim-snippets'
-Plug 'mattn/emmet-vim'
-Plug 'github/copilot.vim'
-
-# versioning
-Plug 'tpope/vim-fugitive'
-Plug 'simnalamburt/vim-mundo'
-
-# vim convenience
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-scriptease'
-Plug 'tpope/vim-eunuch'
-Plug 'christoomey/vim-tmux-navigator',
-
-# code convenience
-Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-commentary'
-
-# ui
-Plug 'airblade/vim-gitgutter'
-Plug 'rose-pine/vim'
-call plug#end()
-
-colorscheme rosepine
+command! PackUpdate pack.Init() | minpac#update()
+command! PackClean  pack.Init() | minpac#clean()
+command! PackStatus pack.Init() | minpac#status()
 
 # }}}
 # settings {{{
 filetype plugin indent on
+colorscheme rosepine
 
 g:mapleader = " "
 set noerrorbells
@@ -135,7 +100,7 @@ g:lsp_diagnostics_virtual_text_align = "after"
 
 # }}}
 # plugin settings {{{
-g:netrw_altfile = 1 
+g:netrw_altfile = 1
 g:netrw_banner = 0
 g:netrw_winsize = 33
 
@@ -199,7 +164,7 @@ tnoremap <c-[> <C-\><C-n>
 tnoremap <Esc> <C-\><C-n>
 
 # Visual select last inserted text
-nnoremap gV `[v`] 
+nnoremap gV `[v`]
 
 # Remove trailing spaces
 nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr>
@@ -208,21 +173,23 @@ nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 nnoremap <leader>tu :MundoToggle<cr>
 nnoremap _ :vnew .<cr>
 
-# autocompletion
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-imap <c-space> <Plug>(asyncomplete_force_refresh)
+# # autocompletion
+# inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+# inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+# inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+# imap <c-space> <Plug>(asyncomplete_force_refresh)
 
 g:UltiSnipsExpandTrigger       = "<tab>"
 g:UltiSnipsJumpForwardTrigger  = "<c-b>"
 g:UltiSnipsJumpBackwardTrigger = "<c-z>"
 #}}}
 # status line {{{
-set statusline=%<%f%h%m%r
+set statusline=\ %<%f%h%m%r
+set statusline+=%{&filetype!=''?&filetype:&syntax}
+set statusline+=%w
 set statusline+=%=
 set statusline+=%{statusline#GitBranch()}
-# set statusline+=\ \ %P%{\'\ \'}
+
 #}}}
 # lsp configs {{{
 # typescript {{{
@@ -234,9 +201,27 @@ var tsserver = {
     ),
     'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'] }
 
+var svelte = {
+    'name': 'svelte-language-server',
+    'cmd': (server_info) => [&shell, &shellcmdflag, 'svelteserver', '--stdio'],
+    'root_uri': (server_info) => lsp#utils#path_to_uri(
+        lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json')
+    ),
+    'whitelist': ['svelte'] }
+
+var rust_analyzer = {
+    'name': 'rust-analyzer',
+    'cmd': (server_info) => [&shell, &shellcmdflag, 'rust-analyzer'],
+    'root_uri': (server_info) => lsp#utils#path_to_uri(
+        lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'Cargo.toml')
+    ),
+    'whitelist': ['rust'] }
+
 augroup lsp_install
     au!
     au User lsp_setup call lsp#register_server(tsserver)
+    au User lsp_setup call lsp#register_server(svelte)
+    au User lsp_setup call lsp#register_server(rust_analyzer)
     au User lsp_buffer_enabled call g:snock#LspBindings()
 augroup END
 # }}}
