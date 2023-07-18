@@ -8,9 +8,9 @@ return {
     end,
     event = { "BufReadPost", "BufNewFile" }
   },
-  { 'tpope/vim-eunuch',      event = "CmdlineEnter" },
-  { 'tpope/vim-abolish',     event = { "BufReadPost", "BufNewFile" } },
-  { 'tpope/vim-repeat',      event = { "BufReadPost", "BufNewFile" } },
+  { 'tpope/vim-eunuch',  event = "CmdlineEnter" },
+  { 'tpope/vim-abolish', event = { "BufReadPost", "BufNewFile" } },
+  { 'tpope/vim-repeat',  event = { "BufReadPost", "BufNewFile" } },
   {
     'junegunn/vim-easy-align',
     keys = {
@@ -36,28 +36,87 @@ return {
       vim.g.colors_name = 'rose-pine'
     end
   },
-  { 'rktjmp/lush.nvim',      lazy = true },
-  { 'nocksock/bloop.nvim',   dev = true,        event = "VeryLazy" },
+  { 'rktjmp/lush.nvim',    lazy = true },
+  { 'nocksock/bloop.nvim', dev = true,            event = "VeryLazy" },
   -- }}}
   -- completion {{{
+  { 'github/copilot.vim',  event = 'InsertEnter', },
   {
-    'github/copilot.vim',
+    'hrsh7th/nvim-cmp', -- {{{
     event = 'InsertEnter',
-  },
-  {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
-    config = function()
-      require "configs.cmp";
-    end,
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-path',
-    }
+    },
+    config = function()
+      local cmp = require('cmp')
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+          end,
+        },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        mapping = cmp.mapping.preset.insert({
+              ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+              ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+              ['<CR>'] = cmp.mapping.confirm({ select = false }),
+              ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+              ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+          }),
+              ['<c-l>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.complete_common_string()
+            else
+              fallback()
+            end
+          end, { 's', 'c' }),
+              ['<c-n>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              fallback()
+            end
+          end, { 'i', 's', 'c' }),
+              ['<c-p>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              fallback()
+            end
+          end, { 'i', 's', 'c' }),
+        }),
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+        }, {
+          { name = 'path' }
+        }),
+      })
+
+      cmp.setup.filetype('gitcommit', {
+        sources = cmp.config.sources({
+          { name = 'path' },
+        }),
+      })
+
+      cmp.setup.cmdline(':', {
+        sources = cmp.config.sources({
+          { name = 'cmdline' },
+        }, {
+          { name = 'buffer' },
+          { name = 'path' },
+        }),
+      })
+    end, -- }}}
   },
   { 'SirVer/ultisnips', event = { "BufReadPost", "BufNewFile" }, },
-  { 'mattn/emmet-vim', event = 'InsertEnter' },
+  { 'mattn/emmet-vim',  event = 'InsertEnter' },
   {
     'windwp/nvim-autopairs', -- nvim-autopairs: auto pairs in lua
     event = 'InsertEnter',
@@ -102,18 +161,14 @@ return {
   {
     'tpope/vim-fugitive', -- a git wrapper in vim
     event = { "BufReadPost", "BufNewFile" },
-    keys = {
-      { '<leader>gg', ':tab G<cr>' },
-      { '<leader>cc', ':Git commit<cr>' },
-    }
   },
   {
     'lewis6991/gitsigns.nvim',
     event = { "BufReadPost", "BufNewFile" },
     keys = {
       -- local gitsigns = require('gitsigns.actions')
-      { '[h', "<cmd>Gitsigns prev_hunk<CR>" },
-      { ']h', "<cmd>Gitsigns next_hunk<CR>" },
+      { '[h',         "<cmd>Gitsigns prev_hunk<CR>" },
+      { ']h',         "<cmd>Gitsigns next_hunk<CR>" },
       { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
       { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
       { '<leader>hr', function() require("gitsigns.actions").reset_hunk() end, },
@@ -140,21 +195,31 @@ return {
   }, -- }}}
   -- lspconfig {{{
   {
-    -- lsp setup
+    -- LSP setup
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     config = function() require "configs.lsp" end,
     dependencies = {
-      "williamboman/mason.nvim", -- neat ui to handle installation of external lsp, linters, formatters etc. (install only, no configuration)
+      "williamboman/mason.nvim",            -- neat ui to handle installation of external lsp, linters, formatters etc. (install only, no configuration)
       'prettier/vim-prettier',
       "marilari88/twoslash-queries.nvim",   -- // ^?
+      'jose-elias-alvarez/typescript.nvim', -- TS conveniences
 
-      -- lsp convenienves
-      'rmagatti/goto-preview',                -- open gotos in floating windows
-      'ray-x/lsp_signature.nvim',             -- show function signatures from LSP when typing
+      -- LSP conveniences
+      'rmagatti/goto-preview', -- open gotos in floating windows
+      {
+        'ray-x/lsp_signature.nvim',
+        config = {
+          bind = true,
+          handler_opts = {
+            border = "rounded",
+            toggle_key = "<c-i>"
+          }
+        }
+      },                                       -- show function signatures from LSP when typing
       { 'folke/trouble.nvim', config = true }, -- pretty list for LSP diagnostics
     },
-  }, -- }}}
+  },                                           -- }}}
   -- navigation {{{
   {
     'tpope/vim-vinegar', -- improved netrw for file browsing.
@@ -414,4 +479,5 @@ return {
   { 'nocksock/t.nvim',              dev = true, event = "VeryLazy", config = true },
   { 'nvim-lua/plenary.nvim',        lazy = true },
   { 'kyazdani42/nvim-web-devicons', lazy = true },
+  { 'tpope/vim-scriptease',  event = { "BufReadPost", "BufNewFile" } },
 }

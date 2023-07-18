@@ -16,6 +16,23 @@ cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 " visual select last inserted text
 nnoremap gV `[v`] 
 
+nmap  <silent> <leader>c :set opfunc=SpecialChange<CR>g@
+function! SpecialChange(type)
+    silent exec 'normal! `[v`]d'    
+    silent exec 'let @/=@"' 
+    startinsert
+endfunction
+
+nnoremap soip vip:so<cr>
+nnoremap soap vap:so<cr>
+nnoremap soG :so %<cr>
+
+nnoremap <leader>ciw :%s/\<<c-r><c-w>\>//g<left><left>
+nnoremap <leader>caw "/yaw:%s///g<left><left>
+nnoremap <leader>caW "/yaW:%s///g<left><left>
+nnoremap <leader># #``
+nnoremap <leader>* *``
+
 nnoremap <F12> :Ts<CR>i
 tnoremap <F12> <C-\><C-n>:T<CR>
 
@@ -47,3 +64,9 @@ nnoremap [l :lprev<cr>
 
 " split a line in two, making the right above the left (usefull to move comments)
 nnoremap X i<cr><esc>ddkP
+
+nnoremap <leader>sn :call UltiSnips#ListSnippets()<cr>
+
+nnoremap <leader>gg :tab G<cr>
+nnoremap <leader>cc :Git commit<cr>
+
