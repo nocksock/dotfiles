@@ -52,33 +52,31 @@ yabai -m space 7 --layout bsp --label todo    # things etc
 yabai -m space 8 --layout bsp --label note    # obsidian
 yabai -m space 9 --layout bsp --label meep    # photos, messages.app
 
-# Make thes windows float by default
+yabai -m rule --add app="\| Microsoft Teams$" space=comm manage=off
+yabai -m rule --add title="Microsoft Teams Notifications" space=comm manage=off
+
+yabai -m rule --add app="Discord" space=chat
+yabai -m rule --add app="Numi" manage=off sticky=on
+yabai -m rule --add app="Obsidian" manage=off sticky=on
+yabai -m rule --add app="Raycast" manage=off
+yabai -m rule --add app="Stickies" manage=off sticky=on
+yabai -m rule --add app="System Information" title="About This Mac" manage=off
+yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off
+yabai -m rule --add app="^Activity Monitor$" manage=off
+yabai -m rule --add app="^App Store$" manage=off
+yabai -m rule --add app="^Dash$" manage=off
+yabai -m rule --add app="^Dictionary$" manage=off
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add app="^Hammerspoon Console$" manage=off
 yabai -m rule --add app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
 yabai -m rule --add app="^System Preferences$" title=".*" manage=off
-yabai -m rule --add title='Preferences$' manage=off
-yabai -m rule --add app="^App Store$" manage=off
-yabai -m rule --add app="^Activity Monitor$" manage=off
-yabai -m rule --add app="^Dictionary$" manage=off
-yabai -m rule --add app="^Dash$" manage=off
 yabai -m rule --add app="^Telephone$" manage=off
-yabai -m rule --add app="^Hammerspoon Console$" manage=off
-yabai -m rule --add title="Software Update" manage=off
-yabai -m rule --add title="Cursor Pro" app="Cursor Pro" manage=off border=off 
-yabai -m rule --add title="Setapp" manage=off
-yabai -m rule --add app="System Information" title="About This Mac" manage=off
-yabai -m rule --add app="Raycast" manage=off
-yabai -m rule --add app="Numi" manage=off sticky=on
-yabai -m rule --add app="Stickies" manage=off sticky=on
-yabai -m rule --add app="Obsidian" manage=off sticky=on
-yabai -m rule --add title="New Note" manage=off sticky=on
-yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off
 
-# auto space assignments
-yabai -m rule --add app="Microsoft Teams" space=comm
-yabai -m rule --add title="Microsoft Teams Notifications" space=comm manage=off
-# yabai -m rule --add app="MailMate" space=comm
-# yabai -m rule --add app="Things" space=plan
-yabai -m rule --add app="Discord" space=chat
+yabai -m rule --add title="Cursor Pro" app="Cursor Pro" manage=off border=off 
+yabai -m rule --add title="New Note" manage=off sticky=on
+yabai -m rule --add title="Setapp" manage=off
+yabai -m rule --add title="Software Update" manage=off
+yabai -m rule --add title='Preferences$' manage=off
+yabai -m rule --add title='Settings$' manage=off
 
 printf "yabai: configuration loaded...\\n"
