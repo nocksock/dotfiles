@@ -1,0 +1,25 @@
+snippet delay "Delayed promise"
+const delay = (ms: Number) => new Promise((resolve) => setTimeout(resolve, ms));
+endsnippet
+
+snippet edfn "Export default function"
+export default function ${1:componentName}(${2:props}) {
+	return (
+		${3}
+	);
+}
+endsnippet
+
+snippet efn "Export function"
+export function ${1:componentName}(${2:props}) {
+	return (
+		${3}
+	);
+}
+endsnippet
+
+snippet raisefn "Raise error"
+function raise(message: string): never {
+	throw new Error(message);
+}
+endsnippet
