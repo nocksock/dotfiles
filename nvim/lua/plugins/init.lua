@@ -26,6 +26,10 @@ return {
   },
   -- colors {{{
   {
+    'catppuccin/nvim',
+    event = "VeryLazy",
+  },
+  {
     'rose-pine/neovim',
     name = 'rose-pine',
     event = "VeryLazy",
@@ -126,35 +130,56 @@ return {
   },
   -- }}}
   -- filetree {{{
+  -- currently evaluating which i prefer.
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {
+      filesystem = {
+        hijack_netrw_behavior = 'disabled',
+      },
+      window = {
+        position = "right",
+        mappings = {
+              ["Z"] = "expand_all_nodes",
+        }
+      },
+    }
+  },
   {
     'kyazdani42/nvim-tree.lua',
     keys = {
-      { '<leader>tt', function() require("nvim-tree.api").tree.toggle() end }
+      { '<leader>tt', ':NvimTreeToggle<cr>' },
     },
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
-      hijack_cursor = true,
-      hijack_netrw = false,
-      view = {
-        preserve_window_proportions = true,
-        side = "right",
-        centralize_selection = true
-      },
-      diagnostics = {
-        enable = true
-      },
-      renderer = {
-        icons = {
-          git_placement = "after"
-        }
-      },
-      actions = {
-        change_dir = {
-          enable = false
+        hijack_cursor = true,
+        hijack_netrw = false,
+        view = {
+            preserve_window_proportions = true,
+            side = "right",
+            centralize_selection = true
         },
-        expand_all = {
-          exclude = { ".git", "node_modules" }
+        diagnostics = {
+            enable = true
+        },
+        renderer = {
+            icons = {
+                git_placement = "after"
+            }
+        },
+        actions = {
+            change_dir = {
+                enable = false
+            },
+            expand_all = {
+                exclude = { ".git", "node_modules" }
+            }
         }
-      }
     }
   }, -- }}}
   -- git {{{
@@ -294,36 +319,30 @@ return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-live-grep-args.nvim",
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', },
       "nvim-telescope/telescope-ui-select.nvim"
     },
     cmd = { "Telescope" },
     -- stylua: ignore
     keys = {
-      { '<M-r>',        ':Telescope lsp_dynamic_workspace_symbols<cr>' },
-      { '<c-b>',        ':Telescope buffers<cr>' },
-      { '<c-p>',        ':Telescope find_files hidden=true<cr>' },
-      { '<leader>*',    ':Telescope grep_string<cr>' },
-      { '<leader>/',    ':Telescope current_buffer_fuzzy_find<cr>' },
-      { '<leader><cr>', ':Telescope resume<cr>' },
-      { '<leader>T',    ':Telescope builtin<cr>' },
-      { '<leader>gb',   ':Telescope git_branches<cr>' },
-      { '<leader>gs',   ':Telescope git_status<cr>' },
-      { '<leader>sc',   ':Telescope commands<cr>' },
-      { '<leader>sC',   ':Telescope colorscheme enable_preview=true<cr>' },
-      { '<leader>sb',   ':Telescope buffers<cr>' },
-      { '<leader>ss',   ':Telescope lsp_document_symbols<cr>' },
-      { '<leader>sS',   ':Telescope lsp_dynamic_workspace_symbols<cr>' },
-      { '<leader>sf',   ':Telescope find_files hidden=true<cr>' },
-      { '<leader>sg',   ':lua require("telescope").extensions.live_grep_args.live_grep_args()<cr>', },
-      { '<leader>sh',   ':Telescope help_tags<cr>' },
-      { '<leader>sr',   ':Telescope oldfiles<cr>' },
-    },
+      { '<leader>f'    , ':Telescope find_files<cr>' },
+      { '<leader>F'    , ':Telescope find_files hidden=true cwd=%:p:h<cr>' },
+      { '<leader>*'    , ':Telescope grep_string<cr>' },
+      { '<leader>/'    , ':Telescope live_grep<cr>', },
+      { '<leader>?'    , ':Telescope live_grep cwd=%:p:h<cr>', },
+      { '<leader>:'    , ':Telescope commands<cr>' },
+      { '<leader><cr>' , ':Telescope resume<cr>' },
+      { '<leader>h'    , ':Telescope help_tags<cr>' },
+      { '<leader>S'    , ':Telescope lsp_dynamic_workspace_symbols<cr>' },
+      { '<leader>b'    , ':Telescope buffers<cr>' },
+      { '<leader>s'    , ':Telescope lsp_document_symbols<cr>' },
+      { '<leader>C'    , ':Telescope colorscheme enable_preview=true<cr>' },
+      { '<leader>T'    , ':Telescope builtin<cr>' },
+      { '<leader>l'    , ':Telescope current_buffer_fuzzy_find<cr>' },
+    }                  ,
     config = function()
       local telescope = require('telescope')
       telescope.load_extension('fzf')
-      telescope.load_extension("live_grep_args")
       telescope.load_extension("ui-select")
       telescope.setup({
         defaults = {

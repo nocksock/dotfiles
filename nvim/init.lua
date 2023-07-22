@@ -15,13 +15,13 @@ if not vim.uv.fs_stat(lazypath) then
     lazypath,
   })
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
--- settings 
 -- general {{{
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -56,6 +56,7 @@ vim.o.grepformat="%f:%l:%c:%m"
 
 -- }}}
 -- basic ui things{{{
+
 vim.o.list = false -- do not show invisible characters (there's an auto-command to show only in insert mode)
 vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,' -- define characters for invisible characters
 vim.o.fillchars = 'eob:⸱'
@@ -73,13 +74,9 @@ vim.o.laststatus = 2
 vim.o.termguicolors = true -- enable 24bit colors
 vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
 
-vim.g.symbols_outline = {
-  auto_close = true,
-  auto_preview = false,
-  show_quides = false
-}
 -- }}}
 -- indentation and wrapping {{{
+
 vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
 vim.o.smartindent = true
@@ -87,22 +84,23 @@ vim.o.tabstop = 2
 vim.o.textwidth = 80
 vim.o.expandtab = true
 
--- wrapping
 vim.o.breakindent = true -- wrapped lines appear indendet
 vim.o.briopt = 'shift:4' -- indent wrapped lines
 vim.o.linebreak = true
 vim.o.wrap = false       -- don't wrap by default
+
 -- }}}
 -- backup + undo {{{
+
 vim.o.swapfile = false -- disable swap files
 vim.o.backupskip = '/tmp/*,/private/tmp/*' -- Make Vim able to edit crontab files again.
 vim.o.backup = true -- enable backups
 vim.o.backupdir = '/tmp'
 vim.o.undofile = true
+
 -- }}}
 -- plugin settings etc {{{
 
--- netrw
 vim.g.netrw_altfile = 1 -- make CTRL-^ ignore netrw buffers
 vim.g.netrw_banner = 0 -- hide banner
 vim.g.netrw_winsize = 33
@@ -117,14 +115,23 @@ vim.g.easy_align_delimiters = {
   }
 }
 
--- ultisnipets
+vim.g.symbols_outline = {
+  auto_close = true,
+  auto_preview = false,
+  show_quides = false
+}
+
 vim.g.UltiSnipsExpandTrigger       = "<c-l>"
-vim.g.UltiSnipsJumpForwardTrigger  = "<c-j>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<c-h>"
-vim.g.UltiSnipsEditSplit           = "vertical"
+vim.g.UltiSnipsEditSplit           = "tabdo"
 
 -- }}}
 
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  pattern = { "*" },
+  callback = function()
+    vim.api.nvim_exec('silent! normal! g`"zv', false)
+  end,
+})
 
 require('lazy').setup("plugins", {
   dev = {
