@@ -5,18 +5,28 @@ alias gg='lazygit'
 
 alias gsw='git-select-worktree'
 function git-select-worktree () {
-  local selected_worktree=$(git worktree list --porcelain | grep -Po "(?<=worktree ).*" | fzf)
-  cd "$selected_worktree"
+  pushd "$(git worktree list --porcelain | grep -Po "(?<=worktree ).*" | fzf)"
 }
 
-function glog {
-  git log ${@} --decorate --color=always --pretty="format:%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s" | fzf --ansi --preview="echo {} | grep -oP '[a-f0-9]{7,}' | xargs git show" --no-sort --track | grep -oP '[a-f0-9]{7,}' 
+alias glog='git-log-explorer'
+function git-log-explorer {
+  format="format:%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s" 
+  git log ${@}                                                \
+    --decorate                                                \
+    --color=always                                            \
+    --pretty="$format"                                        \
+    | fzf              \
+        --ansi --no-sort --track                              \
+        --preview="git show {1}"                              \
+        --bind "ctrl-m:execute(zsh -c 'git show {1} | nvim -c \"set buftype=nofile\"')"
 }
 
-function _glog {
+# copy autocomplete from git-log to git-log-explorer because all args are expanded to 
+# git-log
+function _git-log-explorer {
   _git log
 }
-compdef _git glog=git-log
+compdef _git git-log-explorer=git-log
 
 # git-grouped-log: show commits grouped by committer and date
 alias ggl='git-grouped-log'
@@ -51,26 +61,3 @@ git-switch-branch () {
   fi
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
-
-# git-show-commit: find a commit via fzf and show its contents. Pressing q will
-# return to fzf
-alias gsc='git-show-commit'
-git-show-commit () {
-  git log          \
-    --graph        \
-    --color=always \
-    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@"\
-    | fzf                       \
-      --ansi                    \
-      --no-sort                 \
-      --reverse                 \
-      --tiebreak=index          \
-      --bind=ctrl-s:toggle-sort \
-      --bind "ctrl-m:execute:
-        (grep -o '[a-f0-9]\{7\}' | head -1 |
-          xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                {}
-                FZF-EOF"
-}
-
-
