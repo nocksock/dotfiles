@@ -24,8 +24,9 @@ fi
 INFO=$(yabai -m query --spaces --space | jq -r .type)
 
 case $INFO in
-  "bsp") INFO="bsp" ;;
-  "float") INFO="flt" ;;
+  "bsp") INFO="B" ;;
+  "stack") INFO="S" ;;
+  "float") INFO="F" ;;
 esac
 
 sketchybar --set $NAME label="$INFO"
