@@ -11,10 +11,10 @@ if [[ $1 == "setup" ]]; then
       script="$PLUGIN_DIR/task"             \
       click_script="$PLUGIN_DIR/task click" \
       background.padding_left=$SPACE_2      \
-      background.padding_right$SPACE_2      \
+      background.padding_right=$SPACE_2     \
       background.height=24                  \
-      label.padding_right$SPACE_2           \
-      icon.padding_left$SPACE_2             \
+      label.padding_right=$SPACE_2          \
+      icon.padding_left=$SPACE_2            \
       background.color=0xbb14161B           \
       background.corner_radius=4            \
       label.color=${WM_COLORS[white]}       \
