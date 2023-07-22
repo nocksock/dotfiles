@@ -3,10 +3,6 @@ local function map(mode, key, command, opts)
   vim.keymap.set(mode, key, command, opts)
 end
 
--- Buffer
-map('n', '<leader>bd', ':b#|bd#<cr>', { desc = "delete buffer, keep layout" })
-map('n', '<leader>bO', ':%bd|e#<cr>', { desc = "delete all other buffers" })
-
 -- Toggles
 map('n', '<leader>ti', function()
   local previous = vim.diagnostic.config()
@@ -16,8 +12,6 @@ map('n', '<leader>ti', function()
 end, { desc = "[t]oggle [i]nlay hints" })
 
 -- infos {{{
-map('n', '<leader>it', ':TSHighlightCapturesUnderCursor<cr>')
-map('n', '<leader>id', '<Plug>:LspDiagLine<cr>')
 map('n', '<leader>il', function()
   local servers = {}
   for _, server in ipairs(vim.lsp.get_active_clients()) do
@@ -27,6 +21,5 @@ map('n', '<leader>il', function()
 end, {})
 --}}}
 
-map({ 'i', 'n' }, '<M-s>', '<cmd>:Format<cr>:FixAll<cr>:w<cr>', { silent = true })
 
 -- vim: nowrap fen fdl=0
