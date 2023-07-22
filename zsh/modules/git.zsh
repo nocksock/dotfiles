@@ -9,6 +9,15 @@ function git-select-worktree () {
   cd "$selected_worktree"
 }
 
+function glog {
+  git log ${@} --decorate --color=always --pretty="format:%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s" | fzf --ansi --preview="echo {} | grep -oP '[a-f0-9]{7,}' | xargs git show" --no-sort --track | grep -oP '[a-f0-9]{7,}' 
+}
+
+function _glog {
+  _git log
+}
+compdef _git glog=git-log
+
 # git-grouped-log: show commits grouped by committer and date
 alias ggl='git-grouped-log'
 function git-grouped-log {
