@@ -1,15 +1,10 @@
-require("mason").setup({})
+require("mason").setup {}
+require('goto-preview').setup {}
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local lspconfig = require('lspconfig')
 
-local handlers = {
-      ["window/progress"] = function(params, client_id, bufnr, config)
-    params.value.title = "[" .. params.value.kind .. "] " .. params.value.title
-    vim.lsp.util.window_progress(params, client_id, bufnr, config)
-  end,
-}
-
+local handlers = {}
 
 lspconfig.rust_analyzer.setup {}
 
@@ -60,7 +55,8 @@ lspconfig.svelte.setup {
 }
 
 -- TypeScript {{{
--- Using the plugin since it adds some useful commands
+-- Using the plugin since it adds some useful commands,
+-- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
 require("typescript").setup({
   server = {
     capabilities = capabilities,
@@ -70,13 +66,13 @@ require("typescript").setup({
       local keyopts = { noremap = true, silent = true, buffer = bufnr }
       require("twoslash-queries").attach(client, bufnr)
 
-      vim.keymap.set('n', "<leader><C-k>", "<cmd>InspectTwoslashQueries<CR>", keyopts)
-      vim.keymap.set('n', '<leader>fi', ':TypescriptAddMissingImports<cr>', keyopts)
-      vim.keymap.set('n', '<leader>fo', ':TypescriptOrganizeImports<cr>', keyopts)
-      vim.keymap.set('n', '<leader>fu', ':TypescriptRemoveUnused<cr>', keyopts)
-      vim.keymap.set('n', '<leader>fA',
+      vim.keymap.set('n', "<localleader><C-k>", "<cmd>InspectTwoslashQueries<CR>", keyopts)
+      vim.keymap.set('n', '<localleader>fi', ':TypescriptAddMissingImports<cr>', keyopts)
+      vim.keymap.set('n', '<localleader>fo', ':TypescriptOrganizeImports<cr>', keyopts)
+      vim.keymap.set('n', '<localleader>fu', ':TypescriptRemoveUnused<cr>', keyopts)
+      vim.keymap.set('n', '<localleader>fA',
         ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', keyopts)
-      vim.keymap.set('n', '<leader>rN', ':TypescriptRenameFile<cr>', keyopts)
+      vim.keymap.set('n', '<localleader>rN', ':TypescriptRenameFile<cr>', keyopts)
 
     end,
   }
@@ -94,26 +90,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-    if client.server_capabilities.completionProvider then
-      vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-    end
-
-    if client.server_capabilities.definitionProvider then
-      vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
-    end
-
-    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+    -- NOTE: usually checking if client_server_capabilities.completionProvider is
+    -- true, but I want to see a proper error message if it's not, and not
+    -- fallback to default (tag|omni)func
+    vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
+    vim.bo.tagfunc = "v:lua.vim.lsp.tagfunc"
+    vim.bo.formatexpr = "v:lua.vim.lsp.formatexpr()"
 
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', '<leader>K', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', 'gK', vim.lsp.buf.signature_help, bufopts)
 
+    vim.keymap.set('n', '<leader>j', vim.diagnostic.goto_next, bufopts)
+    vim.keymap.set('n', '<leader>k', vim.diagnostic.goto_prev, bufopts)
+    vim.keymap.set('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
-    vim.keymap.set('n', "]e", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
-      bufopts)
-    vim.keymap.set('n', "[e", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-      bufopts)
+    vim.keymap.set('n', "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "[D", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
 
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, bufopts)
     vim.keymap.set('n', '<leader>q', ':Diagnostics<cr>', bufopts)
@@ -126,12 +120,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts) -- original gi mapped to g.
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
 
-    vim.keymap.set('n', 'gsd', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
-    vim.keymap.set('n', 'gsD', ':vs<cr>:lua vim.lsp.buf.declaration()<cr>zt', bufopts)
-    vim.keymap.set('n', 'gst', ':vs<cr>:lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
-    vim.keymap.set('n', 'gsi', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
+    vim.keymap.set('n', '<c-w>d', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
+    vim.keymap.set('n', '<c-w>D', ':vs<cr>:lua vim.lsp.buf.declaration()<cr>zt', bufopts)
+    vim.keymap.set('n', '<c-w>t', ':vs<cr>:lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
+    vim.keymap.set('n', '<c-w>i', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
 
     vim.keymap.set('n', 'gpd', require('goto-preview').goto_preview_definition, bufopts)
     vim.keymap.set('n', 'gpi', require('goto-preview').goto_preview_implementation, bufopts)
@@ -140,4 +136,5 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gpc', require('goto-preview').close_all_win, bufopts)
   end
 })
+
 -- vi: fen fdl=0 fdm=marker fmr={{{,}}} fdc=3
