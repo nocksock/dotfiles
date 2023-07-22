@@ -16,6 +16,7 @@
     ~/.config/starship.toml: starship/starship.toml
     ~/.config/polybar: polybar
     ~/.config/rofi: rofi
+    ~/.config/helix: helix
     ~/.config/zellij: zellij
     ~/.doom.d: doom.d
     ~/.tmux.conf: tmux/tmux.conf

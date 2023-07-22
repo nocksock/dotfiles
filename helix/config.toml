@@ -1,0 +1,94 @@
+[editor]
+color-modes = true
+cursorline = true
+mouse = true
+true-color = true
+auto-completion = true
+line-number = "absolute"
+bufferline = "multiple"
+completion-trigger-len = 1
+
+[editor.indent-guides]
+render = false
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline]
+left = ["file-name", "spinner"]
+center = ["version-control"]
+right = [
+  "diagnostics",
+  "selections",
+  "file-type",
+  "position",
+  "total-line-numbers",
+]
+
+[editor.statusline.mode]
+normal = "N"
+insert = "I"
+select = "S"
+
+[editor.file-picker]
+hidden = false
+
+[editor.explorer]
+column-width = 40
+position = "right"
+
+[editor.whitespace.characters]
+space = "·"
+nbsp = "⍽"
+tab = "→"
+newline = "⤶"
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = false
+
+[keys.normal]
+"esc" = ["collapse_selection", "keep_primary_selection"]
+"C-d" = ["half_page_down", "align_view_center"]
+"X" = "extend_line_above"
+"tab" = ":bn"
+"S-tab" = ":bp"
+"C-A-j" = [
+  'ensure_selections_forward',
+  'extend_to_line_bounds',
+  'extend_char_right',
+  'extend_char_left',
+  'delete_selection',
+  'add_newline_below',
+  'move_line_down',
+  'replace_with_yanked',
+]
+"C-A-k" = [
+  'ensure_selections_forward',
+  'extend_to_line_bounds',
+  'extend_char_right',
+  'extend_char_left',
+  'delete_selection',
+  'move_line_up',
+  'add_newline_above',
+  'move_line_up',
+  'replace_with_yanked',
+]
+
+[keys.normal.space]
+n = ":new"
+w = ":w"
+q = ":q"
+x = ":buffer-close"
+
+[keys.normal.space.c]
+r = ":config-reload"
+o = ":config-open"
+w = ":set whitespace.render all"
+W = ":set whitespace.render none"
+i = ":set lsp.display-inlay-hints true"
+I = ":set lsp.display-inlay-hints false"
+l = ":set line-number absolute"
+L = ":set line-number relative"
