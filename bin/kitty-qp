@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-#
+
 selected=$(list-projects | fzf)
 selected_name=$(basename "$selected" | tr . _)
 
@@ -9,4 +9,4 @@ if [[ -z "$selected" ]]; then
     exit 1
 fi
 
-kitty @ focus-tab --match=tab-title:"$selected_name" 2>/dev/null || kitty @ launch --cwd="$selected" --tab-title="$selected_name" --type=tab zsh
+kitty @ focus-tab --match=tab-title:"$selected_name" 2>/dev/null || kitty @ launch --cwd="$selected" --tab-title="$selected_name" --type=tab --no-response
