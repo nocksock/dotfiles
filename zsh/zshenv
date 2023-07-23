@@ -1,0 +1,44 @@
+export DOTDIR="$HOME/code/dotfiles"
+
+declare -U PATH path
+path=(
+  "/opt/homebrew/opt/bison/bin"
+  "/opt/homebrew/opt/grep/libexec/gnubin" 
+  "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
+  "/usr/local/bin" 
+  "/usr/local/cuda-11.6/bin"
+  "$DOTDIR/bin"
+  "$BUN_INSTALL/bin"
+  "$HOME/.composer/vendor/bin"
+  "$HOME/.local/bin"
+  "$HOME/bin"
+  "$HOME/code/bleepbloop.git/main/bin"
+  "$HOME/.cargo/bin"
+  "$PNPM_HOME"
+  "$path[@]"
+)
+export PATH
+
+declare -U CDPATH cdpath
+cdpath=(
+  "$HOME"
+  "$HOME/code"
+  "$HOME/code/bleepbloop.git/main/apps"
+  "$HOME/code/clients"
+  "$HOME/code/clients/edeka"
+  "$HOME/code/clients/edeka/de.git/dev"
+  "$cdpath[@]"
+)
+export PATH
+
+# load custom zsh modules
+for file in "$DOTDIR"/zsh/modules/*.zsh "$DOTDIR"/bin/*_completion; do
+  if [[ -f "$file" ]]; then
+    source "$file"
+  fi
+done
+
+export EDITOR='/usr/local/bin/nvim' # used for commits and such
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8

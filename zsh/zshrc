@@ -1,17 +1,13 @@
-export DOTDIR="$HOME/code/dotfiles"
-
-zmodload zsh/zprof # profile startup time
-
-# Terminal Setup {{{
 autoload -U +X bashcompinit && bashcompinit
 autoload -U edit-command-line
 autoload -U select-word-style
 
-export EDITOR='/usr/local/bin/nvim' # used for commits and such
 export TERM='xterm-kitty'
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-unset MANPATH                       # use default manpath directories; it was different within tmux for some reason I do not yet know
+
+if [[ -n "$TMUX" ]]; then
+  export TERM=screen-256color
+  unset MANPATH                       # use default manpath directories; it was different within tmux for some reason I do not yet know
+fi
 
 zle -N edit-command-line # Emacs style
 
@@ -31,43 +27,14 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
-# }}}
 
-declare -U PATH path
-path=(
-  "/opt/homebrew/opt/bison/bin"
-  "/opt/homebrew/opt/grep/libexec/gnubin" 
-  "/opt/homebrew/bin"
-  "/opt/homebrew/sbin"
-  "/usr/local/bin" 
-  "/usr/local/cuda-11.6/bin"
-  "$DOTDIR/bin/"
-  "$BUN_INSTALL/bin"
-  "$HOME/.composer/vendor/bin"
-  "$HOME/.local/bin"
-  "$HOME/bin"
-  "$HOME/code/bleepbloop.git/main/bin"
-  "$HOME/.cargo/bin"
-  "$PNPM_HOME"
-  "$path[@]"
-)
-export PATH
+eval "$(starship init zsh)"
+eval "$(op completion zsh)"; compdef _op op
 
-declare -U CDPATH cdpath
-cdpath=(
-  "$HOME"
-  "$HOME/code"
-  "$HOME/code/bleepbloop.git/main/apps"
-  "$HOME/code/clients"
-  "$HOME/code/clients/edeka"
-  "$HOME/code/clients/edeka/de.git/dev"
-  "$cdpath[@]"
-)
-export PATH
-
-# load custom zsh modules
-for file in "$DOTDIR"/zsh/modules/*.zsh "$DOTDIR"/bin/*_completion; do
-    if [[ -f "$file" ]]; then
-        source "$file"
-    fi
+# load completion for scripts
+for file in "$DOTDIR"/bin/*_completion; do
+  if [[ -f "$file" ]]; then
+    source "$file"
+  fi
 done
+

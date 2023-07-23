@@ -22,6 +22,7 @@
     ~/.tmux.conf: tmux/tmux.conf
     ~/.muttrc: mutt/muttrc
     ~/.zshrc: zsh/zshrc
+    ~/.zshenv: zsh/zshenv
     ~/.vimrc: vim/vimrc
     ~/.vim: vim/vim
 
