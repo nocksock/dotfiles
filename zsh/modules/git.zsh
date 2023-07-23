@@ -2,31 +2,8 @@ alias gss='git status -s .'
 alias gs='vim +:Git status'
 alias gr='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
 alias gg='lazygit'
-
-alias gsw='git-select-worktree'
-function git-select-worktree () {
-  pushd "$(git worktree list --porcelain | grep -Po "(?<=worktree ).*" | fzf)"
-}
-
+alias gsw='pushd "$(git worktree list --porcelain | ggrep -Po "(?<=worktree ).*" | fzf)"'
 alias glog='git-log-explorer'
-function git-log-explorer {
-  format="format:%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s" 
-  git log ${@}                                                \
-    --decorate                                                \
-    --color=always                                            \
-    --pretty="$format"                                        \
-    | fzf              \
-        --ansi --no-sort --track                              \
-        --preview="git show {1}"                              \
-        --bind "ctrl-m:execute(zsh -c 'git show {1} | nvim -c \"set buftype=nofile\"')"
-}
-
-# copy autocomplete from git-log to git-log-explorer because all args are expanded to 
-# git-log
-function _git-log-explorer {
-  _git log
-}
-compdef _git git-log-explorer=git-log
 
 # git-grouped-log: show commits grouped by committer and date
 alias ggl='git-grouped-log'
