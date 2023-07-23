@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+# copy completion from git log, since that's where the parameters will be
+# passed to.
+compdef _git git-log-explorer=git-log
