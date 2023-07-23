@@ -38,3 +38,28 @@ for file in "$DOTDIR"/bin/*_completion; do
   fi
 done
 
+
+alias sudo='sudo '
+alias reload="source ~/.zshrc; rehash"
+alias ls='exa --icons -1 --group-directories-first -a'
+alias ll='exa --icons -l --group-directories-first -a'
+alias pd="pushd"
+alias gd="popd"
+alias K="pbcopy"
+alias KK="tee >(pbcopy) >(cat) >/dev/null"
+alias slurp="pushd && pushd -"
+alias rm='rm -i' # rm -i will ask for each deletion
+
+# navigation
+alias c='cd $(list-projects | fzf)'
+alias ..='cd ..'
+alias q='cd ~ && clear'
+
+# apps
+alias tf=terraform
+alias love='open -n -a love'
+
+function take() {
+	mkdir -p $1
+	cd $1
+}
