@@ -65,7 +65,7 @@ end tell
 EOD
 
 result=$(cat $TMP)
-rm $TMP
+\rm $TMP
 
 case $result in
   EMPTY)
