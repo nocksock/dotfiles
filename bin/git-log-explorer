@@ -1,11 +1,10 @@
 #!/usr/bin/env zsh
 
-format="%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s" 
+format="%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s"
 
-git log ${@}                                          \
-  --decorate --color=always --pretty="format:$format" \
-  | fzf                                               \
-      --ansi --no-sort --track                        \
-      --preview="git show --color=always {1}"         \
-      --bind "ctrl-m:execute(git show {1} | nvim -c \"set buftype=nofile\")"
-
+git log ${@}                                                                      \
+  --decorate --color=always --pretty="format:$format"                             \
+  | fzf                                                                           \
+      --ansi --no-sort --track                                                    \
+      --preview="echo {} | rg -o '[a-f0-9]{7,}' | xargs git show --color=always " \
+      --bind "ctrl-m:execute(git show | rg -o '[a-f0-9]{7,}' | nvim -c \"set buftype=nofile\")"
