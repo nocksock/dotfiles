@@ -40,7 +40,7 @@ done
 
 
 alias sudo='sudo '
-alias reload="source ~/.zshrc; rehash"
+alias reload="source ~/.zshenv; source ~/.zshrc; rehash"
 alias ls='exa --icons -1 --group-directories-first -a'
 alias ll='exa --icons -l --group-directories-first -a'
 alias pd="pushd"
