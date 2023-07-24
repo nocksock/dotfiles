@@ -33,7 +33,7 @@ cdpath=(
 export PATH
 
 # load custom zsh modules
-for file in "$DOTDIR"/zsh/modules/*.zsh "$DOTDIR"/bin/*_completion; do
+for file in "$DOTDIR"/zsh/modules/*.zsh; do
   if [[ -f "$file" ]]; then
     source "$file"
   fi
