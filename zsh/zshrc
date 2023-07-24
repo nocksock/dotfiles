@@ -29,7 +29,11 @@ bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
 eval "$(starship init zsh)"
-eval "$(op completion zsh)"; compdef _op op
+
+if [[ -n `command -v op` ]]; then
+  eval "$(op completion zsh)"
+  compdef _op op
+fi 
 
 # load completion for scripts
 for file in "$DOTDIR"/bin/*_completion; do
