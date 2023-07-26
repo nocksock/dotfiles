@@ -65,17 +65,17 @@ nnoremap <cr> i<cr><esc>
 nnoremap <silent> <tab> :bn<cr> 
 
 " buffer navigation
+nnoremap gf :e <cfile><CR>
+nnoremap <silent> <tab> :bn<cr> 
 nnoremap <silent> <s-tab> :bp<cr>
-nnoremap <silent> <leader>X :b#\|bd#<cr>
-nnoremap <silent> <leader>x :bd<cr>
+nnoremap <silent> <leader>x :b#\|bd#<cr>
 nnoremap <silent> <leader>b0 :%bd\|e#<cr>
-
-cnoreabb b0 %bd\|e#
-cnoreabb b0! %bd!\|e#
-cnoreabb wd w\|:bd
+cnoreabb wd w\|:b#\|bd#<cr>
 
 nnoremap <c-n> :cn<cr>
 nnoremap <c-p> :cp<cr>
+
+" <c-;> to quickly go to a previous command
 nnoremap <c-;> :<c-p>
 cnoremap <c-;> <c-p>
 
