@@ -15,10 +15,12 @@ cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 " visual select last inserted text
 nnoremap gV `[v`] 
 
-nnoremap <leader>ciw :%s/\<<c-r><c-w>\>//g<left><left>
-nnoremap <leader>caw "/yaw:%s///g<left><left>
-nnoremap <leader>caW "/yaW:%s///g<left><left>
-nnoremap <leader># #``
+" change inside|around all [wW]ords
+" word Word
+nnoremap ciaw viw*<esc>:%s///<left>
+nnoremap ciaW viW*<esc>:%s///<left>
+nnoremap caaw vaw*<esc>:%s///<left>
+nnoremap caaW vaW*<esc>:%s///<left>
 
 nnoremap <F12> :Ts<CR>i
 tnoremap <F12> <C-\><C-n>:T<CR>
