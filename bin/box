@@ -17,7 +17,9 @@ options+=(
   "t3"
   "next"
   "empty"
+  "pnpm create"
 )
+
 
 choice=$(printf '%s\n' "${options[@]}" | fzf --height 40% --layout=reverse --prompt="select box type: ")
 if [[ -z $choice ]]; then
@@ -38,7 +40,7 @@ if [[ $DIRNAME == ./* ]]; then
 else
   ROOT="$HOME/code/sandboxes"
   if [[ -z $DIRNAME ]]; then
-    DIRNAME="$(gum input --prompt="name: ")"
+    DIRNAME="$(random-name | gum input --prompt="name: ")"
   fi
 
   if [[ -a "$ROOT/$DIRNAME" ]]; then
@@ -81,6 +83,14 @@ case ${choice%%:*} in
   "t3") 
     pnpm create t3-app $DIRNAME
     ;;
+  "empty")
+    mkdir $DIRNAME
+    ;;
+  "pnpm create")
+    read -p "pnpm create: " pnpm_create
+    pnpm create $pnpm_create $DIRNAME
+    choice="pnpm create $pnpm_create"
+    ;;
   *)
     template=${choice#.*}
     # git clone file://$TEMPLATE_DIR$template $DIRNAME --depth=1
@@ -94,10 +104,17 @@ esac
 
 cd $FULL_PATH
 
-pnpm install
+if [[ -f "package.json" ]]; then
+  pnpm install
+fi
 
-# git init
+git init
 git add . 
 git commit -m "feat($DIRNAME): start from $choice"
 
-start
+if [[ -n $TMUX ]]; then
+  tmux new-session -s $DIRNAME -c $FULL_PATH -d "zsh -c 'nvim .'"
+  tmux switch-client -t $selected_name
+else
+  kitty @ launch --cwd=$FULL_PATH --type=tab --title=$DIRNAME zsh -c "nvim ."
+fi
