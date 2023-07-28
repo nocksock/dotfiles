@@ -1,12 +1,10 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
+YABAI_DIR="$HOME/code/dotfiles/yabai"
 
 if [[ ! $1 == "refresh" ]]; then
-  sudo yabai --load-sa
   yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
   yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
-  # yabai -m signal --add event=display_added action="sleep 1 && $HOME/.config/yabai/create_spaces.sh"
-  # yabai -m signal --add event=display_removed action="sleep 1 && $HOME/.config/yabai/create_spaces.sh"
   yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
   yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
 fi
@@ -19,12 +17,14 @@ yabai -m config                                      \
                                                      \
   window_gap                 24                      \
   window_topmost             off                     \
-  window_border              on                      \
+  window_border              off                     \
   window_border_width        2                       \
   window_border_radius       12                      \
   window_placement           second_child            \
-  window_opacity             off                     \
+  window_opacity             on                      \
   window_border_blur         off                     \
+  active_window_opacity 1.0                          \
+  normal_window_opacity 0.8                          \
   active_window_border_color $(opacity $LAVENDER 50) \
   normal_window_border_color $(opacity $LAVENDER 10) \
                                                      \
@@ -80,3 +80,10 @@ yabai -m rule --add title='Preferences$' manage=off
 yabai -m rule --add title='Settings$' manage=off
 
 printf "yabai: configuration loaded...\\n"
+
+# load yabai modules
+for module in "$DOTDIR"/yabai/modules/*.zsh; do
+  if [[ -f "$module" ]]; then
+    zsh $module setup
+  fi
+done
