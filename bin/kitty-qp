@@ -1,12 +1,48 @@
 #!/usr/bin/env zsh
 
-selected=$(list-projects | fzf)
-selected_name=$(basename "$selected" | tr . _)
+PROJECT_PATH=$(list-projects | fzf)
+PROJECT_NAME=$(basename "$PROJECT_PATH" | tr . _)
+STARTUP_PATHS=(
+  "$PROJECT_PATH/scripts/startup.zsh"
+  "$PROJECT_PATH/scripts/startup.sh"
+  "$PROJECT_PATH/bin/startup"
+  "$PROJECT_PATH/startup.zsh"
+  "$PROJECT_PATH/startup.sh"
+)
 
-window_type=${1:-tab}
+WINDOW_TYPE=${1:-tab}
 
-if [[ -z "$selected" ]]; then
-    exit 1
+if [[ -z "$PROJECT_PATH" ]]; then
+  exit 1
 fi
 
-kitty @ focus-tab --match=tab-title:"$selected_name" 2>/dev/null || kitty @ launch --cwd="$selected" --tab-title="$selected_name" --type=tab --no-response
+function check-startup {
+  for path in $STARTUP_PATHS; do
+    if [[ -f "$path" ]]; then
+      echo "$path"
+      return 0
+    fi
+  done
+  return 1
+}
+
+function launch {
+  REPLY=""
+  RUN_STARTUP=$(check-startup)
+
+  if [[ -n "$RUN_STARTUP" ]]; then
+    echo "Run startup script? [y/n]"
+    while [[ "$REPLY" != "y" && "$REPLY" != "n" ]]; do
+      read -k 1 -r
+    done
+
+    if [[ "$REPLY" == "y" ]]; then
+      kitty @ launch --cwd="$PROJECT_PATH" --tab-title="$PROJECT_NAME" --type="$WINDOW_TYPE" --no-response "$RUN_STARTUP"
+      exit 0
+    fi
+  fi
+
+  kitty @ launch --cwd="$PROJECT_PATH" --tab-title="$PROJECT_NAME" --type="$WINDOW_TYPE" --no-response --keep-focus
+}
+
+kitty @ focus-tab --match=tab-title:"$PROJECT_NAME" 2>/dev/null || launch
