@@ -1,0 +1,89 @@
+#!/usr/bin/env zsh
+
+SELF=$(realpath $0)
+SELF_DIR=$(dirname $SELF)
+SELF_NAME=$(basename $SELF)
+
+usage() { cat <<EOF
+  Usage $SELF_NAME <SUBCOMMAND> [args]
+
+  Options:
+    -h, --help      Show this message
+
+  Subcommands:
+    pick    pick a project with fzf and print it to stdout. This 
+                is the default subcommand.
+
+    list    list all projects from \$PROJECTS_FILE ($PROJECTS_FILE)
+
+    view    show preview of the project
+
+    open    some default open command for the project. But usually defined
+            in the caller via pipes and xargs.
+
+  Pick:
+    opens fzf with list of projects and prints to stdout
+
+  List:
+    Reads \$PROJECTS_FILE ($PROJECTS_FILE) and expands any ~ or *
+    and prints to stdout.
+
+
+  Example:
+    kitty @ new-window --title "Projects" -- bash -c "cd \$(choose project) && zsh"
+
+EOF
+}
+
+PROJECTS_FILE=${PROJECTS_FILE:-"$HOME/.projects"}
+SUBCOMMAND=${1:-pick}
+
+open () {
+  tmux-qp "$1"
+}
+
+view () {
+  # look for readme
+  if [[ -f "$1/README.md" ]]; then
+    glow "$1/README.md"
+  elif [[ -f "$1/README" ]]; then
+    bat "$1/README"
+  else
+    tree -C "$1" | head -200
+  fi
+}
+
+
+list () {
+  while IFS= read -r dir; do
+    dir="${dir#"${dir%%[![:space:]]*}"}"  # Trim leading whitespace
+    dir="${dir%"${dir##*[![:space:]]}"}"  # Trim trailing whitespace
+
+    expanded_dir="${dir/\~/$HOME}"
+    if [[ "$expanded_dir" == *\** ]]; then
+      find "${expanded_dir%/*}" -maxdepth 1 -type d -print  \
+        | sed "s|$HOME|~|"                       
+    else
+      echo "${expanded_dir}"
+    fi
+  done < $PROJECTS_FILE
+}
+
+pick () {
+  list | fzf                      \
+    --keep-right --ansi --no-sort \
+    --prompt="Choose Project: "   \
+    --preview "$SELF view {}"     \
+}
+
+
+# == Main
+
+fns=(pick list view open)
+if [[ " ${fns[@]} " =~ " $SUBCOMMAND " ]]; then
+  eval "$SUBCOMMAND $@"
+else
+  echo "Unknown Subcommand: $SUBCOMMAND"
+  usage
+  exit 1
+fi
