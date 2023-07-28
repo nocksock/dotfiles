@@ -2,9 +2,4 @@
 
 zparseopts -D -E -F -A opts n::
 
-if [[ -z ${opts[-n]} ]]; then
-    echo "Usage: $(echo $0 | xargs basename) -n <number of words>"
-    exit 1
-fi
-
 cat /usr/share/dict/web2a | shuf | head -n ${opts[-n]:-1} | sed 's/ /-/g'
