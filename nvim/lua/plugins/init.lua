@@ -29,6 +29,11 @@ return {
     'catppuccin/nvim',
     event = "VeryLazy",
   },
+  { 'EdenEast/nightfox.nvim', event = "VeryLazy" },
+  { 'cocopon/iceberg.vim',    event = "VeryLazy" },
+  { 'folke/tokyonight.nvim',  event = "VeryLazy" },
+  { 'w0ng/vim-hybrid',        event = "VeryLazy" },
+  { 'wadackel/vim-dogrun',    event = "VeryLazy" },
   {
     'rose-pine/neovim',
     name = 'rose-pine',
@@ -80,21 +85,21 @@ return {
             else
               fallback()
             end
-          end, { 's', 'c' }),
+          end, { 'i' }),
               ['<c-n>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             else
               fallback()
             end
-          end, { 'i', 's', 'c' }),
+          end, { 'i', 'c' }),
               ['<c-p>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
             else
               fallback()
             end
-          end, { 'i', 's', 'c' }),
+          end, { 'i', 'c' }),
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
@@ -157,29 +162,29 @@ return {
     },
     event = { "BufReadPost", "BufNewFile" },
     opts = {
-        hijack_cursor = true,
-        hijack_netrw = false,
-        view = {
-            preserve_window_proportions = true,
-            side = "right",
-            centralize_selection = true
-        },
-        diagnostics = {
-            enable = true
-        },
-        renderer = {
-            icons = {
-                git_placement = "after"
-            }
-        },
-        actions = {
-            change_dir = {
-                enable = false
-            },
-            expand_all = {
-                exclude = { ".git", "node_modules" }
-            }
+      hijack_cursor = true,
+      hijack_netrw = false,
+      view = {
+        preserve_window_proportions = true,
+        side = "right",
+        centralize_selection = true
+      },
+      diagnostics = {
+        enable = true
+      },
+      renderer = {
+        icons = {
+          git_placement = "after"
         }
+      },
+      actions = {
+        change_dir = {
+          enable = false
+        },
+        expand_all = {
+          exclude = { ".git", "node_modules" }
+        }
+      }
     }
   }, -- }}}
   -- git {{{
@@ -220,52 +225,46 @@ return {
   }, -- }}}
   -- lspconfig {{{
   {
+    "williamboman/mason.nvim", -- neat ui to handle installation of external lsp, linters, formatters etc. (install only, no configuration)
+    event = 'VeryLazy'
+  },
+  {
     -- LSP setup
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     config = function() require "configs.lsp" end,
     dependencies = {
-      "williamboman/mason.nvim",            -- neat ui to handle installation of external lsp, linters, formatters etc. (install only, no configuration)
       'prettier/vim-prettier',
       "marilari88/twoslash-queries.nvim",   -- // ^?
       'jose-elias-alvarez/typescript.nvim', -- TS conveniences
 
       -- LSP conveniences
       'rmagatti/goto-preview', -- open gotos in floating windows
-      {
-        'ray-x/lsp_signature.nvim',
-        config = {
-          bind = true,
-          handler_opts = {
-            border = "rounded",
-            toggle_key = "<c-i>"
-          }
-        }
-      },                                       -- show function signatures from LSP when typing
       { 'folke/trouble.nvim', config = true }, -- pretty list for LSP diagnostics
     },
   },                                           -- }}}
   -- navigation {{{
   {
-    'tpope/vim-vinegar', -- improved netrw for file browsing.
-    event = 'VeryLazy',
-  },
-  {
     'ThePrimeagen/harpoon',
     keys = {
       { "<leader>'", ':lua require("harpoon.mark").add_file()<CR>' },
       { "''",        ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
-      { "'f",        ':lua require("harpoon.ui").nav_file(1)<CR>' },
-      { "'d",        ':lua require("harpoon.ui").nav_file(2)<CR>' },
-      { "'s",        ':lua require("harpoon.ui").nav_file(3)<CR>' },
-      { "'a",        ':lua require("harpoon.ui").nav_file(4)<CR>' }
+      { "<leader>;;", ':lua lua require("harpoon.cmd-ui").toggle_quick_menu()'},
+      { "<leader>;f", ':lua require("harpoon.term").gotoTerminal(1)'},
+      { "'f",        ':lua require("harpoon.ui").nav_file(1)<CR>' }, -- alt + j
+      { "'d",        ':lua require("harpoon.ui").nav_file(2)<CR>' }, -- alt + k
+      { "'s",        ':lua require("harpoon.ui").nav_file(3)<CR>' }, -- alt + l
+      { "'a",        ':lua require("harpoon.ui").nav_file(4)<CR>' }  -- alt + ;
     },
     opts = {
       global_settings = {
         enter_on_sendcmd = true
       }
     }
-  },
+  }, {
+  'tpope/vim-vinegar',   -- improved netrw for file browsing.
+  event = 'VeryLazy',
+},
   {
     'mcchrish/nnn.vim', -- using nnn in a floating window (and open file in vim)
     event = 'VeryLazy',
@@ -316,6 +315,13 @@ return {
   }, -- }}}
   -- search {{{
   {
+    'junegunn/fzf.vim',
+    event = 'VeryLazy',
+    dependencies = {
+      'junegunn/fzf',
+    },
+  },
+  {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -325,21 +331,22 @@ return {
     cmd = { "Telescope" },
     -- stylua: ignore
     keys = {
-      { '<leader>f'    , ':Telescope find_files<cr>' },
-      { '<leader>F'    , ':Telescope find_files hidden=true cwd=%:p:h<cr>' },
-      { '<leader>*'    , ':Telescope grep_string<cr>' },
-      { '<leader>/'    , ':Telescope live_grep<cr>', },
-      { '<leader>?'    , ':Telescope live_grep cwd=%:p:h<cr>', },
-      { '<leader>:'    , ':Telescope commands<cr>' },
-      { '<leader><cr>' , ':Telescope resume<cr>' },
-      { '<leader>h'    , ':Telescope help_tags<cr>' },
-      { '<leader>S'    , ':Telescope lsp_dynamic_workspace_symbols<cr>' },
-      { '<leader>b'    , ':Telescope buffers<cr>' },
-      { '<leader>s'    , ':Telescope lsp_document_symbols<cr>' },
-      { '<leader>C'    , ':Telescope colorscheme enable_preview=true<cr>' },
-      { '<leader>T'    , ':Telescope builtin<cr>' },
-      { '<leader>l'    , ':Telescope current_buffer_fuzzy_find<cr>' },
-    }                  ,
+      { '<leader>f',     ':Telescope find_files<cr>' },
+      { '<leader>F',     ':Telescope find_files hidden=true cwd=%:p:h<cr>' },
+      { '<leader>*',     ':Telescope grep_string<cr>' },
+      { '<leader>/',     ':Telescope live_grep<cr>', },
+      { '<leader>?',     ':Telescope live_grep cwd=%:p:h<cr>', },
+      { '<leader>:',     ':Telescope commands<cr>' },
+      { '<leader>;',     ':Telescope command_history<cr>' },
+      { '<leader><cr>',  ':Telescope resume<cr>' },
+      { '<leader>h',     ':Telescope help_tags<cr>' },
+      { '<leader>S',     ':Telescope lsp_dynamic_workspace_symbols<cr>' },
+      { '<leader>b',     ':Telescope buffers<cr>' },
+      { '<leader>s',     ':Telescope lsp_document_symbols<cr>' },
+      { '<leader>C',     ':Telescope colorscheme enable_preview=true<cr>' },
+      { '<leader>T',     ':Telescope builtin<cr>' },
+      { '<leader>l',     ':Telescope current_buffer_fuzzy_find<cr>' },
+    },
     config = function()
       local telescope = require('telescope')
       telescope.load_extension('fzf')
@@ -387,7 +394,7 @@ return {
     end,
   },
   -- }}}
-  -- treesitter{{{
+  -- treesitter {{{
   {
     "nvim-treesitter/nvim-treesitter",
     version = false, -- last release is way too old and doesn't work on Windows
@@ -395,7 +402,53 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       {
-        "nvim-treesitter/nvim-treesitter-textobjects",
+        {
+          "nvim-treesitter/nvim-treesitter-textobjects",
+          config = function()
+            require("nvim-treesitter.configs").setup {
+              textobjects = {
+                select = {
+                  enable = true,
+                  -- Automatically jump forward to textobj, similar to targets.vim
+                  lookahead = true,
+                  keymaps = {
+                    -- You can use the capture groups defined in textobjects.scm
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                        ["ac"] = "@class.outer",
+                    -- You can optionally set descriptions to the mappings (used in the desc parameter of
+                    -- nvim_buf_set_keymap) which plugins like which-key display
+                        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+                    -- You can also use captures from other query groups like `locals.scm`
+                        ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+                  },
+                  -- You can choose the select mode (default is charwise 'v')
+                  --
+                  -- Can also be a function which gets passed a table with the keys
+                  -- * query_string: eg '@function.inner'
+                  -- * method: eg 'v' or 'o'
+                  -- and should return the mode ('v', 'V', or '<c-v>') or a table
+                  -- mapping query_strings to modes.
+                  selection_modes = {
+                        ['@parameter.outer'] = 'v', -- charwise
+                        ['@function.outer'] = 'V', -- linewise
+                        ['@class.outer'] = '<c-v>', -- blockwise
+                  },
+                  -- If you set this to `true` (default is `false`) then any textobject is
+                  -- extended to include preceding or succeeding whitespace. Succeeding
+                  -- whitespace has priority in order to act similarly to eg the built-in
+                  -- `ap`.
+                  --
+                  -- Can also be a function which gets passed a table with the keys
+                  -- * query_string: eg '@function.inner'
+                  -- * selection_mode: eg 'v'
+                  -- and should return true of false
+                  include_surrounding_whitespace = true,
+                },
+              },
+            }
+          end
+        },
         'windwp/nvim-ts-autotag',
         opts = { update_on_insert = true }, -- use TreeSitter to close and rename tags
         init = function()
@@ -484,9 +537,10 @@ return {
   -- }}}
   {
     'nvim-lualine/lualine.nvim',
-    event = "VeryLazy",
+    enable = false,
     config = function()
       require('configs.lualine')
+      vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
     end
   },
   {
@@ -495,8 +549,40 @@ return {
     dev = true,
     event = "VeryLazy"
   },
-  { 'nocksock/t.nvim',              dev = true, event = "VeryLazy", config = true },
+  { 'nocksock/t.nvim',              dev = true,                             event = "VeryLazy", config = true },
   { 'nvim-lua/plenary.nvim',        lazy = true },
   { 'kyazdani42/nvim-web-devicons', lazy = true },
-  { 'tpope/vim-scriptease',  event = { "BufReadPost", "BufNewFile" } },
+  { 'tpope/vim-scriptease',         event = { "BufReadPost", "BufNewFile" } },
+  -- {
+  --   "folke/noice.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     -- add any options here
+  --     --
+  --     lsp = {
+  --       -- override markdown rendering so that cmp and other plugins use Treesitter
+  --       override = {
+  --             ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+  --             ["vim.lsp.util.stylize_markdown"] = true,
+  --             ["cmp.entry.get_documentation"] = true,
+  --       },
+  --     },
+  --     -- you can enable a preset for easier configuration
+  --     presets = {
+  --       bottom_search = true,         -- use a classic bottom cmdline for search
+  --       command_palette = true,       -- position the cmdline and popupmenu together
+  --       long_message_to_split = true, -- long messages will be sent to a split
+  --       inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+  --       lsp_doc_border = false,       -- add a border to hover docs and signature help
+  --     },
+  --   },
+  --   dependencies = {
+  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+  --     "MunifTanjim/nui.nvim",
+  --     -- OPTIONAL:
+  --     --   `nvim-notify` is only needed, if you want to use the notification view.
+  --     --   If not available, we use `mini` as the fallback
+  --     "rcarriga/nvim-notify",
+  --   }
+  -- }
 }

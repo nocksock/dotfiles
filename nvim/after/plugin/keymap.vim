@@ -10,6 +10,9 @@ inoremap ; ;<c-g>u
 inoremap ? ?<c-g>u
 inoremap , ,<c-g>u
 
+inoremap ,, <esc>A,
+inoremap ;; <esc>A;
+
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " visual select last inserted text
@@ -59,17 +62,13 @@ nnoremap <leader>sns :call UltiSnips#ListSnippets()<cr>
 nnoremap <leader>sne :UltiSnipsEdit<cr>
 
 nnoremap <leader>cc :Git commit<cr>
-nnoremap g. `^
-
-nnoremap <cr> i<cr><esc>
-nnoremap <silent> <tab> :bn<cr> 
 
 " buffer navigation
 nnoremap gf :e <cfile><CR>
 nnoremap <silent> <tab> :bn<cr> 
 nnoremap <silent> <s-tab> :bp<cr>
 nnoremap <silent> <leader>x :b#\|bd#<cr>
-nnoremap <silent> <leader>b0 :%bd\|e#<cr>
+nnoremap <silent> <leader>0 :%bd\|e#<cr>
 cnoreabb wd w\|:b#\|bd#<cr>
 
 nnoremap <c-n> :cn<cr>

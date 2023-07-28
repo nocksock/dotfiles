@@ -59,7 +59,7 @@ vim.o.grepformat="%f:%l:%c:%m"
 
 vim.o.list = false -- do not show invisible characters (there's an auto-command to show only in insert mode)
 vim.o.listchars = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,' -- define characters for invisible characters
-vim.o.fillchars = 'eob:⸱'
+vim.cmd([[ set fillchars=eob:\  ]]) -- use a nicer vertical split character
 vim.o.rnu = true
 vim.o.nu = true
 vim.o.cursorline = false -- Highlight the line of in which the cursor is present (or not)
@@ -73,6 +73,7 @@ vim.o.signcolumn = 'yes' -- always show signcolumn - prevents horizontal jumping
 vim.o.laststatus = 2
 vim.o.termguicolors = true -- enable 24bit colors
 vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
+vim.o.cmdheight = 0 -- height of the command bar
 
 -- }}}
 -- indentation and wrapping {{{
@@ -126,12 +127,19 @@ vim.g.UltiSnipsEditSplit           = "tabdo"
 
 -- }}}
 
-vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-  pattern = { "*" },
-  callback = function()
-    vim.api.nvim_exec('silent! normal! g`"zv', false)
-  end,
-})
+vim.cmd([[
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+]])
 
 require('lazy').setup("plugins", {
   dev = {
@@ -142,3 +150,4 @@ require('lazy').setup("plugins", {
     enabled = false, -- I found this annoying when having multiple long running nvim sessions.
   },
 })
+

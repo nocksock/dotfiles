@@ -4,17 +4,18 @@ require('goto-preview').setup {}
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local lspconfig = require('lspconfig')
 
-local handlers = {}
-
 lspconfig.rust_analyzer.setup {}
 
 lspconfig.pyright.setup {}
 
 lspconfig.gopls.setup {}
 
+lspconfig.tailwindcss.setup {
+  capabilities = capabilities,
+}
+
 lspconfig.lua_ls.setup({
   capabilities = capabilities,
-  handlers = handlers,
   settings = {
     Lua = {
       runtime = {
@@ -43,13 +44,11 @@ lspconfig.clangd.setup({
 })
 
 lspconfig.denols.setup {
-  handlers     = handlers,
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
 }
 
 lspconfig.svelte.setup {
-  handlers     = handlers,
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
 }
@@ -81,7 +80,6 @@ require("typescript").setup({
 
 lspconfig.sourcekit.setup({
   capabilities = capabilities,
-  handlers = handlers,
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -136,5 +134,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gpc', require('goto-preview').close_all_win, bufopts)
   end
 })
+
+vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {
+    border = 'single',
+    close_events = { "CursorMoved", "BufHidden" },
+})
+vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
 
 -- vi: fen fdl=0 fdm=marker fmr={{{,}}} fdc=3
