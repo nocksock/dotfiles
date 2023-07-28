@@ -54,19 +54,19 @@ if [[ $1 == "setup" ]]; then
     update space.$sid
   done
 
-  sketchybar                        \
-    --add bracket primary_spaces    \
-      space.1                       \
-      space.2                       \
-      space.3                       \
-      space.4                       \
-      space.5                       \
-      space.6                       \
-      space.7                       \
-      space.8                       \
-      space.9                       \
-    --set primary_spaces            \
-      background.color=${WM_COLORS[black_alpha]}
+  sketchybar                                     \
+    --add bracket primary_spaces                 \
+      space.1                                    \
+      space.2                                    \
+      space.3                                    \
+      space.4                                    \
+      space.5                                    \
+      space.6                                    \
+      space.7                                    \
+      space.8                                    \
+      space.9                                    \
+    --set primary_spaces                         \
+      background.color=${WM_COLORS[black_alpha]} \
       background.corner_radius=2
 
   exit

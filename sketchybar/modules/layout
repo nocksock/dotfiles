@@ -29,4 +29,4 @@ case $INFO in
   "float") INFO="F" ;;
 esac
 
-sketchybar --set $NAME label="$INFO"
+sketchybar --set "$NAME" label="$INFO"

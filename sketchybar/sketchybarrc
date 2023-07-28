@@ -26,8 +26,10 @@ sketchybar --bar    height=24                         \
 
 export POSITION=left
   $PLUGIN_DIR/spaces setup
-  $PLUGIN_DIR/front_app setup
   $PLUGIN_DIR/task setup
+
+export POSITION=center
+  $PLUGIN_DIR/front_app setup
 
 export POSITION=right
   $PLUGIN_DIR/battery setup
