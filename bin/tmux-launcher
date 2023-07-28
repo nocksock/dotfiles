@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+if [[ -f ".tmux.conf" ]]; then
+  tmux display-menu -T "Load tmux config?" \
+    " y: Yes " y "source-file .tmux.conf"      \
+    " n: No  " n "neww"
+else
+  tmux neww 
+fi
+
+
