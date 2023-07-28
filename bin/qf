@@ -1,0 +1,158 @@
+#!/usr/bin/env zsh
+
+usage() { bat -pl help <<EOF
+Usage: $0 [-m <mode>]
+  -m <mode>  Set mode directory
+  -h         Show this help
+
+Modes:
+  browse (default)  Start fzf to browse files
+  preview <file>    Preview <file>
+  open <file>       Open <file>
+
+  Browse:
+    Browse files in \$HOME ($HOME). Builds
+
+    Options:
+      -x <cmd>      Execute <cmd> on selected file
+      -p            Paste selected file to prompt
+
+    Keybindings:
+      ctrl-m        Open file in nvim
+      ctrl-o        Open file in default application
+      ctrl-t        Open file in new kitty tab
+
+  Open:
+    Opens the file in \$EDITOR ($EDITOR), unless -o is given
+
+    Options:
+      -o            Open file in default application for the file type.
+      -t            Open file in new kitty tab
+EOF
+}
+
+ROOT_DIR="$HOME"
+FILE_INDEX="$HOME/file_index"
+
+zparseopts -D -E -F -A opts m:: h x:: e p
+
+if [[ -n ${opts[(i)-h]} ]]; then
+  usage
+  exit 0
+fi
+
+mode=${opts[-m]:-browse}
+if [[ $mode = "preview" ]]; then
+
+  if [[ -z $1 ]]; then
+    echo "No file given"
+    exit 1
+  fi
+
+  file_type=$(file -b --mime-type "$1")
+  extension="${1##*.}"
+
+  echo "\x1b[32m$file_type\x1b[0m"
+
+  # TODO: icat not working atm for some reason
+  if [[ "$file_type" == "image/"* ]]; then
+    kitty +kitten icat "$1"
+
+  elif [[ "$extension" == "json" ]]; then
+    cat $1 | jq -C
+
+  else
+    bat --color=always -pp "$1" 2> /dev/null || cat "cannot preview $1"
+  fi
+
+  exit 0
+fi
+
+find-project-root () {
+  local dir="$1"
+  while [[ "$dir" != "/" ]]; do
+    if [[ -d "$dir/.git" 
+          || -f "$dir/.git" 
+          || -f "$dir/package.json" 
+          || -f "$dir/Cargo.toml"
+          || -f "$dir/Cargo.lock"
+          || -f "$dir/Makefile"
+      ]]; then
+      echo "$dir"
+      return 0
+    fi
+    dir=$(dirname "$dir")
+  done
+  return 1
+}
+
+# TODO: find a better way to do determine what to use to open a file
+if [[ $mode = "open" ]]; then
+  FILE_PATH=$1
+  FILE_TYPE=$(file -b --mime-type "$1")
+  FILE_DIR=$(dirname "$1")
+  FILE_NAME=$(basename "$1")
+  PROJECT_ROOT=$(find-project-root "$FILE_DIR" || echo "$FILE_DIR")
+
+  if [[ -z $PROJECT_ROOT ]]; then
+    PROJECT_ROOT="$FILE_DIR"
+  fi
+
+  if [[ -n ${opts[(i)-e]} ]]; then
+    cd "$PROJECT_ROOT"
+    $EDITOR "$FILE_PATH"
+    exit 0
+  fi
+
+  if [[ "$file_type" = "text/"* ]]; then
+    kitty @ launch --cwd="$PROJECT_ROOT" --tab-title="$FILE_NAME" --type=tab --no-response nvim "$FILE_PATH"
+  else
+    open "$FILE_PATH"
+  fi
+
+  exit 0
+fi
+
+if [[ $mode = "browse" ]]; then
+  if [[ ! -f $FILE_INDEX ]]; then
+    echo "File index not found. Running $0 -m build-index"
+    $0 -m build-index
+  fi
+
+  BINDINGS=(
+     "ctrl-o:execute(zsh -c '$0 -m open $ROOT_DIR/{}')"
+     "ctrl-t:execute(zsh -c '$0 -m open -t $ROOT_DIR/{}')"
+  )
+
+  if [[ -n ${opts[(i)-p]} ]]; then
+    BINDINGS+=("ctrl-y:execute(echo $ROOT_DIR/{})")
+  fi
+
+  EXECUTE_CMD=${opts[-x]}
+  if [[ -n $EXECUTE_CMD ]]; then
+    BINDINGS+=("ctrl-m:execute(echo $ROOT_DIR/{} | $EXECUTE_CMD)")
+  elif [[ -z ${opts[(i)-p]} ]]; then
+    BINDINGS+="ctrl-m:execute(qf -m open -e $ROOT_DIR/{})"
+  fi
+
+  cat ~/file_index |                           \
+    fzf                                        \
+    --ansi                                     \
+    --history=$HOME/.file_index_history        \
+    --preview "$0 -m preview {}"               \
+    --keep-right                               \
+    --bind ${(j:,:)BINDINGS}
+fi
+
+if [[ $mode = "build-index" ]]; then
+  fd                   \
+    -tf                \
+    -E cache           \
+    -E Caches          \
+    -E Library         \
+    -E .git            \
+    -E node_modules    \
+    '' $HOME           \
+    | sed "s#^$HOME/##" \
+    > "$FILE_INDEX"
+fi

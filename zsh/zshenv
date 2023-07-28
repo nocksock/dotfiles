@@ -2,19 +2,18 @@ export DOTDIR="$HOME/code/dotfiles"
 
 declare -U PATH path
 path=(
-  "/opt/homebrew/opt/bison/bin"
+  "$DOTDIR/bin"
+  "$HOME/bin"
+  "$HOME/.cargo/bin"
+  "$HOME/.local/bin"
   "/opt/homebrew/opt/grep/libexec/gnubin" 
   "/opt/homebrew/bin"
   "/opt/homebrew/sbin"
   "/usr/local/bin" 
   "/usr/local/cuda-11.6/bin"
-  "$DOTDIR/bin"
   "$BUN_INSTALL/bin"
   "$HOME/.composer/vendor/bin"
-  "$HOME/.local/bin"
-  "$HOME/bin"
   "$HOME/code/bleepbloop.git/main/bin"
-  "$HOME/.cargo/bin"
   "$PNPM_HOME"
   "$path[@]"
 )

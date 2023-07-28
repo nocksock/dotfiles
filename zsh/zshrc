@@ -2,23 +2,46 @@ autoload -U +X bashcompinit && bashcompinit
 autoload -U edit-command-line
 autoload -U select-word-style
 
-export TERM='xterm-kitty'
-
-if [[ -n "$TMUX" ]]; then
-  export TERM=screen-256color
-  unset MANPATH                       # use default manpath directories; it was different within tmux for some reason I do not yet know
-fi
-
 zle -N edit-command-line # Emacs style
+
+export TERM=xterm-kitty
+
+alias sudo='sudo '
+alias reload="exec zsh"
+alias ls='exa --icons -1 --group-directories-first -a'
+alias ll='exa --icons -l --group-directories-first -a'
+alias pd="pushd"
+alias gd="popd"
+alias K="pbcopy"
+alias KK="tee >(pbcopy) >(cat) >/dev/null"
+alias slurp="pushd && pushd -"
+alias rm='rm -i' # rm -i will ask for each deletion
+alias ndf="cd $DOTDIR; nvim '+Telescope find_files'"
+alias cdp="cd \$(list-projects | fzf)"
+
+# navigation
+alias c='cd $(list-projects | fzf)'
+alias ..='cd ..'
+alias q='cd ~ && clear'
+
+# apps
+alias tf=terraform
+alias love='open -n -a love'
+
+function take() {
+	mkdir -p $1
+	cd $1
+}
 
 bindkey -e                       # use emacs keybindings
 bindkey '^xe' edit-command-line  # Enable Ctrl-x-e to edit command line
 bindkey '^x^e' edit-command-line # + Ctrl-x-Ctrl-e for convenience
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
+bindkey "^6" pd
 
 # make Ctrl-w stop on WORDCHARS
 select-word-style bash
-export WORDCHARS='.-'
+export WORDCHARS='.-/'
 
 # make up/down search history use whatever is typed so far
 autoload -U up-line-or-beginning-search
@@ -27,6 +50,8 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
+bindkey "" up-line-or-beginning-search
+bindkey "" down-line-or-beginning-search
 
 eval "$(starship init zsh)"
 
@@ -42,28 +67,5 @@ for file in "$DOTDIR"/bin/*_completion; do
   fi
 done
 
-
-alias sudo='sudo '
-alias reload="exec zsh"
-alias ls='exa --icons -1 --group-directories-first -a'
-alias ll='exa --icons -l --group-directories-first -a'
-alias pd="pushd"
-alias gd="popd"
-alias K="pbcopy"
-alias KK="tee >(pbcopy) >(cat) >/dev/null"
-alias slurp="pushd && pushd -"
-alias rm='rm -i' # rm -i will ask for each deletion
-
-# navigation
-alias c='cd $(list-projects | fzf)'
-alias ..='cd ..'
-alias q='cd ~ && clear'
-
-# apps
-alias tf=terraform
-alias love='open -n -a love'
-
-function take() {
-	mkdir -p $1
-	cd $1
-}
+# 
+source "$DOTDIR"/zsh/modules/history.zsh

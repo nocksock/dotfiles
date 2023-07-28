@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+fd                   \
+  -tf                \
+  -E cache           \
+  -E Caches          \
+  -E Library         \
+  -E .git            \
+  -E node_modules    \
+  '' $HOME           \
+  | sed "s#^$HOME/##" \
+  > ~/file_index
+
