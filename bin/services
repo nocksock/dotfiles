@@ -1,0 +1,45 @@
+#!/usr/bin/env zsh
+# manage some background services
+# NOTE: this was more of an exercise, I really should use launchd/brew services for this,
+# but I'm keeping it around for now.
+
+out_file="$HOME/services.log"
+
+services=(
+  "yabai"
+  "skhd"
+  "sketchybar"
+  "darkmode-notifier $DOTDIR/bin/darkmode-change-handler"
+)
+
+as_handle() {
+  echo $1 | awk '{print $1}'
+}
+
+if [[ $1 == "start" ]]; then
+  sudo yabai --load-sa
+  exec 2>&1 >> "$HOME/services.log"
+
+  for service in "${services[@]}"; do
+    handle=$(as_handle $service)
+    echo "[$(date +%Y%m%d-%H:%M)] $handle: starting"
+    zsh -c "$service 2>&1 | xargs -I % echo $handle: % >> $out_file" &
+  done
+  echo "[$(date +%Y%m%d-%H:%M)] started services"
+fi
+
+if [[ $1 == "stop" ]]; then
+  shift
+  # if no args, stop all services
+  stop_services=("${@:-${services[@]}}") 
+  for service in $stop_services; do
+    echo "[$(date +%Y%m%d-%H:%M)] stopping $service"
+    pkill -f $(as_handle $service)
+  done
+  exit 0
+fi
+
+if [[ $1 == "log" ]]; then
+  tail -f "$out_file"
+fi
+
