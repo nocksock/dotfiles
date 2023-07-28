@@ -1,0 +1,16 @@
+extends typescript
+
+snippet pjson
+<pre>{JSON.stringify($1, null, 2)}</pre>
+endsnippet
+
+snippet ed
+export default
+endsnippet
+
+snippet edfn
+export default function ${1:fn}(${2:args}) {
+	$3
+}
+endsnippet
+

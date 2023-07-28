@@ -1,3 +1,5 @@
+extends javascript
+
 snippet delay "Delayed promise"
 const delay = (ms: Number) => new Promise((resolve) => setTimeout(resolve, ms));
 endsnippet
@@ -22,4 +24,15 @@ snippet raisefn "Raise error"
 function raise(message: string): never {
 	throw new Error(message);
 }
+endsnippet
+
+post_expand "vim.command('call timer_start(0, {-> feedkeys(\"\eR\", \"in\")})')"
+snippet -- "Section Divier" b
+// --  ${1}--------------------------------------------------------------------- {{{
+${0}
+// }}}
+endsnippet
+
+snippet json "JSON.stringify"
+JSON.stringify(${1:object}, null, 2)
 endsnippet
