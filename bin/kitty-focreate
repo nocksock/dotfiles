@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+# read path from stdin
+# if stdin is empty, use current path
+# if stdin is not empty, use it as path
+if [ -t 0 ]; then
+  PATH=$(pwd)
+else
+  PATH=$(cat)
+fi
+
+WINDOW_ID=$(yabai -m query --windows --space | jq '.[] | select(.app == "kitty") | .id' -e || echo error) # echoing error so that yabai focus will error too
+
+yabai -m window --focus $WINDOW_ID 2>/dev/null \
+  || kitty @ launch                            \
+  || env | kitty -1
