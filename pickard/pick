@@ -1,0 +1,52 @@
+#!/usr/bin/env zsh
+
+SELF_PATH=$(realpath $0)
+SELF_DIR=$(dirname $SELF_PATH)
+SELF_NAME=$(basename $SELF_PATH)
+
+usage() { cat <<EOF
+  Usage $SELF_NAME [<PICKER> [<action> [<args>]]]
+
+  Options:
+    -h, --help      Show this message
+
+  Tasks:
+    list
+    view
+    open
+
+  Examples:
+    pick
+    pick bookmarks
+    pick bookmarks list
+    pick bookmarks view <bookmark>
+EOF
+}
+
+pick () {
+  ls -1 $SELF_DIR/PICKER \
+    | fzf --no-sort --track --reverse
+}
+
+zparseopts -D -E -A opts -help=h
+
+if [[ -n ${opts[(i)--help]} || -n ${opts[(i):-h]} ]]; then
+  usage
+  exit 0
+fi
+
+PICKER=${1:-$(pick)}
+if [[ -n $PICKER ]]; then
+  PICKER_PATH="$SELF_DIR/PICKER/$PICKER" 
+
+  if [[ ! -f $PICKER_PATH ]]; then
+    echo
+    echo "Error: $PICKER is not a valid picker"
+    echo
+    exit 1
+  fi
+
+   $PICKER_PATH
+ else
+  exit 1
+fi

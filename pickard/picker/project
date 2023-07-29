@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 
-SELF=$(realpath $0)
-SELF_DIR=$(dirname $SELF)
-SELF_NAME=$(basename $SELF)
+PROJECTS_FILE=${PROJECTS_FILE:-"$HOME/.projects"}
 
 usage() { cat <<EOF
   Usage $SELF_NAME <SUBCOMMAND> [args]
@@ -11,7 +9,7 @@ usage() { cat <<EOF
     -h, --help      Show this message
 
   Subcommands:
-    pick    pick a project with fzf and print it to stdout. This 
+    pick    pick a project with fzf and print it to stdout. This
                 is the default subcommand.
 
     list    list all projects from \$PROJECTS_FILE ($PROJECTS_FILE)
@@ -30,13 +28,17 @@ usage() { cat <<EOF
 
 
   Example:
-    kitty @ new-window --title "Projects" -- bash -c "cd \$(choose project) && zsh"
+    kitty @ new-window --title "Projects" -- bash -c "cd \$(pick project) && zsh"
 
 EOF
 }
 
-PROJECTS_FILE=${PROJECTS_FILE:-"$HOME/.projects"}
+SELF=$(realpath $0)
+SELF_DIR=$(dirname $SELF)
+SELF_NAME=$(basename $SELF)
 SUBCOMMAND=${1:-pick}
+
+source $SELF_DIR/../utils.zsh
 
 open () {
   tmux-qp "$1"
@@ -62,7 +64,7 @@ list () {
     expanded_dir="${dir/\~/$HOME}"
     if [[ "$expanded_dir" == *\** ]]; then
       find "${expanded_dir%/*}" -maxdepth 1 -type d -print  \
-        | sed "s|$HOME|~|"                       
+        | sed "s|$HOME|~|"
     else
       echo "${expanded_dir}"
     fi
@@ -70,20 +72,10 @@ list () {
 }
 
 pick () {
-  list | fzf                      \
-    --keep-right --ansi --no-sort \
-    --prompt="Choose Project: "   \
-    --preview "$SELF view {}"     \
+  list | fzf                            \
+    --keep-right --reverse --track --ansi --no-sort \
+    --prompt="Pick Project: "         \
+    --preview "$SELF view {}"
 }
 
-
-# == Main
-
-fns=(pick list view open)
-if [[ " ${fns[@]} " =~ " $SUBCOMMAND " ]]; then
-  eval "$SUBCOMMAND $@"
-else
-  echo "Unknown Subcommand: $SUBCOMMAND"
-  usage
-  exit 1
-fi
+eval "$SUBCOMMAND $@"

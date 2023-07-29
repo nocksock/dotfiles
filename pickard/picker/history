@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+
+SELF=$(realpath $0)
+SELF_DIR=$(dirname $SELF)
+SELF_NAME=$(basename $SELF)
+SUBCOMMAND=${1:-pick}
+
+source $SELF_DIR/../utils.zsh
+
+list() {
+  history -n 0
+}
+
+pick() {
+  list | fzf                                \
+      --ansi --keep-right --track --reverse \
+      --bind "ctrl-h:toggle-preview"        
+}
+
+eval "$SUBCOMMAND $@"
