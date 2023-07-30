@@ -1,12 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
-# read path from stdin
-# if stdin is empty, use current path
-# if stdin is not empty, use it as path
+# read FILEPATH from stdin
+# if stdin is empty, use current FILEPATH
+# if stdin is not empty, use it as FILEPATH
 if [ -t 0 ]; then
-  PATH=$(pwd)
+  FILEPATH=$(pwd)
 else
-  PATH=$(cat)
+  FILEPATH=$(cat)
 fi
 
 WINDOW_ID=$(yabai -m query --windows --space | jq '.[] | select(.app == "kitty") | .id' -e || echo error) # echoing error so that yabai focus will error too

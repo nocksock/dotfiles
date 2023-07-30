@@ -1,0 +1,41 @@
+#!/usr/bin/env zsh
+
+local window_title=$(basename $0)
+
+exec 2>/tmp/kitty-quick-window.log
+
+DEFAULT_COMMAND="pickard; zsh"
+if [[ -z $1 ]]; then
+  COMMAND="$DEFAULT_COMMAND"
+else
+  COMMAND="$@ ; echo -e \"\\nany key to close\"; read -k1"
+fi
+
+add-rule () {
+	has_rule=$(yabai -m rule --list | jq -re ".[].title" | rg -c "^$window_title$")
+	if [[ $has_rule -gt 0 ]]; then
+		echo "removing rule" >> /tmp/kitty-quick-window.log
+		yabai -m rule --remove app="kitty" title="$window_title"
+	fi
+	yabai -m rule --add app="kitty" title="$window_title" manage=off grid="12:8:2:4:4:4"
+}
+
+launch () {
+	echo -e "\n\n=== $(date)\n" >> /tmp/kitty-quick-window.log
+	add-rule
+
+	kitty -1 --title="$window_title" zsh -c "$COMMAND" &> /tmp/kitty-quick-window.log &
+
+
+	sleep 0.05
+	window_id=$(yabai-id-by --title "$window_title")
+	echo "window_id: $window_id" >> /tmp/kitty-quick-window.log
+  yabai-set-prop -t $window_id
+
+  if [[ ! "$COMMAND" = "$DEFAULT_COMMAND" ]]; then
+    yabai -m window --grid "12:8:2:2:4:6" $window_id
+  fi
+
+}
+
+launch &

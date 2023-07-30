@@ -16,16 +16,23 @@ as_handle() {
   echo $1 | awk '{print $1}'
 }
 
+if [[ $1 == "restart" ]]; then
+  shift
+  exec 2>&1 >> "$HOME/services.log"
+  $0 stop $@
+  $0 start $@
+  exit 0
+fi
+
 if [[ $1 == "start" ]]; then
   sudo yabai --load-sa
   exec 2>&1 >> "$HOME/services.log"
-
-  for service in "${services[@]}"; do
+  start_services=("${@:-${services[@]}}")
+  for service in $start_services; do
     handle=$(as_handle $service)
-    echo "[$(date +%Y%m%d-%H:%M)] $handle: starting"
-    zsh -c "$service 2>&1 | xargs -I % echo $handle: % >> $out_file" &
+    echo "$handle: starting $service"
+    $service 2>&1 | xargs -I % echo $handle: % >> $out_file &
   done
-  echo "[$(date +%Y%m%d-%H:%M)] started services"
 fi
 
 if [[ $1 == "stop" ]]; then
@@ -33,8 +40,8 @@ if [[ $1 == "stop" ]]; then
   # if no args, stop all services
   stop_services=("${@:-${services[@]}}") 
   for service in $stop_services; do
-    echo "[$(date +%Y%m%d-%H:%M)] stopping $service"
-    pkill -f $(as_handle $service)
+    echo "[$(date +%Y%m%d-%H:%M)] stopping $service" | tee -a $out_file
+    pkill -f $(as_handle $service) | tee -a $out_file
   done
   exit 0
 fi

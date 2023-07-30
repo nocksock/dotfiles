@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+zparseopts -D -E -F -A query -title:: -pid::
+
+if [[ ${#query} -gt 1 ]]; then
+	echo "Usage: $0 --title=TITLE --pid=PID"
+	echo "       queries are exclusive"
+	exit 1
+fi
+
+if [[ ${query[--title]} ]]; then
+	query_title=${query[--title]#=}
+	yabai -m query --windows --space | jq -r ".[] | select(.title == \"$query_title\") | .id"
+fi
+
+if [[ ${query[--pid]} ]]; then
+	query_pid=${query[--pid]#=}
+	yabai -m query --windows --space | jq -r ".[] | select(.pid == $query_pid) | .id"
+fi

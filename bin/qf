@@ -121,7 +121,7 @@ if [[ $mode = "browse" ]]; then
 
   BINDINGS=(
      "ctrl-o:execute(zsh -c '$0 -m open $ROOT_DIR/{}')"
-     "ctrl-t:execute(zsh -c '$0 -m open -t $ROOT_DIR/{}')"
+     "ctrl-t:execute(zsh -c '$0 -m open $ROOT_DIR/{}')"
   )
 
   if [[ -n ${opts[(i)-p]} ]]; then
