@@ -21,7 +21,7 @@ return {
   {
     'simnalamburt/vim-mundo',
     keys = {
-      { '<leader>tu', ':MundoToggle<CR>' }
+      { '<leader>tu', '<cmd>MundoToggle<CR>' }
     }
   },
   -- colors {{{
@@ -37,12 +37,11 @@ return {
   {
     'rose-pine/neovim',
     name = 'rose-pine',
-    event = "VeryLazy",
     priority = 1000,
     config = function()
       require("rose-pine").setup()
-      vim.cmd('colorscheme rose-pine')
       vim.g.colors_name = 'rose-pine'
+      vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
     end
   },
   { 'rktjmp/lush.nvim',    lazy = true },
@@ -158,7 +157,7 @@ return {
   {
     'kyazdani42/nvim-tree.lua',
     keys = {
-      { '<leader>tt', ':NvimTreeToggle<cr>' },
+      { '<leader>tt', '<cmd>NvimTreeToggle<cr>' },
     },
     event = { "BufReadPost", "BufNewFile" },
     opts = {
@@ -207,7 +206,7 @@ return {
       { '<leader>hS', function() require("gitsigns.actions").stage_buffer() end, },
       { '<leader>hR', function() require("gitsigns.actions").reset_buffer() end, },
       { '<leader>hp', function() require("gitsigns.actions").preview_hunk() end, },
-      { '<leader>hb', ':lua require"gitsigns".blame_line{full=true}<CR>', },
+      { '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', },
       { '<leader>hd', function() require("gitsigns.actions").diffthis() end, },
       { '<leader>hD', function() require "gitsigns".diffthis("~") end, },
       {
@@ -247,10 +246,10 @@ return {
   {
     'ThePrimeagen/harpoon',
     keys = {
-      { "<leader>'", ':lua require("harpoon.mark").add_file()<CR>' },
+      { "<leader>'", '<cmd>lua require("harpoon.mark").add_file()<CR>' },
       { "''",        ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
-      { "<leader>;;", ':lua lua require("harpoon.cmd-ui").toggle_quick_menu()'},
-      { "<leader>;f", ':lua require("harpoon.term").gotoTerminal(1)'},
+      { "<leader>;;", '<cmd>lua lua require("harpoon.cmd-ui").toggle_quick_menu()'},
+      { "<leader>;f", '<cmd>lua require("harpoon.term").gotoTerminal(1)'},
       { "'f",        ':lua require("harpoon.ui").nav_file(1)<CR>' }, -- alt + j
       { "'d",        ':lua require("harpoon.ui").nav_file(2)<CR>' }, -- alt + k
       { "'s",        ':lua require("harpoon.ui").nav_file(3)<CR>' }, -- alt + l
@@ -277,7 +276,7 @@ return {
     'simrat39/symbols-outline.nvim', -- treeview for symbols in current buf
     keys = {
       {
-        '<leader>to', ':SymbolsOutline<cr>'
+        '<leader>to', '<cmd>SymbolsOutline<cr>'
       }
     },
     config = true
@@ -331,21 +330,21 @@ return {
     cmd = { "Telescope" },
     -- stylua: ignore
     keys = {
-      { '<leader>f',     ':Telescope find_files<cr>' },
-      { '<leader>F',     ':Telescope find_files hidden=true cwd=%:p:h<cr>' },
-      { '<leader>*',     ':Telescope grep_string<cr>' },
-      { '<leader>/',     ':Telescope live_grep<cr>', },
-      { '<leader>?',     ':Telescope live_grep cwd=%:p:h<cr>', },
-      { '<leader>:',     ':Telescope commands<cr>' },
-      { '<leader>;',     ':Telescope command_history<cr>' },
-      { '<leader><cr>',  ':Telescope resume<cr>' },
-      { '<leader>h',     ':Telescope help_tags<cr>' },
-      { '<leader>S',     ':Telescope lsp_dynamic_workspace_symbols<cr>' },
-      { '<leader>b',     ':Telescope buffers<cr>' },
-      { '<leader>s',     ':Telescope lsp_document_symbols<cr>' },
-      { '<leader>C',     ':Telescope colorscheme enable_preview=true<cr>' },
-      { '<leader>T',     ':Telescope builtin<cr>' },
-      { '<leader>l',     ':Telescope current_buffer_fuzzy_find<cr>' },
+      { '<leader>f',        '<cmd>Telescope find_files<cr>' },
+      { '<leader>F',        '<cmd>Telescope find_files hidden=true cwd=%<cmd>p<cmd>h<cr>' },
+      { '<leader>*',        '<cmd>Telescope grep_string<cr>' },
+      { '<leader>/',        '<cmd>Telescope live_grep<cr>', },
+      { '<leader>?',        '<cmd>Telescope live_grep cwd=%<cmd>p<cmd>h<cr>', },
+      { '<leader><cmd>',        '<cmd>Telescope commands<cr>' },
+      { '<leader>;',        '<cmd>Telescope command_history<cr>' },
+      { '<leader><cr>',     '<cmd>Telescope resume<cr>' },
+      { '<leader>h',        '<cmd>Telescope help_tags<cr>' },
+      { '<leader>S',        '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>' },
+      { '<leader><leader>', '<cmd>Telescope buffers<cr>' },
+      { '<leader>s',        '<cmd>Telescope lsp_document_symbols<cr>' },
+      { '<leader>C',        '<cmd>Telescope colorscheme enable_preview=true<cr>' },
+      { '<leader>T',        '<cmd>Telescope builtin<cr>' },
+      { '<leader>l',        '<cmd>Telescope current_buffer_fuzzy_find<cr>' },
     },
     config = function()
       local telescope = require('telescope')
@@ -398,7 +397,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     version = false, -- last release is way too old and doesn't work on Windows
-    build = ":TSUpdate",
+    build = "<cmd>TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       {
@@ -537,10 +536,8 @@ return {
   -- }}}
   {
     'nvim-lualine/lualine.nvim',
-    enable = false,
     config = function()
       require('configs.lualine')
-      vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
     end
   },
   {
@@ -575,6 +572,16 @@ return {
   --       inc_rename = false,           -- enables an input dialog for inc-rename.nvim
   --       lsp_doc_border = false,       -- add a border to hover docs and signature help
   --     },
+  --     routes = {
+  --       {
+  --         filter = {
+  --           event = "msg_show",
+  --           kind = "",
+  --           find = "written",
+  --         },
+  --         opts = { skip = true },
+  --       },
+  --     }
   --   },
   --   dependencies = {
   --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -582,7 +589,7 @@ return {
   --     -- OPTIONAL:
   --     --   `nvim-notify` is only needed, if you want to use the notification view.
   --     --   If not available, we use `mini` as the fallback
-  --     "rcarriga/nvim-notify",
+  --     -- "rcarriga/nvim-notify",
   --   }
   -- }
 }
