@@ -1,3 +1,17 @@
+PICKARD_LOG="${PICKARD_LOG:-$HOME/.pickard.log}"
+
+_log() {
+  # check if stdin
+  if [ -t 0 ]; then
+    echo "$(date) $@" >> $PICKARD_LOG
+    return
+  else
+    while read line; do
+      echo "$(date) $line" >> $PICKARD_LOG
+    done
+    return
+  fi
+}
 
 _check-fns() {
   # every picker must implement these functions

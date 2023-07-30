@@ -3,33 +3,7 @@
 PROJECTS_FILE=${PROJECTS_FILE:-"$HOME/.projects"}
 
 usage() { cat <<EOF
-  Usage $SELF_NAME <SUBCOMMAND> [args]
-
-  Options:
-    -h, --help      Show this message
-
-  Subcommands:
-    pick    pick a project with fzf and print it to stdout. This
-                is the default subcommand.
-
-    list    list all projects from \$PROJECTS_FILE ($PROJECTS_FILE)
-
-    view    show preview of the project
-
-    open    some default open command for the project. But usually defined
-            in the caller via pipes and xargs.
-
-  Pick:
-    opens fzf with list of projects and prints to stdout
-
-  List:
-    Reads \$PROJECTS_FILE ($PROJECTS_FILE) and expands any ~ or *
-    and prints to stdout.
-
-
-  Example:
-    kitty @ new-window --title "Projects" -- bash -c "cd \$(pick project) && zsh"
-
+  Usage $SELF_NAME [pick|open|view|list]
 EOF
 }
 
@@ -41,7 +15,8 @@ SUBCOMMAND=${1:-pick}
 source $SELF_DIR/../utils.zsh
 
 open () {
-  tmux-qp "$1"
+	_log "Opening $1"
+	pickard --launch "$1" &>> /tmp/pickard.log
 }
 
 view () {
@@ -75,7 +50,8 @@ pick () {
   list | fzf                            \
     --keep-right --reverse --track --ansi --no-sort \
     --prompt="Pick Project: "         \
-    --preview "$SELF view {}"
+    --preview "$SELF view {}"				  \
+		--bind "enter:execute($SELF open {})"
 }
 
 eval "$SUBCOMMAND $@"
