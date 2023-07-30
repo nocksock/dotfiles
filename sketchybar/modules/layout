@@ -2,20 +2,16 @@
 source $HOME/.config/sketchybar/vars.zsh
 
 if [[ $1 == "setup" ]]; then
-  NAME="space_type"
+  NAME="layout"
 
-  sketchybar                        \
-    --add item $NAME $POSITION      \
-    --set $NAME                     \
-      script="$PLUGIN_DIR/layout"   \
-      label.padding_left=$SPACE_2   \
-      label.padding_right=$SPACE_2  \
-      background.color=$BLACK_Alpha \
-      background.padding_left=$SPACE_2    \
-      label.color=$COLOR_ACTIVE     \
-      label.drawing=on              \
-      icon.drawing=off              \
-    --subscribe space_type space_change
+  sketchybar                           \
+    --add item $NAME $POSITION         \
+    --set $NAME                        \
+      script="$PLUGIN_DIR/layout"      \
+      label.color=$COLOR_ACTIVE        \
+      label.drawing=on                 \
+      icon.drawing=off                 \
+    --subscribe $NAME space_change
 
 fi
 

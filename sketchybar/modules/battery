@@ -9,17 +9,13 @@ if [[ $1 == "setup" ]]; then
     --set $NAME                         \
       script="$PLUGIN_DIR/battery"      \
       update_freq=30                    \
-      background.padding_left=$SPACE_2  \
-      background.padding_right=$SPACE_2 \
-      icon.padding_left=$SPACE          \
-      icon.padding_right=$SPACE         \
-      label.padding_left=$SPACE         \
-      label.padding_right=$SPACE        \
-    --subscribe battery system_woke
+			label.padding_left=0         \
+			label.padding_right=$SPACE_2        \
+    --subscribe $NAME system_woke
 
 fi
 
-# UPDATE
+# # UPDATE
 STATUS=$(pmset -g batt)
 
 if [[ $STATUS == "" ]]; then
@@ -32,27 +28,51 @@ CHARGING=$(echo $STATUS | grep 'AC Power')
 if [[ $PERCENTAGE = "" ]]; then
   exit 0
 fi
-
+#
 case ${PERCENTAGE%?} in
   [0-9]) PERCENTAGE=" ${PERCENTAGE}"
   ;;
   *) PERCENTAGE="${PERCENTAGE}"
 esac
+#
+# case ${PERCENTAGE} in
+#   9[0-9]|100) ICON=""
+#   ;;
+#   [6-8][0-9]) ICON=""
+#   ;;
+#   [3-5][0-9]) ICON=""
+#   ;;
+#   [1-2][0-9]) ICON=""
+#   ;;
+#   *) ICON=""
+# esac
 
-case ${PERCENTAGE} in
-  9[0-9]|100) ICON=""
-  ;;
-  [6-8][0-9]) ICON=""
-  ;;
-  [3-5][0-9]) ICON=""
-  ;;
-  [1-2][0-9]) ICON=""
-  ;;
-  *) ICON=""
-esac
+icon_drawing="off"
+label_color=$WHITE_TRANS
 
 if [[ $CHARGING != "" ]]; then
   ICON=""
+	icon_drawing="on"
+elif [[ $PERCENTAGE -lt 10 ]]; then
+	ICON="  ‼"
+	icon_color=$COLOR_HIGHLIGHT
+	label_color=$COLOR_HIGHLIGHT
+	icon_drawing="on"
+elif [[ $PERCENTAGE -lt 30 ]]; then
+	ICON=" "
+	icon_color=$PINK
+	label_color=$PINK
+	icon_drawing="on"
+elif [[ $PERCENTAGE -lt 50 ]]; then
+	label_color=$BLUE
 fi
 
-sketchybar --set $NAME icon="$ICON" label="${PERCENTAGE}%"
+sketchybar                   \
+	--set                      \
+	$NAME                      \
+	icon="$ICON"               \
+	icon.drawing=$icon_drawing \
+	icon.color=$icon_color     \
+	label.color=$label_color   \
+	label="${PERCENTAGE}%"
+

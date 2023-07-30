@@ -1,4 +1,4 @@
-FONT="Recursive Mono Casual Static:Bold:14.0"
+FONT="Recursive Mono Linear Static:SemiBold:14.0"
 ICONFONT="JetBrainsMono NF:Bold:14.0"
 PLUGIN_DIR="$HOME/.config/sketchybar/modules"
 

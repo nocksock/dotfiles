@@ -5,7 +5,6 @@ update() {
   if [[ $SELECTED == true ]]; then
 
     sketchybar                         \
-      --animate sin 20                 \
       --set $1                         \
         icon.color=$WHITE              \
         label.color=$GREEN             \
@@ -14,7 +13,6 @@ update() {
   else
 
     sketchybar                     \
-      --animate sin 20             \
       --set $1                     \
         icon.color=${WM_COLORS[white_alpha]} \
         label.color=$WHITE_TRANS   \

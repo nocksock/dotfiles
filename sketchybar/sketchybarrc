@@ -14,8 +14,8 @@ sketchybar --bar    height=24                         \
                                                       \
           --default drawing=on                        \
                     label.font="$FONT"                \
-                    background.padding_left=$SPACE_2  \
-                    background.padding_right=$SPACE_2 \
+                    background.padding_left=$SPACE  \
+                    background.padding_right=$SPACE \
                     background.corner_radius=$RADIUS  \
                     icon.padding_left=$SPACE          \
                     icon.padding_right=$SPACE         \
@@ -32,19 +32,16 @@ export POSITION=center
   $PLUGIN_DIR/front_app setup
 
 export POSITION=right
+  $PLUGIN_DIR/layout setup
   $PLUGIN_DIR/battery setup
   $PLUGIN_DIR/clock setup
   $PLUGIN_DIR/skhd-mode setup
-  $PLUGIN_DIR/layout setup
   $PLUGIN_DIR/music setup
 
-sketchybar                          \
-  --add bracket sysinfo clock music battery \
-  --set sysinfo                     \
-      background.color=$BLACK \
+sketchybar                                         \
+  --add bracket sysinfo clock music layout battery \
+  --set sysinfo                                    \
+      background.color=$BLACK                      \
       background.corner_radius=5
-
-# export POSITION=center
-#   $PLUGIN_DIR/task setup
 
 echo "sketchybar configuration loaded.."
