@@ -1,0 +1,113 @@
+#!/usr/bin/env zsh
+#
+# $ box
+#    a helper to quickly create local code sandboxes
+#
+
+if [[ -z $SBOX_TEMPLATE_DIR ]]; then
+  echo "SBOX_TEMPLATE_DIR not set"
+  return 1
+fi
+
+local TEMPLATES=$(\ls -1 $SBOX_TEMPLATE_DIR)
+local -a options=()
+
+for t in $TEMPLATES; do
+  options+=(".${t}")
+done
+
+options+=(
+  "vite"
+  "t3"
+  "next"
+  "empty"
+  "pnpm create"
+)
+
+choice=$(printf '%s\n' "${options[@]}" | fzf --height 40% --layout=reverse --prompt="select box type: ")
+if [[ -z $choice ]]; then
+  echo "abort: no choice made."
+  return;
+fi
+
+for i in "$@"; do case $i in
+  -c|--vscode|--code) VSCODE=1 shift ;;
+  -t|--tools) TOOLS=1 shift ;;
+  *) DIRNAME="${i#*=}" ;;
+esac;
+done
+
+if [[ $DIRNAME == ./* ]]; then
+  ROOT=$(pwd)
+  DIRNAME=${DIRNAME#./}
+else
+  ROOT="$HOME/code/sandboxes"
+  if [[ -z $DIRNAME ]]; then
+    DIRNAME="$(sbox-random-name | gum input --prompt="name: ")"
+  fi
+
+  if [[ -a "$ROOT/$DIRNAME" ]]; then
+    action=$(echo "Open\nCancel\nOverwrite")
+    case $action in
+      "Open")
+        cd "$ROOT/$DIRNAME"
+        start
+        return 0
+      ;;
+      # "Overwrite")
+      #   rm -rf "$ROOT/$DIRNAME"
+      # ;;
+      "Cancel")
+        return 0
+      ;;
+    esac
+  fi
+fi
+
+
+if [[ -z $DIRNAME ]]; then
+  echo "abort: no name given."
+  return;
+fi
+
+FULL_PATH="$ROOT/$DIRNAME"
+
+echo "Creating sandbox in $FULL_PATH"
+
+cd $ROOT
+
+case ${choice%%:*} in
+  "vite") pnpm create vite $DIRNAME ;;
+  "next") pnpm create next-app $DIRNAME ;;
+  "t3") pnpm create t3-app $DIRNAME ;;
+  "empty") mkdir $DIRNAME ;;
+  "pnpm create")
+    read -p "pnpm create: " pnpm_create
+    pnpm create $pnpm_create $DIRNAME
+    choice="pnpm create $pnpm_create"
+    ;;
+  *)
+    template=${choice#.*}
+    # git clone file://$SBOX_TEMPLATE_DIR$template $DIRNAME --depth=1
+    cp -r $SBOX_TEMPLATE_DIR$template $DIRNAME
+    cd $FULL_PATH
+    if [[ -a ".env.example" ]]; then
+      cp .env.example .env
+    fi
+    ;;
+esac
+
+cd $FULL_PATH
+
+if [[ -f "package.json" ]]; then
+  pnpm install
+fi
+
+git init
+git add . 
+git commit -m "feat($DIRNAME): start from $choice"
+
+if [[ -n $TMUX ]]; then
+  tmux new-session -s $DIRNAME -c $FULL_PATH -d "zsh -c 'nvim .'"
+  tmux switch-client -t $selected_name
+fi

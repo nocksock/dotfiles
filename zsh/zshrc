@@ -1,77 +1,86 @@
-autoload -U +X bashcompinit && bashcompinit
-autoload -U edit-command-line
-autoload -U select-word-style
-
-zle -N edit-command-line # Emacs style
+zmodload zsh/zprof # profile startup time
 
 export TERM=xterm-kitty
+export SBOX_TEMPLATE_DIR="$HOME/code/bleepbloop.git/main/templates/"
 
-alias sudo='sudo '
-alias reload="exec zsh"
-alias ls='exa --icons -1 --group-directories-first -a'
-alias ll='exa --icons -l --group-directories-first -a'
-alias pd="pushd"
-alias gd="popd"
-alias K="pbcopy"
-alias KK="tee >(pbcopy) >(cat) >/dev/null"
-alias slurp="pushd && pushd -"
-alias rm='rm -i' # rm -i will ask for each deletion
-alias ndf="cd $DOTDIR; nvim '+Telescope find_files'"
-alias cdp="cd \$(list-projects | fzf)"
-alias pick="pickard"
-alias kqw="kitty-quick-window"
+# {{{ compinit
+autoload -Uz compinit
+autoload -U +X bashcompinit && bashcompinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+	bashcompinit
+done
+compinit -C
+bashcompinit -C
 
-# navigation
-alias c='cd $(list-projects | fzf)'
-alias ..='cd ..'
-alias q='cd ~ && clear'
+# }}}
+# {{{ keybinds
 
-# apps
-alias tf=terraform
-alias love='open -n -a love'
-
-function take() {
-	mkdir -p $1
-	cd $1
-}
-
-nman() { nvim "+Man $1 | 1bd" }
-compdef _man nman
-
-
+autoload -U edit-command-line
+autoload -U select-word-style
+zle -N edit-command-line # Emacs style
 bindkey -e                       # use emacs keybindings
 bindkey '^xe' edit-command-line  # Enable Ctrl-x-e to edit command line
 bindkey '^x^e' edit-command-line # + Ctrl-x-Ctrl-e for convenience
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
 bindkey "^6" pd
 
-# make Ctrl-w stop on WORDCHARS
-select-word-style bash
-export WORDCHARS='.-/'
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
-# make up/down search history use whatever is typed so far
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
-bindkey "" up-line-or-beginning-search
-bindkey "" down-line-or-beginning-search
+# }}}
+# {{{ load zsh plugins
+# 
 
-eval "$(starship init zsh)"
+for plugin in "$DOTDIR"/zsh/plugins/*; do
+	plugin=$(basename $plugin)
+	plugin_path="$DOTDIR/zsh/plugins/$plugin/$plugin.plugin.zsh"
+  if [[ -f "$plugin_path" ]]; then
+    source $plugin_path
+	else
+		echo "Huh? Plugin $plugin has no $plugin_path?" >&2
+  fi
+done
+# }}}
+# {{{ 1password completion
 
 if [[ -n `command -v op` ]]; then
   eval "$(op completion zsh)"
   compdef _op op
 fi 
 
-# load completion for scripts
-for file in "$DOTDIR"/bin/*_completion; do
-  if [[ -f "$file" ]]; then
-    source "$file"
-  fi
-done
+# }}}
+# {{{ bun completion
 
-# 
-source "$DOTDIR"/zsh/modules/history.zsh
+if [[ -s "$BUN_INSTALL/_bun" ]]; then
+	source "$BUN_INSTALL/_bun"
+else
+	echo "No bun?" >> $DOTLOG
+fi
+
+# }}}
+# {{{ pnpm completion
+if [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]]; then
+	source ~/.config/tabtab/zsh/__tabtab.zsh
+else
+	echo "No tabtab?" >> $DOTLOG
+fi
+# }}}
+# {{{ history  settings
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt EXTENDED_HISTORY
+setopt SHARE_HISTORY
+
+export HISTFILE=~/.zsh_history
+export HISTSIZE=99999
+export SAVEHIST=99999
+# }}}
+
+eval "$(starship init zsh)"
+
+# vim:foldmethod=marker:foldlevel=0

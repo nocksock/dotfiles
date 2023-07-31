@@ -1,4 +1,12 @@
+export DOTLOG="$HOME/.dotfiles.log"
 export DOTDIR="$HOME/code/dotfiles"
+
+export BUN_INSTALL="$HOME/.bun"
+export EDITOR='/usr/local/bin/nvim' # used for commits and such
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# {{{ PATH
 
 declare -U PATH path
 path=(
@@ -19,6 +27,9 @@ path=(
 )
 export PATH
 
+# }}}
+# {{{ CDPATH
+
 declare -U CDPATH cdpath
 cdpath=(
   "$HOME"
@@ -29,15 +40,81 @@ cdpath=(
   "$HOME/code/clients/edeka/de.git/dev"
   "$cdpath[@]"
 )
-export PATH
+export CDPATH
 
-# load custom zsh modules
-for file in "$DOTDIR"/zsh/modules/*.zsh; do
-  if [[ -f "$file" ]]; then
-    source "$file"
-  fi
-done
+# }}}
+# brew{{{
 
-export EDITOR='/usr/local/bin/nvim' # used for commits and such
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+export HOMEBREW_NO_ENV_HINTS=1
+
+# }}}
+# cuda{{{
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    export PATH="/usr/local/cuda-11.6/bin:$PATH"
+    export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
+fi
+
+# }}}
+# {{{ FZF
+
+# check if fzf is installed
+if ! command -v fzf &> /dev/null; then
+    style -fg yellow "Warning: fzf was not found!"
+    return
+fi
+
+export FZF_OPTS=(
+  "-m"
+  "--bind ctrl-j:down,ctrl-k:up"
+  "--bind ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up"
+  "--bind ctrl-a:select-all,ctrl-t:toggle-all"
+  "--bind ctrl-s:toggle-sort,ctrl-r:toggle-preview,ctrl-/:toggle-search"
+)
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
+export FZF_DEFAULT_OPTS="$FZF_OPTS"
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat -pf --line-range :999 {}' --bind='ctrl-o:execute(nvim {})'"
+
+if [[ $OSTYPE == darwin* ]]; then
+  test -f /opt/homebrew/opt/fzf/shell/completion.zsh   \
+    && source /opt/homebrew/opt/fzf/shell/completion.zsh
+  test -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh \
+    && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+fi
+
+if [[ $OSTYPE == linux-gnu ]]; then
+  test -f /usr/share/doc/fzf/examples/completion.zsh   \
+    && source /usr/share/doc/fzf/examples/completion.zsh
+  test -f /usr/share/doc/fzf/examples/key-bindings.zsh \
+    && source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
+
+# }}}
+# {{{ NNN
+
+export NNN_BMS="c:$HOME/code/;d:$HOME/code/dotfiles;n:$HOME/code/dotfiles/;b:$HOME/code/bleepbloop.studio/"
+export NNN_FCOLORS='00001e310000000000000000'
+export NNN_PLUG='o:!open $nnn;p:preview-tui;v:viu;x:!chmod +x $nnn'
+export NNN_FIFO=/tmp/nnn.fifo
+
+# }}}
+# {{{ pnpm
+
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PATH:$PNPM_HOME"
+
+# }}}
+# {{{ python
+
+export PYENV_ROOT="$HOME/.pyenv"
+
+# }}}
+# {{{ ripgrep
+
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
+# }}}

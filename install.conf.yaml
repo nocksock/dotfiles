@@ -7,6 +7,24 @@
     ~/:
       force: true
 
+- shell:
+  - description: Clearing zsh plugins
+    command: rm -rf zsh/plugins/zsh-*
+  - description: Installing zsh-syntax-highlighting
+    command: cd zsh/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting
+    stderr: true
+  - description: Installing zsh-autosuggestions
+    command: cd zsh/plugins && git clone https://github.com/zsh-users/zsh-autosuggestions
+    stderr: true
+  - description: Installing zsh-substring-search
+    command: cd zsh/plugins && git clone https://github.com/zsh-users/zsh-history-substring-search
+    stderr: true
+  - description: Installing zsh-completions
+    command: cd zsh/plugins && git clone https://github.com/zsh-users/zsh-completions
+    stderr: true
+  - description: Installing z
+    command: cd zsh/plugins && git clone https://github.com/agkozak/zsh-z
+
 - link:
     ~/.config/alacritty: alacritty
     ~/.config/fish: fish

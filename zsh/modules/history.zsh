@@ -1,9 +1,0 @@
-
-setopt INC_APPEND_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt EXTENDED_HISTORY
-setopt SHARE_HISTORY
-
-export HISTFILE=~/.zsh_history
-export HISTSIZE=99999
-export SAVEHIST=99999

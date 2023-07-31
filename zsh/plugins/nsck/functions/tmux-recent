@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+function tmux-recent {
+  local dir
+
+  if [[ -z $1 ]]; then
+    dir=$(select-z)
+  else
+    dir=$(z -e $1)
+  fi
+
+  [[ -z $dir ]] && return 1
+
+  local session_name=${dir##/*/}
+
+	tmux new -s $session_name -c $dir
+}
+
+tmux-recent $@

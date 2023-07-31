@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+function tmux-new {
+	tmux new -s ${PWD##*/}
+}
+
+
+tmux-new "$@"

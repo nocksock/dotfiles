@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+function tmux-recent-nvim {
+  local dir
+  if [[ -z $1 ]]; then
+    dir=$(select-z)
+  else
+    dir=$(z $1)
+  fi
+  [[ -z $dir ]] && return 1
+  local dir=$(select-z)
+  [[ -z $dir ]] && return 1
+
+  local session_name=${dir##/*/}
+
+	tmux new       -s $session_name -c $dir -d
+  tmux send-keys -t $session_name:1.1 "nvim" C-m
+  tmux attach    -t $session_name
+}
+
+tmux-recent-nvim "$@"
