@@ -7,8 +7,6 @@ SELF_DIR=$(dirname $SELF)
 SELF_NAME=$(basename $SELF)
 SUBCOMMAND=${1:-pick}
 
-source $SELF_DIR/../utils.zsh
-
 open() {  
   local line_index=$(( $1 + 1 ))
   local launch_line=$(sed -n "${line_index}p" $FILE_INDEX)
@@ -41,5 +39,5 @@ pick() {
       --bind "enter:become($SELF open {+n})"
 }
 
-_log "pickard-launcher: <$SUBCOMMAND> ${@:2}"
+pickard-log "pickard-launcher: <$SUBCOMMAND> ${@:2}"
 eval "$SUBCOMMAND ${@:2}"

@@ -118,3 +118,19 @@ export PYENV_ROOT="$HOME/.pyenv"
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 # }}}
+# {{{ load zsh plugins
+
+for plugin in "$DOTDIR"/zsh/plugins/*; do
+	plugin=$(basename $plugin)
+	plugin_path="$DOTDIR/zsh/plugins/$plugin/$plugin.plugin.zsh"
+	# ignore plugins that start with -
+	if [[ $plugin == -* ]]; then
+		continue
+	elif [[ -f "$plugin_path" ]]; then
+    source $plugin_path
+	else
+		echo "Huh? Plugin $plugin has no $plugin_path?" >&2
+  fi
+done
+
+# }}}

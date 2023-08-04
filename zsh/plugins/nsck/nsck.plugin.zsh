@@ -15,6 +15,7 @@ alias rm='rm -i' # rm -i will ask for each deletion
 alias pick="pickard"
 alias kqw="kitty-quick-window"
 alias nnn='nnn -ei'
+alias qf='qufo'
 
 # {{{ git
 alias gss='git status -s .'
@@ -49,3 +50,6 @@ alias tmr="tmux-recent"
 alias tmrn="tmux-recent-nvim"
 
 # }}}
+#
+export PATH
+export FPATH

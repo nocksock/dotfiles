@@ -33,19 +33,6 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
 # }}}
-# {{{ load zsh plugins
-# 
-
-for plugin in "$DOTDIR"/zsh/plugins/*; do
-	plugin=$(basename $plugin)
-	plugin_path="$DOTDIR/zsh/plugins/$plugin/$plugin.plugin.zsh"
-  if [[ -f "$plugin_path" ]]; then
-    source $plugin_path
-	else
-		echo "Huh? Plugin $plugin has no $plugin_path?" >&2
-  fi
-done
-# }}}
 # {{{ 1password completion
 
 if [[ -n `command -v op` ]]; then
@@ -70,7 +57,7 @@ else
 	echo "No tabtab?" >> $DOTLOG
 fi
 # }}}
-# {{{ history  settings
+# {{{ history settings
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt EXTENDED_HISTORY

@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-echo glex
 local format="%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s"
 local extract_hash="rg -o '[a-f0-9]{7,}'"
 

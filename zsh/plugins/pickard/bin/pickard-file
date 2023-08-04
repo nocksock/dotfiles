@@ -7,22 +7,22 @@ SELF_DIR=$(dirname $SELF)
 SELF_NAME=$(basename $SELF)
 SUBCOMMAND=${1:-pick}
 
-source $SELF_DIR/../utils.zsh
-
-list() {
+local list() {
   cat $FILE_INDEX
 }
 
-view() {
-  bat $1
+local view() {
+  bat $2
 }
 
-pick() {
+local pick() {
   list | fzf                                \
       --ansi --keep-right --track --reverse \
       --preview "$SELF view {}"  \
-      --bind "ctrl-h:toggle-preview"        
+      --bind "ctrl-h:toggle-preview"
 }
 
-_check -q
+
+# autoload -X ${PICKARD_PATH}/functions/*(:t)
+pickard-check -q
 eval "$SUBCOMMAND $@"

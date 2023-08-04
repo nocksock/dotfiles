@@ -12,10 +12,8 @@ SELF_DIR=$(dirname $SELF)
 SELF_NAME=$(basename $SELF)
 SUBCOMMAND=${1:-pick}
 
-source $SELF_DIR/../utils.zsh
-
 open () {
-	_log "Opening $1"
+	pickard-log "Opening $1"
 	pickard --launch "$1" &>> /tmp/pickard.log
 }
 

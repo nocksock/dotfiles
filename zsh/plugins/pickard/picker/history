@@ -5,8 +5,6 @@ SELF_DIR=$(dirname $SELF)
 SELF_NAME=$(basename $SELF)
 SUBCOMMAND=${1:-pick}
 
-source $SELF_DIR/../utils.zsh
-
 list() {
   history -n 0
 }
