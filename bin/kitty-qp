@@ -31,7 +31,7 @@ function launch {
   RUN_STARTUP=$(check-startup)
 
   if [[ -n "$RUN_STARTUP" ]]; then
-    echo "Run startup script? [y/n]"
+		echo "Run .${RUN_STARTUP##$PROJECT_PATH}? [y/n]"
     while [[ "$REPLY" != "y" && "$REPLY" != "n" ]]; do
       read -k 1 -r
     done
@@ -42,7 +42,7 @@ function launch {
     fi
   fi
 
-  kitty @ launch --cwd="$PROJECT_PATH" --tab-title="$PROJECT_NAME" --type="$WINDOW_TYPE" --no-response --keep-focus
+  kitty @ launch --cwd="$PROJECT_PATH" --tab-title="$PROJECT_NAME" --type="$WINDOW_TYPE" --no-response
 }
 
-kitty @ focus-tab --match=tab-title:"$PROJECT_NAME" 2>/dev/null || launch
+kitty @ focus-tab --match=title:"$PROJECT_NAME" 2>/dev/null || launch
