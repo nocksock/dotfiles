@@ -1,23 +1,24 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
 NAME="$(basename $0)"
+SELF="$PLUGIN_DIR/$NAME"
 
 if [[ $1 == "setup" ]]; then
-  sketchybar                                \
-    --add item $NAME $POSITION              \
-    --set $NAME                             \
-      update_freq=10                        \
-      script="$PLUGIN_DIR/task"             \
-      click_script="$PLUGIN_DIR/task click" \
-      background.padding_left=$SPACE_2      \
-      background.padding_right=$SPACE_2     \
-      background.height=24                  \
-      label.padding_right=$SPACE_2          \
-      icon.padding_left=$SPACE_2            \
-      background.drawing=off                \
-      background.corner_radius="$RADIUS"    \
-      label.color="${WM_COLORS[white]}"     \
-      icon.color="$COLOR_HIGHLIGHT"
+  sketchybar                             \
+    --add item $NAME $POSITION           \
+    --set $NAME                          \
+      update_freq=10                     \
+      script="$SELF"                     \
+      click_script="$SELF click"         \
+      background.padding_left=$SPACE_2   \
+      background.padding_right=$SPACE_2  \
+      background.height=24               \
+      label.padding_right=$SPACE_2       \
+      icon.padding_left=$SPACE_2         \
+      background.drawing=off             \
+      background.corner_radius="$RADIUS" \
+      label.color="${WM_COLORS[white]}"  \
+      icon.color="${WM_COLORS[magenta]}"
 fi
 
 if [[ $1 == "click" ]]; then
@@ -28,7 +29,7 @@ if [[ $1 == "click" ]]; then
   fi
 
   if [ $state = "false" ]; then
-      sketchybar --set $NAME icon.color=$COLOR_HIGHLIGHT label.drawing=on
+      sketchybar --set $NAME icon.color="${WM_COLORS[magenta]}" label.drawing=on
   fi
 
   exit
@@ -39,28 +40,28 @@ fi
 # The applescript is a copy from raycast's script-commands repo
 #   source: https://github.com/raycast/script-commands/blob/775ccbf8f635caa58bce679802dba4cee422fac0/commands/apps/things/things-current-todo.applescript
 TMP=$(mktemp)
-osascript <<EOD 2> $TMP
-if application "Things3" is not running then
-  log "NOT_RUNNING"
-  return
-end if
+osascript <<-EOD 2> $TMP
+		if application "Things3" is not running then
+			log "NOT_RUNNING"
+			return
+		end if
 
-tell application "Things3"
-  set todayTodos to to dos of list "Today"
+		tell application "Things3"
+			set todayTodos to to dos of list "Today"
 
-  repeat with i from 1 to count of todayToDos
-    set todo to item i of todayToDos
+			repeat with i from 1 to count of todayToDos
+				set todo to item i of todayToDos
 
-    if status of todo is open then
-      set currentTodoName to name of todo as text
-      log currentTodoName
-      return
-    end if
-  end repeat
+				if status of todo is open then
+					set currentTodoName to name of todo as text
+					log currentTodoName
+					return
+				end if
+			end repeat
 
-  log "EMPTY"
-end tell
-EOD
+			log "EMPTY"
+		end tell
+	EOD
 
 result=$(cat $TMP)
 \rm $TMP
@@ -70,7 +71,7 @@ case $result in
     sketchybar --set $NAME label="" icon=""
   ;;
   NOT_RUNNING)
-    sketchybar --set $NAME icon="" label="things is not running" label.color=0xffff0000
+    sketchybar --set $NAME icon="" label="things is not running" label.color=${WM_COLORS[magenta]}
   ;;
   *)
     sketchybar --set $NAME icon="" label="$result"

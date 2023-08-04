@@ -1,16 +1,17 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
-NAME=front_app
+NAME=$(baename $0)
+SELF="$PLUGIN_DIR/$NAME"
 
 if [[ $1 == "setup" ]]; then
 
   sketchybar                                                    \
     --add item $NAME $POSITION                                  \
     --set $NAME                                                 \
-      script="$PLUGIN_DIR/front_app"                            \
+      script="$SELF"                                            \
       background.drawing=off                                    \
       label.drawing=on                                          \
-      label.color=$WHITE                                        \
+      label.color=${WM_COLORS[white]}                           \
       label.padding_left=$SPACE_2                               \
       label.padding_right=$SPACE_2                              \
 			label="$(yabai -m query --windows --window | jq  ".app")" \

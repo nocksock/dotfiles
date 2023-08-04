@@ -11,16 +11,16 @@ if [[ "$1" == "setup" ]]; then
         label.color="${WM_COLORS[black_alpha]}" \
         label.padding_left="$SPACE_2"           \
         label.padding_right="$SPACE_2"          \
-        background.color="$COLOR_INFO"          \
+        background.color="${WM_COLOR[green]}"          \
         background.corner_radius="$RADIUS"
 
 elif [[ $1 == "default" ]]; then
     sketchybar --set $NAME label="" drawing=no
-    yabai -m config active_window_border_color $COLOR_ACTIVE window_border_width 2
+    yabai -m config active_window_border_color "${WM_COLOR[green]}" window_border_width 2
 		$HOME/.config/sketchybar/modules/front_app show
 
 else
-    COLOR="$COLOR_INFO"
+    COLOR="${WM_COLORS[green]}"
 
     # second argument is optional and can set a color
     if [[ -n "$2" ]]; then

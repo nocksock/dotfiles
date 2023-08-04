@@ -11,7 +11,6 @@ if [[ $1 == "setup" ]]; then
 		background.padding_left=0          \
 		background.padding_right=0         \
 		icon.padding_left=0                \
-		background.corner_radius="$RADIUS" \
     --subscribe $NAME system_woke
 fi
 
@@ -34,11 +33,13 @@ if [[ $CHARGING != "" ]]; then
 			icon=""                             \
 			icon.color="${WM_COLORS[green]}"     \
 			label.color="${WM_COLORS[green]}"    \
+			background.drawing=off               \
 			label="${PERCENTAGE}%"
 	else
 		sketchybar --set $NAME                 \
 			icon=""                             \
 			icon.color="${WM_COLORS[green]}"     \
+			background.drawing=off               \
 			icon.drawing=on                      \
 			label.drawing=off
 	fi
@@ -58,20 +59,20 @@ elif [[ $PERCENTAGE -lt 5 ]]; then
 elif [[ $PERCENTAGE -lt 10 ]]; then
 	sketchybar --set $NAME                   \
 		icon=" ‼ "                            \
-		icon.color="$COLOR_HIGHLIGHT"          \
+		icon.color="${WM_COLORS[magenta]}"     \
 		icon.drawing=on                        \
 		background.drawing=off                 \
 		label="${PERCENTAGE}%"                 \
-		label.color="$COLOR_HIGHLIGHT"
+		label.color="${WM_COLORS[magenta]}"
 
 elif [[ $PERCENTAGE -lt 30 ]]; then
 	sketchybar --set $NAME                   \
 		icon=""                               \
-		icon.color="$PINK"                     \
+		icon.color="${WM_COLORS[pink]}"        \
 		icon.drawing=on                        \
 		background.drawing=off                 \
 		label="${PERCENTAGE}%"                 \
-		label.color="$PINK"
+		label.color="${WM_COLORS[pink]}"
 
 elif [[ $PERCENTAGE -lt 50 ]]; then
 	sketchybar --set $NAME                   \

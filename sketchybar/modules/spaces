@@ -1,24 +1,25 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
 
+SELF="$PLUGIN_DIR/spaces"
+SPACE_ICONS=("󰖟" "" "" "" "󰴙" "󰙊" "エ" "ビ" "シ")
+
 update() {
-	INFO=$(yabai -m query --spaces --space | jq -r .type)
+	local layout_type=$(yabai -m query --spaces --space | jq -r .type)
 
 	if [[ ! $SELECTED == true ]]; then
 		sketchybar --set $1 icon.color="${WM_COLORS[white_alpha]}"
-	elif [[ $INFO == "bsp" ]]; then
+	elif [[ $layout_type == "bsp" ]]; then
 		sketchybar --set $1 icon.color="${WM_COLORS[white]}"
-	elif [[ $INFO == "float" ]]; then
+	elif [[ $layout_type == "float" ]]; then
 		sketchybar --set $1 icon.color="${WM_COLORS[magenta]}"
-	elif [[ $INFO == "stack" ]]; then
+	elif [[ $layout_type == "stack" ]]; then
 		sketchybar --set $1 icon.color="${WM_COLORS[magenta]}"
 	fi
 }
 
 if [[ $1 == "setup" ]]; then
-  SPACE_ICONS=("󰖟" "" "" "" "󰴙" "󰙊" "エ" "ビ" "シ")
-
-  for i in {1..9}; do
+  for i in {1..${#SPACE_ICONS}}; do
     sid=$((i))
 
     sketchybar --add space space.$sid $POSITION \
@@ -34,8 +35,8 @@ if [[ $1 == "setup" ]]; then
         label.drawing=off                       \
         label.padding_left=0                    \
         label.padding_right=0                   \
-        script="$PLUGIN_DIR/spaces"             \
-        click_script="$PLUGIN_DIR/spaces click $sid"
+        script="$SELF"             \
+        click_script="$SELF click $sid"
 
     update space.$sid
   done

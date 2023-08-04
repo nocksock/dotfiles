@@ -1,30 +1,32 @@
 #!/usr/bin/env zsh
 source $DOTDIR/sketchybar/vars.zsh
 
-sketchybar --bar    height=24                                  \
-                    position=top                               \
-                    sticky=on                                  \
-                    padding_left=8                             \
-                    padding_right=8                            \
-                    y_offset=4                                 \
-                    display=main                               \
-                    margin=8                                   \
-                    corner_radius=4                            \
-                    color="${WM_COLORS[black_alpha]}"          \
-                                                               \
-          --default drawing=on                                 \
-                    label.font="$FONT"                         \
-                    background.padding_left=0                  \
-                    background.padding_right=$SPACE            \
-                    background.corner_radius=$RADIUS           \
-										background.drawing=on                      \
-										background.color=${WM_COLORS[black_alpha]} \
-                    icon.padding_left=$SPACE                   \
-                    icon.padding_right=$SPACE                  \
-                    label.padding_left=$SPACE                  \
-                    label.padding_right=$SPACE                 \
-                    icon.font="$ICONFONT"
-
+sketchybar                                     \
+	--bar                                        \
+		color="${WM_COLORS[black_alpha]}"          \
+		corner_radius=4                            \
+		display=main                               \
+		height=24                                  \
+		margin=6                                   \
+		padding_left=8                             \
+		padding_right=8                            \
+		position=top                               \
+		sticky=on                                  \
+		y_offset=3                                 \
+                                               \
+	--default                                    \
+		drawing=on                                 \
+		background.color=${WM_COLORS[black_alpha]} \
+		background.corner_radius=$RADIUS           \
+		background.drawing=on                      \
+		background.padding_left=0                  \
+		background.padding_right=$SPACE            \
+		icon.font="$ICONFONT"                      \
+		icon.padding_left=$SPACE                   \
+		icon.padding_right=$SPACE                  \
+		label.font="$FONT"                         \
+		label.padding_left=$SPACE                  \
+		label.padding_right=$SPACE                 
 
 export POSITION=left
   $PLUGIN_DIR/spaces setup
@@ -39,4 +41,4 @@ export POSITION=right
   $PLUGIN_DIR/clock setup
   $PLUGIN_DIR/music setup
 
-echo "sketchybar configuration loaded.."
+echo "Sketchybar: started"

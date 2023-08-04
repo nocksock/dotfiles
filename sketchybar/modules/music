@@ -15,7 +15,7 @@ case $1 in
 					background.drawing=off                      \
           label.padding_left=$SPACE_2                 \
           label.padding_right=$SPACE_2                \
-          label.color=$COLOR_INFO
+          label.color="${WM_COLOR[green]}"
 
     sketchybar -m --subscribe $NAME song_update
 

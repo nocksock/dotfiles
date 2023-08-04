@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
 NAME="$(basename $0)"
+SELF="$PLUGIN_DIR/$NAME"
 
 if [[ $1 == "setup" ]]; then
   sketchybar                                  \
@@ -14,7 +15,7 @@ if [[ $1 == "setup" ]]; then
 			icon.drawing=off                        \
 			icon.drawing=off                        \
 			label.color="${WM_COLORS[white_alpha]}" \
-      script="$PLUGIN_DIR/clock"
+      script="$SELF"
 
 fi
 
