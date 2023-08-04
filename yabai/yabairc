@@ -52,9 +52,10 @@ yabai -m space 7 --layout bsp --label todo    # things etc
 yabai -m space 8 --layout bsp --label note    # obsidian
 yabai -m space 9 --layout bsp --label meep    # photos, messages.app
 
-yabai -m rule --add app="\| Microsoft Teams$" space=comm manage=off
+yabai -m rule --add app="Microsoft Teams$" space=comm manage=off
 yabai -m rule --add title="Microsoft Teams Notifications" space=comm manage=off
 
+yabai -m rule --add app="CleanShot X" manage=off
 yabai -m rule --add app="Discord" space=chat
 yabai -m rule --add app="Numi" manage=off sticky=on
 yabai -m rule --add app="Obsidian" manage=off sticky=on
@@ -80,10 +81,3 @@ yabai -m rule --add title='Preferences$' manage=off
 yabai -m rule --add title='Settings$' manage=off
 
 printf "yabai: configuration loaded...\\n"
-
-# load yabai modules
-for module in "$DOTDIR"/yabai/modules/*.zsh; do
-  if [[ -f "$module" ]]; then
-    zsh $module setup
-  fi
-done
