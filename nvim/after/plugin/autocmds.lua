@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd('insertleave', {
     end
     vim.o.list = false
     vim.o.cursorline = false
+    vim.wo.colorcolumn = ''
   end,
   group = group,
 })

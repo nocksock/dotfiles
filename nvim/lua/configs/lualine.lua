@@ -14,7 +14,7 @@ require('lualine').setup {
     disabled_filetypes = { },
   },
   sections = {
-    lualine_a = { },
+    lualine_a = { 'mode' },
     lualine_b = {
       { 'tabs', mode = 0, cond = function() return vim.fn.tabpagenr('$') > 1 end },
     },
@@ -33,7 +33,7 @@ require('lualine').setup {
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename', path = 0, newfile_status = true, symbols = symbols } },
+    lualine_c = { { 'filename', path = 1, newfile_status = true, symbols = symbols } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}

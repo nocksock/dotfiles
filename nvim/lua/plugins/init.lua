@@ -8,15 +8,23 @@ return {
     end,
     event = { "BufReadPost", "BufNewFile" }
   },
-  { 'tpope/vim-eunuch',  event = "CmdlineEnter" },
-  { 'tpope/vim-abolish', event = { "BufReadPost", "BufNewFile" } },
-  { 'tpope/vim-repeat',  event = { "BufReadPost", "BufNewFile" } },
+  { 'tpope/vim-eunuch'  , event = "CmdlineEnter"                   },
+  { 'tpope/vim-abolish' , event = { "BufReadPost" , "BufNewFile" } },
+  { 'tpope/vim-repeat'  , event = { "BufReadPost" , "BufNewFile" } },
   {
     'junegunn/vim-easy-align',
     keys = {
       { 'ga', '<Plug>(EasyAlign)', mode = "x" },
       { 'ga', '<Plug>(EasyAlign)' },
     }
+  },
+  {
+    'glacambre/firenvim',
+    cond = not not vim.g.started_by_firenvim,
+    build = function()
+        require("lazy").load({ plugins = "firenvim", wait = true })
+        vim.fn["firenvim#install"](0)
+    end
   },
   {
     'simnalamburt/vim-mundo',
@@ -48,17 +56,71 @@ return {
   { 'nocksock/bloop.nvim', dev = true,            event = "VeryLazy" },
   -- }}}
   -- completion {{{
-  { 'github/copilot.vim',  event = 'InsertEnter', },
+  -- { 'github/copilot.vim',  event = 'InsertEnter', },
+  {
+    "zbirenbaum/copilot.lua",
+    event = "InsertEnter",
+    opts = {
+      panel = {
+        enabled = true,
+        auto_refresh = false,
+        keymap = {
+          jump_prev = "[[",
+          jump_next = "]]",
+          accept = "<CR>",
+          refresh = "gr",
+          open = "<M-CR>"
+        },
+        layout = {
+          position = "bottom", -- | top | left | right
+          ratio = 0.4
+        },
+      },
+      suggestion = {
+        enabled = true,
+        auto_trigger = false,
+        debounce = 75,
+        keymap = {
+          accept = "<M-l>",
+          accept_word = false,
+          accept_line = false,
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<C-]>",
+        },
+      },
+      filetypes = {
+        yaml = false,
+        markdown = false,
+        help = false,
+        gitcommit = false,
+        gitrebase = false,
+        hgcommit = false,
+        svn = false,
+        cvs = false,
+            ["."] = false,
+      },
+      copilot_node_command = 'node', -- Node.js version must be > 16.x
+      server_opts_overrides = {},
+    }
+  },
   {
     'hrsh7th/nvim-cmp', -- {{{
     event = 'InsertEnter',
     dependencies = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-path',
+      'hrsh7th/nvim-cmp',
+ "zbirenbaum/copilot-cmp",
+      'neovim/nvim-lspconfig',
+      'quangnguyen30192/cmp-nvim-ultisnips',
     },
     config = function()
       local cmp = require('cmp')
+      require("copilot_cmp").setup()
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -101,9 +163,12 @@ return {
           end, { 'i', 'c' }),
         }),
         sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-        }, {
-          { name = 'path' }
+          -- Copilot Source
+          { name = "copilot", group_index = 2 },
+          -- Other Sources
+          { name = "nvim_lsp", group_index = 2 },
+          { name = "path", group_index = 2 },
+          -- { name = "luasnip", group_index = 2 },
         }),
       })
 
@@ -240,20 +305,21 @@ return {
       -- LSP conveniences
       'rmagatti/goto-preview', -- open gotos in floating windows
       { 'folke/trouble.nvim', config = true }, -- pretty list for LSP diagnostics
+      { "folke/neodev.nvim" } -- setup for nvim config etc
     },
   },                                           -- }}}
   -- navigation {{{
   {
     'ThePrimeagen/harpoon',
     keys = {
-      { "<leader>'", '<cmd>lua require("harpoon.mark").add_file()<CR>' },
-      { "''",        ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
-      { "<leader>;;", '<cmd>lua lua require("harpoon.cmd-ui").toggle_quick_menu()'},
-      { "<leader>;f", '<cmd>lua require("harpoon.term").gotoTerminal(1)'},
-      { "'f",        ':lua require("harpoon.ui").nav_file(1)<CR>' }, -- alt + j
-      { "'d",        ':lua require("harpoon.ui").nav_file(2)<CR>' }, -- alt + k
-      { "'s",        ':lua require("harpoon.ui").nav_file(3)<CR>' }, -- alt + l
-      { "'a",        ':lua require("harpoon.ui").nav_file(4)<CR>' }  -- alt + ;
+      { "<leader>'"  , '<cmd>lua require("harpoon.mark").add_file()<CR>'                },
+      { "''"         , ':lua require("harpoon.ui").toggle_quick_menu()<CR>'             },
+      { "<leader>;;" , '<cmd>lua lua require("harpoon.cmd-ui").toggle_quick_menu()<cr>' },
+      { "<leader>;f" , '<cmd>lua require("harpoon.term").gotoTerminal(1)<cr>'           },
+      { "'f"         , '<cmd>lua require("harpoon.ui").nav_file(1)<CR>'                 }, -- alt + j
+      { "'d"         , '<cmd>lua require("harpoon.ui").nav_file(2)<CR>'                 }, -- alt + k
+      { "'s"         , '<cmd>lua require("harpoon.ui").nav_file(3)<CR>'                 }, -- alt + l
+      { "'a"         , '<cmd>lua require("harpoon.ui").nav_file(4)<CR>'                 }, -- alt + ;
     },
     opts = {
       global_settings = {
@@ -542,7 +608,6 @@ return {
   },
   {
     'nocksock/do.nvim',
-    opts = { winbar = true },
     dev = true,
     event = "VeryLazy"
   },
@@ -550,46 +615,4 @@ return {
   { 'nvim-lua/plenary.nvim',        lazy = true },
   { 'kyazdani42/nvim-web-devicons', lazy = true },
   { 'tpope/vim-scriptease',         event = { "BufReadPost", "BufNewFile" } },
-  -- {
-  --   "folke/noice.nvim",
-  --   event = "VeryLazy",
-  --   opts = {
-  --     -- add any options here
-  --     --
-  --     lsp = {
-  --       -- override markdown rendering so that cmp and other plugins use Treesitter
-  --       override = {
-  --             ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-  --             ["vim.lsp.util.stylize_markdown"] = true,
-  --             ["cmp.entry.get_documentation"] = true,
-  --       },
-  --     },
-  --     -- you can enable a preset for easier configuration
-  --     presets = {
-  --       bottom_search = true,         -- use a classic bottom cmdline for search
-  --       command_palette = true,       -- position the cmdline and popupmenu together
-  --       long_message_to_split = true, -- long messages will be sent to a split
-  --       inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-  --       lsp_doc_border = false,       -- add a border to hover docs and signature help
-  --     },
-  --     routes = {
-  --       {
-  --         filter = {
-  --           event = "msg_show",
-  --           kind = "",
-  --           find = "written",
-  --         },
-  --         opts = { skip = true },
-  --       },
-  --     }
-  --   },
-  --   dependencies = {
-  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-  --     "MunifTanjim/nui.nvim",
-  --     -- OPTIONAL:
-  --     --   `nvim-notify` is only needed, if you want to use the notification view.
-  --     --   If not available, we use `mini` as the fallback
-  --     -- "rcarriga/nvim-notify",
-  --   }
-  -- }
 }

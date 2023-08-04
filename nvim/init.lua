@@ -69,7 +69,7 @@ vim.o.background = 'dark'
 vim.o.guifont = 'JetBrains Mono:h16'
 vim.o.showmatch = true -- Highlight matching bracket
 vim.o.showmode = false -- don't show the current mode - lualine handles this
-vim.o.signcolumn = 'yes' -- always show signcolumn - prevents horizontal jumping
+-- vim.o.signcolumn = 'yes' -- always show signcolumn - prevents horizontal jumping
 vim.o.laststatus = 2
 vim.o.termguicolors = true -- enable 24bit colors
 vim.o.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
@@ -122,7 +122,6 @@ vim.g.symbols_outline = {
   show_quides = false
 }
 
-vim.g.UltiSnipsExpandTrigger       = "<c-l>"
 vim.g.UltiSnipsEditSplit           = "tabdo"
 
 -- }}}
@@ -141,6 +140,10 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 ]])
 
+vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
+
+require('configs.firenvim')
+
 require('lazy').setup("plugins", {
   dev = {
     path = '~/code',
@@ -150,4 +153,5 @@ require('lazy').setup("plugins", {
     enabled = false, -- I found this annoying when having multiple long running nvim sessions.
   },
 })
+
 

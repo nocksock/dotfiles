@@ -10,12 +10,15 @@ lspconfig.pyright.setup {}
 
 lspconfig.gopls.setup {}
 
-lspconfig.tailwindcss.setup {
-  capabilities = capabilities,
-}
+lspconfig.marksman.setup {}
 
-lspconfig.lua_ls.setup({
+lspconfig.tailwindcss.setup {-- {{{
   capabilities = capabilities,
+}-- }}}
+
+-- Lua {{{
+require("neodev").setup({})
+lspconfig.lua_ls.setup({
   settings = {
     Lua = {
       runtime = {
@@ -35,28 +38,27 @@ lspconfig.lua_ls.setup({
   },
 })
 
-lspconfig.clangd.setup({
+lspconfig.clangd.setup({-- {{{
   capabilities = capabilities,
   cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
   init_options = {
     clangdFileStatus = true
   },
-})
+})-- }}}
 
-lspconfig.denols.setup {
+lspconfig.denols.setup {-- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
-}
+}-- }}}
 
-lspconfig.svelte.setup {
+lspconfig.svelte.setup { -- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
-}
+}-- }}}
 
--- TypeScript {{{
+require("typescript").setup({ -- {{{
 -- Using the plugin since it adds some useful commands,
 -- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
-require("typescript").setup({
   server = {
     capabilities = capabilities,
     single_file_support = false,
@@ -65,24 +67,24 @@ require("typescript").setup({
       local keyopts = { noremap = true, silent = true, buffer = bufnr }
       require("twoslash-queries").attach(client, bufnr)
 
-      vim.keymap.set('n', "<localleader><C-k>", "<cmd>InspectTwoslashQueries<CR>", keyopts)
-      vim.keymap.set('n', '<localleader>fi', ':TypescriptAddMissingImports<cr>', keyopts)
-      vim.keymap.set('n', '<localleader>fo', ':TypescriptOrganizeImports<cr>', keyopts)
-      vim.keymap.set('n', '<localleader>fu', ':TypescriptRemoveUnused<cr>', keyopts)
-      vim.keymap.set('n', '<localleader>fA',
+      vim.keymap.set('n', "<leader>it", "<cmd>InspectTwoslashQueries<CR>", keyopts)
+      vim.keymap.set('n', '<leader>ci', ':TypescriptAddMissingImports<cr>', keyopts)
+      vim.keymap.set('n', '<leader>co', ':TypescriptOrganizeImports<cr>', keyopts)
+      vim.keymap.set('n', '<leader>cu', ':TypescriptRemoveUnused<cr>', keyopts)
+      vim.keymap.set('n', '<leader>cA',
         ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', keyopts)
-      vim.keymap.set('n', '<localleader>rN', ':TypescriptRenameFile<cr>', keyopts)
+      vim.keymap.set('n', '<leader>cR', ':TypescriptRenameFile<cr>', keyopts)
 
     end,
   }
 })
 --}}}
 
-lspconfig.sourcekit.setup({
+lspconfig.sourcekit.setup({-- {{{
   capabilities = capabilities,
-})
+})-- }}}
 
-vim.api.nvim_create_autocmd('LspAttach', {
+vim.api.nvim_create_autocmd('LspAttach', {-- {{{
   callback = function(args)
     local bufnr = args.buf
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -126,6 +128,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<c-w>D', ':vs<cr>:lua vim.lsp.buf.declaration()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>t', ':vs<cr>:lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>i', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
+    vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
 
     vim.keymap.set('n', 'gpd', require('goto-preview').goto_preview_definition, bufopts)
     vim.keymap.set('n', 'gpi', require('goto-preview').goto_preview_implementation, bufopts)
@@ -133,12 +136,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gpr', require('goto-preview').goto_preview_references, bufopts)
     vim.keymap.set('n', 'gpc', require('goto-preview').close_all_win, bufopts)
   end
-})
+})-- }}}
 
-vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {
+vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {-- {{{
     border = 'single',
     close_events = { "CursorMoved", "BufHidden" },
-})
-vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
+})-- }}}
 
 -- vi: fen fdl=0 fdm=marker fmr={{{,}}} fdc=3
