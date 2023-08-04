@@ -2,79 +2,51 @@
 source $HOME/.config/sketchybar/vars.zsh
 
 update() {
-  if [[ $SELECTED == true ]]; then
+	INFO=$(yabai -m query --spaces --space | jq -r .type)
 
-    sketchybar                         \
-      --set $1                         \
-        icon.color=$WHITE              \
-        label.color=$GREEN             \
-        background.color=$BLACK_ALPHA
-
-  else
-
-    sketchybar                     \
-      --set $1                     \
-        icon.color=${WM_COLORS[white_alpha]} \
-        label.color=$WHITE_TRANS   \
-        background.color=$COLOR_ACTIVE_TRANSP
-
-  fi
+	if [[ ! $SELECTED == true ]]; then
+		sketchybar --set $1 icon.color="${WM_COLORS[white_alpha]}"
+	elif [[ $INFO == "bsp" ]]; then
+		sketchybar --set $1 icon.color="${WM_COLORS[white]}"
+	elif [[ $INFO == "float" ]]; then
+		sketchybar --set $1 icon.color="${WM_COLORS[magenta]}"
+	elif [[ $INFO == "stack" ]]; then
+		sketchybar --set $1 icon.color="${WM_COLORS[magenta]}"
+	fi
 }
 
 if [[ $1 == "setup" ]]; then
-  SPACE_ICONS=("" "" "" "" "󰴙" "" "■" "⯅" "●")
-  SPACE_LABELS=("SIDE" "MAIN" "COMM" "PLAN" "PLAY" "CHAT" "WRITE" "TODO" "PRIV")
+  SPACE_ICONS=("󰖟" "" "" "" "󰴙" "󰙊" "エ" "ビ" "シ")
 
   for i in {1..9}; do
     sid=$((i))
 
-    sketchybar                         \
-      --add space space.$sid $POSITION \
-      --set space.$sid                 \
-        associated_space=$sid          \
-        icon=${SPACE_ICONS[i]}         \
-        icon.drawing=on                \
-        icon.color=$BLACK              \
-        icon.padding_right=4           \
-        background.corner_radius=5     \
-        background.height=24           \
-        background.drawing=on          \
-        background.padding_right=2     \
-        background.padding_left=2      \
-        label.drawing=off              \
-        label.color=$BLACK             \
-        label.padding_left=4           \
-        label=${SPACE_ICONS[$i]}       \
-        label.font="$ICONFONT"         \
-        script="$PLUGIN_DIR/spaces"    \
-        click_script="$PLUGIN_DIR/spaces click $sid" 
+    sketchybar --add space space.$sid $POSITION \
+      --set space.$sid                          \
+        associated_space=$sid                   \
+        icon=${SPACE_ICONS[i]}                  \
+        icon.drawing=on                         \
+        icon.color=${WM_COLORS[black_alpha]}    \
+        icon.padding_right=$SPACE               \
+        background.drawing=off                  \
+        background.padding_right=0              \
+        background.padding_left=0               \
+        label.drawing=off                       \
+        label.padding_left=0                    \
+        label.padding_right=0                   \
+        script="$PLUGIN_DIR/spaces"             \
+        click_script="$PLUGIN_DIR/spaces click $sid"
 
     update space.$sid
   done
 
-  sketchybar                                     \
-    --add bracket primary_spaces                 \
-      space.1                                    \
-      space.2                                    \
-      space.3                                    \
-      space.4                                    \
-      space.5                                    \
-      space.6                                    \
-      space.7                                    \
-      space.8                                    \
-      space.9                                    \
-    --set primary_spaces                         \
-      background.color=${WM_COLORS[black_alpha]} \
-      background.corner_radius=2
-
-  exit
-
-  space=$(yabai -m query --spaces --space | jq .index)
 fi
 
 if [[ $1 == "click" ]]; then
   yabai -m space --focus $2
-else
+fi
+
+if [[ -n $NAME  ]]; then
   update $NAME
 fi
 

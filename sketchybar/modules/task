@@ -1,9 +1,8 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
+NAME="$(basename $0)"
 
 if [[ $1 == "setup" ]]; then
-  NAME=focus
-
   sketchybar                                \
     --add item $NAME $POSITION              \
     --set $NAME                             \
@@ -15,11 +14,10 @@ if [[ $1 == "setup" ]]; then
       background.height=24                  \
       label.padding_right=$SPACE_2          \
       icon.padding_left=$SPACE_2            \
-      background.color=0xbb14161B           \
-      background.corner_radius=4            \
-      label.color=${WM_COLORS[white]}       \
-      icon.color=$COLOR_HIGHLIGHT
-
+      background.drawing=off                \
+      background.corner_radius="$RADIUS"    \
+      label.color="${WM_COLORS[white]}"     \
+      icon.color="$COLOR_HIGHLIGHT"
 fi
 
 if [[ $1 == "click" ]]; then

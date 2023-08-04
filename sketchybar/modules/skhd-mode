@@ -1,28 +1,26 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
-NAME=mode
+NAME="$(basename $0)"
 
-case $1 in
-  "setup")
+if [[ "$1" == "setup" ]]; then
+    sketchybar --add item $NAME $POSITION       \
+      --set $NAME                               \
+        drawing=no                              \
+				width=200                               \
+        icon.drawing=no                         \
+        label.color="${WM_COLORS[black_alpha]}" \
+        label.padding_left="$SPACE_2"           \
+        label.padding_right="$SPACE_2"          \
+        background.color="$COLOR_INFO"          \
+        background.corner_radius="$RADIUS"
 
-    sketchybar                       \
-      --add item $NAME $POSITION     \
-      --set $NAME                    \
-        drawing=no                   \
-        icon.drawing=no              \
-        label.color=$BLACK           \
-        label.padding_left=$SPACE_2  \
-        label.padding_right=$SPACE_2 \
-        background.color=$COLOR_INFO \
-        background.corner_radius=$RADIUS
-
-    ;;
-  "default")
+elif [[ $1 == "default" ]]; then
     sketchybar --set $NAME label="" drawing=no
     yabai -m config active_window_border_color $COLOR_ACTIVE window_border_width 2
-    ;;
-  *)
-    COLOR=$COLOR_INFO
+		$HOME/.config/sketchybar/modules/front_app show
+
+else
+    COLOR="$COLOR_INFO"
 
     # second argument is optional and can set a color
     if [[ -n "$2" ]]; then
@@ -33,7 +31,8 @@ case $1 in
       fi
     fi
 
-    sketchybar --set $NAME label=$1 drawing=yes background.color=$COLOR
-    yabai -m config active_window_border_color $COLOR
-    ;;
-esac
+		$HOME/.config/sketchybar/modules/front_app hide
+    sketchybar --set "$NAME" label="$1" drawing=yes background.color="$COLOR" width=600
+    yabai -m config active_window_border_color "$COLOR"
+fi
+

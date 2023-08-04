@@ -1,21 +1,20 @@
 #!/usr/bin/env zsh
 source $DOTDIR/sketchybar/vars.zsh
+NAME="$(basename $0)"
 
 if [[ $1 == "setup" ]]; then
-  NAME=battery
-
-  sketchybar                            \
-    --add item $NAME $POSITION          \
-    --set $NAME                         \
-      script="$PLUGIN_DIR/battery"      \
-      update_freq=30                    \
-			label.padding_left=0         \
-			label.padding_right=$SPACE_2        \
+  sketchybar                           \
+    --add item "$NAME" $POSITION       \
+    --set "$NAME"                      \
+		script="$PLUGIN_DIR/battery"       \
+		update_freq=30                     \
+		background.padding_left=0          \
+		background.padding_right=0         \
+		icon.padding_left=0                \
+		background.corner_radius="$RADIUS" \
     --subscribe $NAME system_woke
-
 fi
 
-# # UPDATE
 STATUS=$(pmset -g batt)
 
 if [[ $STATUS == "" ]]; then
@@ -28,51 +27,74 @@ CHARGING=$(echo $STATUS | grep 'AC Power')
 if [[ $PERCENTAGE = "" ]]; then
   exit 0
 fi
-#
-case ${PERCENTAGE%?} in
-  [0-9]) PERCENTAGE=" ${PERCENTAGE}"
-  ;;
-  *) PERCENTAGE="${PERCENTAGE}"
-esac
-#
-# case ${PERCENTAGE} in
-#   9[0-9]|100) ICON=""
-#   ;;
-#   [6-8][0-9]) ICON=""
-#   ;;
-#   [3-5][0-9]) ICON=""
-#   ;;
-#   [1-2][0-9]) ICON=""
-#   ;;
-#   *) ICON=""
-# esac
-
-icon_drawing="off"
-label_color=$WHITE_TRANS
 
 if [[ $CHARGING != "" ]]; then
-  ICON=""
-	icon_drawing="on"
+	if [[ $PERCENTAGE -lt 80 ]]; then
+		sketchybar --set $NAME                 \
+			icon=""                             \
+			icon.color="${WM_COLORS[green]}"     \
+			label.color="${WM_COLORS[green]}"    \
+			label="${PERCENTAGE}%"
+	else
+		sketchybar --set $NAME                 \
+			icon=""                             \
+			icon.color="${WM_COLORS[green]}"     \
+			icon.drawing=on                      \
+			label.drawing=off
+	fi
+
+elif [[ $PERCENTAGE -lt 5 ]]; then
+	sketchybar --set $NAME                   \
+		icon=" ‼"                             \
+		icon.padding_left=$SPACE               \
+		icon.padding_right=$SPACE              \
+		icon.color="${WM_COLORS[white]}"       \
+		icon.drawing="on"                      \
+		label="${PERCENTAGE}%"                 \
+		label.color="${WM_COLORS[white]}"      \
+		background.drawing="on"                \
+		background.color="${WM_COLORS[magenta]}"
+
 elif [[ $PERCENTAGE -lt 10 ]]; then
-	ICON="  ‼"
-	icon_color=$COLOR_HIGHLIGHT
-	label_color=$COLOR_HIGHLIGHT
-	icon_drawing="on"
+	sketchybar --set $NAME                   \
+		icon=" ‼ "                            \
+		icon.color="$COLOR_HIGHLIGHT"          \
+		icon.drawing=on                        \
+		background.drawing=off                 \
+		label="${PERCENTAGE}%"                 \
+		label.color="$COLOR_HIGHLIGHT"
+
 elif [[ $PERCENTAGE -lt 30 ]]; then
-	ICON=" "
-	icon_color=$PINK
-	label_color=$PINK
-	icon_drawing="on"
+	sketchybar --set $NAME                   \
+		icon=""                               \
+		icon.color="$PINK"                     \
+		icon.drawing=on                        \
+		background.drawing=off                 \
+		label="${PERCENTAGE}%"                 \
+		label.color="$PINK"
+
 elif [[ $PERCENTAGE -lt 50 ]]; then
-	label_color=$BLUE
+	sketchybar --set $NAME                   \
+		icon=""                               \
+		icon.color="${WM_COLORS[white]}"       \
+		icon.drawing=on                        \
+		background.drawing=off                 \
+		label.drawing=off
+
+elif [[ $PERCENTAGE -lt 80 ]]; then
+	sketchybar --set $NAME                   \
+		icon=""                               \
+		icon.color="${WM_COLORS[white_alpha]}" \
+		icon.drawing=on                        \
+		background.drawing=off                 \
+		label.drawing=off
+
+else
+	sketchybar --set $NAME                   \
+		icon=""                               \
+		icon.color="${WM_COLORS[white_alpha]}" \
+		icon.drawing=on                        \
+		background.drawing=off                 \
+		label.drawing=off
+
 fi
-
-sketchybar                   \
-	--set                      \
-	$NAME                      \
-	icon="$ICON"               \
-	icon.drawing=$icon_drawing \
-	icon.color=$icon_color     \
-	label.color=$label_color   \
-	label="${PERCENTAGE}%"
-

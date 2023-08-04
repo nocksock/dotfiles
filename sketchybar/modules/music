@@ -11,7 +11,8 @@ case $1 in
       --set $NAME                                     \
           script="~/.config/sketchybar/modules/music" \
           icon.drawing=off                            \
-          drawing=off                                  \
+          drawing=off                                 \
+					background.drawing=off                      \
           label.padding_left=$SPACE_2                 \
           label.padding_right=$SPACE_2                \
           label.color=$COLOR_INFO

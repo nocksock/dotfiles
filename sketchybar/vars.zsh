@@ -41,7 +41,7 @@ WM_COLORS=(
   blue_dark   "0xFF7188A8"
   grey        "0xFF394351"
   black       "0xFF14161B"
-  black_alpha "0x2214161B"
+  black_alpha "0x8814161B"
   green_alt   "0xFF1AC77F"
   green       "0xFF41E6A2"
   green_alpha "0x8041E6A2"
@@ -49,6 +49,8 @@ WM_COLORS=(
   blue        "0xFF7DCFFF"
   blue_trans  "0x007DCFFF"
   pink        "0xFFF7A1C5"
+  pink_alpha  "0xAAF7A1C5"
+	magenta     "0xFFEF3885"
   trans       "0x00F7A1C5"
 )
 

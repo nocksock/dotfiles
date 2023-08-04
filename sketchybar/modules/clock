@@ -1,18 +1,21 @@
 #!/usr/bin/env zsh
 source $HOME/.config/sketchybar/vars.zsh
+NAME="$(basename $0)"
 
 if [[ $1 == "setup" ]]; then
-  NAME=clock
-
-  sketchybar                        \
-    --add item $NAME $POSITION      \
-    --set $NAME                     \
-      update_freq=25                \
-      label.padding_right=$SPACE_2 \
+  sketchybar                                  \
+    --add item $NAME $POSITION                \
+    --set $NAME                               \
+      update_freq=25                          \
+      label.padding_left=0                    \
+      label.padding_right=0                   \
+			background.drawing=off                  \
+			background.drawing=off                  \
+			icon.drawing=off                        \
+			icon.drawing=off                        \
+			label.color="${WM_COLORS[white_alpha]}" \
       script="$PLUGIN_DIR/clock"
 
 fi
 
-# UPDATE
-
-sketchybar --set $NAME label="$(date '+%d/%m %H:%M')"
+sketchybar --set $NAME label="$(date '+%y-%m-%d %H:%M 󰨳 %V')"
