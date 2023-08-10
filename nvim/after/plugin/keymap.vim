@@ -68,7 +68,6 @@ nnoremap gf <cmd>e <cfile><CR>
 nnoremap <silent> <tab> <cmd>bn<cr> 
 nnoremap <silent> <s-tab> <cmd>bp<cr>
 nnoremap <silent> <leader>x <cmd>b#\|bd#<cr>
-cnoreabb wd w\|<cmd>b#\|bd#<cr>
 
 nnoremap <silent> <leader>b0 <cmd>%bd\|e#<cr>
 nnoremap <silent> <leader>bd <cmd>bd<cr>
@@ -77,7 +76,7 @@ nnoremap <c-n> <cmd>cn<cr>
 nnoremap <c-p> <cmd>cp<cr>
 
 " <c-;> to quickly go to a previous command
-nnoremap <c-;> :<c-p>
+nnoremap <c-;> <cmd><c-p>
 cnoremap <c-;> <c-p>
 
 nnoremap <leader>it <cmd>TSHighlightCapturesUnderCursor<cr>
@@ -86,4 +85,3 @@ nnoremap <silent> <leader>ttl <cmd>execute "set showtabline=" . (&showtabline ==
 nnoremap <leader>tn <cmd>Num<cr>
 nnoremap <leader>tg <cmd>Gitsigns toggle_signs<cr>
 nnoremap <leader>td <cmd>DoToggle<cr>
-
