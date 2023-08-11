@@ -1,12 +1,12 @@
 vim9script
 
-
 # plugins {{{
 packadd matchit
 packadd cfilter
 
 import autoload 'pack.vim'
 import autoload 'statusline.vim'
+import autoload 'completion.vim'
 
 command! PackUpdate pack.Init() | minpac#update()
 command! PackClean  pack.Init() | minpac#clean()
@@ -14,8 +14,8 @@ command! PackStatus pack.Init() | minpac#status()
 
 # }}}
 # settings {{{
+syntax enable
 filetype plugin indent on
-colorscheme rosepine
 
 g:mapleader = " "
 set noerrorbells
@@ -41,7 +41,7 @@ set noswapfile
 set nobackup
 set nowritebackup
 set undofile
-set undodir=$RTP/undo
+set undodir=~/.vim/undo-history
 
 # tabs / indent / spaces
 set tabstop=4
@@ -53,8 +53,7 @@ set smarttab
 set cindent
 
 # basic completion
-set complete-=i
-set complete+=k
+set complete+=k,b,i
 set completeopt=menuone,noinsert,preview
 
 # Reduce noise
@@ -72,6 +71,7 @@ set signcolumn=yes
 set mouse=a
 
 set display+=lastline
+set display+=truncate
 
 # Grep
 set grepprg=rg\ --vimgrep
@@ -107,13 +107,29 @@ g:netrw_winsize = 33
 # align \, which I often use in bash scripts etc.
 g:easy_align_delimiters = { '\\': { pattern: '\',  left_margin: 1, right_margin: 0 } }
 
+g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ 'ctrl-q': 'fill_quickfix'}
+
 # }}}
-# Keymap {{{
+# colors {{{
+set termguicolors
+set background=dark
+colorscheme habamax
+
+hi LineHighlight guibg=#106060 guifg=NONE gui=None cterm=bold
+# }}}
+
+# Key map {{{
 xnoremap ga <Plug>(EasyAlign)
 nnoremap ga <Plug>(EasyAlign)
 
-nnoremap <c-p> :Files<cr>
-nnoremap <c-b> :Buffers<cr>
+nnoremap <leader>f :Files<cr>
+nnoremap <leader><leader> :Buffers<cr>
+nnoremap <leader>C :Colors<cr>
+nnoremap <leader>/ :RG<cr>
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -141,7 +157,7 @@ imap , ,<c-g>u
 nnoremap <leader>l <cmd>ls<cr>:b<space>
 nnoremap <leader>m <cmd>marks<cr>:normal<space>'
 nnoremap <leader>r <cmd>registers<cr>:normal<space>"
-nnoremap <leader>s :Lines <c-r><c-w><cr>
+nnoremap <leader>s :Lines<cr>
 
 # Toggle Quickfix
 nnoremap <silent> <leader>q :call util#ToggleQuickfix()<cr>
@@ -157,7 +173,7 @@ nnoremap <silent> <leader>C <cmd>call clearmatches()<cr>
 nnoremap X i<cr><esc>ddkP
 
 # Quickfix last spelling error
-inoremap <C-l> <C-g>u<Esc>[s1z=`]a<C-g>u
+inoremap <C-h> <C-g>u<Esc>[s1z=`]a<C-g>u
 
 # Better terminal exits
 tnoremap <c-[> <C-\><C-n>
@@ -171,27 +187,61 @@ nnoremap <leader>dts mz:%s/ \+$//<cr>`z<cr>
 
 # Misc shortcuts
 nnoremap <leader>tu :MundoToggle<cr>
-nnoremap _ :vnew .<cr>
+nnoremap <c-w>- :vnew .<cr>
 
 # # autocompletion
-# inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-# inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-# inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-# imap <c-space> <Plug>(asyncomplete_force_refresh)
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <c-space> <c-x><c-o>
+
+nnoremap ciaw viw*<esc>:%s///<left>
+nnoremap ciaW viW*<esc>:%s///<left>
+nnoremap caaw vaw*<esc>:%s///<left>
+nnoremap caaW vaW*<esc>:%s///<left>
+
+# split a line in two, making the right above the left (usefull to move comments)
+nnoremap X i<cr><esc>ddkP
+# the inverse:
+nnoremap gX ddpkJ  
+
+# buffer navigation
+nnoremap gf <cmd>e <cfile><CR>
+nnoremap <silent> <tab> <cmd>bn<cr> 
+nnoremap <silent> <s-tab> <cmd>bp<cr>
+nnoremap <silent> <leader>x <cmd>b#\|bd#<cr>
+
+nnoremap <silent> <leader>b0 <cmd>%bd\|e#<cr>
+nnoremap <silent> <leader>bd <cmd>bd<cr>
+
+nnoremap <c-n> <cmd>cn<cr>
+nnoremap <c-p> <cmd>cp<cr>
+
+# TRIAL: go to previous command more conveniently (like in bash)
+nnoremap <c-;> <cmd><c-p>
+cnoremap <c-;> <c-p>
+
+nnoremap <leader>Sl <cmd>call UltiSnips#ListSnippets()<cr>
+nnoremap <leader>Se <cmd>UltiSnipsEdit<cr>
+
+nnoremap <leader>cc <cmd>Git commit<cr>
+nnoremap <leader>hs <cmd>GitGutterStageHunk<cr>
+nnoremap <leader>hr <cmd>GitGutterRevertHunk<cr>
 
 g:UltiSnipsExpandTrigger       = "<tab>"
-g:UltiSnipsJumpForwardTrigger  = "<c-b>"
-g:UltiSnipsJumpBackwardTrigger = "<c-z>"
-#}}}
-# status line {{{
-set statusline=\ %<%f%h%m%r
-set statusline+=%{&filetype!=''?&filetype:&syntax}
-set statusline+=%w
-set statusline+=%=
-set statusline+=%{statusline#GitBranch()}
+g:UltiSnipsJumpForwardTrigger  = "<c-j>"
+g:UltiSnipsJumpBackwardTrigger = "<c-h>"
 
 #}}}
-# lsp configs {{{
+# status line {{{
+
+set statusline=%{statusline#GitBranch()}
+set statusline+=\ %<%f%h%m%r
+set statusline+=%w
+set statusline+=%=
+set statusline+=%{&filetype!=''?&filetype:&syntax}
+
+#}}}
+# lisp con figs {{{
 # typescript {{{
 var tsserver = {
     'name': 'typescript-language-server',
@@ -225,4 +275,13 @@ augroup lsp_install
     au User lsp_buffer_enabled call g:snock#LspBindings()
 augroup END
 # }}}
+# }}}
+# commands {{{
+# Grep
+command! -nargs=+ Grep  execute 'silent grep! <args>' | copen | wincmd p | redraw!
+
+# Completion
+command! ComplEnable  completion.Enable()
+command! ComplDisable completion.Disable()
+
 # }}}
