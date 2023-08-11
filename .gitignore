@@ -1,7 +1,6 @@
 .DS_Store
-.vim/tmp
-.vim/.netrwhist
-.vim/plugged
-/.vim/.netrwbook
-/.config/nvim/plugin/packer_compiled.lua
+vim/vim/tmp
+vim/vim/pack
+vim/vim/undo-history/
+vim/vim/.netrwbook
 scratch
