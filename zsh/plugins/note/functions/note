@@ -35,9 +35,19 @@ make-tags () {
 	done
 }
 
+make-links () {
+	if [[ -n $links ]]; then
+		local linked=()
+		for link in ${links[@]}; do
+			linked+="[[${link#-l}]]"
+		done
+		printf " about ${(Fj:, :)linked}"
+	fi
+}
+
 text=${@}
 content=$(cat <<-EOF
-	#quicknote$(make-tags)
+	#quicknote$(make-tags)$(make-links)
 
 	${text#-- }
 
