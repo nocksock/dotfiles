@@ -3,15 +3,11 @@
 local format="%C(yellow)%h%Creset %Cblue%as%Creset %Cred%<(20,trunc)%ae%Creset %s"
 local extract_hash="rg -o '[a-f0-9]{7,}'"
 
-glex () {
-	git log                                                                                            \
-		--decorate --color=always --pretty="format:$format" ${@}                                         \
-		| fzf                                                                                            \
-				--ansi --no-sort --track                                                                     \
-				--preview="echo {} | $extract_hash | xargs git show --color=always "                         \
-				--bind "ctrl-m:execute(echo {} | $extract_hash | git show | nvim -c \"set buftype=nofile\")" \
-				--bind "ctrl-h:become(echo {} | $extract_hash)"
-		
-}
+git log                                                                                            \
+	--decorate --color=always --pretty="format:$format" ${@}                                         \
+	| fzf                                                                                            \
+			--ansi --no-sort --track                                                                     \
+			--preview="echo {} | $extract_hash | xargs git show --color=always "                         \
+			--bind "ctrl-m:execute(echo {} | $extract_hash | git show | nvim -c \"set buftype=nofile\")" \
+			--bind "ctrl-h:become(echo {} | $extract_hash)"
 
-glex "${@}"
