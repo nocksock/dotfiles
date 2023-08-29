@@ -1,5 +1,5 @@
-nmap <buffer> <localleader>s :e %:r:r.stories.tsx<cr>
-nmap <buffer> <localleader>t :e %:r:r.spec.tsx<cr>
-nmap <buffer> <localleader>m :e %:r:r.tsx<cr>
-nmap <buffer> <f5> :!bun %<cr>
+compiler tsc
+setlocal makeprg=pnpm\ --package=typescript\ dlx\ tsc\ --noEmit
+
 setlocal fdm=manual
+

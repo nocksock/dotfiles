@@ -47,6 +47,8 @@ vim.o.wildignore = table.concat({
   '**/tmp/*',
 }, ',')
 
+vim.o.jumpoptions = 'stack' -- this makes much more sense for my brain
+
 -- search settings
 vim.o.gdefault = true -- add g flag by default for :substitutions
 vim.o.ignorecase = true -- ignore case by default - unless using uppercase/lowercase via smartcase
@@ -153,5 +155,4 @@ require('lazy').setup("plugins", {
     enabled = false, -- I found this annoying when having multiple long running nvim sessions.
   },
 })
-
 

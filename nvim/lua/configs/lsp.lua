@@ -12,9 +12,20 @@ lspconfig.gopls.setup {}
 
 lspconfig.marksman.setup {}
 
-lspconfig.tailwindcss.setup {-- {{{
+require 'lspconfig'.eslint.setup {}
+
+lspconfig.tailwindcss.setup { -- {{{
   capabilities = capabilities,
-}-- }}}
+  settings = {
+    tailwindCSS = {
+      editor = {
+        quickSuggestions = {
+          strings = "on"
+        }
+      }
+    }
+  }
+} -- }}}
 
 -- Lua {{{
 require("neodev").setup({})
@@ -38,27 +49,33 @@ lspconfig.lua_ls.setup({
   },
 })
 
-lspconfig.clangd.setup({-- {{{
+lspconfig.clangd.setup({
+                         -- {{{
   capabilities = capabilities,
   cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
   init_options = {
     clangdFileStatus = true
   },
-})-- }}}
+})                       -- }}}
 
-lspconfig.denols.setup {-- {{{
+lspconfig.denols.setup { -- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
-}-- }}}
+  cmd          = { "deno", "lsp" },
+  init_options = {
+    enable = true, unstable = true
+  }
+}                        -- }}}
 
 lspconfig.svelte.setup { -- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
-}-- }}}
+}                             -- }}}
 
-require("typescript").setup({ -- {{{
--- Using the plugin since it adds some useful commands,
--- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
+require("typescript").setup({
+                              -- {{{
+  -- Using the plugin since it adds some useful commands,
+  -- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
   server = {
     capabilities = capabilities,
     single_file_support = false,
@@ -74,17 +91,17 @@ require("typescript").setup({ -- {{{
       vim.keymap.set('n', '<leader>cA',
         ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', keyopts)
       vim.keymap.set('n', '<leader>cR', ':TypescriptRenameFile<cr>', keyopts)
-
     end,
   }
 })
 --}}}
 
-lspconfig.sourcekit.setup({-- {{{
+lspconfig.sourcekit.setup({                -- {{{
   capabilities = capabilities,
-})-- }}}
+})                                         -- }}}
 
-vim.api.nvim_create_autocmd('LspAttach', {-- {{{
+vim.api.nvim_create_autocmd('LspAttach', {
+                                           -- {{{
   callback = function(args)
     local bufnr = args.buf
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -102,12 +119,16 @@ vim.api.nvim_create_autocmd('LspAttach', {-- {{{
 
     vim.keymap.set('n', '<leader>j', vim.diagnostic.goto_next, bufopts)
     vim.keymap.set('n', '<leader>k', vim.diagnostic.goto_prev, bufopts)
-    vim.keymap.set('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
-    vim.keymap.set('n', "<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "<leader>J",
+    function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "<leader>K",
+    function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
-    vim.keymap.set('n', "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
-    vim.keymap.set('n', "[D", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+    bufopts)
+    vim.keymap.set('n', "[D", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+    bufopts)
 
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, bufopts)
     vim.keymap.set('n', '<leader>q', ':Diagnostics<cr>', bufopts)
@@ -119,10 +140,10 @@ vim.api.nvim_create_autocmd('LspAttach', {-- {{{
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 
     vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts) -- original gi mapped to g.
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', ':lua vim.lsp.buf.definition()<cr>zt', bufopts)
+    vim.keymap.set('n', 'gy', ':lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
+    vim.keymap.set('n', 'gi', ':lua vim.lsp.buf.implementation()<cr>zt', bufopts)
+    vim.keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration()<cr>zt', bufopts)
 
     vim.keymap.set('n', '<c-w>d', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>D', ':vs<cr>:lua vim.lsp.buf.declaration()<cr>zt', bufopts)
@@ -136,11 +157,12 @@ vim.api.nvim_create_autocmd('LspAttach', {-- {{{
     vim.keymap.set('n', 'gpr', require('goto-preview').goto_preview_references, bufopts)
     vim.keymap.set('n', 'gpc', require('goto-preview').close_all_win, bufopts)
   end
-})-- }}}
+})                                                                                                   -- }}}
 
-vim.lsp.handlers['textDocument/signatureHelp']  = vim.lsp.with(vim.lsp.handlers['signature_help'], {-- {{{
-    border = 'single',
-    close_events = { "CursorMoved", "BufHidden" },
-})-- }}}
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers['signature_help'], {
+                                                                                                     -- {{{
+  border = 'single',
+  close_events = { "CursorMoved", "BufHidden" },
+}) -- }}}
 
 -- vi: fen fdl=0 fdm=marker fmr={{{,}}} fdc=3

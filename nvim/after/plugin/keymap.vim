@@ -1,6 +1,6 @@
 nnoremap _ <cmd>vnew %<cmd>h<cr>
 
-nnoremap <silent> <esc> <cmd>nohlsearch<cr><cmd>pclose<cr><c-l>
+nnoremap <silent> <esc> <cmd>nohlsearch<cr><cmd>pclose<cr>
 
 " more undo stops in insert mode
 inoremap ! !<c-g>u
@@ -58,9 +58,6 @@ nnoremap [l <cmd>lprev<cr>
 nnoremap X i<cr><esc>ddkP
 nnoremap gX ddpkJ  " the inverse
 
-nnoremap <leader>sns <cmd>call UltiSnips#ListSnippets()<cr>
-nnoremap <leader>sne <cmd>UltiSnipsEdit<cr>
-
 nnoremap <leader>cc <cmd>Git commit<cr>
 
 " buffer navigation
@@ -85,3 +82,8 @@ nnoremap <silent> <leader>ttl <cmd>execute "set showtabline=" . (&showtabline ==
 nnoremap <leader>tn <cmd>Num<cr>
 nnoremap <leader>tg <cmd>Gitsigns toggle_signs<cr>
 nnoremap <leader>td <cmd>DoToggle<cr>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
