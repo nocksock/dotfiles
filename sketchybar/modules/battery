@@ -3,14 +3,14 @@ source $DOTDIR/sketchybar/vars.zsh
 NAME="$(basename $0)"
 
 if [[ $1 == "setup" ]]; then
-  sketchybar                           \
-    --add item "$NAME" $POSITION       \
-    --set "$NAME"                      \
-		script="$PLUGIN_DIR/battery"       \
-		update_freq=30                     \
-		background.padding_left=0          \
-		background.padding_right=0         \
-		icon.padding_left=0                \
+  sketchybar                       \
+    --add item "$NAME" $POSITION   \
+    --set "$NAME"                  \
+		script="$PLUGIN_DIR/battery"   \
+		update_freq=30                 \
+		background.padding_left=$SPACE \
+		background.padding_right=0     \
+		icon.padding_left=0            \
     --subscribe $NAME system_woke
 fi
 
