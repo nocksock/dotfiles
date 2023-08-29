@@ -1,0 +1,16 @@
+themes {
+  fleet {
+    fg "#f2f4f8"
+    bg "#161616"
+    red "#cc7c8a"
+    green "#7ecbc8"
+    yellow "#ebc88d"
+    blue "#7382a0"
+    magenta "#a390f0"
+    orange "#e76f51"
+    cyan "#7ecbc8"
+    black "#282828"
+    white "#d6d6dd"
+  }
+}
+

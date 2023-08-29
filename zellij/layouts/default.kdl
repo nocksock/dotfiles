@@ -1,0 +1,25 @@
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="file:/Users/ksch/.config/zellij/plugins/bare-bar.wasm"
+        }
+    }
+    tab name="DEV" focus=true {
+        pane
+    }
+    tab name="RUN" {
+        pane stacked=true {
+            pane name="NEXT"
+            pane name="STORYBOOK"
+            pane name="REDIS"
+        }
+    }
+    tab name="EXP" {
+        pane
+    }
+    tab name="GIT" {
+        pane
+    }
+}
+session_name "Geist"

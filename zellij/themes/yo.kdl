@@ -1,0 +1,15 @@
+themes {
+  yoberry {
+    bg "#f6f2ee"
+    fg "#3d2b5a"
+    red "#a5222f"
+    green "#ad9afc"
+    blue "#2848a9"
+    yellow "#ac5402"
+    magenta "#6e33ce"
+    orange "#a09fa6"
+    cyan "#287980"
+    black "#232326"
+    white "#9c9ba2"
+  }
+}

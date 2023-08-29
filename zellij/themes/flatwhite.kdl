@@ -1,0 +1,16 @@
+themes {
+  flatwhite {
+    fg "#1C1D1E"
+    bg "#f7f3ee"
+    red "#ff1414"
+    green "#81895d"
+    yellow "#f2db0d"
+    blue "#7382a0"
+    magenta "#9c739c"
+    orange "#f2a60d"
+    cyan "#a9d4c7"
+    black "#605a52"
+    white "#e4ddd2"
+  }
+}
+
