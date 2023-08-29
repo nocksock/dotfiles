@@ -87,8 +87,9 @@ move < shift - l: yabai -m window --warp east
 
 # }}}
 # mode: launch {{{
-launch < t : kitty-focreate
-launch < o : ~/.config/skhd/apps/obsidian launch-or-focus
+hyper - o : ~/.config/skhd/apps/obsidian launch-or-focus
+launch < t : skhd -k 'escape' ; kitty-focreate
+launch < o : skhd -k 'escape' ; ~/.config/skhd/apps/obsidian launch-or-focus
 launch < p : skhd -k 'escape' ; kitty -1 kitty-qp
 launch < g : skhd -k 'escape' ; kitty -1 --title "Kitty Quick Window"  zsh -c "cat ~/bookmarks.txt | fzf --preview=\"https {}\" |  xargs open"
 launch < c : skhd -k 'escape' ; kitty -1 --title "Kitty Quick Window"  zsh -c "fzf-commands -p"
