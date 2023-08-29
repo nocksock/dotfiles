@@ -22,6 +22,7 @@ zle -N edit-command-line # Emacs style
 bindkey -e                       # use emacs keybindings
 bindkey '^xe' edit-command-line  # Enable Ctrl-x-e to edit command line
 bindkey '^x^e' edit-command-line # + Ctrl-x-Ctrl-e for convenience
+bindkey '^f' edit-command-line #  like nvim command-mode
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
 bindkey "^6" pd
 
@@ -71,3 +72,6 @@ export SAVEHIST=99999
 eval "$(starship init zsh)"
 
 # vim:foldmethod=marker:foldlevel=0
+
+# opam configuration
+[[ ! -r /Users/nilsriedemann/.opam/opam-init/init.zsh ]] || source /Users/nilsriedemann/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
