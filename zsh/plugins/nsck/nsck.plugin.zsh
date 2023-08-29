@@ -18,8 +18,9 @@ alias nnn='nnn -ei'
 alias qf='qufo'
 
 # {{{ git
-alias gss='git status -s .'
-alias gs='vim +:Git status'
+alias gss='git status'
+alias gs='git status -s .'
+alias ngs='nvim +:Git status'
 alias gr='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
 alias gg='lazygit'
 alias gsw='pushd "$(git worktree list --porcelain | ggrep -Po "(?<=worktree ).*" | fzf)"'
