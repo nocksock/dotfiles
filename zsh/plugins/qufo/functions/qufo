@@ -21,6 +21,7 @@ Modes:
       ctrl-m        Open file in nvim
       ctrl-o        Open file in default application
       ctrl-t        Open file in new kitty tab
+			ctrl-d				CD into the file's directory
 
   Open:
     Opens the file in \$EDITOR ($EDITOR), unless -o is given
@@ -38,7 +39,7 @@ zparseopts -D -E -F -A opts m:: h x:: e p
 
 if [[ -n ${opts[(i)-h]} ]]; then
   usage
-  exit 0
+	return 0
 fi
 
 mode=${opts[-m]:-browse}
@@ -46,7 +47,7 @@ if [[ $mode = "preview" ]]; then
 
   if [[ -z $1 ]]; then
     echo "No file given"
-    exit 1
+    return 1
   fi
 
   file_type=$(file -b --mime-type "$1")
@@ -65,7 +66,7 @@ if [[ $mode = "preview" ]]; then
     bat --color=always -pp "$1" 2> /dev/null || cat "cannot preview $1"
   fi
 
-  exit 0
+  return 0
 fi
 
 find-project-root () {
@@ -101,7 +102,7 @@ if [[ $mode = "open" ]]; then
   if [[ -n ${opts[(i)-e]} ]]; then
     cd "$PROJECT_ROOT"
     $EDITOR "$FILE_PATH"
-    exit 0
+    return 0
   fi
 
   if [[ "$file_type" = "text/"* ]]; then
@@ -110,7 +111,7 @@ if [[ $mode = "open" ]]; then
     open "$FILE_PATH"
   fi
 
-  exit 0
+  return 0
 fi
 
 if [[ $mode = "browse" ]]; then
