@@ -1,3 +1,5 @@
+vim.cmd('packadd! lualine.nvim')
+
 local symbols = {
   modified = '%#ErrorMsg#*',
   readonly = '  ',

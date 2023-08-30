@@ -1,4 +1,13 @@
-require('copilot').setup {
+vim.api.nvim_create_augroup("UserCopilot", { clear = true})
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+  callback = function()
+    vim.cmd([[
+      packadd! copilot-cmp
+      packadd! copilot.lua
+    ]])
+    require("copilot_cmp").setup()
+    require('copilot').setup {
       panel = {
         enabled = true,
         auto_refresh = false,
@@ -36,8 +45,11 @@ require('copilot').setup {
         hgcommit = false,
         svn = false,
         cvs = false,
-            ["."] = false,
+        ["."] = false,
       },
       copilot_node_command = 'node', -- Node.js version must be > 16.x
       server_opts_overrides = {},
     }
+  end
+})
+

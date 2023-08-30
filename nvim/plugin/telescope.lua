@@ -1,3 +1,12 @@
+vim.api.nvim_create_augroup("UserTelescope", { clear = true })
+vim.api.nvim_create_autocmd("InsertEnter", {
+  callback = function()
+    vim.cmd([[
+      packadd! telescope-fzf-native.nvim
+      packadd! telescope-ui-select.nvim
+      packadd! telescope.nvim
+    ]])
+
     local telescope = require('telescope')
     telescope.load_extension('fzf')
     telescope.load_extension("ui-select")
@@ -30,3 +39,5 @@
         },
       },
     })
+  end
+})

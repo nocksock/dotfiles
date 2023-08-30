@@ -1,3 +1,4 @@
+vim.cmd('packadd! neovim')
 require "rose-pine".setup {}
 
 vim.g.colors_name = 'rose-pine'

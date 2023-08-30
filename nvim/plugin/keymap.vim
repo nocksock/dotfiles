@@ -56,7 +56,8 @@ nnoremap [l <cmd>lprev<cr>
 
 " split a line in two, making the right above the left (usefull to move comments)
 nnoremap X i<cr><esc>ddkP
-nnoremap gX ddpkJ  " the inverse
+" the inverse
+nnoremap gX ddpkJ  
 
 nnoremap <leader>cc <cmd>Git commit<cr>
 
@@ -108,42 +109,21 @@ nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
 nmap <leader>T <cmd>Telescope builtin<cr>
 nmap <leader>l <cmd>Telescope current_buffer_fuzzy_find<cr>
 
-" { 'ga', '<Plug>(EasyAlign)', mode = "x" },
-" { 'ga', '<Plug>(EasyAlign)' },
+xnoremap ga         <Plug>(EasyAlign)
+nnoremap ga         <Plug>(EasyAlign)
+nnoremap <leader>m  <cmd>lua require("treesj").toggle()<cr>
+nnoremap <leader>tu <cmd>MundoToggle<CR>
+nnoremap [h         <cmd>Gitsigns prev_hunk<CR>
+nnoremap ]h         <cmd>Gitsigns next_hunk<CR>
+nnoremap <leader>hD <cmd>lua require "gitsigns".diffthis("~")<cr>
+nnoremap <leader>hR <cmd>lua require("gitsigns.actions").reset_buffer()<cr>
+nnoremap <leader>hS <cmd>lua require("gitsigns.actions").stage_buffer()<cr>
+nnoremap <leader>hb <cmd>lua require("gitsigns").blame_line { full=true }<cr>
+nnoremap <leader>hd <cmd>lua require("gitsigns.actions").diffthis()<cr>
+nnoremap <leader>hp <cmd>lua require("gitsigns.actions").preview_hunk()<cr>
+nnoremap <leader>hr <cmd>lua require("gitsigns.actions").reset_hunk()<cr>
+nnoremap <leader>hs <cmd>lua require("gitsigns.actions").stage_hunk()<cr>
+nnoremap <leader>hu <cmd>lua require("gitsigns.actions").undo_stage_hunk()<cr>
 
-" { '<leader>m', ':lua require("treesj").toggle()<cr>' }
-
-" { '<leader>tu', '<cmd>MundoToggle<CR>' }
-"
-"       { '[h',         "<cmd>Gitsigns prev_hunk<CR>" },
- "     { ']h',         "<cmd>Gitsigns next_hunk<CR>" },
- "     { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
- "     { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
- "     { '<leader>hr', function() require("gitsigns.actions").reset_hunk() end, },
- "     { '<leader>hr', function() require("gitsigns.actions").reset_hunk() end, },
- "     { '<leader>hu', function() require("gitsigns.actions").undo_stage_hunk() end, },
- "     { '<leader>hS', function() require("gitsigns.actions").stage_buffer() end, },
- "     { '<leader>hR', function() require("gitsigns.actions").reset_buffer() end, },
- "     { '<leader>hp', function() require("gitsigns.actions").preview_hunk() end, },
- "     { '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', },
- "     { '<leader>hd', function() require("gitsigns.actions").diffthis() end, },
- "     { '<leader>hD', function() require "gitsigns".diffthis("~") end, },
- "     {
- "       'ic',
- "       function() require("gitsigns.actions").select_hunk() end,
- "       mode = "o",
- "     },
- "     {
- "       'ic',
- "       function() require("gitsigns.actions").select_hunk() end,
- "       mode = "x",
- "     },
- "
-" { "<leader>'",  '<cmd>lua require("harpoon.mark").add_file()<CR>' },
-" { "''",         ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
-" { "<leader>;;", '<cmd>lua lua require("harpoon.cmd-ui").toggle_quick_menu()<cr>' },
-" { "<leader>;f", '<cmd>lua require("harpoon.term").gotoTerminal(1)<cr>' },
-" { "'f",         '<cmd>lua require("harpoon.ui").nav_file(1)<CR>' }, -- alt + j
-" { "'d",         '<cmd>lua require("harpoon.ui").nav_file(2)<CR>' }, -- alt + k
-" { "'s",         '<cmd>lua require("harpoon.ui").nav_file(3)<CR>' }, -- alt + l
-" { "'a",         '<cmd>lua require("harpoon.ui").nav_file(4)<CR>' }, -- alt + ;
+ onoremap ic <cmd>lua require("gitsigns.actions").select_hunk()<cr>
+ xnoremap ic <cmd>lua require("gitsigns.actions").select_hunk()<cr>
