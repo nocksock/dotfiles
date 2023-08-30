@@ -143,16 +143,3 @@ let g:fzf_action = {
 ]])
 
 vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
-
-require('configs.firenvim')
-
-require('lazy').setup("plugins", {
-  dev = {
-    path = '~/code',
-    fallback = true
-  },
-  change_detection = {
-    enabled = false, -- I found this annoying when having multiple long running nvim sessions.
-  },
-})
-

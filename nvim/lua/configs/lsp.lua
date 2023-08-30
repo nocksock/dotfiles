@@ -14,6 +14,10 @@ lspconfig.marksman.setup {}
 
 require 'lspconfig'.eslint.setup {}
 
+require'lspconfig'.cssls.setup {}
+
+require'lspconfig'.cssmodules_ls.setup {}
+
 lspconfig.tailwindcss.setup { -- {{{
   capabilities = capabilities,
   settings = {
@@ -166,3 +170,4 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers['
 }) -- }}}
 
 -- vi: fen fdl=0 fdm=marker fmr={{{,}}} fdc=3
+--
