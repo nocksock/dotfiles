@@ -3,25 +3,6 @@
 --  This config is in between haircuts. 
 --
 
--- Automatically install lazy.nvim when it is not yet installed
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.uv.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-
-vim.opt.rtp:prepend(lazypath)
-
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
-
 -- general {{{
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -143,3 +124,39 @@ let g:fzf_action = {
 ]])
 
 vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
+
+vim.cmd([[
+packadd! Comment.nvim
+packadd! cmp-buffer
+packadd! cmp-cmdline
+packadd! cmp-nvim-lsp
+packadd! cmp-nvim-lua
+packadd! cmp-path
+packadd! copilot-cmp
+packadd! copilot.lua
+packadd! emmet-vim
+packadd! gitsigns.nvim
+packadd! lualine.nvim
+packadd! mason.nvim
+packadd! neovim
+packadd! nvim-cmp
+packadd! nvim-lspconfig
+packadd! nvim-surround
+packadd! nvim-treesitter
+packadd! nvim-treesitter-context
+packadd! nvim-treesitter-textobjects
+packadd! nvim-web-devicons
+packadd! playground
+packadd! plenary.nvim
+packadd! telescope-fzf-native.nvim
+packadd! telescope-ui-select.nvim
+packadd! telescope.nvim
+packadd! luasnip
+packadd! twoslash-queries.nvim
+packadd! typescript.nvim
+packadd! vim-prettier
+packadd! treesj
+
+colorscheme rose-pine
+]])
+

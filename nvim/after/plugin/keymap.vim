@@ -91,3 +91,59 @@ nnoremap <C-l> <C-w>l
 nmap <leader>" :lua require('rucksack').show()<cr>
 nmap <leader>y :lua require('rucksack').stash()<cr>
 vmap <leader>y :lua require('rucksack').stash()<cr>
+
+nmap <leader>f <cmd>Telescope find_files<cr>
+nmap <leader>F <cmd>Telescope find_files hidden=true cwd=%:p:h<cr>
+nmap <leader>* <cmd>Telescope grep_string<cr>
+nmap <leader>/ <cmd>Telescope live_grep<cr>
+nmap <leader>? <cmd>Telescope live_grep cwd=%:p:h<cr>
+nmap <leader>: <cmd>Telescope commands<cr>
+nmap <leader>; <cmd>Telescope command_history<cr>
+nmap <leader><cr> <cmd>Telescope resume<cr>
+nmap <leader>h <cmd>Telescope help_tags<cr>
+nmap <leader>S <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+nmap <leader><leader> <cmd>Telescope buffers<cr>
+nmap <leader>s <cmd>Telescope lsp_document_symbols<cr>
+nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
+nmap <leader>T <cmd>Telescope builtin<cr>
+nmap <leader>l <cmd>Telescope current_buffer_fuzzy_find<cr>
+
+" { 'ga', '<Plug>(EasyAlign)', mode = "x" },
+" { 'ga', '<Plug>(EasyAlign)' },
+
+" { '<leader>m', ':lua require("treesj").toggle()<cr>' }
+
+" { '<leader>tu', '<cmd>MundoToggle<CR>' }
+"
+"       { '[h',         "<cmd>Gitsigns prev_hunk<CR>" },
+ "     { ']h',         "<cmd>Gitsigns next_hunk<CR>" },
+ "     { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
+ "     { '<leader>hs', function() require("gitsigns.actions").stage_hunk() end, },
+ "     { '<leader>hr', function() require("gitsigns.actions").reset_hunk() end, },
+ "     { '<leader>hr', function() require("gitsigns.actions").reset_hunk() end, },
+ "     { '<leader>hu', function() require("gitsigns.actions").undo_stage_hunk() end, },
+ "     { '<leader>hS', function() require("gitsigns.actions").stage_buffer() end, },
+ "     { '<leader>hR', function() require("gitsigns.actions").reset_buffer() end, },
+ "     { '<leader>hp', function() require("gitsigns.actions").preview_hunk() end, },
+ "     { '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', },
+ "     { '<leader>hd', function() require("gitsigns.actions").diffthis() end, },
+ "     { '<leader>hD', function() require "gitsigns".diffthis("~") end, },
+ "     {
+ "       'ic',
+ "       function() require("gitsigns.actions").select_hunk() end,
+ "       mode = "o",
+ "     },
+ "     {
+ "       'ic',
+ "       function() require("gitsigns.actions").select_hunk() end,
+ "       mode = "x",
+ "     },
+ "
+" { "<leader>'",  '<cmd>lua require("harpoon.mark").add_file()<CR>' },
+" { "''",         ':lua require("harpoon.ui").toggle_quick_menu()<CR>' },
+" { "<leader>;;", '<cmd>lua lua require("harpoon.cmd-ui").toggle_quick_menu()<cr>' },
+" { "<leader>;f", '<cmd>lua require("harpoon.term").gotoTerminal(1)<cr>' },
+" { "'f",         '<cmd>lua require("harpoon.ui").nav_file(1)<CR>' }, -- alt + j
+" { "'d",         '<cmd>lua require("harpoon.ui").nav_file(2)<CR>' }, -- alt + k
+" { "'s",         '<cmd>lua require("harpoon.ui").nav_file(3)<CR>' }, -- alt + l
+" { "'a",         '<cmd>lua require("harpoon.ui").nav_file(4)<CR>' }, -- alt + ;

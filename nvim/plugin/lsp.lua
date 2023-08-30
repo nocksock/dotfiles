@@ -1,5 +1,4 @@
 require("mason").setup {}
-require('goto-preview').setup {}
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local lspconfig = require('lspconfig')
@@ -12,11 +11,11 @@ lspconfig.gopls.setup {}
 
 lspconfig.marksman.setup {}
 
-require 'lspconfig'.eslint.setup {}
+lspconfig.eslint.setup {}
 
-require'lspconfig'.cssls.setup {}
+lspconfig.cssls.setup {}
 
-require'lspconfig'.cssmodules_ls.setup {}
+lspconfig.cssmodules_ls.setup {}
 
 lspconfig.tailwindcss.setup { -- {{{
   capabilities = capabilities,
@@ -32,7 +31,6 @@ lspconfig.tailwindcss.setup { -- {{{
 } -- }}}
 
 -- Lua {{{
-require("neodev").setup({})
 lspconfig.lua_ls.setup({
   settings = {
     Lua = {
@@ -53,14 +51,13 @@ lspconfig.lua_ls.setup({
   },
 })
 
-lspconfig.clangd.setup({
-                         -- {{{
+lspconfig.clangd.setup({-- {{{
   capabilities = capabilities,
   cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
   init_options = {
     clangdFileStatus = true
   },
-})                       -- }}}
+})  -- }}}
 
 lspconfig.denols.setup { -- {{{
   capabilities = capabilities,
@@ -69,12 +66,12 @@ lspconfig.denols.setup { -- {{{
   init_options = {
     enable = true, unstable = true
   }
-}                        -- }}}
+} -- }}}
 
 lspconfig.svelte.setup { -- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
-}                             -- }}}
+} -- }}}
 
 require("typescript").setup({
                               -- {{{
@@ -154,12 +151,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<c-w>t', ':vs<cr>:lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>i', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
     vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
-
-    vim.keymap.set('n', 'gpd', require('goto-preview').goto_preview_definition, bufopts)
-    vim.keymap.set('n', 'gpi', require('goto-preview').goto_preview_implementation, bufopts)
-    vim.keymap.set('n', 'gpt', require('goto-preview').goto_preview_type_definition, bufopts)
-    vim.keymap.set('n', 'gpr', require('goto-preview').goto_preview_references, bufopts)
-    vim.keymap.set('n', 'gpc', require('goto-preview').close_all_win, bufopts)
   end
 })                                                                                                   -- }}}
 

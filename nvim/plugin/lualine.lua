@@ -1,10 +1,10 @@
-
 local symbols = {
   modified = '%#ErrorMsg#*',
   readonly = '  ',
   unnamed  = ' [No Name]',
   newfile  = ' %#WarningMsg# new',
 }
+
 require('lualine').setup {
   options = {
     icons_enabled = false,
