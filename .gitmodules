@@ -3,85 +3,85 @@
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
 [submodule "nvim/pack/nsck/opt/cmp-buffer"]
-	path = nvim/pack/nsck/opt/cmp-buffer
+	path = nvim/pack/nsck/start/cmp-buffer
 	url = https://github.com/hrsh7th/cmp-buffer.git
 [submodule "nvim/pack/nsck/opt/cmp-cmdline"]
-	path = nvim/pack/nsck/opt/cmp-cmdline
+	path = nvim/pack/nsck/start/cmp-cmdline
 	url = https://github.com/hrsh7th/cmp-cmdline.git
 [submodule "nvim/pack/nsck/opt/cmp-nvim-lsp"]
-	path = nvim/pack/nsck/opt/cmp-nvim-lsp
+	path = nvim/pack/nsck/start/cmp-nvim-lsp
 	url = https://github.com/hrsh7th/cmp-nvim-lsp.git
 [submodule "nvim/pack/nsck/opt/cmp-nvim-lua"]
-	path = nvim/pack/nsck/opt/cmp-nvim-lua
+	path = nvim/pack/nsck/start/cmp-nvim-lua
 	url = https://github.com/hrsh7th/cmp-nvim-lua.git
 [submodule "nvim/pack/nsck/opt/cmp-path"]
-	path = nvim/pack/nsck/opt/cmp-path
+	path = nvim/pack/nsck/start/cmp-path
 	url = https://github.com/hrsh7th/cmp-path.git
 [submodule "nvim/pack/nsck/opt/nvim-cmp"]
-	path = nvim/pack/nsck/opt/nvim-cmp
+	path = nvim/pack/nsck/start/nvim-cmp
 	url = https://github.com/hrsh7th/nvim-cmp.git
 [submodule "nvim/pack/nsck/opt/typescript.nvim"]
-	path = nvim/pack/nsck/opt/typescript.nvim
+	path = nvim/pack/nsck/start/typescript.nvim
 	url = https://github.com/jose-elias-alvarez/typescript.nvim.git
 [submodule "nvim/pack/nsck/opt/nvim-web-devicons"]
-	path = nvim/pack/nsck/opt/nvim-web-devicons
+	path = nvim/pack/nsck/start/nvim-web-devicons
 	url = https://github.com/kyazdani42/nvim-web-devicons.git
 [submodule "nvim/pack/nsck/opt/nvim-surround"]
-	path = nvim/pack/nsck/opt/nvim-surround
+	path = nvim/pack/nsck/start/nvim-surround
 	url = https://github.com/kylechui/nvim-surround.git
 [submodule "nvim/pack/nsck/opt/gitsigns.nvim"]
-	path = nvim/pack/nsck/opt/gitsigns.nvim
+	path = nvim/pack/nsck/start/gitsigns.nvim
 	url = https://github.com/lewis6991/gitsigns.nvim.git
 [submodule "nvim/pack/nsck/opt/twoslash-queries.nvim"]
-	path = nvim/pack/nsck/opt/twoslash-queries.nvim
+	path = nvim/pack/nsck/start/twoslash-queries.nvim
 	url = https://github.com/marilari88/twoslash-queries.nvim.git
 [submodule "nvim/pack/nsck/opt/emmet-vim"]
-	path = nvim/pack/nsck/opt/emmet-vim
+	path = nvim/pack/nsck/start/emmet-vim
 	url = https://github.com/mattn/emmet-vim.git
 [submodule "nvim/pack/nsck/opt/nvim-lspconfig"]
-	path = nvim/pack/nsck/opt/nvim-lspconfig
+	path = nvim/pack/nsck/start/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig.git
 [submodule "nvim/pack/nsck/opt/Comment.nvim"]
-	path = nvim/pack/nsck/opt/Comment.nvim
+	path = nvim/pack/nsck/start/Comment.nvim
 	url = https://github.com/numToStr/Comment.nvim.git
 [submodule "nvim/pack/nsck/opt/plenary.nvim"]
-	path = nvim/pack/nsck/opt/plenary.nvim
+	path = nvim/pack/nsck/start/plenary.nvim
 	url = https://github.com/nvim-lua/plenary.nvim.git
 [submodule "nvim/pack/nsck/opt/telescope-fzf-native.nvim"]
-	path = nvim/pack/nsck/opt/telescope-fzf-native.nvim
+	path = nvim/pack/nsck/start/telescope-fzf-native.nvim
 	url = https://github.com/nvim-telescope/telescope-fzf-native.nvim.git
 [submodule "nvim/pack/nsck/opt/telescope-ui-select.nvim"]
-	path = nvim/pack/nsck/opt/telescope-ui-select.nvim
+	path = nvim/pack/nsck/start/telescope-ui-select.nvim
 	url = https://github.com/nvim-telescope/telescope-ui-select.nvim.git
 [submodule "nvim/pack/nsck/opt/telescope.nvim"]
-	path = nvim/pack/nsck/opt/telescope.nvim
+	path = nvim/pack/nsck/start/telescope.nvim
 	url = https://github.com/nvim-telescope/telescope.nvim.git
 [submodule "nvim/pack/nsck/opt/nvim-treesitter-context"]
-	path = nvim/pack/nsck/opt/nvim-treesitter-context
+	path = nvim/pack/nsck/start/nvim-treesitter-context
 	url = https://github.com/nvim-treesitter/nvim-treesitter-context.git
 [submodule "nvim/pack/nsck/opt/nvim-treesitter-textobjects"]
-	path = nvim/pack/nsck/opt/nvim-treesitter-textobjects
+	path = nvim/pack/nsck/start/nvim-treesitter-textobjects
 	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects.git
 [submodule "nvim/pack/nsck/opt/nvim-treesitter"]
-	path = nvim/pack/nsck/opt/nvim-treesitter
+	path = nvim/pack/nsck/start/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter.git
 [submodule "nvim/pack/nsck/opt/playground"]
-	path = nvim/pack/nsck/opt/playground
+	path = nvim/pack/nsck/start/playground
 	url = https://github.com/nvim-treesitter/playground.git
 [submodule "nvim/pack/nsck/opt/vim-prettier"]
-	path = nvim/pack/nsck/opt/vim-prettier
+	path = nvim/pack/nsck/start/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
 [submodule "nvim/pack/nsck/opt/neovim"]
-	path = nvim/pack/nsck/opt/neovim
+	path = nvim/pack/nsck/start/neovim
 	url = https://github.com/rose-pine/neovim.git
 [submodule "nvim/pack/nsck/opt/mason.nvim"]
-	path = nvim/pack/nsck/opt/mason.nvim
+	path = nvim/pack/nsck/start/mason.nvim
 	url = https://github.com/williamboman/mason.nvim.git
 [submodule "nvim/pack/nsck/opt/copilot-cmp"]
-	path = nvim/pack/nsck/opt/copilot-cmp
+	path = nvim/pack/nsck/start/copilot-cmp
 	url = https://github.com/zbirenbaum/copilot-cmp.git
 [submodule "nvim/pack/nsck/opt/copilot.lua"]
-	path = nvim/pack/nsck/opt/copilot.lua
+	path = nvim/pack/nsck/start/copilot.lua
 	url = https://github.com/zbirenbaum/copilot.lua.git
 [submodule "nvim/pack/nsck/start/vim-easy-align"]
 	path = nvim/pack/nsck/start/vim-easy-align
@@ -111,8 +111,8 @@
 	path = nvim/pack/nsck/start/lualine.nvim
 	url = https://github.com/nvim-lualine/lualine.nvim.git
 [submodule "nvim/pack/nsck/opt/LuaSnip"]
-	path = nvim/pack/nsck/opt/LuaSnip
+	path = nvim/pack/nsck/start/LuaSnip
 	url = https://github.com/L3MON4D3/LuaSnip
 [submodule "nvim/pack/nsck/opt/treesj"]
-	path = nvim/pack/nsck/opt/treesj
+	path = nvim/pack/nsck/start/treesj
 	url = https://github.com/Wansmer/treesj
