@@ -127,3 +127,9 @@ nnoremap <leader>hu <cmd>lua require("gitsigns.actions").undo_stage_hunk()<cr>
 
  onoremap ic <cmd>lua require("gitsigns.actions").select_hunk()<cr>
  xnoremap ic <cmd>lua require("gitsigns.actions").select_hunk()<cr>
+
+imap <M-i> if<c-l>
+imap <M-c> cb<c-l>
+imap <M-l> for<c-l>
+imap <M-f> fn<c-l>
+

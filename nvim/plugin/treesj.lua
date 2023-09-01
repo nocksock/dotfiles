@@ -1,7 +1,8 @@
+local treesj = require "baggage".from 'https://github.com/Wansmer/treesj'
+
 vim.api.nvim_create_autocmd({ 'UIEnter' }, {
   callback = function()
-    vim.cmd('packadd! treesj')
-    require 'treesj'.setup {
+    treesj.load().setup {
       use_default_keymaps = false,
       max_join_length = 200,
       cursor_behavior = 'start',

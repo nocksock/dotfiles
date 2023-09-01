@@ -79,6 +79,16 @@ return {
     })
   ),
   s(
+    'if',
+    c(1, {
+      fmt([=[
+      if {} then
+        {}
+      end
+      ]=], {i(1), i(2)})
+    })
+  ),
+  s(
     'fn',
     c(1, {
       fmt([[
@@ -104,15 +114,15 @@ return {
   s(
     'cb',
     c(1, {
-      fmt('function{}({}) {} end', { i(1), r(2, "body"), i(3) }),
       fmt(
         [[
-					function{}({})
+					function({})
 						{}
 					end
 					]]  ,
-        { i(1), r(2, "body"), i(3) }
+        { i(1), r(2, "body") }
       ),
+      fmt('function{}({}) {} end', { i(1), r(2, "body"), i(3) }),
     })
   ),
 }

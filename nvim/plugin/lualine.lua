@@ -1,5 +1,3 @@
-vim.cmd('packadd! lualine.nvim')
-
 local symbols = {
   modified = '%#ErrorMsg#*',
   readonly = '  ',
@@ -7,7 +5,11 @@ local symbols = {
   newfile  = ' %#WarningMsg# new',
 }
 
-require('lualine').setup {
+local lualine = require "baggage"
+  .from('https://github.com/nvim-lualine/lualine.nvim')
+  .load()
+
+lualine.setup {
   options = {
     icons_enabled = false,
     theme = 'auto',
@@ -16,7 +18,7 @@ require('lualine').setup {
     disabled_filetypes = { },
   },
   sections = {
-    lualine_a = { 'mode' },
+    lualine_a = { },
     lualine_b = {
       { 'tabs', mode = 0, cond = function() return vim.fn.tabpagenr('$') > 1 end },
     },

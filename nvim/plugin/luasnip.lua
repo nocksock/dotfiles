@@ -1,7 +1,7 @@
+require "baggage".from('https://github.com/L3MON4D3/LuaSnip')
+
 vim.api.nvim_create_autocmd("InsertEnter", {
   callback = function()
-    vim.cmd('packadd! luasnip')
-
     local luasnip = require('luasnip')
 
     vim.api.nvim_create_user_command("SnippetEdit",

@@ -1,7 +1,7 @@
+local comment = require "baggage".from('https://github.com/numToStr/Comment.nvim')
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   callback = function()
-    vim.cmd('packadd! Comment.nvim')
-    require('Comment').setup()
-    require('Comment.ft').set('jq', '#%s')
+    comment.load().setup()
+    comment.load('Comment.ft').set('jq', '#%s')
   end
 })

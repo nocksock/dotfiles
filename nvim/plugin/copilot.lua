@@ -1,11 +1,10 @@
+require "baggage".from 'https://github.com/zbirenbaum/copilot-cmp'
+require "baggage".from 'https://github.com/zbirenbaum/copilot.lua'
+
 vim.api.nvim_create_augroup("UserCopilot", { clear = true})
 
 vim.api.nvim_create_autocmd("InsertEnter", {
   callback = function()
-    vim.cmd([[
-      packadd! copilot-cmp
-      packadd! copilot.lua
-    ]])
     require("copilot_cmp").setup()
     require('copilot').setup {
       panel = {
