@@ -20,11 +20,8 @@ autoload -U edit-command-line
 autoload -U select-word-style
 zle -N edit-command-line # Emacs style
 bindkey -e                       # use emacs keybindings
-bindkey '^xe' edit-command-line  # Enable Ctrl-x-e to edit command line
-bindkey '^x^e' edit-command-line # + Ctrl-x-Ctrl-e for convenience
 bindkey '^f' edit-command-line #  like nvim command-mode
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
-bindkey "^6" pd
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
