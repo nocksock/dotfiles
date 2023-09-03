@@ -24,7 +24,6 @@ zle -N edit-command-line # Emacs style
 bindkey -e                       # use emacs keybindings
 bindkey '^f' edit-command-line #  like nvim command-mode
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
-
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M emacs '^P' history-substring-search-up
@@ -33,6 +32,13 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
 export WORDCHARS="*?_.[]~!#$%^(){}<>" # removed =/&;.-
+
+# }}}
+# switch from bar to block depending on input mode {{{
+
+set show-mode-in-prompt on
+set vi-cmd-mode-string "\1\e[2 q\2"
+set vi-ins-mode-string "\1\e[6 q\2"
 
 # }}}
 # {{{ 1password completion
