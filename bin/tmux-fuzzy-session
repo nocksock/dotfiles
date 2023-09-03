@@ -7,7 +7,7 @@
 #   bind s popup -E -w 20% -h 20% $DOTDIR/bin/tmux-fuzzy-session
 #
 
-selected_name=$(tmux ls -F '#S'| gum filter)
+selected_name=$(tmux ls -F '#S'| fzf)
 
 if [[ -z $selected_name ]]; then
     exit 0
