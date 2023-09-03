@@ -1,7 +1,9 @@
 zmodload zsh/zprof # profile startup time
 
 export TERM=xterm-kitty
+
 export SBOX_TEMPLATE_DIR="$HOME/code/bleepbloop.git/main/templates/"
+export SBOX_DEFAULT_TARGET_ROOT="$HOME/code/bleepbloop.git/main/sandboxes/"
 
 # {{{ compinit
 autoload -Uz compinit
