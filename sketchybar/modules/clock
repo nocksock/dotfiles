@@ -19,4 +19,4 @@ if [[ $1 == "setup" ]]; then
 
 fi
 
-sketchybar --set $NAME label="$(date '+%y-%m-%d %H:%M 󰨳 %V')"
+sketchybar --set $NAME label="$(date '+%V 󰨳 %y-%m-%d %H:%M')"
