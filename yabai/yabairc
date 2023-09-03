@@ -9,35 +9,35 @@ if [[ ! $1 == "refresh" ]]; then
   yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
 fi
 
-yabai -m config                                      \
-  top_padding                6                       \
-  bottom_padding             6                       \
-  left_padding               6                       \
-  right_padding              6                       \
-                                                     \
-  window_gap                 24                      \
-  window_topmost             off                     \
-  window_border              off                     \
-  window_border_width        2                       \
-  window_border_radius       12                      \
-  window_placement           second_child            \
-  window_opacity             on                      \
-  window_border_blur         off                     \
-  active_window_opacity 1.0                          \
-  normal_window_opacity 0.8                          \
-  active_window_border_color $(opacity $LAVENDER 50) \
-  normal_window_border_color $(opacity $LAVENDER 10) \
-                                                     \
-  insert_feedback_color      "${WM_COLORS[green]}"   \
-  mouse_modifier             fn                      \
-  mouse_action1              move                    \
-  mouse_action2              resize                  \
-  mouse_follows_focus        off                     \
-  focus_follows_mouse        off                     \
-                                                     \
-  split_type                 auto                    \
-  auto_balance               off                     \
-  layout                     bsp                     \
+yabai -m config                                       \
+  top_padding                6                        \
+  bottom_padding             6                        \
+  left_padding               6                        \
+  right_padding              6                        \
+                                                      \
+  window_gap                 24                       \
+  window_topmost             off                      \
+  window_border              on                       \
+  window_border_width        2                        \
+  window_border_radius       12                       \
+  window_placement           second_child             \
+  window_opacity             on                       \
+  window_border_blur         off                      \
+  active_window_opacity 1.0                           \
+  normal_window_opacity 1.0                           \
+  active_window_border_color "${WM_COLORS[lavender]}" \
+  normal_window_border_color "${WM_COLORS[lavender]}" \
+                                                      \
+  insert_feedback_color      "${WM_COLORS[green]}"    \
+  mouse_modifier             fn                       \
+  mouse_action1              move                     \
+  mouse_action2              resize                   \
+  mouse_follows_focus        off                      \
+  focus_follows_mouse        off                      \
+                                                      \
+  split_type                 auto                     \
+  auto_balance               off                      \
+  layout                     bsp                      \
   external_bar               main:24:0
 
 yabai -m space 1 --layout bsp --label side   # side stuff, docs etc
@@ -56,28 +56,44 @@ yabai -m rule --add app="Microsoft Teams$" space=comm manage=off
 yabai -m rule --add title="Microsoft Teams Notifications" space=comm manage=off
 
 yabai -m rule --add app="CleanShot X" manage=off
+yabai -m rule --add app="Cursor Pro" title="Cursor Pro" manage=off border=off 
 yabai -m rule --add app="Discord" space=chat
 yabai -m rule --add app="Numi" manage=off sticky=on
 yabai -m rule --add app="Obsidian" manage=off sticky=on
+yabai -m rule --add app="Photo Booth" title="^Photo Booth$" manage=off
+yabai -m rule --add app="Preview" manage=off
 yabai -m rule --add app="Raycast" manage=off
+yabai -m rule --add app="Reminders" manage=off
+yabai -m rule --add app="Software Update" title="Software Update" manage=off
 yabai -m rule --add app="Stickies" manage=off sticky=on
 yabai -m rule --add app="System Information" title="About This Mac" manage=off
+yabai -m rule --add app="System Settings" manage=off
 yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off
+yabai -m rule --add app="^1Password$" sticky=on manage=off
 yabai -m rule --add app="^Activity Monitor$" manage=off
 yabai -m rule --add app="^App Store$" manage=off
+yabai -m rule --add app="^Arc$" title="^(Account|General|Shortcuts|Little Arc|Previews|Updates|Archive|Site Settings|Advanced)$" manage=off
+yabai -m rule --add app="^Books$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Calendar$" manage=off
+yabai -m rule --add app="^CleanMyMac X$" sticky=on manage=off
 yabai -m rule --add app="^Dash$" manage=off
 yabai -m rule --add app="^Dictionary$" manage=off
+yabai -m rule --add app="^Discord$" manage=off
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add app="^Firefox$"
+yabai -m rule --add app="^Google Chrome$" manage=on border=off
 yabai -m rule --add app="^Hammerspoon Console$" manage=off
+yabai -m rule --add app="^Installer$" sticky=on manage=off
+yabai -m rule --add app="^Microsoft Teams$" manage=off
+yabai -m rule --add app="^Music$" manage=off
 yabai -m rule --add app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+yabai -m rule --add app="^Setapp$" manage=off
+yabai -m rule --add app="^Slack$" manage=off
+yabai -m rule --add app="^Spotify$" sticky=on manage=off
 yabai -m rule --add app="^System Preferences$" title=".*" manage=off
+yabai -m rule --add app="^TV$" manage=off
 yabai -m rule --add app="^Telephone$" manage=off
-
-yabai -m rule --add title="Cursor Pro" app="Cursor Pro" manage=off border=off 
-yabai -m rule --add title="New Note" manage=off sticky=on
-yabai -m rule --add title="Setapp" manage=off
-yabai -m rule --add title="Software Update" manage=off
-yabai -m rule --add title='Preferences$' manage=off
-yabai -m rule --add title='Settings$' manage=off
+yabai -m rule --add app="^zoom.us$" manage=off
 
 printf "yabai: configuration loaded...\\n"
