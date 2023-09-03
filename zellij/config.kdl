@@ -1,16 +1,16 @@
 theme "yoberry"
 default_shell "zsh"
 default_layout "default"
-pane_frames false
+pane_frames true
 mouse_mode false
 copy_on_select false
-simplified_ui true
+simplified_ui false
 copy_command "pbcopy"
 
 ui {
   pane_frames {
     rounded_corners false
-    hide_session_name true
+    hide_session_name false
   }
 }
 
@@ -21,7 +21,7 @@ keybinds clear-defaults=true {
     bind "Ctrl r" { SwitchToMode "resize"; }
     bind "Ctrl t" { SwitchToMode "tab"; }
     bind "Ctrl s" { SwitchToMode "scroll"; }
-    // bind "Ctrl o" { SwitchToMode "session"; }
+    bind "Ctrl o" { SwitchToMode "session"; }
     bind "Ctrl h" { SwitchToMode "move"; }
     // bind "Ctrl q" { Quit; }
     bind "Alt n" { NewPane; }
