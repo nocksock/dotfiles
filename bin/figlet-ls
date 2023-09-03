@@ -1,12 +1,10 @@
 #!/bin/zsh
 
-figlist | awk '/fonts/ {f=1;next} /control/ {f=0} f {print}' | while read font; do
-  echo ""
-  echo "=== $font ==="
-  if [[ $1 ]]; then
-    echo $1 | figlet -f $font
-  else
-    echo $font | figlet -f $font
-  fi
-  echo ""
-done | less
+figlist                                                \
+	| awk '/fonts/ {f=1;next} /control/ {f=0} f {print}' \
+	| shuf \
+	| fzf                                                \
+		--preview="figlet -f {} $1"                        \
+		--preview-window="right:70%"                       \
+		--no-multi                                         \
+		--bind="enter:become(figlet -f {} $1 | pbcopy && echo 'copied to clipboard')"
