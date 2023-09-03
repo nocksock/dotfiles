@@ -3,9 +3,6 @@
 --  This config is in between haircuts.
 --
 
-require('globals')
-require('baggage')
-
 -- general {{{
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -129,6 +126,18 @@ let g:fzf_action = {
 
 vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
 
-require "baggage".from 'https://github.com/nvim-lua/plenary.nvim'
 require "baggage".from 'https://github.com/lewis6991/gitsigns.nvim'
 require "baggage".from 'https://github.com/kyazdani42/nvim-web-devicons'
+
+RELOAD = require("baggage").from("https://github.com/nvim-lua/plenary.nvim").load('plenary.reload').reload_module
+
+R = function(name)
+  RELOAD(name)
+  return require(name)
+end
+
+P = function(v)
+  print(vim.inspect(v))
+  return v
+end
+
