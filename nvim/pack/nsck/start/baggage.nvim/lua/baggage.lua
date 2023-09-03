@@ -21,7 +21,6 @@ M.from = function(origin, opts)
   local fn = require("baggage.fn")
 
   return {
-    require = require,
     load = function(handle)
       if handle then
         return require(handle)
