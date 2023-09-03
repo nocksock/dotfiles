@@ -1,113 +1,146 @@
 #!/usr/bin/env zsh
 #
-# $ box
-#    a helper to quickly create local code sandboxes
+#          d8b
+#          ?88
+#           88b
+#  .d888b,  888888b  d8888b ?88,  88P
+#  ?8b,     88P `?8bd8P' ?88 `?8bd8P'
+#    `?8b  d88,  d8888b  d88 d8P?8b,
+# `?888P' d88'`?88P'`?8888P'd8P' `?8b
 #
+# $ sbox
+#    a helper to quickly create local code sandboxes
+
+local SBOX_TEMPLATE_PREFIX="template: "
 
 if [[ -z $SBOX_TEMPLATE_DIR ]]; then
-  echo "SBOX_TEMPLATE_DIR not set"
+  echo "\$SBOX_TEMPLATE_DIR not set"
   return 1
 fi
 
-local TEMPLATES=$(\ls -1 $SBOX_TEMPLATE_DIR)
-local -a options=()
+if [[ -z $SBOX_DEFAULT_TARGET_ROOT ]]; then
+  echo "\$SBOX_DEFAULT_TARGET_ROOT not set"
+  return 1
+fi
 
-for t in $TEMPLATES; do
-  options+=(".${t}")
-done
+sbox-random-name() { # {{{
+	zparseopts -D -E -F -A opts n::
+  paste -s -d '-' <(cat /usr/share/dict/web2 | shuf | head -n 3 | tr '[:upper:]' '[:lower:]') | sed 's/ /-/g'
+} # }}}
+sbox-get-target () { # {{{
+	zparseopts -D -E -F -A args c:
 
-options+=(
-  "vite"
-  "t3"
-  "next"
-  "empty"
-  "pnpm create"
-)
+	if [[ $1 == ./* ]]; then
+		echo "$(pwd)/${1#./}"
+	else
+		local name
 
-choice=$(printf '%s\n' "${options[@]}" | fzf --height 40% --layout=reverse --prompt="select box type: ")
+		if [[ -z $1 ]]; then
+			name="$(gum input --prompt="name: " --value="${args[-c]#$SBOX_TEMPLATE_PREFIX}--$(sbox-random-name)")"
+		fi
+
+		if [[ -z $name ]]; then
+			echo "cancelled" >&2
+			exit 1
+		fi
+
+		local full_path="$SBOX_DEFAULT_TARGET_ROOT$name"
+		if [[ ! -e $full_path ]]; then
+			echo "$full_path"
+		else
+			echo "already exists: $full_path" >&2
+			exit 1
+		fi
+	fi
+} # }}}
+sbox-choose-template () { # {{{
+	local -a templates=()
+	templates+=(
+		"deno"
+		"next"
+		"vite"
+	)
+
+	for t in $(\ls -1 "$SBOX_TEMPLATE_DIR"); do
+		templates+=("$SBOX_TEMPLATE_PREFIX${t}")
+	done
+
+	templates+=(
+		"pnpm create"
+		"empty"
+	)
+
+	printf '%s\n' "${templates[@]}" | fzf --height 40% --layout=reverse --prompt="sandbox type? "
+} # }}}
+sbox-build () { # {{{
+	zparseopts -D -E -F -A args t: c:
+	local target=${args[-t]}
+	local choice=${args[-c]}
+
+	echo "Creating sandbox in '$target' with '$choice'"
+	case ${choice} in
+		"vite") pnpm create vite $target;;
+		"deno") deno init $target ;;
+		"next") pnpm create next-app --tailwind --use-pnpm --app --src-dir --ts --eslint --import-alias "~/*" "$target";;
+		"empty") mkdir "$target";;
+		"create")
+			read -p "pnpm create: " pnpm_create
+			pnpm create $pnpm_create "$target"
+			choice="pnpm create $pnpm_create"
+		;;
+
+		"$SBOX_TEMPLATE_PREFIX"*)
+			local origin="$SBOX_TEMPLATE_DIR${choice#$SBOX_TEMPLATE_PREFIX}"
+			echo running: cp -r $origin $target
+			cp -r "$origin" "$target"
+		;;
+		*)
+		echo "unknown template: $choice"
+		return 1
+		;;
+	esac
+
+	cd "$target"
+} # }}}
+sbox-git () { # {{{
+	zparseopts -D -E -F -A args t: c:
+	git rev-parse --is-inside-work-tree &> /dev/null
+	if [[ ! $? -eq 0 ]]; then
+		git init
+	fi
+	git add ${args[-t]}
+	git commit -m "feat($(basename ${args[-t]})): start from ${args[-c]}"
+} # }}}
+sbox-open () { # {{{
+	zparseopts -D -E -F -A args t: c:
+	local name=$(basename ${args[-t]})
+
+  tmux new-session -s $name -c ${args[-t]} -d "zsh -c 'nvim .'"
+	tmux new-window -t $name
+
+	if [[ -f "package.json" ]]; then
+		tmux send-keys -t "$name":2 "pnpm install && pnpm run dev" C-m
+	fi
+
+	if [[ -n $TMUX ]]; then
+		tmux switch-client -t $name
+	else
+		tmux attach -t $name
+	fi
+} # }}}
+
+local choice=$(sbox-choose-template)
 if [[ -z $choice ]]; then
-  echo "abort: no choice made."
+  echo "abort: no template chosen"
   return;
 fi
 
-for i in "$@"; do case $i in
-  -c|--vscode|--code) VSCODE=1 shift ;;
-  -t|--tools) TOOLS=1 shift ;;
-  *) DIRNAME="${i#*=}" ;;
-esac;
-done
-
-if [[ $DIRNAME == ./* ]]; then
-  ROOT=$(pwd)
-  DIRNAME=${DIRNAME#./}
-else
-  ROOT="$HOME/code/sandboxes"
-  if [[ -z $DIRNAME ]]; then
-    DIRNAME="$(sbox-random-name | gum input --prompt="name: ")"
-  fi
-
-  if [[ -a "$ROOT/$DIRNAME" ]]; then
-    action=$(echo "Open\nCancel\nOverwrite")
-    case $action in
-      "Open")
-        cd "$ROOT/$DIRNAME"
-        start
-        return 0
-      ;;
-      # "Overwrite")
-      #   rm -rf "$ROOT/$DIRNAME"
-      # ;;
-      "Cancel")
-        return 0
-      ;;
-    esac
-  fi
-fi
-
-
-if [[ -z $DIRNAME ]]; then
+local target=$(sbox-get-target -c $choice $1)
+if [[ -z $target ]]; then
   echo "abort: no name given."
   return;
 fi
 
-FULL_PATH="$ROOT/$DIRNAME"
-
-echo "Creating sandbox in $FULL_PATH"
-
-cd $ROOT
-
-case ${choice%%:*} in
-  "vite") pnpm create vite $DIRNAME ;;
-  "next") pnpm create next-app $DIRNAME ;;
-  "t3") pnpm create t3-app $DIRNAME ;;
-  "empty") mkdir $DIRNAME ;;
-  "pnpm create")
-    read -p "pnpm create: " pnpm_create
-    pnpm create $pnpm_create $DIRNAME
-    choice="pnpm create $pnpm_create"
-    ;;
-  *)
-    template=${choice#.*}
-    # git clone file://$SBOX_TEMPLATE_DIR$template $DIRNAME --depth=1
-    cp -r $SBOX_TEMPLATE_DIR$template $DIRNAME
-    cd $FULL_PATH
-    if [[ -a ".env.example" ]]; then
-      cp .env.example .env
-    fi
-    ;;
-esac
-
-cd $FULL_PATH
-
-if [[ -f "package.json" ]]; then
-  pnpm install
-fi
-
-git init
-git add . 
-git commit -m "feat($DIRNAME): start from $choice"
-
-if [[ -n $TMUX ]]; then
-  tmux new-session -s $DIRNAME -c $FULL_PATH -d "zsh -c 'nvim .'"
-  tmux switch-client -t $selected_name
-fi
+sbox-build    -t "$target" -c "$choice" \
+ && sbox-git  -t "$target" -c "$choice" \
+ && sbox-open -t "$target"

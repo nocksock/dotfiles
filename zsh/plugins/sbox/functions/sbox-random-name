@@ -1,5 +1,0 @@
-#!/usr/bin/env zsh
-
-zparseopts -D -E -F -A opts n::
-
-cat /usr/share/dict/web2a | shuf | head -n ${opts[-n]:-1} | sed 's/ /-/g'
