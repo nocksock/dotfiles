@@ -12,7 +12,7 @@ usage () { cat <<-EOF
 			-h         : help
 			-t <tag>   : add <tag> to note. can be used multiple times.
 			-l <page>  : add link to <page> to note. uses [[wikilink]] style. can be used multiple times
-			-T <title> : set a title, uses timestamp by default
+			-T <title> : set a title, uses timestamp by default (title = filename)
 			--         : everything after this is text
 
 			these are exclusive:
@@ -96,4 +96,3 @@ elif [[ -n $d ]]; then
 else
 	echo $content | nvim -c "norm gggqG" -c "file $filepath" -
 fi
-
