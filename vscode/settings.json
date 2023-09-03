@@ -244,7 +244,7 @@
   },
   "terminal.external.osxExec": "kitty.app",
   "extensions.ignoreRecommendations": false,
-  "workbench.colorTheme": "Ayu Mirage Bordered",
+  "workbench.colorTheme": "Moonlight II",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.foldingImportsByDefault": true
