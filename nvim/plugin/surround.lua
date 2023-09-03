@@ -1,1 +1,1 @@
-require "baggage".from('https://github.com/kylechui/nvim-surround').load()
+require "baggage".from('https://github.com/kylechui/nvim-surround').load().setup()
