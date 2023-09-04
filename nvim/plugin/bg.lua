@@ -1,12 +1,12 @@
-function index_of(tbl, value) --{{{
+local function index_of(tbl, value) --{{{
   for idx, tval in ipairs(tbl) do
     if value == tval then
       return idx
     end
   end
 end --}}}
-function cycle(values, value) --{{{
-  local next_val_idx = ((M.index_of(values, value)) % #values) + 1
+local function cycle(values, value) --{{{
+  local next_val_idx = ((index_of(values, value)) % #values) + 1
   return values[next_val_idx]
 end --}}}
 
