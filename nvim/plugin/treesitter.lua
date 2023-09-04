@@ -1,7 +1,6 @@
 require "baggage".from('https://github.com/nvim-treesitter/nvim-treesitter-context')
 require "baggage".from('https://github.com/nvim-treesitter/nvim-treesitter-textobjects')
 require "baggage".from('https://github.com/nvim-treesitter/nvim-treesitter')
-require "baggage".from 'https://github.com/nvim-treesitter/playground'
 
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   callback = function()
