@@ -2,3 +2,6 @@
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
+[submodule "dotbot-plugins/brew"]
+	path = dotbot-plugins/brew
+	url = https://github.com/wren/dotbot-brew.git
