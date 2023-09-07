@@ -4,12 +4,16 @@ local window_title=$(basename $0)
 
 exec 2>/tmp/kitty-quick-window.log
 
-DEFAULT_COMMAND="tmux attach -t rand"
+DEFAULT_COMMAND="zsh"
 if [[ -z $1 ]]; then
-  COMMAND="$DEFAULT_COMMAND"
+	COMMAND="$DEFAULT_COMMAND"
 else
-  COMMAND="$@ ; echo -e \"\\nany key to close\"; read -k1"
+	COMMAND="$@ ; echo -e \"\\nany key to close\"; read -k1"
 fi
+
+#grid=<rows>:<cols>:<start-x>:<start-y>:<width>:<height>
+GRID="4:8:3:1:2:1" 
+GRID_LG="4:8:3:1:2:1" 
 
 add-rule () {
 	has_rule=$(yabai -m rule --list | jq -re ".[].title" | rg -c "^$window_title$")
@@ -17,7 +21,15 @@ add-rule () {
 		echo "removing rule" >> /tmp/kitty-quick-window.log
 		yabai -m rule --remove app="kitty" title="$window_title"
 	fi
-	yabai -m rule --add app="kitty" title="$window_title" manage=off grid="12:8:2:4:4:4"
+
+	local grid_rule;
+	if [[ `is-widescreen` ]]; then
+		grid_rule=$GRID_LG
+	else
+		grid_rule=$GRID
+	fi
+
+	yabai -m rule --add app="kitty" title="$window_title" manage=off grid="$grid_rule"
 }
 
 launch () {
@@ -29,12 +41,16 @@ launch () {
 	sleep 0.05
 	window_id=$(yabai-id-by --title "$window_title")
 	echo "window_id: $window_id" >> /tmp/kitty-quick-window.log
-  yabai-set-prop -t $window_id
+	yabai-set-prop -t $window_id
 
-  if [[ ! "$COMMAND" = "$DEFAULT_COMMAND" ]]; then
-    yabai -m window --grid "12:8:2:2:4:6" $window_id
-  fi
+	if [[ ! "$COMMAND" = "$DEFAULT_COMMAND" ]]; then
+		if [[ `is-widescreen` ]]; then
+			yabai -m window --grid $GRID $window_id
+		else
+			yabai -m window --grid $GRID_LG $window_id
+		fi
+	fi
 
 }
 
-launch &
+	launch &
