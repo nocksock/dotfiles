@@ -1,7 +1,10 @@
-local baggage = require('baggage')
-local telescope = require('baggage').from('https://github.com/nvim-telescope/telescope.nvim').load()
-baggage.from('https://github.com/nvim-telescope/telescope-fzf-native.nvim', { on_sync = "make" })
-baggage.from('https://github.com/nvim-telescope/telescope-ui-select.nvim')
+local telescope = require 'baggage'
+  .from {
+    'https://github.com/nvim-telescope/telescope.nvim',
+    'https://github.com/nvim-telescope/telescope-ui-select.nvim',
+    {'https://github.com/nvim-telescope/telescope-fzf-native.nvim', { on_sync = "make" }}
+  }
+  .load 'telescope'
 
 telescope.load_extension('fzf')
 telescope.load_extension("ui-select")

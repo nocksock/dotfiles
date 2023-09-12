@@ -1,4 +1,5 @@
-require "baggage".from('https://github.com/L3MON4D3/LuaSnip')
+require "baggage" 
+  .from 'https://github.com/L3MON4D3/LuaSnip'
 
 vim.api.nvim_create_autocmd("InsertEnter", {
   callback = function()

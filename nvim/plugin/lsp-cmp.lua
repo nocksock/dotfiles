@@ -2,28 +2,29 @@ local lspconfig = require "baggage"
   .from 'https://github.com/neovim/nvim-lspconfig'
   .load()
 
+require "baggage" .from 'https://github.com/jose-elias-alvarez/typescript.nvim'
+
 require "baggage"
   .from 'https://github.com/williamboman/mason.nvim'
-  .load('mason')
-  .setup {-- {{{
-  -- to create a list of all the configured servers in this file:
-  -- read !rg '^lspconfig\.(\w+)\.' -o -r '"$1",' % | sort
-  ensure_installed = {
-    "clangd",
-    "cssls",
-    "cssmodules_ls",
-    "denols",
-    "eslint",
-    "gopls",
-    "lua_ls",
-    "marksman",
-    "pyright",
-    "rust_analyzer",
-    "sourcekit",
-    "svelte",
-    "tailwindcss",
-  }
-}-- }}}
+  .setup('mason', {-- {{{
+    -- to create a list of all the configured servers in this file:
+    -- read !rg '^lspconfig\.(\w+)\.' -o -r '"$1",' % | sort
+    ensure_installed = {
+      "clangd",
+      "cssls",
+      "cssmodules_ls",
+      "denols",
+      "eslint",
+      "gopls",
+      "lua_ls",
+      "marksman",
+      "pyright",
+      "rust_analyzer",
+      "sourcekit",
+      "svelte",
+      "tailwindcss",
+    }
+  })-- }}}
 
 local capabilities = require "baggage"
   .from 'https://github.com/hrsh7th/cmp-nvim-lsp'
@@ -31,12 +32,23 @@ local capabilities = require "baggage"
   .default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 lspconfig.rust_analyzer.setup {}
+
 lspconfig.pyright.setup {}
+
+lspconfig.elixirls.setup {
+cmd = {"/Users/nilsriedemann/.local/share/nvim/mason/bin/elixir-ls"}
+}
+
 lspconfig.gopls.setup {}
+
 lspconfig.marksman.setup {}
+
 lspconfig.eslint.setup {}
+
 lspconfig.cssls.setup {}
+
 lspconfig.cssmodules_ls.setup {}
+
 lspconfig.tailwindcss.setup { -- {{{
   capabilities = capabilities,
   settings = {
@@ -49,6 +61,7 @@ lspconfig.tailwindcss.setup { -- {{{
     }
   }
 } -- }}}
+
 lspconfig.lua_ls.setup({ -- {{{
   settings = {
     Lua = {
@@ -68,6 +81,7 @@ lspconfig.lua_ls.setup({ -- {{{
     },
   },
 }) ---}}}
+
 lspconfig.clangd.setup({ -- {{{
   capabilities = capabilities,
   cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
@@ -75,6 +89,7 @@ lspconfig.clangd.setup({ -- {{{
     clangdFileStatus = true
   },
 })                       -- }}}
+
 lspconfig.denols.setup { -- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
@@ -83,14 +98,15 @@ lspconfig.denols.setup { -- {{{
     enable = true, unstable = true
   }
 }                        -- }}}
+
 lspconfig.svelte.setup { -- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
 } -- }}}
+
 require "baggage"
   .from 'https://github.com/jose-elias-alvarez/typescript.nvim'
-  .load 'typescript'
-  .setup({ -- {{{
+  .setup('typescript', { -- {{{
   -- Using the plugin since it adds some useful commands,
   -- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
   server = {
@@ -112,6 +128,7 @@ require "baggage"
   }
 })
 --}}}
+
 lspconfig.sourcekit.setup({ -- {{{
   capabilities = capabilities,
 })                          -- }}}
@@ -174,74 +191,3 @@ vim.api.nvim_create_autocmd('LspAttach', { -- {{{
 --   border = 'single',
 --   close_events = { "CursorMoved", "BufHidden" },
 -- }) -- }}}
-
-
-local cmp = require "baggage".from 'https://github.com/hrsh7th/nvim-cmp'.load()
-require "baggage".from 'https://github.com/hrsh7th/cmp-buffer'
-require "baggage".from 'https://github.com/hrsh7th/cmp-cmdline'
-require "baggage".from 'https://github.com/hrsh7th/cmp-nvim-lua'
-require "baggage".from 'https://github.com/hrsh7th/cmp-path'
-
-cmp.setup({-- {{{
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-    end,
-  },
-  window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<CR>'] = cmp.mapping.confirm({ select = false }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
-    --     ['<c-l>'] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.complete_common_string()
-    --   else
-    --     fallback()
-    --   end
-    -- end, { 'i' }),
-    ['<c-n>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end, { 'i', 'c' }),
-    ['<c-p>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end, { 'i', 'c' }),
-  }),
-  sources = cmp.config.sources({
-    { name = "luasnip" },
-    { name = "nvim_lsp" },
-    { name = "path" },
-  }, {
-    { name = "copilot" },
-    { name = "buffer" }
-  }),
-})-- }}}
-cmp.setup.filetype('gitcommit', {-- {{{
-  sources = cmp.config.sources({
-    { name = 'path' },
-  }),
-})-- }}}
-cmp.setup.cmdline(':', {-- {{{
-  sources = cmp.config.sources({
-    { name = 'cmdline' },
-  }, {
-    { name = 'buffer' },
-    { name = 'path' },
-  }),
-})-- }}}
