@@ -34,15 +34,19 @@ sbox-get-target () { # {{{
 		echo "$(pwd)/${1#./}"
 	else
 		local name
+		local datestamp="$(date "+%Y%m%d-%H%M")"
 
 		if [[ -z $1 ]]; then
-			name="$(gum input --prompt="name: " --value="${args[-c]#$SBOX_TEMPLATE_PREFIX}--$(sbox-random-name)")"
+			name="$(gum input --prompt="name: " --value="$datestamp-${args[-c]#$SBOX_TEMPLATE_PREFIX}")"
 		fi
 
 		if [[ -z $name ]]; then
 			echo "cancelled" >&2
 			exit 1
 		fi
+
+		# replace spaces with dashes
+		name=${name// /-}
 
 		local full_path="$SBOX_DEFAULT_TARGET_ROOT$name"
 		if [[ ! -e $full_path ]]; then
@@ -73,6 +77,7 @@ sbox-choose-template () { # {{{
 	printf '%s\n' "${templates[@]}" | fzf --height 40% --layout=reverse --prompt="sandbox type? "
 } # }}}
 sbox-build () { # {{{
+	# TODO: this should be done with a script in the template
 	zparseopts -D -E -F -A args t: c:
 	local target=${args[-t]}
 	local choice=${args[-c]}
@@ -81,8 +86,22 @@ sbox-build () { # {{{
 	case ${choice} in
 		"vite") pnpm create vite $target;;
 		"deno") deno init $target ;;
-		"next") pnpm create next-app --tailwind --use-pnpm --app --src-dir --ts --eslint --import-alias "~/*" "$target";;
-		"empty") mkdir "$target";;
+		"next") pnpm -- create next-app --tailwind --use-pnpm --app --src-dir --ts --eslint --import-alias "~/*" "$target";;
+		"empty") 
+			mkdir "$target"
+
+			cat> "$target/README.md" <<-EOF 
+				# $target
+
+				created with $choice
+			EOF
+
+			cat > "$target/.gitignore" <<-EOF 
+				.DS_Store
+				node_modules
+			EOF
+
+			;;
 		"create")
 			read -p "pnpm create: " pnpm_create
 			pnpm create $pnpm_create "$target"
@@ -91,8 +110,9 @@ sbox-build () { # {{{
 
 		"$SBOX_TEMPLATE_PREFIX"*)
 			local origin="$SBOX_TEMPLATE_DIR${choice#$SBOX_TEMPLATE_PREFIX}"
-			echo running: cp -r $origin $target
-			cp -r "$origin" "$target"
+			set -x
+			mkdir "$target"
+			rsync --exclude node_modules --exclude .next -av "$origin/" "$target"
 		;;
 		*)
 		echo "unknown template: $choice"
@@ -113,13 +133,18 @@ sbox-git () { # {{{
 } # }}}
 sbox-open () { # {{{
 	zparseopts -D -E -F -A args t: c:
+	local choice=${args[-c]}
 	local name=$(basename ${args[-t]})
 
-  tmux new-session -s $name -c ${args[-t]} -d "zsh -c 'nvim .'"
-	tmux new-window -t $name
+  tmux new-session -s $name -c ${args[-t]} -d 
+
+	if [[ ! "$choice" == "empty" ]]; then
+		tmux new-window -t $name
+		tmux send-keys -t "$name":1 "nvim ." C-m
+	fi
 
 	if [[ -f "package.json" ]]; then
-		tmux send-keys -t "$name":2 "pnpm install && pnpm run dev" C-m
+		tmux send-keys -t "$name":2 "pnpm install && tmux send-keys -t \"$name:2\" \"pnpm run dev\" C-m" C-m
 	fi
 
 	if [[ -n $TMUX ]]; then
@@ -143,4 +168,4 @@ fi
 
 sbox-build    -t "$target" -c "$choice" \
  && sbox-git  -t "$target" -c "$choice" \
- && sbox-open -t "$target"
+ && sbox-open -t "$target" -c "$choice"
