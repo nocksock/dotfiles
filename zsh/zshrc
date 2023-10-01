@@ -8,12 +8,28 @@ export SBOX_TEMPLATE_DIR="$HOME/code/bleepbloop.git/main/templates/"
 export SBOX_DEFAULT_START_DIR_PARENT="$HOME/code/sandboxes/"
 export SBOX_DEFAULT_LAUNCHER="tmux"
 
+# completions {{{ 
+
+COMPLETION_DIRS=(
+		"$(brew --prefix)/share/zsh/site-functions"
+		"$HOME/.bun/"
+	)
+
+for compdir in "${COMPLETION_DIRS[@]}"; do
+	fpath+=("$compdir")
+	autoload -Uz "$compdir"
+done
+
+# }}}
 # {{{ compinit
+
+
 autoload -Uz compinit
 autoload -U +X bashcompinit && bashcompinit
 for dump in ~/.zcompdump(N.mh+24); do
   compinit
 	bashcompinit
+	echo "refreshed completions"
 done
 compinit -C
 bashcompinit -C
@@ -50,15 +66,6 @@ if [[ -n `command -v op` ]]; then
   eval "$(op completion zsh)"
   compdef _op op
 fi 
-
-# }}}
-# {{{ bun completion
-
-if [[ -s "$BUN_INSTALL/_bun" ]]; then
-	source "$BUN_INSTALL/_bun"
-else
-	echo "No bun?" >> $DOTLOG
-fi
 
 # }}}
 # {{{ pnpm completion
