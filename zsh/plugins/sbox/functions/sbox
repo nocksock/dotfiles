@@ -21,6 +21,11 @@ if [[ -z $SBOX_DEFAULT_START_DIR_PARENT ]]; then
   return 1
 fi
 
+if [[ $SBOX_DEBUG == true ]]; then
+	exec > >(tee -a /tmp/sbox.log) 2>&1
+	set -x
+fi
+
 sbox-random-name() { # {{{
 	zparseopts -D -E -F -A opts n::
   paste -s -d '-' <(cat /usr/share/dict/web2 | shuf | head -n 3 | tr '[:upper:]' '[:lower:]') | sed 's/ /-/g'
@@ -36,7 +41,7 @@ sbox-get-start-dir () { # {{{
 		local datestamp="$(date "+%Y%m%d-%H%M")"
 
 		if [[ -z $name ]]; then
-			name="$(gum input --prompt="name: " --value="$datestamp-$template")"
+			name="$(gum input --prompt="name: " --value="$template--")"
 		fi
 
 		if [[ -z $name ]]; then
@@ -44,7 +49,9 @@ sbox-get-start-dir () { # {{{
 			exit 1
 		fi
 
+		name="$datestamp-$name"
 		name=${name// /-}
+		name=${name//[^[:alnum:]-]/}
 
 		local full_path="$SBOX_DEFAULT_START_DIR_PARENT$name"
 		if [[ ! -e $full_path ]]; then
@@ -85,12 +92,27 @@ sbox-build () { # {{{
 		return 1
 	fi
 
-	mkdir "$start_dir"
-	rsync --exclude node_modules --exclude .next -av "$origin/" "$start_dir"
+	mkdir -p "$start_dir"
 
-	if [[ -x "$start_dir/init.sh" ]]; then
-		"$start_dir/init.sh" # && \rm "$start_dir/init.sh"
-	fi
+	pushd "$start_dir" &> /dev/null
+
+		if [[ -x "$origin/create.sh" ]]; then
+			"$origin/create.sh" "$start_dir"
+		fi
+
+		rsync                    \
+			--exclude node_modules \
+			--exclude create.sh \
+			--exclude .next        \
+				-av "$origin/" "$start_dir"
+
+		if [[ -x scripts/init.sh ]]; then
+			scripts/init.sh
+		fi
+
+
+	popd &> /dev/null
+
 } # }}}
 sbox-git () { # {{{
 	zparseopts -D -E -F -A args t: c:
