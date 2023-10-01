@@ -1,3 +1,5 @@
+# vim:foldmethod=marker:foldlevel=0
+
 zmodload zsh/zprof # profile startup time
 
 export TERM=xterm-kitty
@@ -79,7 +81,6 @@ export SAVEHIST=999999
 
 eval "$(starship init zsh)"
 
-# vim:foldmethod=marker:foldlevel=0
 
 # opam configuration
 [[ ! -r /Users/nilsriedemann/.opam/opam-init/init.zsh ]] || source /Users/nilsriedemann/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
