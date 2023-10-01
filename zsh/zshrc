@@ -3,7 +3,8 @@ zmodload zsh/zprof # profile startup time
 export TERM=xterm-kitty
 
 export SBOX_TEMPLATE_DIR="$HOME/code/bleepbloop.git/main/templates/"
-export SBOX_DEFAULT_TARGET_ROOT="$HOME/code/bleepbloop.git/main/sandboxes/"
+export SBOX_DEFAULT_START_DIR_PARENT="$HOME/code/sandboxes/"
+export SBOX_DEFAULT_LAUNCHER="tmux"
 
 # {{{ compinit
 autoload -Uz compinit
