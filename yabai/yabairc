@@ -80,6 +80,7 @@ yabai -m rule --add app="^CleanMyMac X$" sticky=on manage=off
 yabai -m rule --add app="^Dash$" manage=off
 yabai -m rule --add app="^Dictionary$" manage=off
 yabai -m rule --add app="^Discord$" manage=off
+yabai -m rule --add app="Docker Desktop$" manage=off
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
 yabai -m rule --add app="^Firefox$"
 yabai -m rule --add app="^Google Chrome$" manage=on border=off
