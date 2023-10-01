@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+#
+if [[ $1 == "menu" ]]; then
+	if [[ -f '.tmux.conf' ]]; then
+		tmux display-menu -T "Start with default?" \
+			" y: Yes " y "source .tmux.conf"         \
+			" n: No  " n "neww"
+	else
+		tmux neww
+	fi
+fi
+
+zparseopts -D -E -F -A args s: c:
+local name=$(basename ${args[-s]})
+local working_dir=${args[-c]}
+
+if [[ -z $1 ]]; then
+	tmux new-session -d \
+		-s "$name"        \
+		-c "$working_dir" \
+		"sbox-tmux-launcher menu"
+
+	tmux attach-session -t $name
+fi

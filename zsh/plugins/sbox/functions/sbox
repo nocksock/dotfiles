@@ -11,15 +11,13 @@
 # $ sbox
 #    a helper to quickly create local code sandboxes
 
-local SBOX_TEMPLATE_PREFIX="template: "
-
 if [[ -z $SBOX_TEMPLATE_DIR ]]; then
   echo "\$SBOX_TEMPLATE_DIR not set"
   return 1
 fi
 
-if [[ -z $SBOX_DEFAULT_TARGET_ROOT ]]; then
-  echo "\$SBOX_DEFAULT_TARGET_ROOT not set"
+if [[ -z $SBOX_DEFAULT_START_DIR_PARENT ]]; then
+  echo "\$SBOX_DEFAULT_START_DIR_PARENT not set"
   return 1
 fi
 
@@ -27,17 +25,18 @@ sbox-random-name() { # {{{
 	zparseopts -D -E -F -A opts n::
   paste -s -d '-' <(cat /usr/share/dict/web2 | shuf | head -n 3 | tr '[:upper:]' '[:lower:]') | sed 's/ /-/g'
 } # }}}
-sbox-get-target () { # {{{
-	zparseopts -D -E -F -A args c:
+sbox-get-start-dir () { # {{{
+	zparseopts -D -E -F -A args t: s::
+	local name="${args[-s]}"
+	local template="${args[-t]}"
 
-	if [[ $1 == ./* ]]; then
-		echo "$(pwd)/${1#./}"
+	if [[ $name == ./* ]]; then
+		echo "$(pwd)/${name#./}"
 	else
-		local name
 		local datestamp="$(date "+%Y%m%d-%H%M")"
 
-		if [[ -z $1 ]]; then
-			name="$(gum input --prompt="name: " --value="$datestamp-${args[-c]#$SBOX_TEMPLATE_PREFIX}")"
+		if [[ -z $name ]]; then
+			name="$(gum input --prompt="name: " --value="$datestamp-$template")"
 		fi
 
 		if [[ -z $name ]]; then
@@ -45,10 +44,9 @@ sbox-get-target () { # {{{
 			exit 1
 		fi
 
-		# replace spaces with dashes
 		name=${name// /-}
 
-		local full_path="$SBOX_DEFAULT_TARGET_ROOT$name"
+		local full_path="$SBOX_DEFAULT_START_DIR_PARENT$name"
 		if [[ ! -e $full_path ]]; then
 			echo "$full_path"
 		else
@@ -58,114 +56,81 @@ sbox-get-target () { # {{{
 	fi
 } # }}}
 sbox-choose-template () { # {{{
+	zparseopts -D -E -F -A args t::
+	local template="${args[-t]}"
+	if [[ ! -z $template ]]; then
+		if [[ -d "$SBOX_TEMPLATE_DIR/$template" ]]; then
+			echo "$template"
+			return
+		else
+			echo "template not found: $template" >&2
+			return 1
+		fi
+	fi
+
 	local -a templates=()
-	templates+=(
-		"deno"
-		"next"
-		"vite"
-	)
-
 	for t in $(\ls -1 "$SBOX_TEMPLATE_DIR"); do
-		templates+=("$SBOX_TEMPLATE_PREFIX${t}")
+		templates+=("$t")
 	done
-
-	templates+=(
-		"pnpm create"
-		"empty"
-	)
-
-	printf '%s\n' "${templates[@]}" | fzf --height 40% --layout=reverse --prompt="sandbox type? "
+	printf '%s\n' "${templates[@]}" | fzf --height 40% --layout=reverse --prompt="Choose template: "
 } # }}}
 sbox-build () { # {{{
-	# TODO: this should be done with a script in the template
 	zparseopts -D -E -F -A args t: c:
-	local target=${args[-t]}
-	local choice=${args[-c]}
-
-	echo "Creating sandbox in '$target' with '$choice'"
-	case ${choice} in
-		"vite") pnpm create vite $target;;
-		"deno") deno init $target ;;
-		"next") pnpm -- create next-app --tailwind --use-pnpm --app --src-dir --ts --eslint --import-alias "~/*" "$target";;
-		"empty") 
-			mkdir "$target"
-
-			cat> "$target/README.md" <<-EOF 
-				# $target
-
-				created with $choice
-			EOF
-
-			cat > "$target/.gitignore" <<-EOF 
-				.DS_Store
-				node_modules
-			EOF
-
-			;;
-		"create")
-			read -p "pnpm create: " pnpm_create
-			pnpm create $pnpm_create "$target"
-			choice="pnpm create $pnpm_create"
-		;;
-
-		"$SBOX_TEMPLATE_PREFIX"*)
-			local origin="$SBOX_TEMPLATE_DIR${choice#$SBOX_TEMPLATE_PREFIX}"
-			set -x
-			mkdir "$target"
-			rsync --exclude node_modules --exclude .next -av "$origin/" "$target"
-		;;
-		*)
-		echo "unknown template: $choice"
+	local start_dir=${args[-c]}
+	local template=${args[-t]}
+	local origin="$SBOX_TEMPLATE_DIR${template}"
+	
+	if [[ ! -d $origin ]]; then
+		echo "template not found: $origin" >&2
 		return 1
-		;;
-	esac
+	fi
 
-	cd "$target"
+	mkdir "$start_dir"
+	rsync --exclude node_modules --exclude .next -av "$origin/" "$start_dir"
+
+	if [[ -x "$start_dir/init.sh" ]]; then
+		"$start_dir/init.sh" # && \rm "$start_dir/init.sh"
+	fi
 } # }}}
 sbox-git () { # {{{
 	zparseopts -D -E -F -A args t: c:
+	pushd "${args[-c]}" &> /dev/null
 	git rev-parse --is-inside-work-tree &> /dev/null
 	if [[ ! $? -eq 0 ]]; then
 		git init
 	fi
-	git add ${args[-t]}
-	git commit -m "feat($(basename ${args[-t]})): start from ${args[-c]}"
+	git add ${args[-c]}
+	git commit -m "initial commit from template: ${args[-t]}"
+	popd &> /dev/null
 } # }}}
-sbox-open () { # {{{
-	zparseopts -D -E -F -A args t: c:
-	local choice=${args[-c]}
-	local name=$(basename ${args[-t]})
+sbox-launch () { # {{{
+	zparseopts -D -E -F -A args c: l:
+	local name="$(basename ${args[-c]})"
+	local start_dir="${args[-c]}"
 
-  tmux new-session -s $name -c ${args[-t]} -d 
-
-	if [[ ! "$choice" == "empty" ]]; then
-		tmux new-window -t $name
-		tmux send-keys -t "$name":1 "nvim ." C-m
-	fi
-
-	if [[ -f "package.json" ]]; then
-		tmux send-keys -t "$name":2 "pnpm install && tmux send-keys -t \"$name:2\" \"pnpm run dev\" C-m" C-m
-	fi
-
-	if [[ -n $TMUX ]]; then
-		tmux switch-client -t $name
-	else
-		tmux attach -t $name
-	fi
+	case ${args[-l]} in
+		"tmux") sbox-tmux-launcher -s "$name" -c "$start_dir" ;;
+		  "cd") cd "$start_dir" ;;
+		   "*") echo "unknown launcher: $SBOX_DEFAULT_LAUNCHER" ;;
+	esac
 } # }}}
 
-local choice=$(sbox-choose-template)
-if [[ -z $choice ]]; then
+zparseopts -D -E -F -A args t:: c:: l:: s::
+
+local template=$(sbox-choose-template -t "${args[-t]}")
+if [[ -z $template ]]; then
   echo "abort: no template chosen"
   return;
 fi
 
-local target=$(sbox-get-target -c $choice $1)
-if [[ -z $target ]]; then
+local start_dir=$(sbox-get-start-dir -t "$template" -s "${args[-s]:-${@}}")
+if [[ -z $start_dir ]]; then
   echo "abort: no name given."
   return;
 fi
 
-sbox-build    -t "$target" -c "$choice" \
- && sbox-git  -t "$target" -c "$choice" \
- && sbox-open -t "$target" -c "$choice"
+local launcher="${args[-l]:-$SBOX_DEFAULT_LAUNCHER}"
+
+sbox-build       -c "$start_dir" -t "$template" \
+	&& sbox-git    -c "$start_dir" -t "$template" \
+	&& sbox-launch -c "$start_dir" -l "$launcher"
