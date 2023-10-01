@@ -244,7 +244,7 @@
   },
   "terminal.external.osxExec": "kitty.app",
   "extensions.ignoreRecommendations": false,
-  "workbench.colorTheme": "Moonlight II",
+  "workbench.colorTheme": "Rosé Pine",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.foldingImportsByDefault": true
@@ -268,7 +268,6 @@
     "sandbox.8hg9u2.csb": "linux",
     "sandbox.n5oogl.csb": "linux"
   },
-  "workbench.layoutControl.enabled": false,
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
   "gitlens.advanced.fileHistoryShowAllBranches": true,
@@ -306,4 +305,10 @@
   "workbench.sideBar.location": "right",
   "gitlens.currentLine.enabled": false,
   "workbench.activityBar.visible": false,
+  "editor.fontFamily": "Iosevka Snock Regular",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "window.commandCenter": false,
+  "workbench.layoutControl.enabled": false,
 }
