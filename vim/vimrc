@@ -116,8 +116,7 @@ g:fzf_action = {
 # }}}
 # colors {{{
 set termguicolors
-set background=dark
-colorscheme habamax
+colorscheme lunaperche
 
 hi LineHighlight guibg=#106060 guifg=NONE gui=None cterm=bold
 # }}}

@@ -6,39 +6,39 @@ export def Init()
   call minpac#init()
 
   # manage minpac itself
-  call minpac#add('k-takata/minpac', {'type': 'opt'})
+  call minpac#add('https://github.com/k-takata/minpac', {'type': 'opt'})
 
   # Additional plugins here.
-  call minpac#add('vim-jp/syntax-vim-ex')
-  call minpac#add('tyru/open-browser.vim')
-  call minpac#add('junegunn/fzf')
-  call minpac#add('junegunn/fzf.vim')
-  call minpac#add('tpope/vim-vinegar')
+  call minpac#add('https://github.com/vim-jp/syntax-vim-ex')
+  call minpac#add('https://github.com/tyru/open-browser.vim')
+  call minpac#add('https://github.com/junegunn/fzf')
+  call minpac#add('https://github.com/junegunn/fzf.vim')
+  call minpac#add('https://github.com/tpope/vim-vinegar')
 
   # lsp
-  call minpac#add('prabirshrestha/vim-lsp')
-  call minpac#add('mattn/vim-lsp-settings')
+  call minpac#add('https://github.com/prabirshrestha/vim-lsp')
+  call minpac#add('https://github.com/mattn/vim-lsp-settings')
 
   # autocomplete
-  call minpac#add('mattn/emmet-vim')
-  call minpac#add('github/copilot.vim')
-  call minpac#add('SirVer/ultisnips')
+  call minpac#add('https://github.com/mattn/emmet-vim')
 
   # versioning
-  call minpac#add('tpope/vim-fugitive')
-  call minpac#add('simnalamburt/vim-mundo')
+  call minpac#add('https://github.com/tpope/vim-fugitive')
+  call minpac#add('https://github.com/simnalamburt/vim-mundo')
 
   # vim convenience
-  call minpac#add('tpope/vim-repeat')
-  call minpac#add('tpope/vim-surround')
-  call minpac#add('tpope/vim-scriptease')
-  call minpac#add('tpope/vim-eunuch')
-  call minpac#add('christoomey/vim-tmux-navigator')
+  call minpac#add('https://github.com/tpope/vim-repeat')
+  call minpac#add('https://github.com/tpope/vim-surround')
+  call minpac#add('https://github.com/tpope/vim-scriptease')
+  call minpac#add('https://github.com/tpope/vim-eunuch')
+  call minpac#add('https://github.com/tpope/vim-sleuth')
+  call minpac#add('https://github.com/christoomey/vim-tmux-navigator')
 
   # code convenience
-  call minpac#add('junegunn/vim-easy-align')
-  call minpac#add('tpope/vim-commentary')
+  call minpac#add('https://github.com/junegunn/vim-easy-align')
+  call minpac#add('https://github.com/tpope/vim-commentary')
 
   # ui
-  call minpac#add('airblade/vim-gitgutter')
+  call minpac#add('https://github.com/airblade/vim-gitgutter')
+  call minpac#add('https://github.com/chriskempson/base16-vim')
 enddef
