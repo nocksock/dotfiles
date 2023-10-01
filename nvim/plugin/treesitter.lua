@@ -62,6 +62,12 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
             -- You can also use captures from other query groups like `locals.scm`
                 ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
           },
+          goto_next_start ={
+                ["]f"] = "@function.outer",
+          },
+          goto_prev_start ={
+                ["[f"] = "@function.outer",
+          },
           -- You can choose the select mode (default is charwise 'v')
           --
           -- Can also be a function which gets passed a table with the keys

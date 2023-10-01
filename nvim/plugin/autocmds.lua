@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd('insertenter', {
       vim.o.rnu = false
     end
     vim.o.list = true
-    vim.o.cursorline = true
+    vim.wo.colorcolumn = '80'
   end,
   group = group,
 })
@@ -17,7 +17,6 @@ vim.api.nvim_create_autocmd('insertleave', {
       vim.o.rnu = true
     end
     vim.o.list = false
-    vim.o.cursorline = false
     vim.wo.colorcolumn = ''
   end,
   group = group,

@@ -1,6 +1,6 @@
 local setup = require "baggage".from 'https://github.com/Wansmer/treesj'
 
-r'on'({ 'UIEnter' }, setup.lazily('treesj', {
+require'on'({ 'UIEnter' }, setup.lazily('treesj', {
   use_default_keymaps = false,
   max_join_length = 200,
   cursor_behavior = 'start',

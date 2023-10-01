@@ -5,9 +5,10 @@ local symbols = {
   newfile  = ' %#WarningMsg# new',
 }
 
-require "baggage"
+local setup = require "baggage"
     .from('https://github.com/nvim-lualine/lualine.nvim')
-    .setup('lualine', {
+
+require('lualine').setup({
       options = {
         icons_enabled = false,
         theme = 'auto',
@@ -17,9 +18,7 @@ require "baggage"
       },
       sections = {
         lualine_a = {},
-        lualine_b = {
-          { 'tabs', mode = 0, cond = function() return vim.fn.tabpagenr('$') > 1 end },
-        },
+        lualine_b = { },
         lualine_c = {
           {
             'filename',
@@ -40,7 +39,16 @@ require "baggage"
         lualine_y = {},
         lualine_z = {}
       },
-      tabline = {},
+      tabline = {
+        lualine_a = {},
+        lualine_b = {
+          { 'tabs', mode = 2, cond = function() return vim.fn.tabpagenr('$') > 1 end },
+        },
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+      },
       winbar = {},
       inactive_winbar = {},
       extensions = {},

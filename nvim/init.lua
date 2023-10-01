@@ -1,7 +1,10 @@
---
 -- ʕ •ᴥ•ʔ
---  This config is in between haircuts.
---
+
+vim.g.baggage_path = vim.fn.stdpath("data") .. "/site/pack/baggage/"
+if not vim.uv.fs_stat(vim.g.baggage_path) then
+  vim.cmd("!git clone --filter=blob:none https://github.com/nocksock/baggage.nvim --verbose --branch=dev " .. vim.g.baggage_path .. 'start/baggage.nvim')
+  vim.cmd("packloadall")
+end
 
 -- general {{{
 vim.g.mapleader = ' '
@@ -40,24 +43,21 @@ vim.o.grepformat = "%f:%l:%c:%m"
 -- }}}
 -- basic ui things{{{
 
-vim.o.list = false                                                                 -- do not show invisible characters (there's an auto-command to show only in insert mode)
-vim.o.listchars =
-'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,'           -- define characters for invisible characters
+vim.o.list          = false                                                                 -- do not show invisible characters (there's an auto-command to show only in insert mode)
+vim.o.listchars     = 'tab:->,eol:¬,trail:-,extends:↩,precedes:↪,leadmultispace:···|,'           -- define characters for invisible characters
 vim.cmd([[ set fillchars=eob:\  ]])                                                -- use a nicer vertical split character
-vim.o.rnu                   = true
-vim.o.nu                    = true
-vim.o.cursorline            = false -- Highlight the line of in which the cursor is present (or not)
-vim.o.showtabline           = 0 -- tabs are in my statusline
-vim.o.scrolloff             = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
-vim.o.background            = 'dark'
-vim.o.guifont               = 'JetBrains Mono:h16'
-vim.o.showmatch             = true -- Highlight matching bracket
-vim.o.showmode              = false -- don't show the current mode - lualine handles this
--- vim.o.signcolumn = 'yes' -- always show signcolumn - prevents horizontal jumping
-vim.o.laststatus            = 2
-vim.o.termguicolors         = true -- enable 24bit colors
-vim.o.guicursor             = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
-vim.o.cmdheight             = 0 -- height of the command bar
+vim.o.rnu           = true
+vim.o.nu            = true
+vim.o.cursorline    = false -- Highlight the line of in which the cursor is present (or not)
+vim.o.showtabline   = 1 -- tabs are in my statusline
+vim.o.scrolloff     = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
+vim.o.background    = 'dark'
+vim.o.showmatch     = true -- Highlight matching bracket
+vim.o.showmode      = false -- don't show the current mode - lualine handles this
+vim.o.laststatus    = 2
+vim.o.termguicolors = true -- enable 24bit colors
+vim.o.guicursor     = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
+vim.o.cmdheight     = 1 -- height of the command bar
 
 -- }}}
 -- indentation and wrapping {{{
@@ -106,8 +106,6 @@ vim.g.symbols_outline       = {
   show_quides = false
 }
 
-vim.g.UltiSnipsEditSplit    = "tabdo"
-
 -- }}}
 
 vim.cmd([[
@@ -116,20 +114,15 @@ function! s:build_quickfix_list(lines)
   copen
   cc
 endfunction
-
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
 ]])
 
-vim.o.background = vim.system({ 'is-dark-mode' }):wait().stdout == '1\n' and 'dark' or 'light'
+require "baggage".from {
+    'https://github.com/lewis6991/gitsigns.nvim',
+    'https://github.com/kyazdani42/nvim-web-devicons',
+    "https://github.com/nvim-lua/plenary.nvim",
+}
 
-require "baggage".from 'https://github.com/lewis6991/gitsigns.nvim'
-require "baggage".from 'https://github.com/kyazdani42/nvim-web-devicons'
-
-RELOAD = require("baggage").from("https://github.com/nvim-lua/plenary.nvim").load('plenary.reload').reload_module
+RELOAD = require'plenary.reload'.reload_module
 
 R = function(name)
   RELOAD(name)

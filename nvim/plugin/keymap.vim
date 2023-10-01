@@ -1,6 +1,6 @@
-nnoremap _ <cmd>vnew %<cmd>h<cr>
+nnoremap _ <cmd>vnew %:h<cr>
 
-nnoremap <silent> <esc> <cmd>nohlsearch<cr><cmd>pclose<cr>
+nnoremap <esc> <cmd>nohlsearch<cr><cmd>pclose<cr><cmd>echo <cr>
 
 " more undo stops in insert mode
 inoremap ! !<c-g>u
@@ -63,8 +63,6 @@ nnoremap <leader>cc <cmd>Git commit<cr>
 
 " buffer navigation
 nnoremap gf <cmd>e <cfile><CR>
-nnoremap <silent> <tab> <cmd>bn<cr> 
-nnoremap <silent> <s-tab> <cmd>bp<cr>
 nnoremap <silent> <leader>x <cmd>b#\|bd#<cr>
 
 nnoremap <silent> <leader>b0 <cmd>%bd\|e#<cr>
@@ -78,11 +76,11 @@ nnoremap <c-;> <cmd><c-p>
 cnoremap <c-;> <c-p>
 
 nnoremap <leader>it <cmd>TSHighlightCapturesUnderCursor<cr>
-nnoremap <silent> <leader>ttl <cmd>execute "set showtabline=" . (&showtabline == 0 ? 2 <cmd> 0)<CR>
 
 nnoremap <leader>tn <cmd>Num<cr>
 nnoremap <leader>tg <cmd>Gitsigns toggle_signs<cr>
 nnoremap <leader>td <cmd>DoToggle<cr>
+nnoremap <leader>tb <cmd>BG<cr>
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -93,7 +91,7 @@ nmap <leader>" :lua require('rucksack').show()<cr>
 nmap <leader>y :lua require('rucksack').stash()<cr>
 vmap <leader>y :lua require('rucksack').stash()<cr>
 
-nmap <leader>f <cmd>Telescope find_files<cr>
+nmap <leader>f <cmd>Telescope find_files hidden=true<cr>
 nmap <leader>F <cmd>Telescope find_files hidden=true cwd=%:p:h<cr>
 nmap <leader>* <cmd>Telescope grep_string<cr>
 nmap <leader>/ <cmd>Telescope live_grep<cr>
@@ -133,3 +131,10 @@ imap <M-c> cb<c-l>
 imap <M-l> for<c-l>
 imap <M-f> fn<c-l>
 
+nmap [[ ?{<CR>w99[{
+nmap ][ /}<CR>b99]}
+nmap ]] j0[[%/{<CR>
+nmap [] k$][%?}<CR>
+
+nnoremap <M-s> :w ++p<cr>
+inoremap <M-s> <cmd>w ++p<cr>

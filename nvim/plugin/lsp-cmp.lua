@@ -1,45 +1,48 @@
-local lspconfig = require "baggage"
-  .from 'https://github.com/neovim/nvim-lspconfig'
-  .load()
-
-require "baggage" .from 'https://github.com/jose-elias-alvarez/typescript.nvim'
-
-require "baggage"
-  .from 'https://github.com/williamboman/mason.nvim'
-  .setup('mason', {-- {{{
-    -- to create a list of all the configured servers in this file:
-    -- read !rg '^lspconfig\.(\w+)\.' -o -r '"$1",' % | sort
-    ensure_installed = {
-      "clangd",
-      "cssls",
-      "cssmodules_ls",
-      "denols",
-      "eslint",
-      "gopls",
-      "lua_ls",
-      "marksman",
-      "pyright",
-      "rust_analyzer",
-      "sourcekit",
-      "svelte",
-      "tailwindcss",
+local setup = require "baggage"
+    .from {
+      'https://github.com/neovim/nvim-lspconfig',
+      'https://github.com/jose-elias-alvarez/typescript.nvim',
+      'https://github.com/williamboman/mason.nvim'
     }
-  })-- }}}
+
+setup('mason', {     -- {{{
+  -- to create a list of all the configured servers in this file:
+  -- read !rg '^lspconfig\.(\w+)\.' -o -r '"$1",' % | sort
+  ensure_installed = {
+    "clangd",
+    "cssls",
+    "cssmodules_ls",
+    "denols",
+    "eslint",
+    "gopls",
+    "lua_ls",
+    "marksman",
+    "pyright",
+    "rust_analyzer",
+    "sourcekit",
+    "svelte",
+    "tailwindcss",
+  }
+})     -- }}}
+
+local lspconfig = require 'lspconfig'
 
 local capabilities = require "baggage"
-  .from 'https://github.com/hrsh7th/cmp-nvim-lsp'
-  .load('cmp_nvim_lsp')
-  .default_capabilities(vim.lsp.protocol.make_client_capabilities())
+    .from 'https://github.com/hrsh7th/cmp-nvim-lsp'
+    .load('cmp_nvim_lsp')
+    .default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 lspconfig.rust_analyzer.setup {}
 
 lspconfig.pyright.setup {}
 
 lspconfig.elixirls.setup {
-cmd = {"/Users/nilsriedemann/.local/share/nvim/mason/bin/elixir-ls"}
+  cmd = { "/Users/nilsriedemann/.local/share/nvim/mason/bin/elixir-ls" }
 }
 
 lspconfig.gopls.setup {}
+
+lspconfig.astro.setup {}
 
 lspconfig.marksman.setup {}
 
@@ -60,7 +63,7 @@ lspconfig.tailwindcss.setup { -- {{{
       }
     }
   }
-} -- }}}
+}                        -- }}}
 
 lspconfig.lua_ls.setup({ -- {{{
   settings = {
@@ -80,7 +83,7 @@ lspconfig.lua_ls.setup({ -- {{{
       },
     },
   },
-}) ---}}}
+})                       ---}}}
 
 lspconfig.clangd.setup({ -- {{{
   capabilities = capabilities,
@@ -105,33 +108,30 @@ lspconfig.svelte.setup { -- {{{
 } -- }}}
 
 require "baggage"
-  .from 'https://github.com/jose-elias-alvarez/typescript.nvim'
-  .setup('typescript', { -- {{{
-  -- Using the plugin since it adds some useful commands,
-  -- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
-  server = {
-    capabilities = capabilities,
-    single_file_support = false,
-    root_dir = lspconfig.util.root_pattern("package.json"),
-    on_attach = function(client, bufnr)
-      local keyopts = { noremap = true, silent = true, buffer = bufnr }
-      require("twoslash-queries").attach(client, bufnr)
-
-      vim.keymap.set('n', "<leader>it", "<cmd>InspectTwoslashQueries<CR>", keyopts)
-      vim.keymap.set('n', '<leader>ci', ':TypescriptAddMissingImports<cr>', keyopts)
-      vim.keymap.set('n', '<leader>co', ':TypescriptOrganizeImports<cr>', keyopts)
-      vim.keymap.set('n', '<leader>cu', ':TypescriptRemoveUnused<cr>', keyopts)
-      vim.keymap.set('n', '<leader>cA',
-        ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', keyopts)
-      vim.keymap.set('n', '<leader>cR', ':TypescriptRenameFile<cr>', keyopts)
-    end,
-  }
-})
+    .from 'https://github.com/jose-elias-alvarez/typescript.nvim'
+    .setup('typescript', { -- {{{
+      -- Using the plugin since it adds some useful commands,
+      -- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
+      server = {
+        capabilities = capabilities,
+        single_file_support = false,
+        root_dir = lspconfig.util.root_pattern("package.json"),
+        on_attach = function(client, bufnr)
+          local keyopts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set('n', '<leader>ci', ':TypescriptAddMissingImports<cr>', keyopts)
+          vim.keymap.set('n', '<leader>co', ':TypescriptOrganizeImports<cr>', keyopts)
+          vim.keymap.set('n', '<leader>cu', ':TypescriptRemoveUnused<cr>', keyopts)
+          vim.keymap.set('n', '<leader>cA',
+            ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', keyopts)
+          vim.keymap.set('n', '<leader>cR', ':TypescriptRenameFile<cr>', keyopts)
+        end,
+      }
+    })
 --}}}
 
-lspconfig.sourcekit.setup({ -- {{{
+lspconfig.sourcekit.setup({                -- {{{
   capabilities = capabilities,
-})                          -- }}}
+})                                         -- }}}
 
 vim.api.nvim_create_autocmd('LspAttach', { -- {{{
   callback = function(args)
