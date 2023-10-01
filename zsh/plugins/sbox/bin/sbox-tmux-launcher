@@ -20,5 +20,9 @@ if [[ -z $1 ]]; then
 		-c "$working_dir" \
 		"sbox-tmux-launcher menu"
 
-	tmux attach-session -t $name
+	if [[ $TMUX ]]; then
+		tmux switch-client -t $name
+	else
+		tmux attach-session -t $name
+	fi
 fi
