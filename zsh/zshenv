@@ -134,3 +134,10 @@ for plugin in "$DOTDIR"/zsh/plugins/*; do
 done
 
 # }}}
+# load local zshenv{{{
+
+if [[ -f $HOME/.zshenv.local ]]; then
+	source $HOME/.zshenv.local
+fi
+
+# }}}
