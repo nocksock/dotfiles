@@ -46,7 +46,7 @@ git:
     # this determines whether the git graph is rendered in the commits panel
     showGraph: "when-maximised"
     # displays the whole git graph by default in the commits panel (equivalent to passing the `--all` argument to `git log`)
-    showWholeGraph: false
+    showWholeGraph: true
   skipHookPrefix: WIP
   autoFetch: true
   autoRefresh: true
@@ -146,9 +146,9 @@ keybinding:
     commitChangesWithEditor: "C"
     ignoreFile: "i"
     refreshFiles: "r"
-    stashAllChanges: "s"
-    viewStashOptions: "S"
-    toggleStagedAll: "a" # stage/unstage all
+    stashAllChanges: "S"
+    viewStashOptions: "s"
+    toggleStagedAll: "<c-a>" # stage/unstage all
     viewResetOptions: "D"
     fetch: "f"
     toggleTreeView: "`"
