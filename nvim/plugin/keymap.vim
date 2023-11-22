@@ -10,9 +10,6 @@ inoremap ; ;<c-g>u
 inoremap ? ?<c-g>u
 inoremap , ,<c-g>u
 
-inoremap ,, <esc>A,
-inoremap ;; <esc>A;
-
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " visual select last inserted text
@@ -43,10 +40,6 @@ nnoremap z0 zMzvzz
 nnoremap  <C-d>zz
 nnoremap  <C-u>zz
 
-nnoremap <leader>gcc <cmd>normal yygccp<cr>
-nnoremap <leader>gcip <cmd>normal "cyipgcip)"cP<cr>
-nnoremap <leader>gcap <cmd>normal "cyapgcap)"cP<cr>
-
 nnoremap <leader>M <cmd>Messages<cr>
 
 nnoremap ]c <cmd>cn<cr>
@@ -64,16 +57,10 @@ nnoremap <leader>cc <cmd>Git commit<cr>
 " buffer navigation
 nnoremap gf <cmd>e <cfile><CR>
 nnoremap <silent> <leader>x <cmd>b#\|bd#<cr>
-
 nnoremap <silent> <leader>b0 <cmd>%bd\|e#<cr>
-nnoremap <silent> <leader>bd <cmd>bd<cr>
 
 nnoremap <c-n> <cmd>cn<cr>
 nnoremap <c-p> <cmd>cp<cr>
-
-" <c-;> to quickly go to a previous command
-nnoremap <c-;> <cmd><c-p>
-cnoremap <c-;> <c-p>
 
 nnoremap <leader>it <cmd>TSHighlightCapturesUnderCursor<cr>
 
@@ -87,25 +74,22 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nmap <leader>" :lua require('rucksack').show()<cr>
-nmap <leader>y :lua require('rucksack').stash()<cr>
-vmap <leader>y :lua require('rucksack').stash()<cr>
-
 nmap <leader>f <cmd>Telescope find_files hidden=true<cr>
-nmap <leader>F <cmd>Telescope find_files hidden=true cwd=%:p:h<cr>
+nmap <leader>F <cmd>Telescope find_files hidden=true<cr>
+nmap <leader><c-f> <cmd>Telescope find_files hidden=true cwd=%:p:h<cr>
 nmap <leader>* <cmd>Telescope grep_string<cr>
-nmap <leader>/ <cmd>Telescope live_grep<cr>
-nmap <leader>? <cmd>Telescope live_grep cwd=%:p:h<cr>
+nmap <leader>g <cmd>Telescope live_grep<cr>
+nmap <leader>G <cmd>Telescope live_grep cwd=%:p:h<cr>
 nmap <leader>: <cmd>Telescope commands<cr>
-nmap <leader>; <cmd>Telescope command_history<cr>
+nmap <leader><c-r> <cmd>Telescope command_history<cr>
 nmap <leader><cr> <cmd>Telescope resume<cr>
-nmap <leader>h <cmd>Telescope help_tags<cr>
+nmap <leader>hh <cmd>Telescope help_tags<cr>
 nmap <leader>S <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
 nmap <leader><leader> <cmd>Telescope buffers<cr>
 nmap <leader>s <cmd>Telescope lsp_document_symbols<cr>
 nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
 nmap <leader>T <cmd>Telescope builtin<cr>
-nmap <leader>l <cmd>Telescope current_buffer_fuzzy_find<cr>
+nmap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 xnoremap ga         <Plug>(EasyAlign)
 nnoremap ga         <Plug>(EasyAlign)
@@ -126,15 +110,18 @@ nnoremap <leader>hu <cmd>lua require("gitsigns.actions").undo_stage_hunk()<cr>
  onoremap ic <cmd>lua require("gitsigns.actions").select_hunk()<cr>
  xnoremap ic <cmd>lua require("gitsigns.actions").select_hunk()<cr>
 
-imap <M-i> if<c-l>
-imap <M-c> cb<c-l>
-imap <M-l> for<c-l>
-imap <M-f> fn<c-l>
-
 nmap [[ ?{<CR>w99[{
 nmap ][ /}<CR>b99]}
 nmap ]] j0[[%/{<CR>
 nmap [] k$][%?}<CR>
 
-nnoremap <M-s> :w ++p<cr>
-inoremap <M-s> <cmd>w ++p<cr>
+nnoremap <M-s> :w<cr>
+nnoremap <D-s> :w<cr>
+inoremap <M-s> <cmd>w<cr><esc>
+inoremap <D-s> <cmd>w<cr><esc>
+
+nnoremap <C-1> 1gt
+nnoremap <C-2> 2gt
+nnoremap <C-3> 3gt
+nnoremap <C-4> 4gt
+nnoremap <C-5> 5gt

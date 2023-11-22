@@ -42,7 +42,12 @@ require('lualine').setup({
       tabline = {
         lualine_a = {},
         lualine_b = {
-          { 'tabs', mode = 2, cond = function() return vim.fn.tabpagenr('$') > 1 end },
+          {
+            'tabs',
+            mode = 1,
+            cond = function() return vim.fn.tabpagenr('$') > 1 end,
+            max_length = vim.o.columns,
+          },
         },
         lualine_c = {},
         lualine_x = {},

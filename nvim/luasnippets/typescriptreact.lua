@@ -21,34 +21,21 @@ local same = function(index)
 end
 -- }}}
 
-local ts_snippets = require("./typescript")
-return vim.tbl_extend("force", ts_snippets, {
+ls.filetype_extend('typescriptreact', {'typescript'})
+
+return {
 	-- TODO: a snippet that uses Tree Sitter to check whether pre or
 	-- console.log
 	s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	s('rjson', fmt([[return <pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	s('tern', fmt([[{{{} ? ({}) : null}}]], { i(1), i(0) })),
-	s('clg', fmt([[console.log({});]], { i(0) })),
-	s('fn', c(1, {
-    fmt([[const {} = ({}) => {}]], {i(1), i(2), i(3)}),
-    fmt([[
-      const {} = ({}) => {{
-        return {}
-      }}]], {i(1), i(2), i(3)}),
-    fmt([[
-      const {} = function {}({}) {{
-        return {}
-      }}]], {i(1), i(2), i(3), i(4)}),
-  })),
-	s('cb', c(1, {
-    fmt([[({}) => {}]], {i(1), i(2)}),
-    fmt([[
-      ({}) => {{
-        return {}
-      }}]], {i(1), i(2)}),
-    fmt([[
-      function {}({}) {{
-        return {}
-      }}]], {i(1), i(2), i(3)}),
-  })),
-})
+  s('cmp', fmt([[
+  export const {}: React.FC<{{children: ReactNode}}> = ({}) => {{
+    return (
+      <div>
+        {}
+      </div>
+    )
+  }}
+  ]], { i(1), i(2), i(3) })),
+}

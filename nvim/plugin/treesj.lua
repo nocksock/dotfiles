@@ -1,41 +1,52 @@
 local setup = require "baggage".from 'https://github.com/Wansmer/treesj'
 
-require'on'({ 'UIEnter' }, setup.lazily('treesj', {
+local attribute_toggle = function(node_type, parent_type)
+  return {
+    both = {
+      enable = function(tsn)
+        return tsn:parent():type() == parent_type
+      end,
+    },
+    split = {
+      format_tree = function(tsj)
+        local str = tsj:child(node_type)
+        local words = vim.split(str:text(), ' ')
+        tsj:remove_child(node_type)
+        for i, word in ipairs(words) do
+          tsj:create_child({ text = word }, i + 1)
+        end
+      end,
+    },
+    join = {
+      format_tree = function(tsj)
+        local str = tsj:child(node_type)
+        local node_text = str:text()
+        tsj:remove_child(node_type)
+        tsj:create_child({ text = node_text }, 2)
+      end,
+    }
+  }
+end
+
+setup('treesj', {
   use_default_keymaps = false,
   max_join_length = 200,
   cursor_behavior = 'start',
   notify = true,
   langs = {
-    tsx = {
-      ['string'] = {
-        both = {
-          enable = function(tsn)
-            return tsn:parent():type() == 'jsx_attribute'
-          end,
-        },
-        split = {
-          format_tree = function(tsj)
-            local str = tsj:child('string_fragment')
-            local words = vim.split(str:text(), ' ')
-            tsj:remove_child('string_fragment')
-            for i, word in ipairs(words) do
-              tsj:create_child({ text = word }, i + 1)
-            end
-          end,
-        },
-        join = {
-          format_tree = function(tsj)
-            local str = tsj:child('string_fragment')
-            local node_text = str:text()
-            tsj:remove_child('string_fragment')
-            tsj:create_child({ text = node_text }, 2)
-          end,
-        }
-      }
-    }
+    tsx  = { 
+      ['string'] = attribute_toggle('string_fragment', 'jsx_attribute'),
+      ['template_string'] = attribute_toggle('template_string', 'expression_statement')
+    },
+    astro = { 
+      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute') 
+    },
+    html  = { ['string'] = attribute_toggle('string_fragment', 'attribute') },
   },
   ---@type boolean Use `dot` for repeat action
   dot_repeat = true,
   ---@type nil|function Callback for treesj error handler. func (err_text, level, ...other_text)
   on_error = nil,
-}))
+})
+
+-- require 'on' ({ 'BufEnter', 'BufNew' }, )

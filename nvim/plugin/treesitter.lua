@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
 
     local opts = {
       highlight = { enable = true },
-      indent = { enable = true },
+      indent = { enable = false }, -- vim's is smartindent is better than treesitter's indent
       context_commentstring = { enable = true, enable_autocmd = false },
       ensure_installed = {
         "astro",

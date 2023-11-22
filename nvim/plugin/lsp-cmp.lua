@@ -1,11 +1,14 @@
 local setup = require "baggage"
     .from {
+      "https://github.com/nvim-lua/plenary.nvim",
+      "https://github.com/neovim/nvim-lspconfig",
       'https://github.com/neovim/nvim-lspconfig',
-      'https://github.com/jose-elias-alvarez/typescript.nvim',
+      'https://github.com/marilari88/twoslash-queries.nvim',
+      "https://github.com/pmizio/typescript-tools.nvim",
       'https://github.com/williamboman/mason.nvim'
     }
 
-setup('mason', {     -- {{{
+setup('mason', { -- {{{
   -- to create a list of all the configured servers in this file:
   -- read !rg '^lspconfig\.(\w+)\.' -o -r '"$1",' % | sort
   ensure_installed = {
@@ -23,7 +26,7 @@ setup('mason', {     -- {{{
     "svelte",
     "tailwindcss",
   }
-})     -- }}}
+}) -- }}}
 
 local lspconfig = require 'lspconfig'
 
@@ -107,27 +110,20 @@ lspconfig.svelte.setup { -- {{{
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
 } -- }}}
 
-require "baggage"
-    .from 'https://github.com/jose-elias-alvarez/typescript.nvim'
-    .setup('typescript', { -- {{{
-      -- Using the plugin since it adds some useful commands,
-      -- NOTE: afaik will be archived soon - but I'll keep using it until it's not working and then migrate
-      server = {
-        capabilities = capabilities,
-        single_file_support = false,
-        root_dir = lspconfig.util.root_pattern("package.json"),
-        on_attach = function(client, bufnr)
-          local keyopts = { noremap = true, silent = true, buffer = bufnr }
-          vim.keymap.set('n', '<leader>ci', ':TypescriptAddMissingImports<cr>', keyopts)
-          vim.keymap.set('n', '<leader>co', ':TypescriptOrganizeImports<cr>', keyopts)
-          vim.keymap.set('n', '<leader>cu', ':TypescriptRemoveUnused<cr>', keyopts)
-          vim.keymap.set('n', '<leader>cA',
-            ':TypescriptAddMissingImports<cr>:TypescriptAddMissingImports<CR>:TypescriptRemoveUnused<CR>', keyopts)
-          vim.keymap.set('n', '<leader>cR', ':TypescriptRenameFile<cr>', keyopts)
-        end,
-      }
-    })
---}}}
+require'typescript-tools'.setup {
+  capabilities = capabilities,
+  single_file_support = false,
+  root_dir = lspconfig.util.root_pattern("tsconfig.json"),
+  on_attach = function(client, bufnr)
+    require("twoslash-queries").attach(client, bufnr)
+    local keyopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', '<leader>ci', ':TSToolsAddMissingImports<cr>', keyopts)
+    vim.keymap.set('n', '<leader>co', ':TSToolsOrganizeImports<cr>', keyopts)
+    vim.keymap.set('n', '<leader>cu', ':TSToolsRemoveUnused<cr>', keyopts)
+    vim.keymap.set('n', '<leader>cA', ':TSToolsFixAll<cr>', keyopts)
+    vim.keymap.set('n', '<leader>cR', ':TSToolsRenameFile<cr>', keyopts)
+  end,
+}
 
 lspconfig.sourcekit.setup({                -- {{{
   capabilities = capabilities,
@@ -151,10 +147,8 @@ vim.api.nvim_create_autocmd('LspAttach', { -- {{{
 
     vim.keymap.set('n', '<leader>j', vim.diagnostic.goto_next, bufopts)
     vim.keymap.set('n', '<leader>k', vim.diagnostic.goto_prev, bufopts)
-    vim.keymap.set('n', "<leader>J",
-      function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
-    vim.keymap.set('n', "<leader>K",
-      function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
     vim.keymap.set('n', "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
@@ -173,10 +167,10 @@ vim.api.nvim_create_autocmd('LspAttach', { -- {{{
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 
     vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, bufopts)
-    vim.keymap.set('n', 'gd', ':lua vim.lsp.buf.definition()<cr>zt', bufopts)
-    vim.keymap.set('n', 'gy', ':lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
-    vim.keymap.set('n', 'gi', ':lua vim.lsp.buf.implementation()<cr>zt', bufopts)
-    vim.keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration()<cr>zt', bufopts)
+    vim.keymap.set('n', 'gd', ':Telescope lsp_definitions<CR>', bufopts)
+    vim.keymap.set('n', 'gy', ':Telescope lsp_type_definitions<cr>', bufopts)
+    vim.keymap.set('n', 'gi', ':Telescope lsp_type_implementations<cr>', bufopts)
+    vim.keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration<cr>', bufopts)
 
     vim.keymap.set('n', '<c-w>d', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>D', ':vs<cr>:lua vim.lsp.buf.declaration()<cr>zt', bufopts)

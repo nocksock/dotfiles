@@ -30,6 +30,8 @@ return {
     i(1, "preset"), t { "", "" },
     d(2, simple_restore, 1)
   }),
+
+
   s("paren_change", {
     c(1, {
       sn(nil, { t("("), r(1, "user_text"), t(")") }),
@@ -85,20 +87,20 @@ return {
       if {} then
         {}
       end
-      ]=], {i(1), i(2)})
+      ]=], { i(1), i(2) })
     })
   ),
   s(
     'fn',
     c(1, {
       fmt([[
-        function {}({}) 
-          {} 
+        function {}({})
+          {}
         end
       ]], { i(1), r(2, "body"), i(3) }),
       fmt([[
-        local {} = function({}) 
-          {} 
+        local {} = function({})
+          {}
         end
       ]], { i(1), r(2, "body"), i(3) }),
       fmt(
@@ -106,7 +108,7 @@ return {
 					local function{}({})
 						{}
 					end
-					]]  ,
+					]],
         { i(1), r(2, "body"), i(3) }
       ),
     })
@@ -119,10 +121,26 @@ return {
 					function({})
 						{}
 					end
-					]]  ,
+					]],
         { i(1), r(2, "body") }
       ),
       fmt('function{}({}) {} end', { i(1), r(2, "body"), i(3) }),
     })
+  ),
+  s( 'desc', fmt(
+      [[
+			describe('{}', function()
+				it('{}', fucntion()
+						{}
+        end)
+      end)
+			]], { i(1), i(2), i(0) })
+  ),
+
+  s( 'it', fmt([[
+      it('{}', function()
+          {}
+      end)
+    ]], { i(1), i(0) } )
   ),
 }

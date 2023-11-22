@@ -25,6 +25,11 @@ return {
 	s('kt', fmt([[keyof typeof {}]], { i(0) })),
 	s('clg', fmt([[console.log({});]], { i(0) })),
 	s('log', fmt([[console.log({});]], { i(0) })),
+  s('eafn', fmt([[
+    export const {} = async () => {{
+      return {}
+    }}
+  ]], { i(1), i(2) })),
 	s(
 		'ct',
 		c(1, {
@@ -83,11 +88,6 @@ return {
   })),
 
 	s('edafn', c(1, {
-    fmt([[export default const {} = async ({}) => {}]], {i(1), i(2), i(3)}),
-    fmt([[
-      export default const {} = async ({}) => {{
-        return {}
-      }}]], {i(1), i(2), i(3)}),
     fmt([[
       export default async function {}({}) {{
         return {}

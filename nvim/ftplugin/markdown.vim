@@ -1,5 +1,5 @@
-setlocal textwidth=80
-setlocal fo+=t " auto wrap at text width
+" setlocal textwidth=80
+setlocal fo-=t " do not autowrap text at width
 setlocal wrap
 setlocal linebreak
 setlocal listchars+=precedes:<,extends:>
