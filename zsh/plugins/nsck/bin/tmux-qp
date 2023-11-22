@@ -13,14 +13,14 @@ fi
 
 selected_name=$(basename "$selected" | tr . _)
 
-tmux has-session -t $selected_name 2>/dev/null
+tmux has-session -t=$selected_name 2>/dev/null
 
 if [ $? != 0 ]; then
   tmux new-session -ds $selected_name -c $selected $DOTDIR/bin/tmux-launcher
 fi
 
 if [[ -z $TMUX ]]; then
-    tmux attach-session -t $selected_name
+    tmux attach-session -t=$selected_name
 else
-    tmux switch-client -t $selected_name
+    tmux switch-client -t=$selected_name
 fi
