@@ -11,11 +11,12 @@ autoload -Uz ${0:h}/functions/*(:t)
 alias sudo='sudo '
 alias reload="exec zsh"
 
-alias rm='rm -i' # rm -i will ask for each deletion
 alias pick="pickard"
 alias kqw="kitty-quick-window"
 alias nnn='nnn -ei'
 alias qf='qufo'
+alias pio='pnpm install --prefer-offline .'
+alias piio='pnpm install --ignore-scripts --ignore-workspace --prefer-offline .'
 
 # {{{ git
 alias gss='git status'
@@ -24,6 +25,7 @@ alias ngs='nvim +:Git status'
 alias gr='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
 alias gg='lazygit'
 alias gsw='pushd "$(git worktree list --porcelain | ggrep -Po "(?<=worktree ).*" | fzf)"'
+alias gb="git branch -l --format='%(refname:short)' | fzf | xargs git switch" 
 alias ggl='git-grouped-log'
 alias gsb='git-switch-branch'
 # }}}
@@ -37,8 +39,8 @@ alias gd="popd"
 alias ndf="cd $DOTDIR; nvim '+Telescope find_files'"
 alias cdp="cd \$(list-projects | fzf)"
 
-alias ls='exa --icons -1 --group-directories-first -a'
-alias ll='exa --icons -l --group-directories-first -a'
+alias ls='exa -1 --group-directories-first -a'
+alias ll='exa -l --group-directories-first -a'
 # }}}
 # tmux {{{
 
