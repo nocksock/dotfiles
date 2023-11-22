@@ -3,7 +3,6 @@ source $DOTDIR/sketchybar/vars.zsh
 
 sketchybar                                     \
 	--bar                                        \
-		color="${WM_COLORS[black_alpha]}"          \
 		corner_radius=4                            \
 		display=main                               \
 		height=24                                  \
@@ -16,7 +15,7 @@ sketchybar                                     \
                                                \
 	--default                                    \
 		drawing=on                                 \
-		background.color=${WM_COLORS[black_alpha]} \
+		background.color="#FFFFFF" \
 		background.corner_radius=$RADIUS           \
 		background.drawing=on                      \
 		background.padding_left=0                  \
@@ -30,11 +29,10 @@ sketchybar                                     \
 
 export POSITION=left
   $PLUGIN_DIR/spaces setup
-  $PLUGIN_DIR/task setup
+  $PLUGIN_DIR/front_app setup
 
 export POSITION=center
   $PLUGIN_DIR/skhd-mode setup
-  $PLUGIN_DIR/front_app setup
 
 export POSITION=right
   $PLUGIN_DIR/battery setup

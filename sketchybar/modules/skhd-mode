@@ -16,7 +16,6 @@ if [[ "$1" == "setup" ]]; then
 
 elif [[ $1 == "default" ]]; then
     sketchybar --set $NAME label="" drawing=no
-    yabai -m config active_window_border_color "${WM_COLOR[green]}" window_border_width 2
 		$HOME/.config/sketchybar/modules/front_app show
 
 else
@@ -33,6 +32,5 @@ else
 
 		$HOME/.config/sketchybar/modules/front_app hide
     sketchybar --set "$NAME" label="$1" drawing=yes background.color="$COLOR" width=600
-    yabai -m config active_window_border_color "$COLOR"
 fi
 

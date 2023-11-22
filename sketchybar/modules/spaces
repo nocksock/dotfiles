@@ -2,10 +2,23 @@
 source $HOME/.config/sketchybar/vars.zsh
 
 SELF="$PLUGIN_DIR/spaces"
-SPACE_ICONS=("󰖟" "" "" "" "󰴙" "󰙊" "エ" "ビ" "シ")
+SPACE_ICONS=(
+	"1 SIDE "
+	"2 MAIN "
+	"3 COMM "
+	"4 PLAN "
+	"5 PLAY "
+	"6 CHAT "
+	"7 DOCS "
+	"8 MISC "
+	"9 MISC "
+)
+
+local current=$(yabai -m query --spaces --space | jq -r .index)
 
 update() {
 	local layout_type=$(yabai -m query --spaces --space | jq -r .type)
+	sketchybar --set spaces icon=${SPACE_ICONS[$current]}
 
 	if [[ ! $SELECTED == true ]]; then
 		sketchybar --set $1 icon.color="${WM_COLORS[white_alpha]}"
@@ -19,32 +32,43 @@ update() {
 }
 
 if [[ $1 == "setup" ]]; then
+	sketchybar                                                                       \
+		--add item spaces $POSITION                                                    \
+		--set spaces icon=${SPACE_ICONS[$current]}                                     \
+		background.drawing=off                                                         \
+					label.drawing=off                                                        \
+					click_script='sketchybar -m --set $NAME popup.drawing=toggle' \
+					popup.background.border_color=${WM_COLORS[black]}                        \
+
   for i in {1..${#SPACE_ICONS}}; do
     sid=$((i))
 
-    sketchybar --add space space.$sid $POSITION \
-      --set space.$sid                          \
-        associated_space=$sid                   \
-        icon=${SPACE_ICONS[i]}                  \
-        icon.drawing=on                         \
-        icon.color=${WM_COLORS[black_alpha]}    \
-        icon.padding_right=$SPACE               \
-        background.drawing=off                  \
-        background.padding_right=0              \
-        background.padding_left=0               \
-        label.drawing=off                       \
-        label.padding_left=0                    \
-        label.padding_right=0                   \
-        script="$SELF"             \
-        click_script="$SELF click $sid"
+    sketchybar --add space space.$sid popup.spaces \
+      --set space.$sid                             \
+        associated_space=$sid                      \
+        icon=${SPACE_ICONS[i]}                     \
+        icon.drawing=on                            \
+        icon.color=${WM_COLORS[white]}             \
+        icon.padding_right=$SPACE                  \
+				background.color=${WM_COLORS[black]}    \
+        background.drawing=on                      \
+        background.padding_right=0                 \
+        background.padding_left=0                  \
+        label.drawing=off                          \
+        label.padding_left=0                       \
+        label.padding_right=0                      \
+        script="$SELF"                             \
+        click_script="$SELF click $sid"            \
 
-    update space.$sid
   done
 
 fi
 
 if [[ $1 == "click" ]]; then
   yabai -m space --focus $2
+	sketchybar -m \
+		--set spaces popup.drawing=off \
+		--set spaces icon=${SPACE_ICONS[$2]}
 fi
 
 if [[ -n $NAME  ]]; then
