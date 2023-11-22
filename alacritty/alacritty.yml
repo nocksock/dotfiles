@@ -103,7 +103,6 @@ window:
 
 # Font configuration
 font:
-    use_thin_strokes: true
     normal:
         family: JetBrains Mono
         style: Light
