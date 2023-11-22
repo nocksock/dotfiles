@@ -1,7 +1,18 @@
 #!/usr/bin/env zsh
 
-function tmux-new {
-	tmux new -s ${PWD##*/}
+function tmux-new () {
+	local selected_name=${PWD##*/}
+	tmux has-session -t=$selected_name 2>/dev/null
+
+	if [[ $? != 0 ]]; then
+		tmux new-session -ds $selected_name -c ${PWD} $DOTDIR/bin/tmux-launcher
+	fi
+
+	if [[ -z $TMUX ]]; then
+		tmux attach-session -t=$selected_name
+	else
+		tmux switch-client -t=$selected_name
+	fi
 }
 
 
