@@ -1,7 +1,6 @@
 local setup = require "baggage"
     .from {
       "https://github.com/nvim-lua/plenary.nvim",
-      "https://github.com/neovim/nvim-lspconfig",
       'https://github.com/neovim/nvim-lspconfig',
       'https://github.com/marilari88/twoslash-queries.nvim',
       'https://github.com/williamboman/mason.nvim',
@@ -43,11 +42,43 @@ lspconfig.elixirls.setup {
   cmd = { "/Users/nilsriedemann/.local/share/nvim/mason/bin/elixir-ls" }
 }
 
+-- local lexical_config = {
+--   filetypes = { "elixir", "eelixir", "heex" },
+--   cmd = { "/Users/nilsriedemann/code/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+--   settings = {},
+-- }
+--
+-- if not lspconfig.lexical then
+--   lspconfig.lexical = {
+--     default_config = {
+--       filetypes = lexical_config.filetypes,
+--       cmd = lexical_config.cmd,
+--       root_dir = function(fname)
+--         return lspconfig.util.root_pattern("mix.exs", ".git")(fname) or vim.loop.os_homedir()
+--       end,
+--       -- optional settings
+--       settings = lexical_config.settings,
+--     },
+--   }
+-- end
+
+-- lspconfig.lexical.setup({
+--   cmd = { "/Users/nilsriedemann/code/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+-- })
+
 lspconfig.gopls.setup {}
 lspconfig.marksman.setup {}
 
 
-lspconfig.cssls.setup {}
+lspconfig.cssls.setup {
+  settings = {
+    css = { validate = true,
+      lint = {
+        unknownAtRules = "ignore"
+      }
+    },
+  }
+}
 
 lspconfig.cssmodules_ls.setup {}
 
@@ -113,14 +144,14 @@ lspconfig.svelte.setup { -- {{{
 } -- }}}
 
 lspconfig.astro.setup {}
--- lspconfig.eslint.setup {}
+lspconfig.eslint.setup {}
 -- lspconfig.tsserver.setup {}
 lspconfig.biome.setup {}
 
-require'typescript-tools'.setup {
+require 'typescript-tools'.setup {
   capabilities = capabilities,
   single_file_support = false,
-  root_dir = lspconfig.util.root_pattern("tsconfig.json"),
+  root_dir = lspconfig.util.root_pattern({ "tsconfig.json", "package.json" }),
   on_attach = function(client, bufnr)
     require("twoslash-queries").attach(client, bufnr)
     local keyopts = { noremap = true, silent = true, buffer = bufnr }
@@ -151,11 +182,14 @@ vim.api.nvim_create_autocmd('LspAttach', { -- {{{
 
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gK', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 
     vim.keymap.set('n', '<leader>j', vim.diagnostic.goto_next, bufopts)
     vim.keymap.set('n', '<leader>k', vim.diagnostic.goto_prev, bufopts)
-    vim.keymap.set('n', "<leader>J", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
-    vim.keymap.set('n', "<leader>K", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "<leader>J",
+      function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
+    vim.keymap.set('n', "<leader>K",
+      function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, bufopts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
     vim.keymap.set('n', "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
@@ -173,10 +207,10 @@ vim.api.nvim_create_autocmd('LspAttach', { -- {{{
       bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 
-    vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, bufopts)
-    vim.keymap.set('n', 'gd', ':Telescope lsp_definitions<CR>', bufopts)
-    vim.keymap.set('n', 'gy', ':Telescope lsp_type_definitions<cr>', bufopts)
-    vim.keymap.set('n', 'gi', ':Telescope lsp_type_implementations<cr>', bufopts)
+    vim.keymap.set('n', 'gr', ':FzfLua lsp_references<CR>', bufopts)
+    vim.keymap.set('n', 'gd', ':FzfLua lsp_definitions<CR>', bufopts)
+    vim.keymap.set('n', 'gy', ':FzfLua lsp_type_definitions<cr>', bufopts)
+    vim.keymap.set('n', 'gi', ':FzfLua lsp_type_implementations<cr>', bufopts)
     vim.keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration<cr>', bufopts)
 
     vim.keymap.set('n', '<c-w>d', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
