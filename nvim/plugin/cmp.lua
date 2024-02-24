@@ -27,13 +27,6 @@ cmp.setup({-- {{{
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
-    --     ['<c-l>'] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.complete_common_string()
-    --   else
-    --     fallback()
-    --   end
-    -- end, { 'i' }),
     ['<c-n>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
