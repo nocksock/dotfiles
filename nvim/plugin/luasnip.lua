@@ -1,10 +1,6 @@
 local setup = require "baggage"
   .from 'https://github.com/L3MON4D3/LuaSnip'
 
-vim.api.nvim_create_autocmd({"BufEnter"}, {
-  callback = setup.lazily.once('telescope')
-})
-
 vim.api.nvim_create_user_command("SnippetEdit",
   function() require('luasnip.loaders.from_lua').edit_snippet_files() end, {})
 vim.api.nvim_create_user_command("SnippetReload",
