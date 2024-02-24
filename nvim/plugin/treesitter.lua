@@ -4,9 +4,6 @@ require "baggage".from {
     'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
 }
 
-vim.api.nvim_create_autocmd({ 'BufEnter' }, {
-  callback = function()
-
     local opts = {
       highlight = { enable = true },
       indent = { enable = false }, -- vim's is smartindent is better than treesitter's indent
@@ -16,6 +13,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
         "bash",
         "c",
         "comment",
+        "elixir",
         "fennel",
         "go",
         "html",
@@ -106,5 +104,3 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     end, opts.ensure_installed)
 
     require("nvim-treesitter.configs").setup(opts)
-  end
-})
