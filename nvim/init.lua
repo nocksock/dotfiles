@@ -9,7 +9,7 @@ end
 -- general {{{
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.o.clipboard = 'unnamed'
+vim.o.clipboard = 'unnamedplus'
 vim.o.hidden = true -- makes it possible to leave a buffer if it has unsaved changes. `gd` etc fail horribly in those cases.
 vim.o.completeopt = 'menu,menuone,noselect,longest,preview'
 vim.o.foldmethod = "marker"
@@ -19,7 +19,6 @@ vim.o.updatetime = 250
 vim.o.splitbelow = true       -- When on, splitting a window will put the new window below the current one
 vim.o.shiftround = true       -- When at 3 spaces and I hit >>, go to 4, not 5.
 vim.o.shell = '/bin/zsh'      -- set default shell for :shell
-vim.o.path = vim.o.path .. ',**'
 vim.o.wildignore = table.concat({
   '.DS_Store',
   '**/.git/*',
@@ -72,7 +71,6 @@ vim.o.expandtab             = true
 vim.o.breakindent           = true -- wrapped lines appear indendet
 vim.o.briopt                = 'shift:4' -- indent wrapped lines
 vim.o.linebreak             = true
-vim.o.wrap                  = false -- don't wrap by default
 
 -- }}}
 -- backup + undo {{{
@@ -98,12 +96,6 @@ vim.g.easy_align_delimiters = {
     left_margin = 1,
     right_margin = 0
   }
-}
-
-vim.g.symbols_outline       = {
-  auto_close = true,
-  auto_preview = false,
-  show_quides = false
 }
 
 -- }}}

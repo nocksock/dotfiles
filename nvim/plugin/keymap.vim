@@ -67,6 +67,7 @@ nnoremap <leader>it <cmd>TSHighlightCapturesUnderCursor<cr>
 nnoremap <leader>tn <cmd>Num<cr>
 nnoremap <leader>tg <cmd>Gitsigns toggle_signs<cr>
 nnoremap <leader>td <cmd>DoToggle<cr>
+nnoremap <leader>tc <cmd>TSContextToggle<cr>
 nnoremap <leader>tb <cmd>BG<cr>
 
 nnoremap <C-h> <C-w>h
@@ -84,9 +85,10 @@ nmap <leader>: <cmd>Telescope commands<cr>
 nmap <leader><c-r> <cmd>Telescope command_history<cr>
 nmap <leader><cr> <cmd>Telescope resume<cr>
 nmap <leader>hh <cmd>Telescope help_tags<cr>
-nmap <leader>S <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+nmap <leader>H <cmd>Telescope help_tags<cr>
 nmap <leader><leader> <cmd>Telescope buffers<cr>
-nmap <leader>s <cmd>Telescope lsp_document_symbols<cr>
+nmap <leader>s <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+nmap <leader>S <cmd>Telescope lsp_document_symbols<cr>
 nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
 nmap <leader>T <cmd>Telescope builtin<cr>
 nmap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
@@ -120,8 +122,6 @@ nnoremap <D-s> :w<cr>
 inoremap <M-s> <cmd>w<cr><esc>
 inoremap <D-s> <cmd>w<cr><esc>
 
-nnoremap <C-1> 1gt
-nnoremap <C-2> 2gt
-nnoremap <C-3> 3gt
-nnoremap <C-4> 4gt
-nnoremap <C-5> 5gt
+nnoremap « gT
+nnoremap » gt
+

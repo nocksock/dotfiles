@@ -28,18 +28,24 @@ local attribute_toggle = function(node_type, parent_type)
   }
 end
 
-setup('treesj', {
+require'treesj'.setup {
   use_default_keymaps = false,
   max_join_length = 200,
   cursor_behavior = 'start',
   notify = true,
   langs = {
-    tsx  = { 
+    elixir = {
+      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
+    },
+    heex = {
+      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
+    },
+    tsx  = {
       ['string'] = attribute_toggle('string_fragment', 'jsx_attribute'),
       ['template_string'] = attribute_toggle('template_string', 'expression_statement')
     },
-    astro = { 
-      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute') 
+    astro = {
+      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
     },
     html  = { ['string'] = attribute_toggle('string_fragment', 'attribute') },
   },
@@ -47,6 +53,6 @@ setup('treesj', {
   dot_repeat = true,
   ---@type nil|function Callback for treesj error handler. func (err_text, level, ...other_text)
   on_error = nil,
-})
+}
 
 -- require 'on' ({ 'BufEnter', 'BufNew' }, )

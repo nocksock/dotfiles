@@ -94,15 +94,15 @@ return {
       }}]], {i(1), i(2), i(3)}),
   })),
 	s('edfn', c(1, {
-    fmt([[export default const {} = ({}) => {}]], {i(1), i(2), i(3)}),
-    fmt([[
-      export default const {} = ({}) => {{
-        return {}
-      }}]], {i(1), i(2), i(3)}),
     fmt([[
       export default function {}({}) {{
         return {}
       }}]], {i(1), i(2), i(3)}),
+    fmt([[
+      export default {} = ({}) => {{
+        return {}
+      }}]], {i(1), i(2), i(3)}),
+    fmt([[export default ({}) => {}]], {i(1), i(2)}),
   })),
 	s('efn', c(1, {
     fmt([[export const {} = ({}) => {}]], {i(1), i(2), i(3)}),

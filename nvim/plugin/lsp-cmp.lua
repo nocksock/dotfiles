@@ -4,8 +4,8 @@ local setup = require "baggage"
       "https://github.com/neovim/nvim-lspconfig",
       'https://github.com/neovim/nvim-lspconfig',
       'https://github.com/marilari88/twoslash-queries.nvim',
+      'https://github.com/williamboman/mason.nvim',
       "https://github.com/pmizio/typescript-tools.nvim",
-      'https://github.com/williamboman/mason.nvim'
     }
 
 setup('mason', { -- {{{
@@ -44,29 +44,31 @@ lspconfig.elixirls.setup {
 }
 
 lspconfig.gopls.setup {}
-
-lspconfig.astro.setup {}
-
 lspconfig.marksman.setup {}
 
-lspconfig.eslint.setup {}
 
 lspconfig.cssls.setup {}
 
 lspconfig.cssmodules_ls.setup {}
 
-lspconfig.tailwindcss.setup { -- {{{
-  capabilities = capabilities,
-  settings = {
-    tailwindCSS = {
-      editor = {
-        quickSuggestions = {
-          strings = "on"
-        }
-      }
-    }
-  }
-}                        -- }}}
+-- lspconfig.tailwindcss.setup { -- {{{
+--   capabilities = capabilities,
+--   init_options = {
+--     userLanguages = {
+--       eelixir = "html-eex",
+--       eruby = "erb"
+--     }
+--   },
+--   settings = {
+--     tailwindCSS = {
+--       editor = {
+--         quickSuggestions = {
+--           strings = "on"
+--         }
+--       }
+--     }
+--   }
+-- }                        -- }}}
 
 lspconfig.lua_ls.setup({ -- {{{
   settings = {
@@ -109,6 +111,11 @@ lspconfig.svelte.setup { -- {{{
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
 } -- }}}
+
+lspconfig.astro.setup {}
+-- lspconfig.eslint.setup {}
+-- lspconfig.tsserver.setup {}
+lspconfig.biome.setup {}
 
 require'typescript-tools'.setup {
   capabilities = capabilities,
