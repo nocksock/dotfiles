@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-NOTE_DIR=$HOME/brain/HEAP/heap/
+NOTE_DIR=$HOME/code/bleepbloop.studio/content/notes/
 LAST_NOTE_STORE=$HOME/.last_note
 DEFAULT_TAG="quicknote"
 
@@ -17,7 +17,7 @@ usage () { cat <<-EOF
 
 			these are exclusive:
 			-r         : restore last note (even if it wasn't saved, uses \$LAST_NOTE_STORE)
-			-d         : detach. aka don't open note in editor
+			-d         : detached. aka don't open note in editor
 
 	All notes get a #quicknote tag, to easily review and filter them.
 
@@ -49,21 +49,24 @@ fi
 make-tags () {
 	local hashtags=("#${DEFAULT_TAG}")
 	for tag in ${tags[@]}; do
-		hashtags+="#${tag#-t}"
+		hashtags+="${tag#-t}"
 	done
-	printf " ${(Fj: :)hashtags}"
+	printf "tags: [${(Fj:,:)hashtags}]"
 }
 
 make-links () {
 	if [[ -n $links ]]; then
 		local linked=()
 		for link in ${links[@]}; do
-			linked+="[[${link#-l}]]"
+			linked+="\"${link#-l}\""
 		done
-		printf " about ${(Fj:, :)linked}"
+		printf "related: [${(Fj:, :)linked}]"
 	fi
 }
 
+make-date () {
+	printf "date: $(date -u -Iminutes)"
+}
 
 text=${@#-- }
 
@@ -72,11 +75,16 @@ if [[ ! -t 0 ]]; then
 fi
 
 content=$(cat <<-EOF
-	$(make-tags)$(make-links)
+	---
+	$(make-tags)
+	$(make-links)
+	$(make-date)
+	---
 
 	${text}
 
 	${stdin}
+
 	EOF
 )
 
