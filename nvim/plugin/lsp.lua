@@ -4,10 +4,12 @@ local setup = require "baggage"
       'https://github.com/neovim/nvim-lspconfig',
       'https://github.com/marilari88/twoslash-queries.nvim',
       'https://github.com/williamboman/mason.nvim',
-      "https://github.com/pmizio/typescript-tools.nvim",
+      'https://github.com/pmizio/typescript-tools.nvim',
+      'https://github.com/elixir-tools/elixir-tools.nvim'
     }
 
-setup('mason', { -- {{{
+
+setup('mason', {
   -- to create a list of all the configured servers in this file:
   -- read !rg '^lspconfig\.(\w+)\.' -o -r '"$1",' % | sort
   ensure_installed = {
@@ -25,7 +27,7 @@ setup('mason', { -- {{{
     "svelte",
     "tailwindcss",
   }
-}) -- }}}
+})
 
 local lspconfig = require 'lspconfig'
 
@@ -38,37 +40,34 @@ lspconfig.rust_analyzer.setup {}
 
 lspconfig.pyright.setup {}
 
-lspconfig.elixirls.setup {
-  cmd = { "/Users/nilsriedemann/.local/share/nvim/mason/bin/elixir-ls" }
+local elixir = require("elixir")
+local elixirls = require("elixir.elixirls")
+
+elixir.setup {
+  nextls = { enable = false },
+  credo = {
+    enable = true
+  },
+  elixirls = {
+    enable = true,
+    settings = elixirls.settings {
+      dialyzerEnabled = true,
+      enableTestLenses = true,
+    },
+    on_attach = function(_client, bufnr)
+      vim.keymap.set("n", "gd", function()
+        require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
+      end, { buffer = bufnr, noremap = true })
+      vim.keymap.set("n", "<space>efp", ":ElixirFromPipe<cr>", { buffer = bufnr, noremap = true })
+      vim.keymap.set("n", "<space>etp", ":ElixirToPipe<cr>", { buffer = bufnr, noremap = true })
+      vim.keymap.set("v", "<space>eem", ":ElixirExpandMacro<cr>", { buffer = bufnr, noremap = true })
+    end
+  }
 }
 
--- local lexical_config = {
---   filetypes = { "elixir", "eelixir", "heex" },
---   cmd = { "/Users/nilsriedemann/code/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
---   settings = {},
--- }
---
--- if not lspconfig.lexical then
---   lspconfig.lexical = {
---     default_config = {
---       filetypes = lexical_config.filetypes,
---       cmd = lexical_config.cmd,
---       root_dir = function(fname)
---         return lspconfig.util.root_pattern("mix.exs", ".git")(fname) or vim.loop.os_homedir()
---       end,
---       -- optional settings
---       settings = lexical_config.settings,
---     },
---   }
--- end
-
--- lspconfig.lexical.setup({
---   cmd = { "/Users/nilsriedemann/code/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
--- })
-
 lspconfig.gopls.setup {}
-lspconfig.marksman.setup {}
 
+lspconfig.marksman.setup {}
 
 lspconfig.cssls.setup {
   settings = {
@@ -82,26 +81,26 @@ lspconfig.cssls.setup {
 
 lspconfig.cssmodules_ls.setup {}
 
--- lspconfig.tailwindcss.setup { -- {{{
---   capabilities = capabilities,
---   init_options = {
---     userLanguages = {
---       eelixir = "html-eex",
---       eruby = "erb"
---     }
---   },
---   settings = {
---     tailwindCSS = {
---       editor = {
---         quickSuggestions = {
---           strings = "on"
---         }
---       }
---     }
---   }
--- }                        -- }}}
+lspconfig.tailwindcss.setup {
+  capabilities = capabilities,
+  init_options = {
+    userLanguages = {
+      eelixir = "html-eex",
+      eruby = "erb"
+    }
+  },
+  settings = {
+    tailwindCSS = {
+      editor = {
+        quickSuggestions = {
+          strings = "on"
+        }
+      }
+    }
+  }
+}
 
-lspconfig.lua_ls.setup({ -- {{{
+lspconfig.lua_ls.setup({
   settings = {
     Lua = {
       runtime = {
@@ -119,33 +118,34 @@ lspconfig.lua_ls.setup({ -- {{{
       },
     },
   },
-})                       ---}}}
+})
 
-lspconfig.clangd.setup({ -- {{{
+lspconfig.clangd.setup({
   capabilities = capabilities,
   cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
   init_options = {
     clangdFileStatus = true
   },
-})                       -- }}}
+})
 
-lspconfig.denols.setup { -- {{{
+lspconfig.denols.setup {
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
   cmd          = { "deno", "lsp" },
   init_options = {
     enable = true, unstable = true
   }
-}                        -- }}}
+}
 
-lspconfig.svelte.setup { -- {{{
+lspconfig.svelte.setup {
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
-} -- }}}
+}
 
 lspconfig.astro.setup {}
+
 lspconfig.eslint.setup {}
--- lspconfig.tsserver.setup {}
+
 lspconfig.biome.setup {}
 
 require 'typescript-tools'.setup {
@@ -163,11 +163,11 @@ require 'typescript-tools'.setup {
   end,
 }
 
-lspconfig.sourcekit.setup({                -- {{{
+lspconfig.sourcekit.setup({ -- {{{
   capabilities = capabilities,
-})                                         -- }}}
+})                          -- }}}
 
-vim.api.nvim_create_autocmd('LspAttach', { -- {{{
+vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local bufnr = args.buf
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -212,6 +212,7 @@ vim.api.nvim_create_autocmd('LspAttach', { -- {{{
     vim.keymap.set('n', 'gy', ':FzfLua lsp_type_definitions<cr>', bufopts)
     vim.keymap.set('n', 'gi', ':FzfLua lsp_type_implementations<cr>', bufopts)
     vim.keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration<cr>', bufopts)
+    vim.keymap.set('n', 'gO', ':FzfLua lsp_document_symbols<cr>', bufopts)
 
     vim.keymap.set('n', '<c-w>d', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>D', ':vs<cr>:lua vim.lsp.buf.declaration()<cr>zt', bufopts)
@@ -219,10 +220,4 @@ vim.api.nvim_create_autocmd('LspAttach', { -- {{{
     vim.keymap.set('n', '<c-w>i', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
     vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
   end
-}) -- }}}
-
--- vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers['signature_help'], {
---   -- {{{
---   border = 'single',
---   close_events = { "CursorMoved", "BufHidden" },
--- }) -- }}}
+})

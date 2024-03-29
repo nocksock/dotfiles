@@ -26,22 +26,44 @@ local function simple_restore(args, _)
 end
 
 return {
-  s('def', fmt([[
-  def {}({}) do
+  s("defs", c(1, {
+    fmt([[
+    def start_link({1}) do
+      GenServer.start_link(__MODULE__, {1})
+    end
+
     {}
-  end
-  ]], { i(1), i(2), i(0) })),
-  s('defp', fmt([[
-  defp {}({}) do
-    {}
-  end
-  ]], { i(1), i(2), i(0) })),
-  s('hx', fmt([[
+    ]], { i(1), i(0) }),
+  })),
+
+  s("def", c(1, {
+    fmt([[
+    def {}({}) do
+      {}
+    end
+    ]], { i(1), i(2), i(0) }),
+    fmt([[
+    def {}({}), do: {}
+    ]], { i(1), i(2), i(0) })
+  })),
+
+  s('defp', c(1, {
+    fmt([[
+    defp {}({}) do
+      {}
+    end
+    ]], { i(1), i(2), i(0) }),
+    fmt([[
+    defp {}({}), do: {}
+    ]], { i(1), i(2), i(0) })
+  })),
+
+  s('hh', fmt([[
   ~H"""
     {}
   """
   ]], { i(0) })),
-  s('defm', fmt([[
+  s('mod', fmt([[
   defmodule {} do
     {}
   end
@@ -61,10 +83,22 @@ return {
     ]], { i(1) })
   })),
 
+  s('dinsp', fmt([[
+
+  <details open>
+    <summary>Inspect</summary>
+    <pre class="bg-slate-800 font-mono text-teal-400 p-8 shadow rounded-lg">
+      <%= inspect {}, pretty: true %>
+    </pre>
+  </details>
+
+  ]], { i(1, "assigns") })),
+
+
   s('pinsp', fmt([[
   <pre>
-    <%= inspect @{}, pretty: true %>
+    <%= inspect {}, pretty: true %>
   </pre>
-  ]], { i(1) }))
+  ]], { i(1, "assigns") }))
 
 }

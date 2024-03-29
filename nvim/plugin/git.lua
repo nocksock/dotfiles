@@ -4,8 +4,8 @@ local nmap = function(keys, command)
   vim.keymap.set({"n"}, keys, command)
 end
 
-local action = function(builtin, opts)
-  return function() require('gitsigns.actions')[builtin](opts or {}) end
+local action = function(builtin)
+  return function() require('gitsigns.actions')[builtin]() end
 end
 
 
