@@ -1,7 +1,7 @@
 0="${ZERO:-${${0:#$ZSH_ARGZERO}:-${(%):-%N}}}"
 0="${${(M)0:#/*}:-$PWD/$0}"
 
-# [[ -z ${fpath[(r)${0:h}/functions]} ]] && fpath+=( "${0:h}/functions" )
+[[ -z ${fpath[(r)${0:h}/functions]} ]] && fpath+=( "${0:h}/functions" )
 # [[ -z ${path[(r)${0:h}/bin]} ]] && path+=( "${0:h}/bin" )
 
 declare -Ag WM_COLORS
@@ -10,8 +10,8 @@ WM_COLORS=(
   white_alpha "0x88DEE9F7"
   blue_dark   "0xFF7188A8"
   grey        "0xFF394351"
-  black       "0xFF14161B"
-  black_alpha "0x8814161B"
+  black       "0xFF000000"
+  black_alpha "0xFF14161B"
   green_alt   "0xFF1AC77F"
   green       "0xFF41E6A2"
   green_alpha "0x8041E6A2"
@@ -25,4 +25,4 @@ WM_COLORS=(
 )
 export WM_COLORS
 
-# autoload -Uz ${0:h}/functions/*(:t)
+autoload -Uz ${0:h}/functions/*(:t)
