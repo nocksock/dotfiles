@@ -21,8 +21,8 @@ if [[ -z $1 ]]; then
 		"sbox-tmux-launcher menu"
 
 	if [[ $TMUX ]]; then
-		tmux switch-client -t $name
+		tmux switch-client -t=$name
 	else
-		tmux attach-session -t $name
+		tmux attach-session -t=$name
 	fi
 fi
