@@ -30,14 +30,14 @@ fi
 if [[ $CHARGING != "" ]]; then
 	if [[ $PERCENTAGE -lt 80 ]]; then
 		sketchybar --set $NAME                 \
-			icon=""                             \
+			icon="batt. <0.8++"                             \
 			icon.color="${WM_COLORS[green]}"     \
 			label.color="${WM_COLORS[green]}"    \
 			background.drawing=off               \
 			label="${PERCENTAGE}%"
 	else
 		sketchybar --set $NAME                 \
-			icon=""                             \
+			icon="batt. ok++"                    \
 			icon.color="${WM_COLORS[green]}"     \
 			background.drawing=off               \
 			icon.drawing=on                      \
@@ -58,7 +58,7 @@ elif [[ $PERCENTAGE -lt 5 ]]; then
 
 elif [[ $PERCENTAGE -lt 10 ]]; then
 	sketchybar --set $NAME                   \
-		icon=" ‼ "                            \
+		icon="batt. WARNING 0.1"                   \
 		icon.color="${WM_COLORS[magenta]}"     \
 		icon.drawing=on                        \
 		background.drawing=off                 \
@@ -67,7 +67,7 @@ elif [[ $PERCENTAGE -lt 10 ]]; then
 
 elif [[ $PERCENTAGE -lt 30 ]]; then
 	sketchybar --set $NAME                   \
-		icon=""                               \
+		icon="batt. 0.3"                               \
 		icon.color="${WM_COLORS[pink]}"        \
 		icon.drawing=on                        \
 		background.drawing=off                 \
@@ -76,7 +76,7 @@ elif [[ $PERCENTAGE -lt 30 ]]; then
 
 elif [[ $PERCENTAGE -lt 50 ]]; then
 	sketchybar --set $NAME                   \
-		icon=""                               \
+		icon="batt 0.5"                               \
 		icon.color="${WM_COLORS[white]}"       \
 		icon.drawing=on                        \
 		background.drawing=off                 \
@@ -84,7 +84,7 @@ elif [[ $PERCENTAGE -lt 50 ]]; then
 
 elif [[ $PERCENTAGE -lt 80 ]]; then
 	sketchybar --set $NAME                   \
-		icon=""                               \
+		icon="batt. 0.8"                               \
 		icon.color="${WM_COLORS[white_alpha]}" \
 		icon.drawing=on                        \
 		background.drawing=off                 \
@@ -92,7 +92,7 @@ elif [[ $PERCENTAGE -lt 80 ]]; then
 
 else
 	sketchybar --set $NAME                   \
-		icon=""                               \
+		icon="batt. ok"                        \
 		icon.color="${WM_COLORS[white_alpha]}" \
 		icon.drawing=on                        \
 		background.drawing=off                 \

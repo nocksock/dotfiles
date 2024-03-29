@@ -1,32 +1,26 @@
 #!/usr/bin/env zsh
-source $HOME/.config/sketchybar/vars.zsh
-YABAI_DIR="$HOME/code/dotfiles/yabai"
+# source $HOME/.config/sketchybar/vars.zsh
+# YABAI_DIR="$HOME/code/dotfiles/yabai"
 
 if [[ ! $1 == "refresh" ]]; then
   yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
   yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
   yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
   yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+  yabai -m signal --add event=space_changed action="sketchybar --trigger space_change"
 fi
 
 yabai -m config                                       \
-  top_padding                6                        \
-  bottom_padding             6                        \
-  left_padding               6                        \
-  right_padding              6                        \
+  top_padding                4                        \
+  bottom_padding             4                        \
+  left_padding               4                        \
+  right_padding              4                        \
                                                       \
-  window_gap                 24                       \
-  window_topmost             off                      \
-  window_border              on                       \
-  window_border_width        2                        \
-  window_border_radius       12                       \
+  window_gap                 12                       \
   window_placement           second_child             \
   window_opacity             on                       \
-  window_border_blur         off                      \
   active_window_opacity 1.0                           \
   normal_window_opacity 1.0                           \
-  active_window_border_color "${WM_COLORS[lavender]}" \
-  normal_window_border_color "${WM_COLORS[lavender]}" \
                                                       \
   insert_feedback_color      "${WM_COLORS[green]}"    \
   mouse_modifier             fn                       \
@@ -38,63 +32,71 @@ yabai -m config                                       \
   split_type                 auto                     \
   auto_balance               off                      \
   layout                     bsp                      \
-  external_bar               main:24:0
+  external_bar               main:20:0
 
 yabai -m space 1 --layout bsp --label side   # side stuff, docs etc
 yabai -m space 2 --layout bsp --label work   # main work stuff
 yabai -m space 3 --layout bsp --label comm   # work related communication, teams, slack, mails
 yabai -m space 4 --layout bsp --label plan   # calendar,
-yabai -m space 5 --layout float --label play # music, graphics, youtube
-yabai -m space 6 --layout float --label chat # discord etc
+yabai -m space 5 --layout bsp --label play # music, graphics, youtube
+yabai -m space 6 --layout bsp --label chat # discord etc
 
 # these are usually on a second screen
 yabai -m space 7 --layout bsp --label todo    # things etc
 yabai -m space 8 --layout bsp --label note    # obsidian
-yabai -m space 9 --layout bsp --label meep    # photos, messages.app
+yabai -m space 9 --layout bsp --label misc    # photos, messages.app
 
-yabai -m rule --add app="Microsoft Teams$" space=comm manage=off
-yabai -m rule --add title="Microsoft Teams Notifications" space=comm manage=off
+yabai -m rule --add app=".*" manage=off
+yabai -m rule --add app="^(kitty|Arc|Firefox|Safari)" manage=on
 
-yabai -m rule --add app="CleanShot X" manage=off
-yabai -m rule --add app="Cursor Pro" title="Cursor Pro" manage=off border=off 
+yabai -m rule --add app="^Calendar" space=plan manage=on
+yabai -m rule --add app="^Fastmail" space=plan manage=on
+yabai -m rule --add app="^Things" space=todo manage=on
+yabai -m rule --add app="^Obsidian" space=note manage=on
+
+yabai -m rule --add app="^Message" space=chat
 yabai -m rule --add app="Discord" space=chat
-yabai -m rule --add app="Numi" manage=off sticky=on
-yabai -m rule --add app="Obsidian" manage=off sticky=on
-yabai -m rule --add app="Photo Booth" title="^Photo Booth$" manage=off
-yabai -m rule --add app="Preview" manage=off
-yabai -m rule --add app="Raycast" manage=off
-yabai -m rule --add app="Reminders" manage=off
-yabai -m rule --add app="Software Update" title="Software Update" manage=off
-yabai -m rule --add app="Stickies" manage=off sticky=on
-yabai -m rule --add app="System Information" title="About This Mac" manage=off
-yabai -m rule --add app="System Settings" manage=off
-yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off
-yabai -m rule --add app="^1Password$" sticky=on manage=off
-yabai -m rule --add app="^Activity Monitor$" manage=off
-yabai -m rule --add app="^App Store$" manage=off
-yabai -m rule --add app="^Arc$" title="^(Account|General|Shortcuts|Little Arc|Previews|Updates|Archive|Site Settings|Advanced)$" manage=off
-yabai -m rule --add app="^Books$" manage=off
-yabai -m rule --add app="^Calculator$" manage=off
-yabai -m rule --add app="^Calendar$" manage=off
-yabai -m rule --add app="^CleanMyMac X$" sticky=on manage=off
-yabai -m rule --add app="^Dash$" manage=off
-yabai -m rule --add app="^Dictionary$" manage=off
-yabai -m rule --add app="^Discord$" manage=off
-yabai -m rule --add app="Docker Desktop$" manage=off
-yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
-yabai -m rule --add app="^Firefox$"
-yabai -m rule --add app="^Google Chrome$" manage=on border=off
-yabai -m rule --add app="^Hammerspoon Console$" manage=off
-yabai -m rule --add app="^Installer$" sticky=on manage=off
-yabai -m rule --add app="^Microsoft Teams$" manage=off
-yabai -m rule --add app="^Music$" manage=off
-yabai -m rule --add app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
-yabai -m rule --add app="^Setapp$" manage=off
-yabai -m rule --add app="^Slack$" manage=off
-yabai -m rule --add app="^Spotify$" sticky=on manage=off
-yabai -m rule --add app="^System Preferences$" title=".*" manage=off
-yabai -m rule --add app="^TV$" manage=off
-yabai -m rule --add app="^Telephone$" manage=off
-yabai -m rule --add app="^zoom.us$" manage=off
+
+# yabai -m rule --add app="CleanShot X" manage=off layer=below
+# yabai -m rule --add app="Cursor Pro" title="Cursor Pro" manage=off layer=below 
+# yabai -m rule --add app="Numi" manage=off layer=below sticky=on
+# yabai -m rule --add app="Photo Booth" title="^Photo Booth$" manage=off layer=below
+# yabai -m rule --add app="Preview" manage=off layer=below
+# yabai -m rule --add app="Raycast" manage=off layer=below
+# yabai -m rule --add app="Reminders" manage=off layer=below
+# yabai -m rule --add app="Software Update" title="Software Update" manage=off layer=below
+# yabai -m rule --add app="Stickies" manage=off layer=below sticky=on
+# yabai -m rule --add app="System Information" title="About This Mac" manage=off layer=below
+# yabai -m rule --add app="System Settings" manage=off layer=below
+# yabai -m rule --add app="^(Calculator|System Preferences|Archive Utility)$" manage=off layer=below
+# yabai -m rule --add app="^1Password$" sticky=on manage=off layer=below
+# yabai -m rule --add app="^ChatGPT$" sticky=on manage=off layer=below
+# yabai -m rule --add app="^Activity Monitor$" manage=off layer=below
+# yabai -m rule --add app="^App Store$" manage=off layer=below
+# yabai -m rule --add app="^Arc$" title="^(Account|General|Shortcuts|Little Arc|Previews|Updates|Archive|Site Settings|Advanced)$" manage=off layer=below
+# yabai -m rule --add app="^Books$" manage=off layer=below
+# yabai -m rule --add app="^Calculator$" manage=off layer=below
+# yabai -m rule --add app="^Calendar$" manage=off layer=below
+# yabai -m rule --add app="^CleanMyMac X$" sticky=on manage=off layer=below
+# yabai -m rule --add app="^Dash$" manage=off layer=below
+# yabai -m rule --add app="^Dictionary$" manage=off layer=below
+# yabai -m rule --add app="^Discord$" manage=off layer=below
+# yabai -m rule --add app="Docker Desktop$" manage=off layer=below
+# yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off layer=below
+# yabai -m rule --add app="^Firefox$"
+# yabai -m rule --add app="^Google Chrome$" manage=on
+# yabai -m rule --add app="^Hammerspoon Console$" manage=off layer=below
+# yabai -m rule --add app="^Installer$" sticky=on manage=off layer=below
+# yabai -m rule --add app="^Microsoft Teams$" manage=off layer=below
+# yabai -m rule --add app="^Music$" manage=off layer=below
+# yabai -m rule --add app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off layer=below
+# yabai -m rule --add app="^Setapp$" manage=off layer=below
+# yabai -m rule --add app="^Slack$" manage=off layer=below
+# yabai -m rule --add app="^Spotify$" sticky=on manage=off layer=below
+# yabai -m rule --add app="^System Preferences$" title=".*" manage=off layer=below
+# yabai -m rule --add app="^TV$" manage=off layer=below
+# yabai -m rule --add app="gol" manage=off layer=below
+# yabai -m rule --add app="^Telephone$" manage=off layer=below
+# yabai -m rule --add app="^zoom.us$" manage=off layer=below
 
 printf "yabai: configuration loaded...\\n"

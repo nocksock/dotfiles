@@ -3,65 +3,46 @@ source $HOME/.config/sketchybar/vars.zsh
 
 SELF="$PLUGIN_DIR/spaces"
 SPACE_ICONS=(
-	"1 SIDE "
-	"2 MAIN "
-	"3 COMM "
-	"4 PLAN "
-	"5 PLAY "
-	"6 CHAT "
-	"7 DOCS "
-	"8 MISC "
-	"9 MISC "
+	"1"
+	"2"
+	"3"
+	"4"
+	"5"
+	"6"
+	"7"
+	"8"
+	"9"
 )
 
 local current=$(yabai -m query --spaces --space | jq -r .index)
 
 update() {
 	local layout_type=$(yabai -m query --spaces --space | jq -r .type)
-	sketchybar --set spaces icon=${SPACE_ICONS[$current]}
+	local label=${SPACE_ICONS[$current]}
 
-	if [[ ! $SELECTED == true ]]; then
-		sketchybar --set $1 icon.color="${WM_COLORS[white_alpha]}"
-	elif [[ $layout_type == "bsp" ]]; then
-		sketchybar --set $1 icon.color="${WM_COLORS[white]}"
-	elif [[ $layout_type == "float" ]]; then
-		sketchybar --set $1 icon.color="${WM_COLORS[magenta]}"
-	elif [[ $layout_type == "stack" ]]; then
-		sketchybar --set $1 icon.color="${WM_COLORS[magenta]}"
-	fi
+	case $layout_type in
+		"bsp")
+			sketchybar --set spaces label="$label.B:"
+			;;
+		"float")
+			sketchybar --set spaces label="$label.F:"
+			;;
+		"stack")
+			sketchybar --set spaces label="$label.S:"
+			;;
+	esac
+			
+
 }
 
 if [[ $1 == "setup" ]]; then
-	sketchybar                                                                       \
-		--add item spaces $POSITION                                                    \
-		--set spaces icon=${SPACE_ICONS[$current]}                                     \
-		background.drawing=off                                                         \
-					label.drawing=off                                                        \
-					click_script='sketchybar -m --set $NAME popup.drawing=toggle' \
-					popup.background.border_color=${WM_COLORS[black]}                        \
 
-  for i in {1..${#SPACE_ICONS}}; do
-    sid=$((i))
+	sketchybar --add item spaces $POSITION  
 
-    sketchybar --add space space.$sid popup.spaces \
-      --set space.$sid                             \
-        associated_space=$sid                      \
-        icon=${SPACE_ICONS[i]}                     \
-        icon.drawing=on                            \
-        icon.color=${WM_COLORS[white]}             \
-        icon.padding_right=$SPACE                  \
-				background.color=${WM_COLORS[black]}    \
-        background.drawing=on                      \
-        background.padding_right=0                 \
-        background.padding_left=0                  \
-        label.drawing=off                          \
-        label.padding_left=0                       \
-        label.padding_right=0                      \
-        script="$SELF"                             \
-        click_script="$SELF click $sid"            \
+	sketchybar -m --set spaces script="$SELF update"       
+	sketchybar --subscribe spaces space_change
 
-  done
-
+	update
 fi
 
 if [[ $1 == "click" ]]; then
@@ -71,7 +52,11 @@ if [[ $1 == "click" ]]; then
 		--set spaces icon=${SPACE_ICONS[$2]}
 fi
 
+if [[ $1 == "update"  ]]; then
+  update
+fi
+
 if [[ -n $NAME  ]]; then
-  update $NAME
+  update
 fi
 

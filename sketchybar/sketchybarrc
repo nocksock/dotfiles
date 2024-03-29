@@ -3,19 +3,18 @@ source $DOTDIR/sketchybar/vars.zsh
 
 sketchybar                                     \
 	--bar                                        \
-		corner_radius=4                            \
+		corner_radius=0                            \
 		display=main                               \
-		height=24                                  \
-		margin=6                                   \
-		padding_left=8                             \
-		padding_right=8                            \
+		height=20                                  \
+		margin=0                                   \
+		padding_left=2                             \
+		padding_right=2 \
 		position=top                               \
 		sticky=on                                  \
-		y_offset=3                                 \
+		y_offset=0                                 \
                                                \
 	--default                                    \
 		drawing=on                                 \
-		background.color="#FFFFFF" \
 		background.corner_radius=$RADIUS           \
 		background.drawing=on                      \
 		background.padding_left=0                  \

@@ -1,5 +1,5 @@
-FONT="Recursive Mono Linear Static:SemiBold:14.0"
-ICONFONT="JetBrainsMono NF:Bold:14.0"
+FONT="0xProto:Regular:14.0"
+ICONFONT="JetBrainsMono NF:Regular:13.0"
 PLUGIN_DIR="$HOME/.config/sketchybar/modules"
 
 RADIUS=5
