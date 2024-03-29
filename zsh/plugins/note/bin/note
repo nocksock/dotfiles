@@ -47,11 +47,11 @@ if [[ -n $opts[(I)-h] ]]; then
 fi
 
 make-tags () {
-	local hashtags=("#${DEFAULT_TAG}")
+	local hashtags=("${DEFAULT_TAG}")
 	for tag in ${tags[@]}; do
 		hashtags+="${tag#-t}"
 	done
-	printf "tags: [${(Fj:,:)hashtags}]"
+	echo "tags: [${(Fj:,:)hashtags}]\n"
 }
 
 make-links () {
@@ -60,12 +60,12 @@ make-links () {
 		for link in ${links[@]}; do
 			linked+="\"${link#-l}\""
 		done
-		printf "related: [${(Fj:, :)linked}]"
+		echo "related: [${(Fj:, :)linked}]\n"
 	fi
 }
 
 make-date () {
-	printf "date: $(date -u -Iminutes)"
+	echo  "date: $(date -u -Iminutes)\n"
 }
 
 text=${@#-- }
@@ -74,11 +74,14 @@ if [[ ! -t 0 ]]; then
 	stdin=$(</dev/stdin)
 fi
 
+local frontmatter=()
+frontmatter+=$(make-tags)
+frontmatter+=$(make-links)
+frontmatter+=$(make-date)
+
 content=$(cat <<-EOF
 	---
-	$(make-tags)
-	$(make-links)
-	$(make-date)
+	${(Fj:\n:)frontmatter[@]:#}
 	---
 
 	${text}
@@ -102,5 +105,5 @@ elif [[ -n $d ]]; then
 	echo "stored in $filepath"
 	echo $content > $filepath
 else
-	echo $content | nvim -c "norm gggqG" -c "file $filepath" -
+	echo $content | nvim -c "norm ggg=GGo " -c "file $filepath" -
 fi
