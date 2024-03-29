@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# tm-p
+#   fuzzy open new session. 
+#   `p` because a lot of editors these days use it to open a fuzzy finder.
+#   mnemonic: pick.
+
+
+if [[ $# -eq 1 ]]; then
+    selected_dir=$1
+else
+    selected_dir=$(tm-list-projects | fzf)
+fi
+
+if [[ -z $selected_dir ]]; then
+    echo "Cancelled"
+    exit 1
+fi
+
+selected_name=$(basename "$selected_dir" | tr . _)
+
+tmux has-session -t=$selected_name 2>/dev/null
+
+if [ $? != 0 ]; then
+  tmux new-session -ds $selected_name -c $selected_dir tm-launch
+fi
+
+if [[ -z $TMUX ]]; then
+    tmux attach-session -t=$selected_name
+else
+    tmux switch-client -t=$selected_name
+fi

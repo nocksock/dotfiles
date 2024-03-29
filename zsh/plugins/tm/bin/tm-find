@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 #
-# tmux-findwin: a more useable window finder
+# tm-find: a more useable window finder
 #
 # suggested mappings:
 #   # fuzzy windows in current session
-#   bind -r w popup -E -w 20% -h 20% $DOTDIR/bin/tmux-findwin
+#   bind -r w popup -E -w 20% -h 20% tm-find
 #   # fuzzy windows in all sessions
-#   bind -r W popup -E $DOTDIR/bin/tmux-findwin -a
+#   bind -r W popup -E tm-find -a
 #
 
 if [[ $1 == "-a" ]]; then
-    selected_name=$(tmux list-windows -a -F '#S:#W'| gum filter)
+    selected_name=$(tmux list-windows -a -F '#S:#W'| fzf)
 else
-    selected_name=$(tmux list-windows -F '#W'| gum filter)
+    selected_name=$(tmux list-windows -F '#W'| fzf)
 fi
 
 if [[ -z $selected_name ]]; then

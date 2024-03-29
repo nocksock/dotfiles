@@ -3,15 +3,15 @@
 # change. A more generic version of live-jq.
 #
 # example usage:
-#   tmux-live inspect.jq "jq -f inspect.jq inspect.json"
+#   tm-live inspect.jq "jq -f inspect.jq inspect.json"
 
 help() {
   echo "Usage: $0 <file-to-watch> <command>"
-  echo "  tmux-live jq <jq-query-file> <json-file>"
-  echo "  tmux-live grep <grep-file> <file-to-grep>"
+  echo "  tm-live jq <jq-query-file> <json-file>"
+  echo "  tm-live grep <grep-file> <file-to-grep>"
   echo
   echo "example usage:"
-  echo "  tmux-live inspect.jq \"jq -f inspect.jq inspect.json\""
+  echo "  tm-live inspect.jq \"jq -f inspect.jq inspect.json\""
   echo
   echo "shortcuts"
   echo "  -h, --help, help: show this help"
@@ -50,7 +50,7 @@ case "$1" in
     command="grep -f $file $2"
 esac
 
-tmux_name="tmux-live:$file"
+tmux_name="tm-live:$file"
 
 # create session if not within tmux session
 if [ -z "$TMUX" ]; then

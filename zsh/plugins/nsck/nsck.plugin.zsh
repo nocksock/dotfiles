@@ -15,7 +15,11 @@ alias pick="pickard"
 alias kqw="kitty-quick-window"
 alias nnn='nnn -ei'
 alias qf='qufo'
+alias prb='pnpm run build'
+alias prs='pnpm run start'
+
 alias pio='pnpm install --prefer-offline .'
+alias pii='pnpm install --ignore-scripts --ignore-workspace .'
 alias piio='pnpm install --ignore-scripts --ignore-workspace --prefer-offline .'
 
 # {{{ git
@@ -42,17 +46,6 @@ alias cdp="cd \$(list-projects | fzf)"
 alias ls='exa -1 --group-directories-first -a'
 alias ll='exa -l --group-directories-first -a'
 # }}}
-# tmux {{{
 
-alias tma="tmux attach -t"
-alias tml="tmux-live"
-alias tmn="tmux-new"
-alias tmnn="tmux-new-nvim"
-alias tmp="tmux-qp"
-alias tmr="tmux-recent"
-alias tmrn="tmux-recent-nvim"
-
-# }}}
-#
 export PATH
 export FPATH

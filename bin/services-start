@@ -2,20 +2,17 @@
 # I use tmux to manage some of my services, so I can restart them easily or see
 # their logs when I need to debug something.
 
-session_name="services"
+session_name="dotfiles"
 
-tmux has-session -t $session_name 2>/dev/null
+tmux has-session -t=$dotfiles 2>/dev/null
 
 if [ $? != 0 ]; then
   sudo yabai --load-sa # asks for password
 
   echo "Starting services..."
-  tmux new-session -ds $session_name -c $FULL_PATH
+  tmux new-session -ds $session_name -c ~/code/dotfiles
 
   services=(
-    "yabai"
-    "skhd"
-    "sketchybar"
     "darkmode-notifier $DOTDIR/bin/darkmode-change-handler"
   )
   for service in "${services[@]}"; do

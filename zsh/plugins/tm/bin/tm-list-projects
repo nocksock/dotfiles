@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-PROJECTS_FILE="$HOME/.projects"
+PROJECTS_FILE="$HOME/.tm_projects"
 
 if [[ ! -f $PROJECTS_FILE ]]; then
   echo "The file $PROJECTS_FILE does not exist"

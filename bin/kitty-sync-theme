@@ -5,10 +5,12 @@ if [[ "$DARKMODE" -eq 1 ]]; then
 	kitty +kitten themes --reload-in=all Rosé Pine 
   sed -i '' 's/# active_border_color #[a-f0-9]*/active_border_color #7188a8/g' ~/.config/kitty/kitty.conf
   sed -i '' 's/# inactive_border_color #[a-f0-9]*/inactive_border_color #191824/g' ~/.config/kitty/kitty.conf
+  echo "1" > ~/.darkmode
 fi
 
 if [[ "$DARKMODE" -eq 0 ]]; then
 	kitty +kitten themes --reload-in=all Rosé Pine Dawn
   sed -i '' 's/# active_border_color #[a-f0-9]*/active_border_color #7188a8/g' ~/.config/kitty/kitty.conf
   sed -i '' 's/# inactive_border_color #[a-f0-9]*/inactive_border_color #faf4ed/g' ~/.config/kitty/kitty.conf
+  echo "0" > ~/.darkmode
 fi
