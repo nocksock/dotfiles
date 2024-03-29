@@ -1,12 +1,14 @@
 # vim:foldmethod=marker:foldlevel=0
 
-zmodload zsh/zprof # profile startup time
+# zmodload zsh/zprof # profile startup time
 
 export TERM=xterm-kitty
+export EDITOR=nvim
 
 export SBOX_TEMPLATE_DIR="$HOME/code/bleepbloop.git/main/templates/"
 export SBOX_DEFAULT_START_DIR_PARENT="$HOME/code/sandboxes/"
 export SBOX_DEFAULT_LAUNCHER="tmux"
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 # completions {{{ 
 
@@ -23,7 +25,6 @@ done
 # }}}
 # {{{ compinit
 
-
 autoload -Uz compinit
 autoload -U +X bashcompinit && bashcompinit
 for dump in ~/.zcompdump(N.mh+24); do
@@ -37,15 +38,38 @@ bashcompinit -C
 # }}}
 # {{{ keybinds
 
+function _fg() {
+	if [[ $(jobs | wc -l) -gt 0 ]]; then
+		fg
+	else
+		tm-select
+	fi
+}
+
+function _glow() {
+	if [[ -n `command -v glow` ]]; then
+		glow
+	else
+		echo "glow not installed"
+	fi
+}
+
 autoload -U edit-command-line
 autoload -U select-word-style
 zle -N edit-command-line # Emacs style
+zle -N tm-p
+zle -N _fg
+zle -N _glow
 bindkey -e                       # use emacs keybindings
 bindkey '^f' edit-command-line #  like nvim command-mode
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
+bindkey "\e[15~" _glow         # use esc to enter vi-cmd-mode
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+bindkey -M emacs '^Z' _fg
+bindkey -M emacs '^S' tm-s
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
@@ -85,9 +109,22 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=999999
 export SAVEHIST=999999
 # }}}
+# {{{ CDPATH
+
+declare -U CDPATH cdpath
+cdpath=(
+  "$HOME"
+  "$HOME/code"
+  "$HOME/code/bleepbloop.git/main/apps"
+  "$cdpath[@]"
+)
+export CDPATH
+
+# }}}
 
 eval "$(starship init zsh)"
 
+# direnv
+eval "$(direnv hook zsh)"
 
-# opam configuration
-[[ ! -r /Users/nilsriedemann/.opam/opam-init/init.zsh ]] || source /Users/nilsriedemann/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"

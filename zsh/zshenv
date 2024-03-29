@@ -6,12 +6,17 @@ export EDITOR='/usr/local/bin/nvim' # used for commits and such
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
+
 # {{{ PATH
 
 declare -U PATH path
 path=(
+	"$HOME/.deno/bin"
   "$DOTDIR/bin"
   "$HOME/bin"
+	"$HOME/go/bin"
   "$HOME/.cargo/bin"
   "$HOME/.local/bin"
   "$PNPM_HOME"
@@ -26,21 +31,6 @@ path=(
   "$path[@]"
 )
 export PATH
-
-# }}}
-# {{{ CDPATH
-
-declare -U CDPATH cdpath
-cdpath=(
-  "$HOME"
-  "$HOME/code"
-  "$HOME/code/bleepbloop.git/main/apps"
-  "$HOME/code/clients"
-  "$HOME/code/clients/edeka"
-  "$HOME/code/clients/edeka/de.git/dev"
-  "$cdpath[@]"
-)
-export CDPATH
 
 # }}}
 # brew{{{
