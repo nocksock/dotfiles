@@ -15,7 +15,7 @@ open() {
 
   # when the label starts with +whatevs, it uses a specific launcher instead of
   # evaluating the command directly. This is useful for commands that make more
-  # sense to run in a new context/window/tmux-session
+  # sense to run in a new context/window/tm-session
   local launcher
   if [[ $label =~ "\+([a-zA-Z0-9]*)" ]]; then
     pickard --launch -t "${match[1]}" -l "$label" $cmd
