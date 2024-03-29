@@ -55,6 +55,7 @@ nnoremap gX ddpkJ
 " buffer navigation
 nnoremap gf <cmd>e <cfile><CR>
 nnoremap <silent> <leader>x <cmd>b#\|bd#<cr>
+nnoremap <silent> <leader>X <cmd>bd<cr>
 nnoremap <silent> <leader>b0 <cmd>%bd\|e#<cr>
 
 nnoremap <silent> <leader>n <cmd>cn<cr>
@@ -86,5 +87,7 @@ inoremap <D-s> <cmd>Format<cr><cmd>w<cr>
 
 nnoremap [[ gT
 nnoremap ]] gt
+nnoremap <M-[> gT
+nnoremap <M-]> gt
 
 nnoremap <c-f> mfgg=G`f<cmd>write<cr>

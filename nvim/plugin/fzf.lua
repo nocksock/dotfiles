@@ -33,12 +33,13 @@ nmap('<leader><cr>', fzf 'resume')
 nmap('<leader>C', fzf 'colorschemes')
 nmap('<leader>T', fzf 'builtin')
 
-nmap('<leader>a', '<cmd>argadd<cr>')
-nmap('©', '<cmd>1argu<cr>')
-nmap('×', '<cmd>2argu<cr>')
-nmap('‘', '<cmd>3argu<cr>')
-nmap('’', '<cmd>4argu<cr>')
-nmap('<leader>b', fzf 'args')
+
+nmap('<leader>\'', '<cmd>argadd<cr>')
+nmap('ú', '<cmd>1argu<cr>')
+nmap('ĳ', '<cmd>2argu<cr>')
+nmap('ø', '<cmd>3argu<cr>')
+nmap('°', '<cmd>4argu<cr>')
+nmap('<leader>a', fzf 'args')
 
 
 vim.keymap.set({ "i" }, "<C-x><C-f>",
