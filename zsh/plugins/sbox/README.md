@@ -29,14 +29,14 @@ Configure `sbox` via environment variables in your `~/.zshrc`.
 ```sh
 # ~/.zshrc
 
-# Where to put your sandboxes. Required
+# Required: Where to put your sandboxes
 export SBOX_DEFAULT_START_DIR_PARENT="$HOME/code/sandboxes/"
 
-# Where your templates are located. Optional.
+# Optional: Where your templates are located.
 #   default: $SBOX_DEFAULT_START_DIR_PARENT
 export SBOX_TEMPLATE_DIR="$HOME/code/templates/"
 
-# How to start/open. Optional.
+# Optional How to start/open.
 #   default: "tmux"
 export SBOX_DEFAULT_LAUNCHER="tmux"
 ```
