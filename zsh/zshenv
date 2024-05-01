@@ -28,6 +28,7 @@ path=(
   "/opt/homebrew/sbin"
   "/usr/local/bin" 
   "/usr/local/cuda-11.6/bin"
+	"$HOME/Library/Python/3.9/bin"
   "$path[@]"
 )
 export PATH

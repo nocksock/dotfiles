@@ -32,6 +32,10 @@ alias gsw='pushd "$(git worktree list --porcelain | ggrep -Po "(?<=worktree ).*"
 alias gb="git branch -l --format='%(refname:short)' | fzf | xargs git switch" 
 alias ggl='git-grouped-log'
 alias gsb='git-switch-branch'
+alias gca='git commit --amend'
+function gcm() {
+	git commit -m "$*"
+}
 # }}}
 # {{{ navigation
 alias slurp="pushd && pushd -"

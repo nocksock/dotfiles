@@ -87,33 +87,6 @@ find-project-root () {
   return 1
 }
 
-# TODO: find a better way to do determine what to use to open a file
-if [[ $mode = "open" ]]; then
-  FILE_PATH=$1
-  FILE_TYPE=$(file -b --mime-type "$1")
-  FILE_DIR=$(dirname "$1")
-  FILE_NAME=$(basename "$1")
-  PROJECT_ROOT=$(find-project-root "$FILE_DIR" || echo "$FILE_DIR")
-
-  if [[ -z $PROJECT_ROOT ]]; then
-    PROJECT_ROOT="$FILE_DIR"
-  fi
-
-  if [[ -n ${opts[(i)-e]} ]]; then
-    cd "$PROJECT_ROOT"
-    $EDITOR "$FILE_PATH"
-    return 0
-  fi
-
-  if [[ "$file_type" = "text/"* ]]; then
-    kitty @ launch --cwd="$PROJECT_ROOT" --tab-title="$FILE_NAME" --type=tab --no-response nvim "$FILE_PATH"
-  else
-    open "$FILE_PATH"
-  fi
-
-  return 0
-fi
-
 if [[ $mode = "browse" ]]; then
   if [[ ! -f $FILE_INDEX ]]; then
     echo "File index not found. Running $0 -m build-index"
@@ -121,12 +94,11 @@ if [[ $mode = "browse" ]]; then
   fi
 
   BINDINGS=(
-     "ctrl-o:execute(zsh -c '$0 -m open $ROOT_DIR/{}')"
-     "ctrl-t:execute(zsh -c '$0 -m open $ROOT_DIR/{}')"
+		"ctrl-o:execute(zsh -c 'open -a Kitty $ROOT_DIR/{}')"
   )
 
   if [[ -n ${opts[(i)-p]} ]]; then
-    BINDINGS+=("ctrl-y:execute(echo $ROOT_DIR/{})")
+    BINDINGS+=("ctrl-y:put(echo $ROOT_DIR/{})")
   fi
 
   EXECUTE_CMD=${opts[-x]}
@@ -141,6 +113,7 @@ if [[ $mode = "browse" ]]; then
     --ansi                                     \
     --history=$HOME/.file_index_history        \
     --preview "$0 -m preview {}"               \
+		--header "ctrl-d: cd | ctrl-o: open  | ctrl-t: open in kitty | ctrl-y: put | return: edit" \
     --keep-right                               \
     --bind ${(j:,:)BINDINGS}
 fi

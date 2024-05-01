@@ -2,19 +2,13 @@
 zparseopts -D -E -F -A args t:: c:: l:: s::
 
 SBOX_LAUNCHER=${SBOX_LAUNCHER:-tmux}
+SBOX_TEMPLATE_DIR="${SBOX_TEMPLATE_DIR:-$SBOX_DIR}"
 
 if [[ -z $SBOX_DIR ]]; then
   echo "\$SBOX_DIR not set"
   return 1
 fi
 
-SBOX_TEMPLATE_DIR="${SBOX_TEMPLATE_DIR:-$SBOX_DIR}"
-
-if [[ -d $SBOX_TEMPLATE_DIR ]]; then
-else
-	echo "template dir not found: $SBOX_TEMPLATE_DIR"
-	exit 1
-fi
 
 get-start-dir () { # {{{
 	zparseopts -D -E -F -A args t: s::
@@ -65,11 +59,11 @@ choose-template () { # {{{
 	fi
 
 	local -a templates=()
-	for t in $(\ls -1 "$SBOX_TEMPLATE_DIR"); do
+	for t in $(\ls -1 -t created "$SBOX_TEMPLATE_DIR"); do
 		templates+=("$t")
 	done
 	printf '%s\n' "${templates[@]}" \
-		| fzf --height 40% --layout=reverse --prompt="Choose template: " --preview="cat $SBOX_TEMPLATE_DIR/{}/README.md"
+		| fzf --height 40% --layout=reverse --prompt="Choose template: " --preview="cat $SBOX_TEMPLATE_DIR/{}/README.md" --bind="enter:accept,ctrl-o:execute(launch)"
 } # }}}
 
 build () { # {{{

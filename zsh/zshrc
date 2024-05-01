@@ -5,9 +5,7 @@
 export TERM=xterm-kitty
 export EDITOR=nvim
 
-export SBOX_TEMPLATE_DIR="$HOME/code/bleepbloop.git/main/templates/"
-export SBOX_DEFAULT_START_DIR_PARENT="$HOME/code/sandboxes/"
-export SBOX_DEFAULT_LAUNCHER="tmux"
+export SBOX_DIR="$HOME/code/sandboxes/"
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 # completions {{{ 
@@ -54,12 +52,19 @@ function _glow() {
 	fi
 }
 
+function cupl() {
+	clear
+	cd ..
+	ll
+}
+
 autoload -U edit-command-line
 autoload -U select-word-style
 zle -N edit-command-line # Emacs style
 zle -N tm-p
 zle -N _fg
 zle -N _glow
+zle -N cupl 
 bindkey -e                       # use emacs keybindings
 bindkey '^f' edit-command-line #  like nvim command-mode
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
@@ -68,6 +73,7 @@ bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 bindkey -M emacs '^Z' _fg
 bindkey -M emacs '^S' tm-s
+bindkey -M emacs '^U' cupl
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M emacs '^N' history-substring-search-down
@@ -128,3 +134,7 @@ eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+
+# Bind ctrl-r but not up arrow
+#
+eval "$(atuin init zsh --disable-up-arrow)"

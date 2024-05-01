@@ -23,6 +23,7 @@
     command: cd zsh/plugins && git clone https://github.com/agkozak/zsh-z
 
 - link:
+    ~/.config/atuin: atuin
     ~/.config/alacritty: alacritty
     ~/.config/fish: fish
     ~/.config/herbstluftwm: herbstluftwm
@@ -74,13 +75,13 @@
     - ~/.vim/.netrwhist
 
 - brew:
+  - atuin
   - ack
   - asciidoc
   - asciidoctor
   - asciinema
   - autoconf
   - automake
-  - azure-cli
   - bat
   - btop
   - cjson
@@ -111,7 +112,6 @@
   - go
   - graphviz
   - grep
-  - helix
   - hidapi
   - hledger
   - html-xml-utils
@@ -146,7 +146,6 @@
   - ripgrep
   - rubberband
   - ruby
-  - rust
   - siege
   - sketchybar
   - skhd
