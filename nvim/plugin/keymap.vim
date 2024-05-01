@@ -91,3 +91,5 @@ nnoremap <M-[> gT
 nnoremap <M-]> gt
 
 nnoremap <c-f> mfgg=G`f<cmd>write<cr>
+
+nnoremap <leader>- :Oil .<cr>

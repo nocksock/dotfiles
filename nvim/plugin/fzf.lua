@@ -16,13 +16,15 @@ local nmap = function(keys, command)
   vim.keymap.set({ "n" }, keys, command)
 end
 
-nmap('<leader>w', function()
-end)
+nmap('<leader>F', fzf('files', {
+  cmd="cat ~/file_index",
+  cwd="~/"
+}))
 
 nmap('<leader>f', fzf 'files')
 nmap('<leader>*', fzf 'grep_cWORD')
 nmap('<leader>g', fzf 'live_grep')
-nmap('<leader><leader>', fzf 'buffers')
+nmap('<leader><leader>', fzf('buffers'))
 nmap('<leader>:', fzf 'commands')
 nmap('<leader>S', fzf 'lsp_live_workspace_symbols')
 nmap('<leader>s', fzf 'lsp_document_symbols')
@@ -41,11 +43,18 @@ nmap('ø', '<cmd>3argu<cr>')
 nmap('°', '<cmd>4argu<cr>')
 nmap('<leader>a', fzf 'args')
 
+vim.keymap.set({'n'}, '<leader>A', function()
+  local filename = vim.fn.expand('%:t:r');
+  require('fzf-lua').files({
+    cmd = "fd '" .. filename .. "'"
+  })
+end)
+
 
 vim.keymap.set({ "i" }, "<C-x><C-f>",
   function()
     require("fzf-lua").complete_file({
-      cmd = "rg --files",
+      cmd = "fd ",
       winopts = { preview = { hidden = "nohidden" } }
     })
   end, { silent = true, desc = "Fuzzy complete file" })

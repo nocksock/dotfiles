@@ -6,7 +6,7 @@ require "baggage".from {
 
     local opts = {
       highlight = { enable = true },
-      indent = { enable = false }, -- vim's is smartindent is better than treesitter's indent
+      indent = { enable = true }, -- vim's is smartindent is better than treesitter's indent
       context_commentstring = { enable = true, enable_autocmd = false },
       ensure_installed = {
         "astro",

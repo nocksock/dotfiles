@@ -1,6 +1,6 @@
 require "baggage".from 'https://github.com/Wansmer/treesj'
 
-vim.keymap.set({ "n" }, "m", function() require 'treesj'.toggle() end)
+vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)
 
 local attribute_toggle = function(node_type, parent_type)
   return {

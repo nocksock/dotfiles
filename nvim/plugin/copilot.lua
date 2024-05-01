@@ -1,7 +1,7 @@
 require "baggage".from 'https://github.com/zbirenbaum/copilot-cmp'
 require "baggage".from 'https://github.com/zbirenbaum/copilot.lua'
 
-vim.api.nvim_create_augroup("UserCopilot", { clear = true})
+vim.api.nvim_create_augroup("UserCopilot", { clear = true })
 
 vim.api.nvim_create_autocmd("InsertEnter", {
   callback = function()
@@ -36,8 +36,8 @@ vim.api.nvim_create_autocmd("InsertEnter", {
         },
       },
       filetypes = {
-        yaml = false,
-        markdown = false,
+        yaml = true,
+        -- markdown = false,
         help = false,
         gitcommit = false,
         gitrebase = false,
@@ -51,4 +51,3 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     }
   end
 })
-

@@ -39,6 +39,8 @@ local capabilities = require "baggage"
 lspconfig.rust_analyzer.setup {}
 
 lspconfig.pyright.setup {}
+lspconfig.intelephense.setup {}
+lspconfig.volar.setup {}
 
 local elixir = require("elixir")
 local elixirls = require("elixir.elixirls")
