@@ -34,8 +34,12 @@ alias nv=/usr/local/bin/nvim
 alias p=tm-qp
 alias love='open -n -a love'
 alias nnn='nnn -ei'
-alias ls='exa --icons -1 --group-directories-first'
-alias ll='exa --icons -l --group-directories-first'
+
+if command -v exa > /dev/null
+  alias ls='exa --icons -1 --group-directories-first'
+  alias ll='exa --icons -l --group-directories-first'
+end
+
 alias reload='source ~/.config/fish/config.fish'
 
 alias gl='git pull'

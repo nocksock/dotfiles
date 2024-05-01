@@ -47,8 +47,12 @@ alias gd="popd"
 alias ndf="cd $DOTDIR; nvim '+Telescope find_files'"
 alias cdp="cd \$(list-projects | fzf)"
 
-alias ls='exa -1 --group-directories-first -a'
-alias ll='exa -l --group-directories-first -a'
+# check if exa is istalled
+if command -v exa &> /dev/null; then
+  alias ls='exa --icons -1 --group-directories-first -a'
+  alias ll='exa --icons -l --group-directories-first -a'
+fi
+
 # }}}
 
 export PATH
