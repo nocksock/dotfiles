@@ -9,7 +9,7 @@ autoload -Uz ${0:h}/functions/*(:t)
 
 # tmux {{{
 
-alias tma="tmux attach -t"
+alias tma="tmux attach"
 alias tml="tm-live"
 alias tm="tm-here"
 alias tmp="tm-p"

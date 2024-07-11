@@ -1,0 +1,30 @@
+#!/usr/bin/env zsh
+
+trash="$SBOX_DIR/.trash"
+target="$SBOX_DIR/.trash/$($PWD | basename)"
+
+if [[ ! -d $trash ]]; then
+	mkdir -p "$trash"
+fi
+
+if [[ $1 = "trash" ]]; then
+	tmux display "deleting $2"
+	tmux display "moving $2 into $trash/"
+
+	mv $PWD "$target/"
+
+	tmux display "done"
+	exit
+fi
+
+if [[ $PWD:P/ = $SBOX_DIR:P/* ]]; then
+
+  tmux display-menu -T "Delete $PWD?"                      \
+    " y: Yes " y "run-shell -c \"$PWD $0\" \"$0 trash $PWD\"" \
+    " n: No  " n "display no"
+
+		tm-session-delete
+else
+	tmux display "$PWD is not in $SBOX_DIR"
+fi
+

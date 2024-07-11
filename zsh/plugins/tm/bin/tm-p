@@ -8,7 +8,7 @@
 if [[ $# -eq 1 ]]; then
     selected_dir=$1
 else
-    selected_dir=$(tm-list-projects | fzf)
+    selected_dir=$(tm-list-projects | fzf --preview="tm-preview {}")
 fi
 
 if [[ -z $selected_dir ]]; then
@@ -21,7 +21,14 @@ selected_name=$(basename "$selected_dir" | tr . _)
 tmux has-session -t=$selected_name 2>/dev/null
 
 if [ $? != 0 ]; then
-  tmux new-session -ds $selected_name -c $selected_dir tm-launch
+		if [[ -f "$selected_dir/.sboxrc" ]]; then
+			tmux new-session -d \
+				-s "$selected_name"        \
+        -c "$selected_dir"    \
+				"(source $selected_dir/.sboxrc && launch)"
+		else
+        tmux new-session -ds $selected_name -c $selected_dir tm-launch
+		fi
 fi
 
 if [[ -z $TMUX ]]; then

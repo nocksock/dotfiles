@@ -21,9 +21,14 @@ local same = function(index)
 end
 -- }}}
 
-ls.filetype_extend('typescriptreact', {'typescript', 'javascriptreact', 'javascript'})
+ls.filetype_extend('javascriptreact', {'javascript'})
 
 return {
+	-- TODO: a snippet that uses Tree Sitter to check whether pre or
+	-- console.log
+	s('rjson', fmt([[return <pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
+	s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
+	s('tern', fmt([[{{{} ? ({}) : null}}]], { i(1), i(0) })),
   s('cmp', fmt([[
   export const {}: React.FC<{{children: ReactNode}}> = ({}) => {{
     return (

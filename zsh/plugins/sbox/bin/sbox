@@ -9,39 +9,31 @@ if [[ -z $SBOX_DIR ]]; then
   return 1
 fi
 
-
 get-start-dir () { # {{{
 	zparseopts -D -E -F -A args t: s::
 	local name="${args[-s]}"
 	local template="${args[-t]}"
 
-	if [[ $name == ./* ]]; then
-		# TODO: implement this
-		echo "$(pwd)/${name#./}"
+	local name_prefill=$(echo $template | sed 's/^[[:digit:]]*-[[:digit:]]*-//')
+
+	if [[ -z $name ]]; then
+		name="$(gum input --prompt="name: " --value="$name_prefill--")"
+	fi
+
+	if [[ -z $name ]]; then
+		echo "cancelled" >&2
+		exit 1
+	fi
+
+	name=${name// /-}
+	name=${name//[^[:alnum:]-]/}
+
+	local full_path="$SBOX_DIR$name"
+	if [[ ! -e $full_path ]]; then
+		echo "$full_path"
 	else
-		local datestamp="$(date "+%Y%m%d-%H%M")"
-		local name_prefill=$(echo $template | sed 's/^[[:digit:]]*-[[:digit:]]*-//')
-
-		if [[ -z $name ]]; then
-			name="$(gum input --prompt="name: " --value="$name_prefill--")"
-		fi
-
-		if [[ -z $name ]]; then
-			echo "cancelled" >&2
-			exit 1
-		fi
-
-		name="$datestamp-$name"
-		name=${name// /-}
-		name=${name//[^[:alnum:]-]/}
-
-		local full_path="$SBOX_DIR$name"
-		if [[ ! -e $full_path ]]; then
-			echo "$full_path"
-		else
-			echo "already exists: $full_path" >&2
-			exit 1
-		fi
+		echo "already exists: $full_path" >&2
+		exit 1
 	fi
 } # }}}
 
@@ -59,11 +51,14 @@ choose-template () { # {{{
 	fi
 
 	local -a templates=()
-	for t in $(\ls -1 -t created "$SBOX_TEMPLATE_DIR"); do
+	for t in $(\ls -1 -t "$SBOX_TEMPLATE_DIR"); do
 		templates+=("$t")
 	done
-	printf '%s\n' "${templates[@]}" \
-		| fzf --height 40% --layout=reverse --prompt="Choose template: " --preview="cat $SBOX_TEMPLATE_DIR/{}/README.md" --bind="enter:accept,ctrl-o:execute(launch)"
+	printf '%s\n' "${templates[@]}"                     \
+		| fzf --height 40% --layout=reverse               \
+			--prompt="Choose template: "                    \
+			--preview="cat $SBOX_TEMPLATE_DIR/{}/README.md" \
+			--bind="enter:accept,ctrl-o:execute(launch)"
 } # }}}
 
 build () { # {{{
@@ -72,23 +67,15 @@ build () { # {{{
 	local template=${args[-t]}
 	local origin="$SBOX_TEMPLATE_DIR${template}"
 	
-	if [[ ! -d $origin ]]; then
-		echo "template not found: $origin" >&2
-		exit 1
-	fi
-
 	mkdir -p "$target"
 
 	pushd "$target" &> /dev/null
-	
+		git clone "$origin/.git" .
 		rsync -av "$origin/" $target
-
 		if [[ -f "$target/.sboxrc" ]]; then
 			(source "$target/.sboxrc" && function -T setup && setup)
 		fi
-
 	popd &> /dev/null
-
 } # }}}
 
 git-init () { # {{{
@@ -99,7 +86,7 @@ git-init () { # {{{
 		git init
 	fi
 	git add ${args[-c]}
-	git commit -m "initial commit from template: ${args[-t]}"
+	git commit -m "new sbox from template '${args[-t]}'"
 	popd &> /dev/null
 } # }}}
 
@@ -114,6 +101,10 @@ launch () { # {{{
 				-s "$name"        \
 				-c "$new_sbox"    \
 				"(source $new_sbox/.sboxrc && launch)"
+		else
+			tmux new-session -d \
+				-s "$name"        \
+				-c "$new_sbox"
 		fi
 
 		if [[ $TMUX ]]; then

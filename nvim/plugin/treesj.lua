@@ -1,6 +1,7 @@
 require "baggage".from 'https://github.com/Wansmer/treesj'
 
 vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)
+vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)
 
 local attribute_toggle = function(node_type, parent_type)
   return {
@@ -32,14 +33,16 @@ end
 
 require 'treesj'.setup {
   use_default_keymaps = false,
-  max_join_length = 200,
+  max_join_length = 500,
   cursor_behavior = 'start',
   notify = true,
   langs = {
+    -- use :InspectTree
+    -- [ <the node the cursor is on> ] = attribute_toggle(<node to toggle>, <is below this parent node>)
     elixir = {
       ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
     },
-    php   = {
+    php    = {
       ['attribute_value'] = attribute_toggle('attribute_value', 'quoted_attribute_value')
     },
     heex   = {
@@ -52,7 +55,7 @@ require 'treesj'.setup {
     astro  = {
       ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
     },
-    html   = { ['string'] = attribute_toggle('string_fragment', 'attribute') },
+    html   = { ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute') },
   },
   ---@type boolean Use `dot` for repeat action
   dot_repeat = true,

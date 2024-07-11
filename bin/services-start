@@ -13,6 +13,9 @@ if [ $? != 0 ]; then
   tmux new-session -ds $session_name -c ~/code/dotfiles
 
   services=(
+    "fd . yabai | entr -r yabai"
+    "fd . sketchybar | entr -r sketchybar"
+    "skhd"
     "darkmode-notifier $DOTDIR/bin/darkmode-change-handler"
   )
   for service in "${services[@]}"; do

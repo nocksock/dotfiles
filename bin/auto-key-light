@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if [[ $1 == "on" ]]; then
+    curl --silent --location                                    \
+      --request PUT "http://192.168.178.122:9123/elgato/lights" \
+      --header 'Content-Type: application/json'                 \
+      --data-raw '{"lights":[{"brightness":20,"temperature":250,"on":1}],"numberOfLights":1}'
+    exit 0
+fi
+
+if [[ $1 == "off" ]]; then
+    curl --silent --location                                    \
+      --request PUT "http://192.168.178.122:9123/elgato/lights" \
+      --header 'Content-Type: application/json'                 \
+      --data-raw '{"lights":[{"brightness":20,"temperature":250,"on":0}],"numberOfLights":1}'
+    exit 0
+fi
+
+if [[ $1 == "watch" ]]; then
+  echo "waiting for camera activity..."
+  log stream --predicate 'composedMessage contains "AVFCapture"' | while read line; do
+    if echo "$line" | grep -qE "AVCaptureSession_Tundra startRunning"; then
+      $0 on
+    fi
+
+    if echo "$line" | grep -qE "AVCaptureSession_Tundra stopRunning"; then
+      $0 off
+    fi
+  done
+fi
+
+if [[ -z $1 ]]; then
+  echo "Usage: $0 on|off|watch"
+  exit 1
+fi

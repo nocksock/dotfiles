@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-PROJECT_PATH=$(list-projects | fzf)
+PROJECT_PATH=$(tm-list-projects | fzf)
 PROJECT_NAME=$(basename "$PROJECT_PATH" | tr . _)
 STARTUP_PATHS=(
   "$PROJECT_PATH/scripts/startup.zsh"

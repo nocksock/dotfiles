@@ -1,10 +1,10 @@
-local setup = require 'baggage'.from {
+require 'baggage'.from {
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/rest-nvim/rest.nvim"
 }
 
-vim.api.nvim_create_autocmd({"BufEnter"}, {
-  pattern = {"*.http"},
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  pattern = { "*.http" },
   callback = function()
     require("rest-nvim").setup({
       -- Open request results in a horizontal split
@@ -33,7 +33,7 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
         formatters = {
           json = "jq",
           html = function(body)
-            return vim.fn.system({"prettier", "--parser", "html"}, body)
+            return vim.fn.system({ "prettier", "--parser", "html" }, body)
           end
         },
       },
@@ -46,4 +46,3 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
     return true
   end
 })
-

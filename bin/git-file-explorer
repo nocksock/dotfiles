@@ -18,6 +18,7 @@ else
     | fzf                                                                                                               \
       --ansi                                                                                                            \
       --preview "git show --color=always  {1}:$1 || git show --color=always  --name-status {1} | bat --color=always -p" \
+      --bind "ctrl-y:execute-silent(echo {1} | pbcopy)"                                                                                         \
       --bind "ctrl-m:execute(
           git show {1}:$1 | nvim -c set\ bt=nowrite || git show {1} | nvim -c set\ bt=nowrite -
       )"

@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 
-if [[ -f ".tmux.conf" ]]; then
+if [[ -x ".tmux.conf" ]]; then
+	tmux source-file .tmux.conf
+elif [[ -f ".tmux.conf" ]]; then
   tmux display-menu -T "Load local .tmux.conf?" \
     " y: Yes " y "source-file .tmux.conf"  \
     " n: No  " n "neww"

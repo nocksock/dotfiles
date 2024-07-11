@@ -1,3 +1,6 @@
+-- vi:foldmethod=marker:foldlevel=0:foldclose=all:foldopen=all
+-- tip: use `zk` and `zj` to navigate
+
 local setup = require "baggage"
     .from {
       "https://github.com/nvim-lua/plenary.nvim",
@@ -5,9 +8,15 @@ local setup = require "baggage"
       'https://github.com/marilari88/twoslash-queries.nvim',
       'https://github.com/williamboman/mason.nvim',
       'https://github.com/pmizio/typescript-tools.nvim',
-      'https://github.com/elixir-tools/elixir-tools.nvim'
+      'https://github.com/elixir-tools/elixir-tools.nvim',
+      'https://github.com/hrsh7th/cmp-nvim-lsp'
     }
 
+
+local lspconfig = require 'lspconfig'
+local capabilities = require "cmp_nvim_lsp".default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+-- Mason {{{
 
 setup('mason', {
   -- to create a list of all the configured servers in this file:
@@ -28,147 +37,8 @@ setup('mason', {
     "tailwindcss",
   }
 })
-
-local lspconfig = require 'lspconfig'
-
-local capabilities = require "baggage"
-    .from 'https://github.com/hrsh7th/cmp-nvim-lsp'
-    .load('cmp_nvim_lsp')
-    .default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-lspconfig.rust_analyzer.setup {}
-
-lspconfig.pyright.setup {}
-lspconfig.intelephense.setup {}
-lspconfig.volar.setup {}
-
-local elixir = require("elixir")
-local elixirls = require("elixir.elixirls")
-
-elixir.setup {
-  nextls = { enable = false },
-  credo = {
-    enable = true
-  },
-  elixirls = {
-    enable = true,
-    settings = elixirls.settings {
-      dialyzerEnabled = true,
-      enableTestLenses = true,
-    },
-    on_attach = function(_client, bufnr)
-      vim.keymap.set("n", "gd", function()
-        require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
-      end, { buffer = bufnr, noremap = true })
-      vim.keymap.set("n", "<space>efp", ":ElixirFromPipe<cr>", { buffer = bufnr, noremap = true })
-      vim.keymap.set("n", "<space>etp", ":ElixirToPipe<cr>", { buffer = bufnr, noremap = true })
-      vim.keymap.set("v", "<space>eem", ":ElixirExpandMacro<cr>", { buffer = bufnr, noremap = true })
-    end
-  }
-}
-
-lspconfig.gopls.setup {}
-
-lspconfig.marksman.setup {}
-
-lspconfig.cssls.setup {
-  settings = {
-    css = { validate = true,
-      lint = {
-        unknownAtRules = "ignore"
-      }
-    },
-  }
-}
-
-lspconfig.cssmodules_ls.setup {}
-
-lspconfig.tailwindcss.setup {
-  capabilities = capabilities,
-  init_options = {
-    userLanguages = {
-      eelixir = "html-eex",
-      eruby = "erb"
-    }
-  },
-  settings = {
-    tailwindCSS = {
-      editor = {
-        quickSuggestions = {
-          strings = "on"
-        }
-      }
-    }
-  }
-}
-
-lspconfig.lua_ls.setup({
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-      },
-      telemetry = { enable = false },
-      diagnostics = {
-        globals = {
-          'vim',
-        },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file('', true), -- Make the server aware of Neovim runtime files
-        checkThirdParty = false,
-      },
-    },
-  },
-})
-
-lspconfig.clangd.setup({
-  capabilities = capabilities,
-  cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
-  init_options = {
-    clangdFileStatus = true
-  },
-})
-
-lspconfig.denols.setup {
-  capabilities = capabilities,
-  root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
-  cmd          = { "deno", "lsp" },
-  init_options = {
-    enable = true, unstable = true
-  }
-}
-
-lspconfig.svelte.setup {
-  capabilities = capabilities,
-  root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
-}
-
-lspconfig.astro.setup {}
-
-lspconfig.eslint.setup {}
-
-lspconfig.biome.setup {}
-
-require 'typescript-tools'.setup {
-  capabilities = capabilities,
-  single_file_support = false,
-  root_dir = lspconfig.util.root_pattern({ "tsconfig.json", "package.json" }),
-  on_attach = function(client, bufnr)
-    require("twoslash-queries").attach(client, bufnr)
-    local keyopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set('n', '<leader>ci', ':TSToolsAddMissingImports<cr>', keyopts)
-    vim.keymap.set('n', '<leader>co', ':TSToolsOrganizeImports<cr>', keyopts)
-    vim.keymap.set('n', '<leader>cu', ':TSToolsRemoveUnused<cr>', keyopts)
-    vim.keymap.set('n', '<leader>cA', ':TSToolsFixAll<cr>', keyopts)
-    vim.keymap.set('n', '<leader>cR', ':TSToolsRenameFile<cr>', keyopts)
-  end,
-}
-
-lspconfig.sourcekit.setup({ -- {{{
-  capabilities = capabilities,
-})                          -- }}}
-
+-- }}}
+-- LspAttach {{{
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local bufnr = args.buf
@@ -209,17 +79,175 @@ vim.api.nvim_create_autocmd('LspAttach', {
       bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 
-    vim.keymap.set('n', 'gr', ':FzfLua lsp_references<CR>', bufopts)
-    vim.keymap.set('n', 'gd', ':FzfLua lsp_definitions<CR>', bufopts)
-    vim.keymap.set('n', 'gy', ':FzfLua lsp_type_definitions<cr>', bufopts)
-    vim.keymap.set('n', 'gi', ':FzfLua lsp_type_implementations<cr>', bufopts)
+    vim.keymap.set('n', 'gr', ':Telescope lsp_references<CR>', bufopts)
+    vim.keymap.set('n', 'gy', ':Telescope lsp_type_definitions<cr>', bufopts)
+    vim.keymap.set('n', 'gi', ':Telescope lsp_type_implementations<cr>', bufopts)
     vim.keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration<cr>', bufopts)
-    vim.keymap.set('n', 'gO', ':FzfLua lsp_document_symbols<cr>', bufopts)
+    vim.keymap.set('n', 'gO', ':Telescope lsp_document_symbols<cr>', bufopts)
 
     vim.keymap.set('n', '<c-w>d', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
+    vim.keymap.set('n', 'gd', ':lua vim.lsp.buf.definition()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>D', ':vs<cr>:lua vim.lsp.buf.declaration()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>t', ':vs<cr>:lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
     vim.keymap.set('n', '<c-w>i', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
     vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
   end
+})-- }}}
+
+-- lspconfig.rust_analyzer.setup {}
+-- lspconfig.pyright.setup {}
+-- lspconfig.intelephense.setup {}
+
+-- TypeScript and JS Frameworks {{{
+
+-- lspconfig.astro.setup {}
+-- lspconfig.eslint.setup {}
+lspconfig.biome.setup {}
+-- lspconfig.volar.setup {}
+
+lspconfig.denols.setup {
+  capabilities = capabilities,
+  root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
+  cmd          = { "deno", "lsp" },
+  init_options = {
+    enable = true, unstable = true
+  }
+}
+
+-- lspconfig.svelte.setup {
+--   capabilities = capabilities,
+--   root_dir     = require('lspconfig.util').root_pattern("svelte.config.js"),
+-- }
+
+require 'typescript-tools'.setup {
+  capabilities = capabilities,
+  single_file_support = false,
+  root_dir = lspconfig.util.root_pattern({ "tsconfig.json", "package.json" }),
+  on_attach = function(client, bufnr)
+    require("twoslash-queries").attach(client, bufnr)
+    local keyopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', '<leader>ci', ':TSToolsAddMissingImports<cr>', keyopts)
+    vim.keymap.set('n', '<leader>co', ':TSToolsOrganizeImports<cr>', keyopts)
+    vim.keymap.set('n', '<leader>cu', ':TSToolsRemoveUnused<cr>', keyopts)
+    vim.keymap.set('n', '<leader>cA', ':TSToolsFixAll<cr>', keyopts)
+    vim.keymap.set('n', '<leader>cR', ':TSToolsRenameFile<cr>', keyopts)
+  end,
+  filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+}
+
+-- }}}
+-- Elixir {{{
+
+local elixir = require("elixir")
+local elixirls = require("elixir.elixirls")
+
+elixir.setup {
+  nextls = { enable = false },
+  credo = {
+    enable = true
+  },
+  elixirls = {
+    enable = true,
+    settings = elixirls.settings {
+      dialyzerEnabled = true,
+      enableTestLenses = true,
+    },
+    on_attach = function(_client, bufnr)
+      vim.keymap.set("n", "gd", function()
+        require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
+      end, { buffer = bufnr, noremap = true })
+      vim.keymap.set("n", "<space>efp", ":ElixirFromPipe<cr>", { buffer = bufnr, noremap = true })
+      vim.keymap.set("n", "<space>etp", ":ElixirToPipe<cr>", { buffer = bufnr, noremap = true })
+      vim.keymap.set("v", "<space>eem", ":ElixirExpandMacro<cr>", { buffer = bufnr, noremap = true })
+    end
+  }
+}
+
+-- }}}
+-- CSS, Tailwind {{{
+
+lspconfig.cssmodules_ls.setup {}
+lspconfig.cssls.setup {
+  settings = {
+    css = { validate = true,
+      lint = {
+        unknownAtRules = "ignore"
+      }
+    },
+  }
+}
+
+lspconfig.tailwindcss.setup {
+  capabilities = capabilities,
+  init_options = {
+    userLanguages = {
+      eelixir = "html-eex",
+      eruby = "erb"
+    }
+  },
+  settings = {
+    tailwindCSS = {
+      experimental = {
+        configFile = ".config/tailwind.config.js"
+      },
+      editor = {
+        quickSuggestions = {
+          strings = "on"
+        }
+      }
+    }
+  }
+}
+
+-- }}}
+-- Go {{{
+
+lspconfig.gopls.setup {}
+
+-- }}}
+-- Markdown {{{
+
+lspconfig.marksman.setup {}
+
+-- }}}
+-- Lua {{{
+
+lspconfig.lua_ls.setup({
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+      },
+      telemetry = { enable = false },
+      diagnostics = {
+        globals = {
+          'vim',
+        },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file('', true), -- Make the server aware of Neovim runtime files
+        checkThirdParty = false,
+      },
+    },
+  },
 })
+
+-- }}}
+-- C {{{
+
+lspconfig.clangd.setup({
+  capabilities = capabilities,
+  cmd = { "clangd", "--background-index", "--clang-tidy" --[[ , "--header-insertion=iwyu" ]] },
+  init_options = {
+    clangdFileStatus = true
+  },
+})
+
+-- }}}
+-- Swift {{{
+
+lspconfig.sourcekit.setup({
+  capabilities = capabilities,
+})
+
+-- }}}

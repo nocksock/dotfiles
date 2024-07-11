@@ -54,15 +54,15 @@ nnoremap gX ddpkJ
 
 " buffer navigation
 nnoremap gf <cmd>e <cfile><CR>
-nnoremap <silent> <leader>x <cmd>b#\|bd#<cr>
-nnoremap <silent> <leader>X <cmd>bd<cr>
+nnoremap <silent> <leader>X <cmd>b#\|bd#<cr>
+nnoremap <silent> <leader>x <cmd>bd<cr>
 nnoremap <silent> <leader>b0 <cmd>%bd\|e#<cr>
 
 nnoremap <silent> <leader>n <cmd>cn<cr>
 nnoremap <silent> <leader>p <cmd>cp<cr>
 
-nnoremap <c-n> <cmd>bn<cr>
-nnoremap <c-p> <cmd>bp<cr>
+" nnoremap <c-n> <cmd>bn<cr>
+" nnoremap <c-p> <cmd>bp<cr>
 
 nnoremap <leader>it <cmd>TSHighlightCapturesUnderCursor<cr>
 
@@ -80,10 +80,10 @@ nnoremap ga         <Plug>(EasyAlign)
 
 nnoremap <leader>tu <cmd>MundoToggle<CR>
 
-nnoremap <M-s> :Format<cr>:w<cr>
-nnoremap <D-s> :Format<cr>:w<cr>
-inoremap <M-s> <cmd>Format<cr><cmd>w<cr>
-inoremap <D-s> <cmd>Format<cr><cmd>w<cr>
+nnoremap <M-s> :w<cr>
+nnoremap <D-s> :w<cr>
+inoremap <M-s> <cmd>w<cr>
+inoremap <D-s> <cmd>w<cr>
 
 nnoremap [[ gT
 nnoremap ]] gt
@@ -93,3 +93,31 @@ nnoremap <M-]> gt
 nnoremap <c-f> mfgg=G`f<cmd>write<cr>
 
 nnoremap <leader>- :Oil .<cr>
+
+nmap <leader>f <cmd>Telescope find_files<cr>
+nmap <leader>F <cmd>Telescope find_files hidden=true<cr>
+nmap <leader><c-f> <cmd>Telescope find_files hidden=true cwd=%:p:h<cr>
+nmap <leader>* <cmd>Telescope grep_string<cr>
+nmap <leader>g <cmd>Telescope live_grep<cr>
+nmap <leader>G <cmd>Telescope live_grep cwd=%:p:h<cr>
+nmap <leader>: <cmd>Telescope commands<cr>
+nmap <leader><c-r> <cmd>Telescope command_history<cr>
+nmap <leader><cr> <cmd>Telescope resume<cr>
+nmap <leader>hh <cmd>Telescope help_tags<cr>
+nmap <leader>H <cmd>Telescope help_tags<cr>
+nmap <leader><leader> <cmd>Telescope buffers<cr>
+nmap <c-b> <cmd>Telescope buffers<cr>
+nmap <leader>s <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+nmap <leader>S <cmd>Telescope lsp_document_symbols<cr>
+nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
+nmap <leader>T <cmd>Telescope builtin<cr>
+nmap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
+
+
+nnoremap <c-t>1 1gt
+nnoremap <c-t>2 2gt
+nnoremap <c-t>3 3gt
+nnoremap <c-t>4 4gt
+
+nnoremap zj zjzt
+nnoremap zk zkzkzjzt

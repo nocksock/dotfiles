@@ -1,2 +1,3 @@
-setlocal foldmethod=syntax
+setlocal foldmethod=marker
+setlocal foldmarker={,}
 setlocal nowrap

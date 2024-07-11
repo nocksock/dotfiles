@@ -61,16 +61,17 @@ vim.o.cmdheight     = 1 -- height of the command bar
 -- }}}
 -- indentation and wrapping {{{
 
-vim.o.shiftwidth            = 2
-vim.o.softtabstop           = 2
-vim.o.smartindent           = true
-vim.o.tabstop               = 2
-vim.o.textwidth             = 80
-vim.o.expandtab             = true
+vim.o.shiftwidth  = 2
+vim.o.softtabstop = 2
+vim.o.smartindent = true
+vim.o.tabstop     = 2
+vim.o.textwidth   = 80
+vim.o.expandtab   = true
 
-vim.o.breakindent           = true -- wrapped lines appear indendet
-vim.o.briopt                = 'shift:4' -- indent wrapped lines
-vim.o.linebreak             = true
+vim.o.breakindent = true -- wrapped lines appear indendet
+vim.o.briopt      = 'shift:4' -- indent wrapped lines
+vim.o.linebreak   = true
+vim.o.wrap        = false
 
 -- }}}
 -- backup + undo {{{
