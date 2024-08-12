@@ -30,7 +30,7 @@ fi
 
 # run first level tasks like install
 case $task in
-  add|build|install|start|test|lint)
+  add|install|start|test|lint|create)
     $pm $task $args
 		return 0
   ;;
