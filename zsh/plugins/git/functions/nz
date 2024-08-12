@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+nz() { z "$1"; [[ -n $1 ]] && echo nvim "+Telescope find_files" }
+
+nz "$@"

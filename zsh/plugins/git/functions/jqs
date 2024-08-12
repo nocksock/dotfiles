@@ -1,0 +1,6 @@
+#autoload
+
+local field="$1"
+local value="$2"
+
+jq -r "select(.${field} | contains(\"${value}\"))" $@

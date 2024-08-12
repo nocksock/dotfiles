@@ -1,0 +1,20 @@
+#autoload
+
+PROJECTS_FILE=${PROJECTS_FILE:-"$HOME/.projects"}
+
+if [[ ! -f $PROJECTS_FILE ]]; then
+  echo "The file $PROJECTS_FILE does not exist"
+  exit 1
+fi
+
+while IFS= read -r dir; do
+  dir="${dir#"${dir%%[![:space:]]*}"}"  # Trim leading whitespace
+  dir="${dir%"${dir##*[![:space:]]}"}"  # Trim trailing whitespace
+
+  expanded_dir="${dir/\~/$HOME}"
+  if [[ "$expanded_dir" == *\** ]]; then
+    find "${expanded_dir%/*}" -maxdepth 1 -type d -print
+  else
+    echo "${expanded_dir}"
+  fi
+done < $PROJECTS_FILE

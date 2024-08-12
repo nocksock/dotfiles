@@ -1,0 +1,11 @@
+#autoload 
+
+local as-paths() {
+	jq '[leaf_paths as $path | {"key": $path | join("."), "value": getpath($path)}] | from_entries' -
+}
+
+if [[ $1 == "-i" ]]; then
+	jq '[.[]]' --slurp - | as-paths | jq 'to_entries | map("\(.key): \(.value)") | join("\n")' -r
+else
+	as-paths "$@"
+fi

@@ -22,21 +22,6 @@ alias pio='pnpm install --prefer-offline .'
 alias pii='pnpm install --ignore-scripts --ignore-workspace .'
 alias piio='pnpm install --ignore-scripts --ignore-workspace --prefer-offline .'
 
-# {{{ git
-alias gss='git status'
-alias gs='git status -s .'
-alias ngs='nvim +:Git status'
-alias gr='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
-alias gg='lazygit'
-alias gsw='pushd "$(git worktree list --porcelain | ggrep -Po "(?<=worktree ).*" | fzf)"'
-alias gb="git branch -l --format='%(refname:short)' | fzf | xargs git switch" 
-alias ggl='git-grouped-log'
-alias gsb='git-switch-branch'
-alias gca='git commit --amend'
-function gcm() {
-	git commit -m "$*"
-}
-# }}}
 # {{{ navigation
 alias slurp="pushd && pushd -"
 alias c='cd $(list-projects | fzf)'

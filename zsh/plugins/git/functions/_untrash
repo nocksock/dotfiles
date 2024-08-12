@@ -1,0 +1,3 @@
+#compdef untrash
+
+compdef '_files -W ~/.Trash' untrash

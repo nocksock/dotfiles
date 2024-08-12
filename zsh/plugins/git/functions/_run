@@ -1,0 +1,73 @@
+#compdef run
+
+_find_package_jsons() {
+  local curdir="$PWD"
+
+  while [[ "$curdir" != "$HOME" ]]; do
+    if [[ -f "$curdir/package.json" ]]; then
+      echo "$curdir/package.json"
+    fi
+
+    curdir="${curdir%/*}"
+  done
+}
+
+_available_tasks() {
+  for package_json in $(_find_package_jsons); do
+    local oldIFS="$IFS"
+    IFS=$'\n'
+    tasks_and_descriptions=$(jq -r '.scripts | to_entries[] | "\(.key)=\(.value)"' "$package_json" 2>/dev/null)
+    # iterate over each line
+    IFS="$oldIFS"
+    echo $tasks_and_descriptions
+
+    # for task in "${(f)tasks_and_descriptions}"; do
+    #   tasks+=("${task%%=*}")
+    #   descriptions+=("${task#*=}")
+    # done
+  done
+}
+
+list_tasks() {
+  local tasks
+  local descriptions
+  local tasks_and_descriptions
+
+  tasks=()
+  descriptions=()
+  tasks_and_descriptions=$(_available_tasks)
+
+  for task in "${(f)tasks_and_descriptions}"; do
+    tasks+=("${task%%=*}")
+    descriptions+=("${task#*=}")
+  done
+
+  echo $tasks
+  echo $descriptions
+  echo $tasks_and_descriptions
+}
+
+_run_complete() {
+  local -a tasks
+  local -a descriptions
+  local -A tasks_and_descriptions
+  local package_json task
+
+  tasks=()
+  descriptions=()
+  tasks_and_descriptions=$(_available_tasks)
+
+  for task in "${(f)tasks_and_descriptions}"; do
+    tasks+=("${task%%=*}")
+    descriptions+=("${task#*=}")
+  done
+
+  if [[ ${#tasks} -eq 0 ]]; then
+    echo "No package.json found"
+    return
+  fi
+
+  _wanted tasks expl 'npm tasks' compadd -a tasks #
+}
+
+compdef _run_complete run
