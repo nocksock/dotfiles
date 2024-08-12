@@ -5,4 +5,5 @@ require "baggage".from {
   'https://github.com/tpope/vim-vinegar',
   'https://github.com/tpope/vim-abolish',
   'https://github.com/tpope/vim-eunuch',
+  'https://github.com/tpope/vim-dispatch',
 }

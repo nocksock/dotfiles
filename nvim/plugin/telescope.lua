@@ -16,7 +16,9 @@ require 'telescope'.setup({
           local entry = action_state.get_selected_entry()[1]
           actions.close(buf)
           vim.api.nvim_put({ entry }, "", true, true)
-        end
+        end,
+        ['<c-j>'] = actions.move_selection_next,
+        ['<c-k>'] = actions.move_selection_previous
       },
       n = {
         ['<Down>'] = "cycle_history_next",
@@ -47,7 +49,8 @@ require 'telescope'.setup({
   },
 })
 
-require 'telescope'.load_extension('fzf')
+require 'telescope'.load_extension 'ui-select'
+require 'telescope'.load_extension 'fzf'
 
 local nmap = require 'nmap'
 local t = function(builtin, opts)

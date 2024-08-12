@@ -46,9 +46,9 @@ cmp.setup({-- {{{
     { name = "luasnip" },
     { name = "nvim_lsp" },
     { name = "path" },
+    { name = "buffer" }
   }, {
     { name = "copilot" },
-    { name = "buffer" }
   }),
 })-- }}}
 cmp.setup.filetype('gitcommit', {-- {{{
@@ -59,7 +59,6 @@ cmp.setup.filetype('gitcommit', {-- {{{
 cmp.setup.cmdline(':', {-- {{{
   sources = cmp.config.sources({
     { name = 'cmdline' },
-  }, {
     { name = 'buffer' },
     { name = 'path' },
   }),

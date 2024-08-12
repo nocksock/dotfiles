@@ -85,18 +85,11 @@ nnoremap <D-s> :w<cr>
 inoremap <M-s> <cmd>w<cr>
 inoremap <D-s> <cmd>w<cr>
 
-nnoremap [[ gT
-nnoremap ]] gt
-nnoremap <M-[> gT
-nnoremap <M-]> gt
-
-nnoremap <c-f> mfgg=G`f<cmd>write<cr>
-
-nnoremap <leader>- :Oil .<cr>
+nnoremap + :Oil .<cr>
 
 nmap <leader>f <cmd>Telescope find_files<cr>
 nmap <leader>F <cmd>Telescope find_files hidden=true<cr>
-nmap <leader><c-f> <cmd>Telescope find_files hidden=true cwd=%:p:h<cr>
+nmap <leader>O <cmd>Telescope oldfiles<cr>
 nmap <leader>* <cmd>Telescope grep_string<cr>
 nmap <leader>g <cmd>Telescope live_grep<cr>
 nmap <leader>G <cmd>Telescope live_grep cwd=%:p:h<cr>
@@ -113,11 +106,13 @@ nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
 nmap <leader>T <cmd>Telescope builtin<cr>
 nmap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
-
-nnoremap <c-t>1 1gt
-nnoremap <c-t>2 2gt
-nnoremap <c-t>3 3gt
-nnoremap <c-t>4 4gt
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
 
 nnoremap zj zjzt
 nnoremap zk zkzkzjzt
+
+nnoremap <Leader>o <Cmd>call JumpPreviousBuffer()<CR>
+nnoremap <Leader>i <Cmd>call JumpNextBuffer()<CR>

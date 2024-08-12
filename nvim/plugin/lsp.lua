@@ -103,7 +103,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- lspconfig.astro.setup {}
 -- lspconfig.eslint.setup {}
 lspconfig.biome.setup {}
--- lspconfig.volar.setup {}
+lspconfig.volar.setup {}
 
 lspconfig.denols.setup {
   capabilities = capabilities,
@@ -153,9 +153,9 @@ elixir.setup {
       enableTestLenses = true,
     },
     on_attach = function(_client, bufnr)
-      vim.keymap.set("n", "gd", function()
-        require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
-      end, { buffer = bufnr, noremap = true })
+      -- vim.keymap.set("n", "gd", function()
+      --   require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
+      -- end, { buffer = bufnr, noremap = true })
       vim.keymap.set("n", "<space>efp", ":ElixirFromPipe<cr>", { buffer = bufnr, noremap = true })
       vim.keymap.set("n", "<space>etp", ":ElixirToPipe<cr>", { buffer = bufnr, noremap = true })
       vim.keymap.set("v", "<space>eem", ":ElixirExpandMacro<cr>", { buffer = bufnr, noremap = true })

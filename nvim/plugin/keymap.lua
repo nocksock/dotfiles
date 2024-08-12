@@ -3,6 +3,16 @@ vim.keymap.set('n', '<leader>ti', function()
   vim.diagnostic.config({ virtual_text = not previous.virtual_text })
 end)
 
+vim.keymap.set('c', '<c-q>', function()
+  local cmdtype = vim.fn.getcmdtype()
+
+  if cmdtype ~= '/' and cmdtype ~= '?' then
+    return
+  end
+
+  vim.cmd.lvimgrep('/' .. vim.fn.getcmdline() .. '/ %')
+  return '<esc>:lwindow<cr><cmd>nohl<cr><cr>'
+end, { expr = true })
 
 -- local insert_file_path = function(opts)
 --   local R = require
@@ -33,5 +43,4 @@ end)
 --
 -- vim.keymap.set('i', '<c-x><c-f>', insert_file_path)
 -- vim.keymap.set('n', '<leader>xf', insert_file_path)
--- -- TODO: prefill the search with string before the cursor
 
