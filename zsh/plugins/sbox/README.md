@@ -60,13 +60,14 @@ There are two hooks:
 
 ```sh
 # .sboxrc
-setup () {
+sbox-setup () {
     pnpm install --prefer-offline
 }
 
-launch () {
+sbox-launch () {
 
 }
+
 ```
 
 ### General Tips

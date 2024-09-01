@@ -94,6 +94,7 @@ launch () { # {{{
 
 	if [[ -z $1 ]]; then
 		if [[ -f "$new_sbox/.sboxrc" ]]; then
+			# TODO: call script with args rather than sourcing
 			tmux new-session -d \
 				-s "$name"        \
 				-c "$new_sbox"    \

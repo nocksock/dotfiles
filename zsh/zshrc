@@ -4,16 +4,37 @@
 
 export TERM=xterm-kitty
 export EDITOR=nvim
-
-export SBOX_DIR="$HOME/code/sandboxes/"
+# export PAGER="nvim +Man! -R"
+# export MANPAGER='nvim +Man!'
 export HOMEBREW_NO_AUTO_UPDATE=1
+export SBOX_DIR="$HOME/code/sandboxes/"
+export SBOX_PATHS=(
+	"$HOME/code/sandboxes"
+	"$HOME/code/bleepbloop.git/main/packages"
+	"$HOME/code/bleepbloop.git/main/apps"
+)
 
-# completions {{{ 
+# {{{ compinit
+
+autoload -Uz compinit
+autoload -U +X bashcompinit && bashcompinit
+
+if [[ ! -f ~/.zcompdump ]] ; then
+  compinit
+	bashcompinit
+	compdump
+	echo "refreshed completions"
+else
+	compinit -C
+	bashcompinit -C
+fi
+
+# brew completions {{{ 
 
 COMPLETION_DIRS=(
-		"$(brew --prefix)/share/zsh/site-functions"
-		"$HOME/.bun/"
-	)
+	"$(brew --prefix)/share/zsh/site-functions"
+	"$HOME/.bun/"
+)
 
 for compdir in "${COMPLETION_DIRS[@]}"; do
 	fpath+=("$compdir")
@@ -21,17 +42,28 @@ for compdir in "${COMPLETION_DIRS[@]}"; do
 done
 
 # }}}
-# {{{ compinit
+# bun completions {{{
+[ -s "/Users/nilsriedemann/.bun/_bun" ] && source "/Users/nilsriedemann/.bun/_bun"
+# }}}
+# {{{ 1password completion
 
-autoload -Uz compinit
-autoload -U +X bashcompinit && bashcompinit
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-	bashcompinit
-	echo "refreshed completions"
-done
-compinit -C
-bashcompinit -C
+if [[ -n `command -v op` ]]; then
+	eval "$(op completion zsh)"
+	compdef _op op
+fi 
+
+# }}}
+# {{{ pnpm completion
+if [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]]; then
+	source ~/.config/tabtab/zsh/__tabtab.zsh
+else
+	echo "No tabtab?" >> $DOTLOG
+fi
+# }}}
+# # nvm {{{
+# 	[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+# 	[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# # }}}
 
 # }}}
 # {{{ keybinds
@@ -52,10 +84,8 @@ function _glow() {
 	fi
 }
 
-function cupl() {
-	clear
-	cd ..
-	ll
+function _cp-last() {
+	echo !! | pbcopy
 }
 
 autoload -U edit-command-line
@@ -64,16 +94,16 @@ zle -N edit-command-line # Emacs style
 zle -N tm-p
 zle -N _fg
 zle -N _glow
-zle -N cupl 
+zle -N _cp-last 
 bindkey -e                       # use emacs keybindings
 bindkey '^f' edit-command-line #  like nvim command-mode
 bindkey "^[" vi-cmd-mode         # use esc to enter vi-cmd-mode
 bindkey "\e[15~" _glow         # use esc to enter vi-cmd-mode
+bindkey "^g" _cp-last
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 bindkey -M emacs '^Z' _fg
 bindkey -M emacs '^S' tm-s
-bindkey -M emacs '^U' cupl
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M emacs '^N' history-substring-search-down
@@ -90,21 +120,6 @@ set vi-cmd-mode-string "\1\e[2 q\2"
 set vi-ins-mode-string "\1\e[6 q\2"
 
 # }}}
-# {{{ 1password completion
-
-if [[ -n `command -v op` ]]; then
-  eval "$(op completion zsh)"
-  compdef _op op
-fi 
-
-# }}}
-# {{{ pnpm completion
-if [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]]; then
-	source ~/.config/tabtab/zsh/__tabtab.zsh
-else
-	echo "No tabtab?" >> $DOTLOG
-fi
-# }}}
 # {{{ history settings
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
@@ -119,22 +134,37 @@ export SAVEHIST=999999
 
 declare -U CDPATH cdpath
 cdpath=(
-  "$HOME"
-  "$HOME/code"
-  "$HOME/code/bleepbloop.git/main/apps"
-  "$cdpath[@]"
+	"$HOME"
+	"$HOME/code"
+	"$HOME/code/bleepbloop.git/main/apps"
+	"$cdpath[@]"
 )
 export CDPATH
 
 # }}}
 
 eval "$(starship init zsh)"
-
-# direnv
 eval "$(direnv hook zsh)"
-
-export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
-
-# Bind ctrl-r but not up arrow
-#
 eval "$(atuin init zsh --disable-up-arrow)"
+
+if [[ -n $KITTY_PID ]]; then
+	alias ssh="kitty +kitten ssh"
+fi
+
+# pnpm
+export PNPM_HOME="/Users/nilsriedemann/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+if [[ -s "$DOTLOG" ]]; then
+	echo "There are log messages in $DOTLOG"
+fi
+
+# zprof # show profiling result
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).

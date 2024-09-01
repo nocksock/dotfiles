@@ -6,6 +6,8 @@ export EDITOR='/usr/local/bin/nvim' # used for commits and such
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+export N_PREFIX="$HOME/n"; 
+
 export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
 
@@ -13,8 +15,12 @@ export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
 
 declare -U PATH path
 path=(
-	"$HOME/.deno/bin"
+	"/opt/homebrew/opt/postgresql@15/bin"
+  "/opt/homebrew/opt/grep/libexec/gnubin" 
+  "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
   "$DOTDIR/bin"
+	"$HOME/.deno/bin"
   "$HOME/bin"
 	"$HOME/go/bin"
   "$HOME/.cargo/bin"
@@ -22,14 +28,10 @@ path=(
   "$PNPM_HOME"
   "$BUN_INSTALL/bin"
   "$HOME/.composer/vendor/bin"
-  "$HOME/code/bleepbloop.git/main/bin"
-  "/opt/homebrew/opt/grep/libexec/gnubin" 
-  "/opt/homebrew/bin"
-  "/opt/homebrew/sbin"
   "/usr/local/bin" 
   "/usr/local/cuda-11.6/bin"
-	"$HOME/Library/Python/3.9/bin"
   "$path[@]"
+  "$N_PREFIX/bin"
 )
 export PATH
 
@@ -132,3 +134,5 @@ if [[ -f $HOME/.zshenv.local ]]; then
 fi
 
 # }}}
+
+export OP_APP_VAULT=bleepbloop

@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-nman() { 
-	nvim "+Man $1 | 1bd" 
-}
-
-nman "$@"

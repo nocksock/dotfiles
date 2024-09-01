@@ -105,7 +105,7 @@ if [[ $mode = "browse" ]]; then
   if [[ -n $EXECUTE_CMD ]]; then
     BINDINGS+=("ctrl-m:execute(echo $ROOT_DIR/{} | $EXECUTE_CMD)")
   elif [[ -z ${opts[(i)-p]} ]]; then
-    BINDINGS+="ctrl-m:execute(qf -m open -e $ROOT_DIR/{})"
+    BINDINGS+="ctrl-m:execute(qufo -m open -e $ROOT_DIR/{})"
   fi
 
   cat ~/file_index |                           \
