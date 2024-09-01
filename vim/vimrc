@@ -117,6 +117,7 @@ g:fzf_action = {
 # colors {{{
 set termguicolors
 colorscheme lunaperche
+set bg=dark
 
 hi LineHighlight guibg=#106060 guifg=NONE gui=None cterm=bold
 # }}}

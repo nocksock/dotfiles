@@ -2,7 +2,7 @@
 # I use tmux to manage some of my services, so I can restart them easily or see
 # their logs when I need to debug something.
 
-session_name="dotfiles"
+session_name="services"
 
 tmux has-session -t=$dotfiles 2>/dev/null
 
@@ -30,7 +30,7 @@ if [ $? != 0 ]; then
 fi
 
 if [[ -z $TMUX ]]; then
-    tmux attach -t $selected_name
+    tmux attach -t $session_name
 else
-    tmux switch-client -t $selected_name
+    tmux switch-client -t $session_name
 fi
