@@ -1,7 +1,4 @@
-require "baggage".from 'https://github.com/Wansmer/treesj'
-
-vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)
-vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)
+local baggage = require "baggage".from 'https://github.com/Wansmer/treesj'
 
 local attribute_toggle = function(node_type, parent_type)
   return {
@@ -31,7 +28,8 @@ local attribute_toggle = function(node_type, parent_type)
   }
 end
 
-require 'treesj'.setup {
+
+local with_setup = baggage.with_setup('treesj', {
   use_default_keymaps = false,
   max_join_length = 500,
   cursor_behavior = 'start',
@@ -62,3 +60,8 @@ require 'treesj'.setup {
   ---@type nil|function Callback for treesj error handler. func (err_text, level, ...other_text)
   on_error = nil,
 }
+
+)
+
+vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)
+vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)

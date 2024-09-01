@@ -1,3 +1,8 @@
+require 'baggage'.from {
+  "https://github.com/nvim-lua/plenary.nvim",
+  "https://github.com/rest-nvim/rest.nvim"
+}
+
 local rest = require('rest-nvim');
 
 rest.setup({

@@ -94,9 +94,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })-- }}}
 
--- lspconfig.rust_analyzer.setup {}
--- lspconfig.pyright.setup {}
--- lspconfig.intelephense.setup {}
+lspconfig.rust_analyzer.setup {}
+lspconfig.pyright.setup {}
+lspconfig.intelephense.setup {}
+lspconfig.antlersls.setup {}
 
 -- TypeScript and JS Frameworks {{{
 

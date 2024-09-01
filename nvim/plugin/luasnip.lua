@@ -1,10 +1,9 @@
 local setup = require "baggage"
   .from 'https://github.com/L3MON4D3/LuaSnip'
 
-vim.api.nvim_create_user_command("SnippetEdit",
-  function() require('luasnip.loaders.from_lua').edit_snippet_files() end, {})
-vim.api.nvim_create_user_command("SnippetReload",
-  function() require('luasnip.loaders.from_lua').lazy_load() end, {})
+vim.api.nvim_create_user_command("SnippetEdit", function()
+  require('luasnip.loaders').edit_snippet_files()
+end, {})
 
 vim.api.nvim_create_autocmd("InsertEnter", {
   callback = require'baggage.once'.lazy(function()
@@ -13,6 +12,8 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     vim.keymap.set({ 'i', 's' }, '<c-l>', function()
       if luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+      else
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(emmet-expand-abbr)', true, false, true), 'n', true)
       end
     end, { silent = true })
 

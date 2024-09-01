@@ -15,20 +15,40 @@ local r = ls.restore_node
 local events = require('luasnip.util.events')
 local ai = require('luasnip.nodes.absolute_indexer')
 local same = function(index)
-	return f(function(arg)
-		return arg[1]
-	end, { index, index })
+  return f(function(arg)
+    return arg[1]
+  end, { index, index })
 end
 -- }}}
 
-ls.filetype_extend('typescriptreact', {'typescript', 'javascriptreact', 'javascript'})
+ls.filetype_extend('typescriptreact', { 'typescript', 'javascriptreact', 'javascript' })
 
 return {
-  s('cmp', fmt([[
-  export const {}: React.FC<{{children: ReactNode}}> = ({}) => {{
-    return (
-      {}
-    )
-  }}
-  ]], { i(1), i(2), i(3) })),
+  s('cmp',
+    c(1, {
+      fmt([=[
+        export const {} = ({}) => {{
+          return (
+            {}
+          )
+        }}
+      ]=], { i(1), i(2), i(0) })
+    }),
+    c(1, {
+      fmt([=[
+      export const {}: React.FC<{{children: ReactNode}}> = ({}) => {{
+        return (
+          {}
+        )
+      }}
+      ]=], { i(1), i(2), i(3) })
+    })
+  ),
+  s('map', fmt([[
+    {{{}.map({} => (
+      <{} key={{{}}}>
+        {}
+      </{}>
+    ))}}
+  ]], { i(1), i(2), i(3), i(4), i(5), same(3) })),
 }

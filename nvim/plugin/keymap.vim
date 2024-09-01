@@ -87,24 +87,24 @@ inoremap <D-s> <cmd>w<cr>
 
 nnoremap + :Oil .<cr>
 
-nmap <leader>f <cmd>Telescope find_files<cr>
-nmap <leader>F <cmd>Telescope find_files hidden=true<cr>
-nmap <leader>O <cmd>Telescope oldfiles<cr>
-nmap <leader>* <cmd>Telescope grep_string<cr>
-nmap <leader>g <cmd>Telescope live_grep<cr>
-nmap <leader>G <cmd>Telescope live_grep cwd=%:p:h<cr>
-nmap <leader>: <cmd>Telescope commands<cr>
-nmap <leader><c-r> <cmd>Telescope command_history<cr>
-nmap <leader><cr> <cmd>Telescope resume<cr>
-nmap <leader>hh <cmd>Telescope help_tags<cr>
-nmap <leader>H <cmd>Telescope help_tags<cr>
-nmap <leader><leader> <cmd>Telescope buffers<cr>
-nmap <c-b> <cmd>Telescope buffers<cr>
-nmap <leader>s <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
-nmap <leader>S <cmd>Telescope lsp_document_symbols<cr>
-nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
-nmap <leader>T <cmd>Telescope builtin<cr>
-nmap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
+" nmap <leader>f <cmd>Telescope find_files<cr>
+" nmap <leader>F <cmd>Telescope find_files hidden=true<cr>
+" nmap <leader>O <cmd>Telescope oldfiles<cr>
+" nmap <leader>* <cmd>Telescope grep_string<cr>
+" nmap <leader>g <cmd>Telescope live_grep<cr>
+" nmap <leader>G <cmd>Telescope live_grep cwd=%:p:h<cr>
+" nmap <leader>: <cmd>Telescope commands<cr>
+" nmap <leader><c-r> <cmd>Telescope command_history<cr>
+" nmap <leader><cr> <cmd>Telescope resume<cr>
+" nmap <leader>hh <cmd>Telescope help_tags<cr>
+" nmap <leader>H <cmd>Telescope help_tags<cr>
+" nmap <leader><leader> <cmd>Telescope buffers<cr>
+" nmap <c-b> <cmd>Telescope buffers<cr>
+" nmap <leader>s <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+" nmap <leader>S <cmd>Telescope lsp_document_symbols<cr>
+" nmap <leader>C <cmd>Telescope colorscheme enable_preview=true<cr>
+" nmap <leader>T <cmd>Telescope builtin<cr>
+" nmap <leader>/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
