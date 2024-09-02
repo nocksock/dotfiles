@@ -44,6 +44,9 @@
     ~/.vim: vim/vim
 
     # macos only
+    ~/Library/Preferences/aerc:
+      if: "[ `uname` = Darwin ]"
+      path: aerc
     ~/.config/sketchybar: 
       if: "[ `uname` = Darwin ]"
       path: sketchybar
