@@ -92,19 +92,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<c-w>i', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
     vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
   end
-})-- }}}
+}) -- }}}
 
 lspconfig.rust_analyzer.setup {}
 lspconfig.pyright.setup {}
 lspconfig.intelephense.setup {}
 lspconfig.antlersls.setup {}
+lspconfig.nil_ls.setup {}
 
 -- TypeScript and JS Frameworks {{{
 
 lspconfig.astro.setup {}
 -- lspconfig.eslint.setup {}
-lspconfig.biome.setup {}
-lspconfig.volar.setup {}
+-- lspconfig.biome.setup {}
+-- lspconfig.volar.setup {}
 
 lspconfig.denols.setup {
   capabilities = capabilities,
@@ -140,24 +141,26 @@ local elixir = require("elixir")
 local elixirls = require("elixir.elixirls")
 
 elixir.setup {
-  nextls = { enable = false },
-  credo = {
-    enable = true
-  },
-  elixirls = {
+  nextls = {
     enable = true,
-    settings = elixirls.settings {
-      dialyzerEnabled = true,
-      enableTestLenses = true,
-    },
-    on_attach = function(_client, bufnr)
+    on_attach = function(client, bufnr)
       -- vim.keymap.set("n", "gd", function()
       --   require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
       -- end, { buffer = bufnr, noremap = true })
-      vim.keymap.set("n", "<space>efp", ":ElixirFromPipe<cr>", { buffer = bufnr, noremap = true })
-      vim.keymap.set("n", "<space>etp", ":ElixirToPipe<cr>", { buffer = bufnr, noremap = true })
-      vim.keymap.set("v", "<space>eem", ":ElixirExpandMacro<cr>", { buffer = bufnr, noremap = true })
-    end
+      vim.keymap.set("n", "<leader>efp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
+      vim.keymap.set("n", "<leader>etp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
+      vim.keymap.set("v", "<leader>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
+    end,
+  },
+  elixirls = {
+    enable = false,
+    settings = elixirls.settings {
+      dialyzerEnabled = false,
+      enableTestLenses = false,
+    },
+  },
+  projectionist = {
+    enable = true
   }
 }
 

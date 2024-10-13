@@ -1,9 +1,9 @@
-local setup = require "baggage"
-  .from {
-    'https://github.com/rktjmp/lush.nvim',
-    'https://github.com/rose-pine/neovim'
-  }
+local bag = require "baggage"
+    .from {
+      'https://github.com/rktjmp/lush.nvim',
+      'https://github.com/rose-pine/neovim',
+      'https://github.com/Mofiqul/dracula.nvim'
+    }
 
-setup("rose-pine")
-
+bag.setup("rose-pine")
 vim.cmd.colorscheme 'rose-pine'

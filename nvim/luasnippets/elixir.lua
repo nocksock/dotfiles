@@ -47,6 +47,16 @@ return {
     ]], { i(1), i(2), i(0) })
   })),
 
+  s("comp", c(1, {
+    fmt([=[
+      def {}(assigns) do
+        ~H"""
+          {}
+        """
+      end
+    ]=], { i(1), i(0) })
+  })),
+
   s('defp', c(1, {
     fmt([[
     defp {}({}) do

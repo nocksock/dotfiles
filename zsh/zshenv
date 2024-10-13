@@ -15,13 +15,13 @@ export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
 
 declare -U PATH path
 path=(
+  "$HOME/bin"
+  "$DOTDIR/bin"
 	"/opt/homebrew/opt/postgresql@15/bin"
   "/opt/homebrew/opt/grep/libexec/gnubin" 
   "/opt/homebrew/bin"
   "/opt/homebrew/sbin"
-  "$DOTDIR/bin"
 	"$HOME/.deno/bin"
-  "$HOME/bin"
 	"$HOME/go/bin"
   "$HOME/.cargo/bin"
   "$HOME/.local/bin"
@@ -85,14 +85,6 @@ if [[ $OSTYPE == linux-gnu ]]; then
   test -f /usr/share/doc/fzf/examples/key-bindings.zsh \
     && source /usr/share/doc/fzf/examples/key-bindings.zsh
 fi
-
-# }}}
-# {{{ NNN
-
-export NNN_BMS="c:$HOME/code/;d:$HOME/code/dotfiles;n:$HOME/code/dotfiles/;b:$HOME/code/bleepbloop.studio/"
-export NNN_FCOLORS='00001e310000000000000000'
-export NNN_PLUG='o:!open $nnn;p:preview-tui;v:viu;x:!chmod +x $nnn'
-export NNN_FIFO=/tmp/nnn.fifo
 
 # }}}
 # {{{ pnpm

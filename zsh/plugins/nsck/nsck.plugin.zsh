@@ -21,6 +21,8 @@ alias prs='pnpm run start'
 alias pio='pnpm install --prefer-offline .'
 alias pii='pnpm install --ignore-scripts --ignore-workspace .'
 alias piio='pnpm install --ignore-scripts --ignore-workspace --prefer-offline .'
+alias ll='ls -la'
+# alias love='/Applications/love.app/Contents/MacOS/love'
 
 # {{{ navigation
 alias slurp="pushd && pushd -"
@@ -30,13 +32,8 @@ alias q='cd ~ && clear'
 alias pd="pushd"
 alias gd="popd"
 alias ndf="cd $DOTDIR; nvim '+Telescope find_files'"
+alias oc="cd $HOME/code/bleepbloop.studio/content/collections; nvim '+Telescope find_files'"
 alias cdp="cd \$(list-projects | fzf)"
-
-# check if exa is istalled
-if command -v exa &> /dev/null; then
-  alias ls='exa --icons -1 --group-directories-first -a'
-  alias ll='exa --icons -l --group-directories-first -a'
-fi
 
 # }}}
 

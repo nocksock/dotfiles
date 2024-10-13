@@ -142,6 +142,14 @@ cdpath=(
 export CDPATH
 
 # }}}
+# {{{ NNN
+
+export NNN_BMS="c:$HOME/code/;d:$HOME/code/dotfiles;n:$HOME/code/dotfiles/;b:$HOME/code/bleepbloop.studio/"
+export NNN_FCOLORS='00001e310000000000000000'
+export NNN_PLUG='o:!open $nnn;p:preview-tui;v:viu;x:!chmod +x $nnn'
+export NNN_FIFO=/tmp/nnn.fifo
+
+# }}}
 
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
@@ -168,3 +176,5 @@ fi
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+# Added by LM Studio CLI tool (lms)
+export PATH="$PATH:/Users/nilsriedemann/.cache/lm-studio/bin"

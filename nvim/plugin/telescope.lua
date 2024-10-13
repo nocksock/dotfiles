@@ -56,7 +56,7 @@ end)
 
 local nmap = require 'nmap'
 local t = function(builtin, opts)
-  return with_setup(function() require('telescope.builtin')[builtin](opts or {}) end)
+  return function() require('telescope.builtin')[builtin](opts or {}) end
 end
 
 nmap('<leader>f', t 'find_files')
@@ -67,11 +67,12 @@ nmap('<leader><leader>', t('buffers'))
 nmap('<leader>:', t 'commands')
 nmap('<leader>S', t 'lsp_dynamic_workspace_symbols')
 nmap('<leader>s', t 'lsp_document_symbols')
+nmap('<leader>D', t 'diagnostics')
 nmap('<leader>/', t 'current_buffer_fuzzy_find')
 nmap('<leader><c-r>', t 'command_history')
 nmap('<leader>H', t 'help_tags')
 nmap('<leader><cr>', t 'resume')
-nmap('<leader>C', t 'colorschemes')
+nmap('<leader>C', t('colorschemes', { enable_preview = true }))
 nmap('<leader>T', t 'builtin')
 nmap('<c-b>', t 'buffers')
 

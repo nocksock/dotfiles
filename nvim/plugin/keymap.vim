@@ -25,6 +25,11 @@ nnoremap caaW vaW*<esc>:%s///<left>
 nnoremap <F12> <cmd>Ts<CR>i
 tnoremap <F12> <C-\><C-n><cmd>T<CR>
 
+nnoremap <M-j> <cmd>Ts<CR>i
+tnoremap <M-j> <C-\><C-n><cmd>T<CR>
+nnoremap <D-j> <cmd>Ts<CR>i
+tnoremap <D-j> <C-\><C-n><cmd>T<CR>
+
 " better terminal exits
 tnoremap <c-[> <C-\><C-n>
 tnoremap <Esc> <C-\><C-n>
@@ -80,10 +85,10 @@ nnoremap ga         <Plug>(EasyAlign)
 
 nnoremap <leader>tu <cmd>MundoToggle<CR>
 
-nnoremap <M-s> :w<cr>
-nnoremap <D-s> :w<cr>
-inoremap <M-s> <cmd>w<cr>
-inoremap <D-s> <cmd>w<cr>
+nnoremap <M-s> :Format<cr>:w<cr>
+nnoremap <D-s> :Format<cr>:w<cr>
+inoremap <M-s> <cmd>Format<cr><cmd>w<cr>
+inoremap <D-s> <cmd>Format<cr><cmd>w<cr>
 
 nnoremap + :Oil .<cr>
 
@@ -116,6 +121,8 @@ nnoremap zk zkzkzjzt
 
 nnoremap <Leader>o <Cmd>call JumpPreviousBuffer()<CR>
 nnoremap <Leader>i <Cmd>call JumpNextBuffer()<CR>
+
+nnoremap <leader>ch <Cmd>CodeCompanionChat Toggle<CR>
 
 nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>
 nnoremap gpt <cmd>lua require('goto-preview').goto_preview_type_definition()<CR>

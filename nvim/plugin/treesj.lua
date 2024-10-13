@@ -1,4 +1,4 @@
-local baggage = require "baggage".from 'https://github.com/Wansmer/treesj'
+require "baggage".from 'https://github.com/Wansmer/treesj'
 
 local attribute_toggle = function(node_type, parent_type)
   return {
@@ -29,7 +29,7 @@ local attribute_toggle = function(node_type, parent_type)
 end
 
 
-local with_setup = baggage.with_setup('treesj', {
+require'treesj'.setup({
   use_default_keymaps = false,
   max_join_length = 500,
   cursor_behavior = 'start',
@@ -59,9 +59,7 @@ local with_setup = baggage.with_setup('treesj', {
   dot_repeat = true,
   ---@type nil|function Callback for treesj error handler. func (err_text, level, ...other_text)
   on_error = nil,
-}
-
-)
+})
 
 vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)
 vim.keymap.set({ "n" }, "<leader>m", function() require 'treesj'.toggle() end)

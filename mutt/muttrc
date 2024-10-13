@@ -1,6 +1,6 @@
 set folder      = imaps://imap.fastmail.com
 set imap_user   = nils@bleepbloop.studio
-set imap_pass   = `op item get --vault=Personal --field=mutt FastMail` 
+set imap_pass   = `op read op://bleepbloop/fastmail/mutt` 
 set spoolfile   = +INBOX
 mailboxes       = +INBOX
 
