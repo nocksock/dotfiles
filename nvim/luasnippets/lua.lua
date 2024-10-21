@@ -114,27 +114,27 @@ return {
     })
   ),
   s(
-    'cb',
+    'f',
     c(1, {
       fmt(
-        [[
-					function({})
-						{}
-					end
-					]],
+        [=[
+        function({})
+          {}
+        end
+        ]=],
         { i(1), r(2, "body") }
       ),
       fmt('function{}({}) {} end', { i(1), r(2, "body"), i(3) }),
     })
   ),
   s( 'desc', fmt(
-      [[
-			describe('{}', function()
-				it('{}', fucntion()
-						{}
+      [=[
+      describe('{}', function()
+        it('{}', function()
+            {}
         end)
       end)
-			]], { i(1), i(2), i(0) })
+      ]=], { i(1), i(2), i(0) })
   ),
 
   s( 'it', fmt([[

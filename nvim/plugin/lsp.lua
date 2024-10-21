@@ -101,7 +101,7 @@ lspconfig.antlersls.setup {}
 
 -- TypeScript and JS Frameworks {{{
 
--- lspconfig.astro.setup {}
+lspconfig.astro.setup {}
 -- lspconfig.eslint.setup {}
 lspconfig.biome.setup {}
 lspconfig.volar.setup {}
@@ -110,9 +110,6 @@ lspconfig.denols.setup {
   capabilities = capabilities,
   root_dir     = require('lspconfig.util').root_pattern("deno.json", "deno.jsonc"),
   cmd          = { "deno", "lsp" },
-  init_options = {
-    enable = true, unstable = true
-  }
 }
 
 -- lspconfig.svelte.setup {

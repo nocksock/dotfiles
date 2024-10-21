@@ -38,20 +38,20 @@ local with_setup = baggage.with_setup('treesj', {
     -- use :InspectTree
     -- [ <the node the cursor is on> ] = attribute_toggle(<node to toggle>, <is below this parent node>)
     elixir = {
-      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
+      quoted_attribute_value = attribute_toggle('attribute_value', 'attribute')
     },
     php    = {
-      ['attribute_value'] = attribute_toggle('attribute_value', 'quoted_attribute_value')
+      attribute_value = attribute_toggle('attribute_value', 'quoted_attribute_value')
     },
     heex   = {
-      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
+      quoted_attribute_value = attribute_toggle('attribute_value', 'attribute')
     },
     tsx    = {
-      ['string'] = attribute_toggle('string_fragment', 'jsx_attribute'),
-      ['template_string'] = attribute_toggle('template_string', 'expression_statement')
+      string = attribute_toggle('string_fragment', 'jsx_attribute'),
+      template_string = attribute_toggle('template_string', 'expression_statement')
     },
     astro  = {
-      ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute')
+      quoted_attribute_value = attribute_toggle('attribute_value', 'attribute')
     },
     html   = { ['quoted_attribute_value'] = attribute_toggle('attribute_value', 'attribute') },
   },
