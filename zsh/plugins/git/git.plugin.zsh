@@ -18,6 +18,7 @@ alias ggl='git-grouped-log'
 alias gsb='git-switch-branch'
 alias gpf='git push --force-with-lease'
 alias gca='git commit --amend'
+alias gcan='git commit --amend --no-edit'
 alias glex='git-log-explorer'
 
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign --message "WIP [skip ci]"'
