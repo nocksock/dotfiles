@@ -31,10 +31,11 @@ fi
 
 # brew completions {{{ 
 
+if [[ -n `command -v brew` ]]; then
 COMPLETION_DIRS=(
 	"$(brew --prefix)/share/zsh/site-functions"
-	"$HOME/.bun/"
 )
+fi
 
 for compdir in "${COMPLETION_DIRS[@]}"; do
 	fpath+=("$compdir")
@@ -53,17 +54,6 @@ if [[ -n `command -v op` ]]; then
 fi 
 
 # }}}
-# {{{ pnpm completion
-if [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]]; then
-	source ~/.config/tabtab/zsh/__tabtab.zsh
-else
-	echo "No tabtab?" >> $DOTLOG
-fi
-# }}}
-# # nvm {{{
-# 	[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-# 	[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-# # }}}
 
 # }}}
 # {{{ keybinds
@@ -160,7 +150,7 @@ if [[ -n $KITTY_PID ]]; then
 fi
 
 # pnpm
-export PNPM_HOME="/Users/nilsriedemann/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -173,8 +163,5 @@ fi
 
 # zprof # show profiling result
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 # Added by LM Studio CLI tool (lms)
-export PATH="$PATH:/Users/nilsriedemann/.cache/lm-studio/bin"
+export PATH="$PATH:$HOME/.cache/lm-studio/bin"
