@@ -26,7 +26,7 @@ local function simple_restore(args, _)
 end
 
 return {
-  s("defs", c(1, {
+  s("link", c(1, {
     fmt([[
     def start_link({1}) do
       GenServer.start_link(__MODULE__, {1})

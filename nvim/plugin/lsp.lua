@@ -102,7 +102,7 @@ lspconfig.nil_ls.setup {}
 
 -- TypeScript and JS Frameworks {{{
 
-lspconfig.astro.setup {}
+-- lspconfig.astro.setup {}
 -- lspconfig.eslint.setup {}
 -- lspconfig.biome.setup {}
 -- lspconfig.volar.setup {}
@@ -119,10 +119,10 @@ lspconfig.denols.setup {
 -- }
 
 require 'typescript-tools'.setup {
-  capabilities = capabilities,
+  capabilities        = capabilities,
   single_file_support = false,
-  root_dir = lspconfig.util.root_pattern({ "tsconfig.json", "package.json" }),
-  on_attach = function(client, bufnr)
+  root_dir            = require('lspconfig.util').root_pattern("package.json"),
+  on_attach           = function(client, bufnr)
     require("twoslash-queries").attach(client, bufnr)
     local keyopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', '<leader>ci', ':TSToolsAddMissingImports<cr>', keyopts)
@@ -131,39 +131,55 @@ require 'typescript-tools'.setup {
     vim.keymap.set('n', '<leader>cA', ':TSToolsFixAll<cr>', keyopts)
     vim.keymap.set('n', '<leader>cR', ':TSToolsRenameFile<cr>', keyopts)
   end,
-  filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  -- filetypes           = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 }
 
 -- }}}
 -- Elixir {{{
 
-local elixir = require("elixir")
-local elixirls = require("elixir.elixirls")
+-- require 'lspconfig'.elixirls.setup {
+--   cmd = { "/Users/nilsriedemann/bin/elixir-ls/language_server.sh" }
+-- }
 
-elixir.setup {
-  nextls = {
-    enable = true,
-    on_attach = function(client, bufnr)
-      -- vim.keymap.set("n", "gd", function()
-      --   require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
-      -- end, { buffer = bufnr, noremap = true })
-      vim.keymap.set("n", "<leader>efp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
-      vim.keymap.set("n", "<leader>etp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
-      vim.keymap.set("v", "<leader>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-    end,
-  },
-  elixirls = {
-    enable = false,
-    settings = elixirls.settings {
-      dialyzerEnabled = false,
-      enableTestLenses = false,
+require("lspconfig")["nextls"].setup({
+  cmd = { "nextls", "--stdio" },
+  init_options = {
+    extensions = {
+      credo = { enable = true }
     },
-  },
-  projectionist = {
-    enable = true
+    experimental = {
+      completions = { enable = true }
+    }
   }
-}
+})
 
+-- local elixir = require("elixir")
+-- local elixirls = require("elixir.elixirls")
+--
+-- elixir.setup {
+--   nextls = {
+--     enable = true,
+--     on_attach = function(client, bufnr)
+--       -- vim.keymap.set("n", "gd", function()
+--       --   require("fzf-lua").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
+--       -- end, { buffer = bufnr, noremap = true })
+--       vim.keymap.set("n", "<leader>efp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
+--       vim.keymap.set("n", "<leader>etp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
+--       vim.keymap.set("v", "<leader>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
+--     end,
+--   },
+--   elixirls = {
+--     enable = false,
+--     settings = elixirls.settings {
+--       dialyzerEnabled = false,
+--       enableTestLenses = false,
+--     },
+--   },
+--   projectionist = {
+--     enable = true
+--   }
+-- }
+--
 -- }}}
 -- CSS, Tailwind {{{
 

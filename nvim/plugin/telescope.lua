@@ -32,6 +32,18 @@ local with_setup = baggage.wrap_lazy(function()
     },
     pickers = {
       buffers = {
+        border = true,
+        borderchars = {
+          preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+          prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+          results = { " " }
+        },
+        layout_config = {
+          height = 25
+        },
+        layout_strategy = "bottom_pane",
+        sorting_strategy = "ascending",
+        theme = "ivy",
         sort_lastused = true,
         path_display = { "smart" },
         mappings = {
@@ -75,6 +87,12 @@ nmap('<leader><cr>', t 'resume')
 nmap('<leader>C', t('colorschemes', { enable_preview = true }))
 nmap('<leader>T', t 'builtin')
 nmap('<c-b>', t 'buffers')
+
+vim.keymap.set('n', '<leader>ep', function()
+  require 'telescope.builtin'.find_files({
+    cwd = vim.fs.joinpath(vim.fn.stdpath("state"), "lazy")
+  })
+end)
 
 vim.keymap.set("i", "<C-x><C-f>", with_setup(function()
   require("telescope.builtin").find_files({

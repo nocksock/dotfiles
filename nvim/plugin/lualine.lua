@@ -1,3 +1,6 @@
+require "baggage"
+    .from('https://github.com/nvim-lualine/lualine.nvim')
+
 local symbols = {
   modified = '%#ErrorMsg#*',
   readonly = '  ',
@@ -5,10 +8,7 @@ local symbols = {
   newfile  = ' %#WarningMsg# new',
 }
 
-local setup = require "baggage"
-    .from('https://github.com/nvim-lualine/lualine.nvim')
-
-R('lualine').setup({
+require('lualine').setup({
   options = {
     icons_enabled = false,
     theme = 'auto',

@@ -44,31 +44,3 @@ local function can_have_winbar(winnr)
     return true
   end
 end
-
--- vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
---   group = group,
---   callback = function()
---     if can_have_winbar() then
---       vim.wo.winbar = require("do.view").stl
---     end
---   end
--- })
-
--- -- using BufRead so that when there are multiple windows initially, inactive
--- -- windows have an empty winbar and there's no jumping when switching.
--- vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave", "BufRead" }, {
---   group = group,
---   callback = function()
---     if can_have_winbar() then
---       vim.wo.winbar = require("do.view").stl_nc
---     end
---   end
--- })
-
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  group = group,
-  callback = function()
-    vim.wo.number = false
-    vim.wo.relativenumber = false
-  end
-})

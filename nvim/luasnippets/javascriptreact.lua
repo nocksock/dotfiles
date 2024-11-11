@@ -29,6 +29,7 @@ return {
 	s('rjson', fmt([[return <pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	s('pjson', fmt([[<pre>{{JSON.stringify({}, null, 2)}}</pre>]], { i(0) })),
 	s('tern', fmt([[{{{} ? ({}) : null}}]], { i(1), i(0) })),
+	s('cn', fmt([[className="{}"]], { i(0) })),
   s('cmp', fmt([[
   export const {}: React.FC<{{children: ReactNode}}> = ({}) => {{
     return (
