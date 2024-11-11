@@ -30,9 +30,15 @@ tnoremap <M-j> <C-\><C-n><cmd>T<CR>
 nnoremap <D-j> <cmd>Ts<CR>i
 tnoremap <D-j> <C-\><C-n><cmd>T<CR>
 
+tnoremap <M-;> <cmd>Ts<cr>
+noremap <M-;> <cmd>Ts<cr>
+tnoremap <D-;> <cmd>Ts<cr>
+noremap <D-;> <cmd>Ts<cr>
+
 " better terminal exits
 tnoremap <c-[> <C-\><C-n>
 tnoremap <Esc> <C-\><C-n>
+
 
 " when moving more than 5 lines , then make a jump, to be able to revert via c-o
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'gj'
