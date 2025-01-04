@@ -36,6 +36,7 @@
     ~/.config/zellij: zellij
     ~/.doom.d: doom.d
     ~/.git-templates: git/templates
+    ~/.config/ghostty/config: ghostty/config
     ~/.tmux.conf: tmux/tmux.conf
     ~/.muttrc: mutt/muttrc
     ~/.zshrc: zsh/zshrc
