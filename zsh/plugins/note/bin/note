@@ -1,8 +1,24 @@
 #!/usr/bin/env zsh
 
-NOTE_DIR=$HOME/code/bleepbloop.studio/content/notes/
+NOTE_DIR=$HOME/code/studio/apps/phx-studio/
 LAST_NOTE_STORE=$HOME/.last_note
 DEFAULT_TAG="quicknote"
+
+basename=$(date +%Y%m%d%H%M%S)
+filename=$basename.md
+# the full path to the note
+filepath=$NOTE_DIR/content/notes/$filename
+
+# This is the hook for non-detached calls 
+hook-open () {
+	# $1 contains the prepared content
+	# Do whatever you want in here. This is what I do:
+	echo $1 > $filepath
+	open -g https://studio.localhost/notes/$basename 
+	cd $NOTE_DIR
+	nvim $filepath
+}
+
 
 zparseopts -D -E -A opts -- t+::=tags d=d h=help r T::=title l+::=links
 
@@ -64,6 +80,14 @@ make-links () {
 	fi
 }
 
+make-random-title () {
+	echo  "title: $(random-name)\n"
+}
+
+make-draft () {
+	echo  "draft: true\n"
+}
+
 make-date () {
 	echo  "date: $(date -u -Iminutes)\n"
 }
@@ -75,9 +99,11 @@ if [[ ! -t 0 ]]; then
 fi
 
 local frontmatter=()
+frontmatter+=$(make-random-title)
 frontmatter+=$(make-tags)
 frontmatter+=$(make-links)
 frontmatter+=$(make-date)
+frontmatter+=$(make-draft)
 
 content=$(cat <<-EOF
 	---
@@ -91,9 +117,6 @@ content=$(cat <<-EOF
 	EOF
 )
 
-filename=$(date +%Y%m%d%H%M%S).md
-filepath=$NOTE_DIR$filename
-
 if [[ -z $opts[(I)-r] ]]; then
 	echo $filepath > $LAST_NOTE_STORE
 	echo $content >> $LAST_NOTE_STORE
@@ -102,8 +125,9 @@ fi
 if [[ -n $opts[(I)-r] ]]; then
 	tail +2 $LAST_NOTE_STORE | nvim -c "norm gggqG" -c "file $filepath" -
 elif [[ -n $d ]]; then
+	# detached
 	echo "stored in $filepath"
 	echo $content > $filepath
 else
-	echo $content | nvim -c "norm ggg=GGo " -c "file $filepath" -
+	hook-open $content
 fi
