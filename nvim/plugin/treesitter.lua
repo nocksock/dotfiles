@@ -2,11 +2,12 @@ local bag = require "baggage".from {
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/nvim-treesitter/nvim-treesitter-context',
   'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
+  'https://github.com/IndianBoy42/tree-sitter-just'
 }
 
 local opts = {
   highlight = { enable = true },
-  indent = { enable = true },     -- vim's is smartindent is better than treesitter's indent
+  indent = { enable = false },     -- vim's is smartindent is better than treesitter's indent
   context_commentstring = { enable = true, enable_autocmd = false },
   ensure_installed = {
     "astro",
