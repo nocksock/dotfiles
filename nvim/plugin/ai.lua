@@ -1,10 +1,11 @@
-local bag = require 'baggage'.from {
+require 'baggage'.from {
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/hrsh7th/nvim-cmp",
   "https://github.com/nvim-telescope/telescope.nvim",
   "https://github.com/stevearc/dressing.nvim",
   "https://github.com/olimorris/codecompanion.nvim",
+  "https://github.com/github/copilot.vim.git"
 }
 
 require("codecompanion").setup({
@@ -27,8 +28,10 @@ require("codecompanion").setup({
   },
 })
 
-vim.api.nvim_set_keymap("n", "<Localleader>a", "<cmd>CodeCompanionActions<cr>",     { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<Localleader>a", "<cmd>CodeCompanionActions<cr>",     { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<LocalLeader>c", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<LocalLeader>c", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<Localleader>y", "<cmd>CodeCompanionChat Add<cr>",    { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Localleader>ca", "<cmd>CodeCompanionActions<cr>",     { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<Localleader>ca", "<cmd>CodeCompanionActions<cr>",     { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<LocalLeader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<LocalLeader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<LocalLeader>cpd", "<cmd>Copilot disable<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<LocalLeader>cpe", "<cmd>Copilot enable<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<Localleader>cy", "<cmd>CodeCompanionChat Add<cr>",    { noremap = true, silent = true })
