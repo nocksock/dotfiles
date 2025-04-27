@@ -9,5 +9,5 @@ git log                                                                         
 			--ansi --no-sort --track                                                                     \
 			--preview="echo {} | $extract_hash | xargs git show --color=always "                         \
 			--bind "ctrl-m:execute(echo {} | $extract_hash | git show | nvim -c \"set buftype=nofile\")" \
-			--bind "ctrl-h:become(echo {} | $extract_hash)"
+			--bind "ctrl-h:become(echo {} | $extract_hash | pbcopy)"
 
