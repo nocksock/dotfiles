@@ -5,3 +5,4 @@ vim.api.nvim_create_user_command("Ex", function()
 end, {})
 
 vim.keymap.set("n", "<c-f>", ":w<cr>:!mix format %<cr>", { silent=true, buffer=true})
+vim.keymap.set("n", "<localleader>f", ":w<cr>:!mix format %<cr>", { silent=true, buffer=true})
