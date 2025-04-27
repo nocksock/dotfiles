@@ -104,6 +104,9 @@ return {
 
   ]], { i(1, "assigns") })),
 
+  s('rinsp', fmt([[
+  raise(inspect({}, pretty: true))
+  ]], { i(1, "") })),
 
   s('pinsp', fmt([[
   <pre>
