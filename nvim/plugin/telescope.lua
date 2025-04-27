@@ -86,7 +86,14 @@ nmap('<leader>H', t 'help_tags')
 nmap('<leader><cr>', t 'resume')
 nmap('<leader>C', t('colorschemes', { enable_preview = true }))
 nmap('<leader>T', t 'builtin')
-nmap('<c-b>', t 'buffers')
+nmap('<leader>T', t 'builtin')
+nmap("<c-b>", t 'buffers')
+
+vim.keymap.set('n', '<d-p>', function()
+  require('telescope.builtin').find_files({
+    cwd = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':h')
+  })
+end)
 
 vim.keymap.set('n', '<leader>ep', function()
   require 'telescope.builtin'.find_files({
