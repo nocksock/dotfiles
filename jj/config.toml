@@ -1,0 +1,23 @@
+[user]
+name = "Nils Riedemann"
+email = "nils@bleepbloop.studio"
+
+[ui]
+default-command = "st"
+
+# [template-aliases]
+# 'format_short_id(id)' = 'id.shortest()'
+
+[aliases]
+l = ["log", "-n", "20"]
+ll = ["log", "-n", "20", "-r", "..@"]
+sq = ["squash"]
+before = ['new', '--before', '@', '--no-edit']
+bl = ['bookmark', 'list']
+ci = ['commit', '-i']
+cmi = ['commit', '-i', '-m']
+cm = ['commit', '-m']
+tug = ['bookmark', 'move', '--from', "heads(::@- & bookmarks())", "--to", "@-"]
+here = ['bookmark', 'move', '--from', "heads(::@- & bookmarks())", "--to", "@"]
+stp = ['log', '--stat', '-r', "@-"]
+current = ['log']
