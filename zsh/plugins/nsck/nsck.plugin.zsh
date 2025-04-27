@@ -11,18 +11,18 @@ autoload -Uz ${0:h}/functions/*(:t)
 alias sudo='sudo '
 alias reload="exec zsh"
 
-alias pick="pickard"
-alias kqw="kitty-quick-window"
 alias nnn='nnn -ei'
 alias qf='qufo'
-alias prb='pnpm run build'
-alias prs='pnpm run start'
 
 alias pio='pnpm install --prefer-offline .'
 alias pii='pnpm install --ignore-scripts --ignore-workspace .'
 alias piio='pnpm install --ignore-scripts --ignore-workspace --prefer-offline .'
+
 alias ll='ls -la'
-# alias love='/Applications/love.app/Contents/MacOS/love'
+
+alias love='/Applications/love.app/Contents/MacOS/love'
+
+alias jr='cd $(jj root)'
 
 # {{{ navigation
 alias slurp="pushd && pushd -"
