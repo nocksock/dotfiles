@@ -60,6 +60,9 @@
     ~/.yabairc:
       if: "[ `uname` = Darwin ]"
       path: yabai/yabairc
+    ~/Library/Application Support/jj/config.toml:
+      if: "[ `uname` = Darwin ]"
+      path: jj/config.toml
     ~/Library/Application Support/Code/User/keybindings.json:
       if: "[ `uname` = Darwin ]"
       path: vscode/keybindings.json
@@ -79,13 +82,12 @@
     - ~/.vim/.netrwhist
 
 - brew:
+  - asdf
   - atuin
   - ack
   - asciidoc
   - asciidoctor
   - asciinema
-  - autoconf
-  - automake
   - bat
   - btop
   - cjson
@@ -96,35 +98,25 @@
   - curl
   - deno
   - docker
-  - elixir
-  - elm
   - entr
-  - erlang
   - exa
   - fd
-  - fennel
   - ffmpeg
-  - figlet
   - fmt
   - fzf
   - gcc
   - gh
   - git
-  - glow
   - gnu-sed
   - gnupg
   - go
-  - graphviz
   - grep
-  - hidapi
-  - hledger
   - html-xml-utils
   - imagemagick
   - jq
   - kubernetes-cli
   - lazygit
   - lf
-  - lolcat
   - lua
   - lua-language-server
   - luajit
@@ -144,12 +136,10 @@
   - pandoc
   - parallel
   - pnpm
-  - poetry
   - pstree
   - redis
   - ripgrep
   - rubberband
-  - ruby
   - siege
   - sketchybar
   - skhd
@@ -170,71 +160,37 @@
   - ttfautohint
   - ttyd
   - unbound
-  - ungit
   - vegeta
   - vhs
   - virtualenv
   - viu
   - watchexec
-  - weechat
   - woff2
   - wxwidgets
   - yabai
   - yarn
   - youtube-dl
-  - zellij
-  - zig
 
 - cask:
   - 1password
   - 1password-cli
-  - arc
-  - audacity
   - audio-hijack
-  - bitwig-studio
   - blender
-  - calibre
   - charles
-  - emacs
-  - figma
-  - firefox
   - focusrite-control
-  - fspy
   - github
-  - gitup
-  - godot
-  - hammerspoon
   - integrity
   - karabiner-elements
   - keycastr
-  - kicad
   - kitty
-  - krita
-  - librecad
-  - libreoffice
-  - linear-linear
   - loopback
   - microsoft-teams
-  - minecraft
   - moneymoney
-  - monitorcontrol
   - moom
   - mullvadvpn
-  - nextcloud
   - obs
   - obsidian
-  - orca
   - polypane
-  - qmk-toolbox
   - raycast
-  - redis-insight
-  - redis-stack
-  - redis-stack-redisinsight
-  - redis-stack-server
-  - reflector
   - setapp
-  - spotify
-  - visual-studio-code
-  - vlc
-  - wezterm
   - zoom
