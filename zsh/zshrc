@@ -43,9 +43,6 @@ for compdir in "${COMPLETION_DIRS[@]}"; do
 done
 
 # }}}
-# bun completions {{{
-[ -s "/Users/nilsriedemann/.bun/_bun" ] && source "/Users/nilsriedemann/.bun/_bun"
-# }}}
 # {{{ 1password completion
 
 if [[ -n `command -v op` ]]; then
