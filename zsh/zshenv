@@ -22,6 +22,7 @@ path=(
   "/opt/homebrew/bin"
   "/opt/homebrew/sbin"
 	"$HOME/.deno/bin"
+	"$HOME/.mix/escripts"
 	"$HOME/go/bin"
   "$HOME/.cargo/bin"
   "$HOME/.local/bin"
