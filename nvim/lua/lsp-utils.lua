@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args) return M.on_attach(args) end
 })
 
-M.on_attach = function(args)
+M.on_attach = function(args, fn)
   local bufnr = args.buf
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
@@ -62,6 +62,10 @@ M.on_attach = function(args)
   vim.keymap.set('n', '<c-w>t', ':vs<cr>:lua vim.lsp.buf.type_definition()<cr>zt', bufopts)
   vim.keymap.set('n', '<c-w>i', ':vs<cr>:lua vim.lsp.buf.implementation()<cr>zt', bufopts)
   vim.keymap.set('i', '<c-]>', vim.lsp.buf.signature_help)
+
+  if type(fn) == 'function' then
+    fn(args)
+  end
 end
 
 function M.file_exists(filename)

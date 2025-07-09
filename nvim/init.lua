@@ -1,9 +1,19 @@
 -- ʕ •ᴥ•ʔ
 
+-- bootstrap baggage.nvim
 vim.g.baggage_path = vim.fn.stdpath("data") .. "/site/pack/baggage/"
-if not vim.loop.fs_stat(vim.g.baggage_path) then
-  vim.cmd("!git clone --filter=blob:none https://github.com/nocksock/baggage.nvim --verbose --branch=dev " ..
-  vim.g.baggage_path .. 'start/baggage.nvim')
+if not (vim.uv or vim.loop).fs_stat(vim.g.baggage_path) then
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable",
+    "https://github.com/nocksock/baggage.nvim", vim.g.baggage_path .. 'start/baggage.nvim' })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone baggage.nvim:\n", "ErrorMsg" },
+      { out,                               "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
   vim.cmd("packloadall")
 end
 
@@ -14,11 +24,11 @@ vim.o.clipboard      = 'unnamedplus'
 vim.o.hidden         = true -- makes it possible to leave a buffer if it has unsaved changes. `gd` etc fail horribly in those cases.
 vim.o.completeopt    = 'menu,menuone,noselect,longest,preview'
 vim.o.foldmethod     = "marker"
-vim.o.formatoptions  = 'qrn1j' -- format options when writing, joining lines or `gq` see  :he fo-table for meanings
-vim.o.mouse          = 'a'    -- enable scrolling and selecting with mouse
+vim.o.formatoptions  = 'qrn1j'    -- format options when writing, joining lines or `gq` see  :he fo-table for meanings
+vim.o.mouse          = 'a'        -- enable scrolling and selecting with mouse
 vim.o.updatetime     = 250
-vim.o.splitbelow     = true   -- When on, splitting a window will put the new window below the current one
-vim.o.shiftround     = true   -- When at 3 spaces and I hit >>, go to 4, not 5.
+vim.o.splitbelow     = true       -- When on, splitting a window will put the new window below the current one
+vim.o.shiftround     = true       -- When at 3 spaces and I hit >>, go to 4, not 5.
 vim.o.shell          = '/bin/zsh' -- set default shell for :shell
 vim.o.wildignore     = table.concat({
   '.DS_Store',
@@ -51,14 +61,14 @@ vim.o.rnu                   = true
 vim.o.nu                    = true
 vim.o.cursorline            = false -- Highlight the line of in which the cursor is present (or not)
 vim.o.showtabline           = 1
-vim.o.scrolloff             = 2 -- always have 2 lines more visible when reaching top/end of a window when scrolling
+vim.o.scrolloff             = 2     -- always have 2 lines more visible when reaching top/end of a window when scrolling
 vim.o.background            = "dark"
-vim.o.showmatch             = true -- Highlight matching bracket
+vim.o.showmatch             = true  -- Highlight matching bracket
 vim.o.showmode              = false -- don't show the current mode - lualine handles this
 vim.o.laststatus            = 2
-vim.o.termguicolors         = true -- enable 24bit colors
+vim.o.termguicolors         = true  -- enable 24bit colors
 vim.o.guicursor             = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
-vim.o.cmdheight             = 1 -- height of the command bar
+vim.o.cmdheight             = 1     -- height of the command bar
 
 -- }}}
 -- indentation and wrapping {{{
@@ -70,7 +80,6 @@ vim.o.tabstop               = 2
 vim.o.textwidth             = 80
 vim.o.expandtab             = true
 
-vim.o.breakindent           = true -- wrapped lines appear indendet
 vim.o.briopt                = 'shift:4' -- indent wrapped lines
 vim.o.linebreak             = true
 vim.o.wrap                  = false
