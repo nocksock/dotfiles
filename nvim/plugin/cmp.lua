@@ -3,7 +3,9 @@ require "baggage".from {
   'https://github.com/hrsh7th/cmp-cmdline',
   'https://github.com/hrsh7th/cmp-nvim-lua',
   'https://github.com/hrsh7th/cmp-path',
-  'https://github.com/hrsh7th/nvim-cmp'
+  'https://github.com/hrsh7th/nvim-cmp',
+  'https://github.com/zbirenbaum/copilot-cmp',
+  'https://github.com/zbirenbaum/copilot.lua'
 }
 
 local cmp = require('cmp')
@@ -45,10 +47,11 @@ cmp.setup({-- {{{
   sources = cmp.config.sources({
     { name = "luasnip" },
     { name = "nvim_lsp" },
+    { name = "copilot" },
     { name = "path" },
     { name = "buffer" }
   }, {
-    { name = "copilot" },
+    -- 
   }),
 })-- }}}
 cmp.setup.filetype('gitcommit', {-- {{{
@@ -63,3 +66,5 @@ cmp.setup.cmdline(':', {-- {{{
     { name = 'path' },
   }),
 })-- }}}
+
+require("copilot_cmp").setup()
