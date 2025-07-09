@@ -10,10 +10,9 @@ default-command = "st"
 
 [aliases]
 l = ["log", "-n", "20"]
-ll = ["log", "-n", "20", "-r", "..@"]
+ll = ["log", "-n", "20", "-r", "::@"]
 sq = ["squash"]
 before = ['new', '--before', '@', '--no-edit']
-bl = ['bookmark', 'list']
 ci = ['commit', '-i']
 cmi = ['commit', '-i', '-m']
 cm = ['commit', '-m']
