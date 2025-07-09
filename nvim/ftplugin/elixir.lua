@@ -6,3 +6,4 @@ end, {})
 
 vim.keymap.set("n", "<c-f>", ":w<cr>:!mix format %<cr>", { silent=true, buffer=true})
 vim.keymap.set("n", "<localleader>f", ":w<cr>:!mix format %<cr>", { silent=true, buffer=true})
+vim.keymap.set("n", "<m-s>", ":w<cr>:!mix format %<cr>", { silent=true, buffer=true})
