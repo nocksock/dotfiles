@@ -1,20 +1,26 @@
 #!/usr/bin/env zsh
 
-NOTE_DIR=$HOME/code/studio/apps/phx-studio/
+NOTE_DIR=$HOME/code/bleepbloop.studio/apps/phx-studio/content
 LAST_NOTE_STORE=$HOME/.last_note
 DEFAULT_TAG="quicknote"
 
-basename=$(date +%Y%m%d%H%M%S)
+basename=$(date +%Y-%m-%d-%H-%M)
 filename=$basename.md
 # the full path to the note
-filepath=$NOTE_DIR/content/notes/$filename
+filepath=$NOTE_DIR/notes/$filename
 
 # This is the hook for non-detached calls 
 hook-open () {
 	# $1 contains the prepared content
 	# Do whatever you want in here. This is what I do:
 	echo $1 > $filepath
-	open -g https://studio.localhost/notes/$basename 
+
+	# wait for one second then open the note in the browser
+	# in a background thread
+	(
+		sleep 1
+		open -g https://studio.localhost/notes/$basename 
+	) &
 	cd $NOTE_DIR
 	nvim $filepath
 }
