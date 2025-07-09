@@ -53,6 +53,9 @@ nnoremap  <C-u>zz
 
 nnoremap <leader>M <cmd>Messages<cr>
 
+" copy current file name relative to cwd to clipboard
+nnoremap <leader>% <cmd>let @+ = expand('%:.')<cr>
+
 nnoremap ]c <cmd>cn<cr>
 nnoremap [c <cmd>cp<cr>
 nnoremap ]l <cmd>lnext<cr>
