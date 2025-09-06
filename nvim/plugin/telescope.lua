@@ -66,7 +66,7 @@ local with_setup = baggage.wrap_lazy(function()
   require 'telescope'.load_extension 'fzf'
 end)
 
-local nmap = require 'nmap'
+local nmap = require 'nsck/nmap'
 local t = function(builtin, opts)
   return function() require('telescope.builtin')[builtin](opts or {}) end
 end

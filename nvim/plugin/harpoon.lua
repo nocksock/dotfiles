@@ -1,5 +1,5 @@
 require 'baggage'.from {
-  'https://github.com/ThePrimeagen/harpoon/tree/harpoon2'
+  'https://github.com/ThePrimeagen/harpoon'
 }
 
 local harpoon = require("harpoon")

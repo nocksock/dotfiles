@@ -1,6 +1,6 @@
-local baggage = require 'baggage'.from('https://github.com/ibhagwan/fzf-lua')
+require 'baggage'.from('https://github.com/ibhagwan/fzf-lua')
 
-baggage.setup('fzf-lua', {
+require('fzf-lua').setup({
   winopts = {
     preview = {
       layout = "vertical"
@@ -8,7 +8,7 @@ baggage.setup('fzf-lua', {
   }
 })
 
---
+
 local fzf = function(builtin, opts)
   return function() require('fzf-lua')[builtin](opts or {}) end
 end
@@ -17,10 +17,11 @@ local nmap = function(keys, command)
   vim.keymap.set({ "n" }, keys, command)
 end
 
-nmap('<leader>F', fzf('files', {
+nmap('<leader>q', fzf('files', {
   cmd = "cat ~/file_index",
   cwd = "~/"
 }))
+
 --
 -- nmap('<leader>f', fzf 'files')
 -- nmap('<leader>*', fzf 'grep_cWORD')

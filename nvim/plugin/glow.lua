@@ -9,5 +9,5 @@ vim.api.nvim_create_user_command("Glow", function(opts)
     end
   end
 
-  R('snock.utils').open_term_float(cmd, {})
+  return require('t/utils').open_term_float(cmd, {})
 end, { bang = true })

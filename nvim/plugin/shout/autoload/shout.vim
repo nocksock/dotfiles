@@ -19,7 +19,7 @@ function! shout#run(bang, cmd, line1, line2) range
     let end = a:line2
 
   elseif has_cmd
-    let end = line('.')
+    let end = line('$')
 
   elseif has_range
     let cmd = "zsh"

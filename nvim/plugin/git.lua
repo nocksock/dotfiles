@@ -1,5 +1,8 @@
 require 'baggage'.from 'https://github.com/lewis6991/gitsigns.nvim'
 
+vim.pack.add({"https://github.com/pwntester/octo.nvim"})
+require 'octo'.setup {}
+
 local nmap = function(keys, command)
   vim.keymap.set({ "n" }, keys, command)
 end

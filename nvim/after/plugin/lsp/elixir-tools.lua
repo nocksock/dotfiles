@@ -1,4 +1,6 @@
-require "baggage".from { 'https://github.com/elixir-tools/elixir-tools.nvim' }
+require "baggage".from { 
+  'https://github.com/elixir-tools/elixir-tools.nvim'
+}
 
 local on_attach = function(_client, bufnr)
   vim.keymap.set("n", "gd", function()
