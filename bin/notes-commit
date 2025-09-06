@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd /home/Zettelkasten
+jj commit --message "[cron] auto commiting changes" --author "Cron <cron@localhost>"
+jj git push
