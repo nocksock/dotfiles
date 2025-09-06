@@ -20,18 +20,28 @@ local same = function(index)
   end, { index, index })
 end
 -- }}}
---
+
 local function simple_restore(args, _)
   return sn(nil, { i(1, args[1]), i(2, "user_text") })
 end
 
 return {
+  s("hcase", c(1, {
+    fmt([[
+    <%= case {} do %>
+      <% {} -> %>
+        {}
+      <% _ -> %>
+        fallback
+    <% end %>{}
+    ]], { i(1, "binding"), i(2, "pattern"), i(3), i(0) }),
+  })),
+
   s("link", c(1, {
     fmt([[
     def start_link({1}) do
       GenServer.start_link(__MODULE__, {1})
     end
-
     {}
     ]], { i(1), i(0) }),
   })),
@@ -48,13 +58,13 @@ return {
   })),
 
   s("comp", c(1, {
-    fmt([=[
+    fmt([[
       def {}(assigns) do
         ~H"""
           {}
         """
       end
-    ]=], { i(1), i(0) })
+    ]], { i(1), i(0) })
   })),
 
   s('defp', c(1, {
@@ -78,6 +88,7 @@ return {
     {}
   end
   ]], { i(1), i(0) })),
+
   s('do', fmt([[
   do
     {}
