@@ -1,9 +1,0 @@
-{
-  "features": {
-    "homebrew": {
-      "version": "latest",
-      "shallow": false
-    }
-  },
-  "postCreateCommand": "yarn global add @devcontainers/cli && brew install neovim"
-}

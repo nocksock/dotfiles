@@ -91,6 +91,7 @@ bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 bindkey -M emacs '^Z' _fg
 bindkey -M emacs '^S' tm-s
+bindkey -M emacs '^J' accept-and-hold
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M emacs '^N' history-substring-search-down
@@ -158,4 +159,19 @@ if [[ -s "$DOTLOG" ]]; then
 	echo "There are log messages in $DOTLOG"
 fi
 
+# things that must not be in git
+if [[ -f "$HOME/.zsh_secrets" ]]; then
+	source "$HOME/.zsh_secrets"
+fi
+
 # zprof # show profiling result
+alias claude="/Users/nilsriedemann/.claude/local/claude"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/nilsriedemann/.cache/lm-studio/bin"
+# End of LM Studio CLI section
+
+
+# Added by microsandbox installer
+export PATH="$HOME/.local/bin:$PATH"
+export DYLD_LIBRARY_PATH="$HOME/.local/lib:$DYLD_LIBRARY_PATH"

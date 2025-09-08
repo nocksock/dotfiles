@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-NOTE_DIR=$HOME/code/bleepbloop.studio/apps/phx-studio/content
+NOTE_DIR=$HOME/code/studio/workspaces/phx-studio/apps/phx-studio/content
 LAST_NOTE_STORE=$HOME/.last_note
 DEFAULT_TAG="quicknote"
 

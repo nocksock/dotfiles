@@ -1,0 +1,44 @@
+#!/usr/bin/env nu
+
+let USE_JJ = (not (".git" | path exists))
+
+def get_current_branch [] {
+  if $USE_JJ {
+    jj log -r @ --no-graph -T 'branches' | complete | get stdout | str trim
+  } else {
+    git branch --show-current | complete | get stdout | str trim
+  }
+}
+
+def show_recent_commit [] {
+  if $USE_JJ {
+    jj log -r @ -T 'description' | complete | get stdout
+  } else {
+    git log HEAD...HEAD^ | complete | get stdout
+  }
+}
+
+def show_log_oneline [] {
+  if $USE_JJ {
+    jj log --limit 10 -T 'change_id.short() ++ " " ++ description.first_line()' | complete | get stdout
+  } else {
+    git log --oneline | complete | get stdout
+  }
+}
+
+def main [path: string] {
+  cd $path
+
+  print $"-- Current branch: (get_current_branch)"
+  
+  if ("README.md" | path exists) {
+    print "-- Recent commit ---------------------------------------------------------------"
+    print ""
+    show_recent_commit
+    print ""
+    print "-- README.md -------------------------------------------------------------------"
+    open README.md
+  } else {
+    show_log_oneline
+  }
+}
