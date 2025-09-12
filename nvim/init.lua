@@ -51,7 +51,7 @@ vim.o.grepprg        = "rg --vimgrep"
 vim.o.grepformat     = "%f:%l:%c:%m"
 
 -- }}}
--- basic ui things{{{
+-- basic ui things {{{
 
 vim.o.list           = false -- do not show invisible characters (there's an auto-command to show only in insert mode)
 vim.o.listchars      =
