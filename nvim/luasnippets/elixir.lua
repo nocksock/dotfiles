@@ -25,6 +25,15 @@ local function simple_restore(args, _)
   return sn(nil, { i(1, args[1]), i(2, "user_text") })
 end
 
+-- Function to create a line of dashes to column 80
+local function fill_line_with_dashes()
+  return f(function()
+    local current_col = vim.fn.col('.')
+    local dashes_needed = math.max(0, 80 - current_col + 1)
+    return string.rep('-', dashes_needed)
+  end)
+end
+
 return {
   s("hcase", c(1, {
     fmt([[
@@ -120,9 +129,19 @@ return {
   ]], { i(1, "") })),
 
   s('pinsp', fmt([[
-  <pre>
-    <%= inspect {}, pretty: true %>
-  </pre>
-  ]], { i(1, "assigns") }))
+  <pre><%= inspect {}, pretty: true %></pre>
+  ]], { i(1, "assigns") })),
 
+  s('sec', {
+    i(1),
+    fill_line_with_dashes()
+  }, {
+    callbacks = {
+      [1] = {
+        [events.enter] = function()
+          vim.cmd('startreplace')
+        end
+      }
+    }
+  })
 }
