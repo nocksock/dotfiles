@@ -216,10 +216,6 @@ nnoremap <silent> <leader>bd <cmd>bd<cr>
 nnoremap <c-n> <cmd>cn<cr>
 nnoremap <c-p> <cmd>cp<cr>
 
-# TRIAL: go to previous command more conveniently (like in bash)
-nnoremap <c-;> <cmd><c-p>
-cnoremap <c-;> <c-p>
-
 nnoremap <leader>Sl <cmd>call UltiSnips#ListSnippets()<cr>
 nnoremap <leader>Se <cmd>UltiSnipsEdit<cr>
 
@@ -241,7 +237,7 @@ set statusline+=%=
 set statusline+=%{&filetype!=''?&filetype:&syntax}
 
 #}}}
-# lisp con figs {{{
+# lsp configs {{{
 # typescript {{{
 var tsserver = {
     'name': 'typescript-language-server',
@@ -250,14 +246,6 @@ var tsserver = {
         lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json')
     ),
     'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'] }
-
-var svelte = {
-    'name': 'svelte-language-server',
-    'cmd': (server_info) => [&shell, &shellcmdflag, 'svelteserver', '--stdio'],
-    'root_uri': (server_info) => lsp#utils#path_to_uri(
-        lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json')
-    ),
-    'whitelist': ['svelte'] }
 
 var rust_analyzer = {
     'name': 'rust-analyzer',
@@ -270,7 +258,6 @@ var rust_analyzer = {
 augroup lsp_install
     au!
     au User lsp_setup call lsp#register_server(tsserver)
-    au User lsp_setup call lsp#register_server(svelte)
     au User lsp_setup call lsp#register_server(rust_analyzer)
     au User lsp_buffer_enabled call g:snock#LspBindings()
 augroup END
