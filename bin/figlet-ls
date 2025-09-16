@@ -4,7 +4,7 @@ figlist                                                \
 	| awk '/fonts/ {f=1;next} /control/ {f=0} f {print}' \
 	| shuf \
 	| fzf                                                \
-		--preview="figlet -f {} $1"                        \
+		--preview="figlet -f {} $@"                        \
 		--preview-window="right:70%"                       \
 		--no-multi                                         \
-		--bind="enter:become(figlet -f {} $1 | pbcopy && echo 'copied to clipboard')"
+		--bind="enter:become(figlet -f {} $@ | pbcopy && echo 'copied to clipboard')"
