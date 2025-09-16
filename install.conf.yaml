@@ -34,6 +34,7 @@
     ~/.config/rofi: rofi
     ~/.config/helix: helix
     ~/.config/zellij: zellij
+    ~/.config/jj: jj
     ~/.doom.d: doom.d
     ~/.git-templates: git/templates
     ~/.config/ghostty/config: ghostty/config
@@ -43,6 +44,7 @@
     ~/.zshenv: zsh/zshenv
     ~/.vimrc: vim/vimrc
     ~/.vim: vim/vim
+
 
     # macos only
     ~/Library/Preferences/aerc:
@@ -60,9 +62,6 @@
     ~/.yabairc:
       if: "[ `uname` = Darwin ]"
       path: yabai/yabairc
-    ~/Library/Application Support/jj/config.toml:
-      if: "[ `uname` = Darwin ]"
-      path: jj/config.toml
     ~/Library/Application Support/Code/User/keybindings.json:
       if: "[ `uname` = Darwin ]"
       path: vscode/keybindings.json
