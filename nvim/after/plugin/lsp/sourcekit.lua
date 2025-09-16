@@ -1,3 +1,3 @@
-require "lspconfig".sourcekit.setup({
-  capabilities = require "lsp-utils".capabilities,
-})
+-- require "lspconfig".sourcekit.setup({
+--   capabilities = require "lsp-utils".capabilities,
+-- })
