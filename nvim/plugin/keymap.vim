@@ -71,12 +71,11 @@ nnoremap <leader>tu <cmd>MundoToggle<CR>
 nnoremap <leader>tdb :DBUIToggle<cr>
 nnoremap <leader>tch <Cmd>CodeCompanionChat Toggle<CR>
 
-" trying to get used to <c-w><direction> for window navigation again so it
-" frees up <c-hjkl> for other mappings (especially ctrl-k)
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
+" faster window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 xnoremap ga <Plug>(EasyAlign)
 nnoremap ga <Plug>(EasyAlign)
