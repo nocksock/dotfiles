@@ -7,9 +7,9 @@ require('fzf-lua').setup({
       -- neovim `:tmap` mappings for the fzf win
       ["<M-Esc>"]    = "hide",
       ["<F1>"]       = "toggle-help",
-      ["<F2>"]       = "toggle-fullscreen",
+      ["<c-f>"]      = "toggle-fullscreen",
       ["<F3>"]       = "toggle-preview-wrap",
-      ["<F4>"]       = "toggle-preview",
+      ["<c-p>"]       = "toggle-preview",
       ["<F5>"]       = "toggle-preview-cw",
       ["<F6>"]       = "toggle-preview-behavior",
       ["<F7>"]       = "toggle-preview-ts-ctx",
@@ -44,27 +44,33 @@ require('fzf-lua').setup({
 })
 -- }}}
 
--- thunk that calls the given fzf-lua builtin with optional opts
-local fzf = function(builtin, opts) return function() require('fzf-lua')[builtin](opts or {}) end end
+vim.keymap.set({'n'} , '<c-b>'         , ':FzfLua buffers<cr>')
+vim.keymap.set({'n'} , '<c-f>'         , ':FzfLua files<cr>')
+vim.keymap.set({'n'} , '<leader>*'     , ':FzfLua grep_cWORD<cr>')
+vim.keymap.set({'n'} , '<leader>*'     , ':FzfLua grep_cword<cr>')
+vim.keymap.set({'n'} , '<leader>/'     , ':FzfLua lgrep_curbuf<cr>')
+vim.keymap.set({'n'} , '<leader>:'     , ':FzfLua commands<cr>')
+vim.keymap.set({'n'} , '<leader><c-r>' , ':FzfLua command_history<cr>')
+vim.keymap.set({'n'} , '<leader><cr>'  , ':FzfLua resume<cr>')
+vim.keymap.set({'n'} , '<leader>C'     , ':FzfLua colorschemes<cr>')
+vim.keymap.set({'n'} , '<leader>H'     , ':FzfLua help_tags<cr>')
+vim.keymap.set({'n'} , '<leader>S'     , ':FzfLua lsp_live_workspace_symbols<cr>')
+vim.keymap.set({'n'} , '<leader>T'     , ':FzfLua builtin<cr>')
+vim.keymap.set({'n'} , '<leader>M'     , ':FzfLua keymaps<cr>')
+vim.keymap.set({'n'} , '<leader>f'     , ':FzfLua files<cr>')
+vim.keymap.set({'n'} , '<leader>g'     , ':FzfLua live_grep<cr>')
+vim.keymap.set({'n'} , '<leader>s'     , ':FzfLua lsp_document_symbols<cr>')
+vim.keymap.set({'n'} , '<leader>F'     , ':FzfLua<cr><cr>')
 
-vim.keymap.set({'n'} , '<c-b>'         , fzf 'buffers')
-vim.keymap.set({'n'} , '<leader>*'     , fzf 'grep_cWORD')
-vim.keymap.set({'n'} , '<leader>*'     , fzf 'grep_cword');
-vim.keymap.set({'n'} , '<leader>/'     , fzf 'lgrep_curbuf')
-vim.keymap.set({'n'} , '<leader>:'     , fzf 'commands')
-vim.keymap.set({'n'} , '<leader><c-r>' , fzf 'command_history')
-vim.keymap.set({'n'} , '<leader><cr>'  , fzf 'resume')
-vim.keymap.set({'n'} , '<leader>A'     , '<cmd>argadd<cr>')
-vim.keymap.set({'n'} , '<leader>C'     , fzf 'colorschemes')
-vim.keymap.set({'n'} , '<leader>H'     , fzf 'help_tags')
-vim.keymap.set({'n'} , '<leader>S'     , fzf 'lsp_live_workspace_symbols')
-vim.keymap.set({'n'} , '<leader>T'     , fzf 'builtin')
-vim.keymap.set({'n'} , '<leader>M'     , fzf 'keymaps')
-vim.keymap.set({'n'} , '<leader>a'     , fzf 'args')
-vim.keymap.set({'n'} , '<leader>f'     , fzf 'files');
-vim.keymap.set({'n'} , '<leader>g'     , fzf 'live_grep')
-vim.keymap.set({'n'} , '<leader>s'     , fzf 'lsp_document_symbols')
-vim.keymap.set({'n'} , '<leader>F'     , ':FzfLua<cr>')
+vim.keymap.set({'n'} , '<leader>a'     , ':FzfLua args<cr>')
+vim.keymap.set({'n'} , '<leader>A'     , ':argadd<cr><cr>')
+
+vim.keymap.set({'n'}, '<leader>P', function()
+  local filename = vim.fn.expand('%:t:r');
+  require('fzf-lua').files({
+    cmd = "fd '" .. filename .. "'"
+  })
+end)
 
 vim.keymap.set({'n'}, '<leader>E', function()
   local filename = vim.fn.expand('%:t:r');
