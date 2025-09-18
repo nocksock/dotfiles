@@ -43,21 +43,6 @@ return {
       user_text = i(1, "default_text")
     }
   }),
-
-  -- s(
-  --   {trig = [[al(%w+)]], regTrig = true},
-  --   fmt([[local {} = {}]], {
-  --     d(1, function()
-  --       return f(function(import_name, snip)
-  --         local parts = vim.split(import_name[1][1], '.', true)
-  --         return parts[#parts] or ''
-  --       end)
-  --     end, { 1 }),
-  --     f(function(args, snip)
-  --       return snip.captures[1]
-  --     end, { 1 }),
-  --   })
-  -- ),
   s(
     'al',
     fmt([[local {} = {}]], {
@@ -135,6 +120,14 @@ return {
         end)
       end)
       ]=], { i(1), i(2), i(0) })
+  ),
+
+  s( 'map', fmt([[
+      vim.keymap.set({{'{}'}}, '{}', {})
+    ]], { i(1, 'n'), i(2), c(3, {
+      fmt("'{}'", { i(1) }),
+      fmt('function()\n  {}\nend', { i(1) })
+    })})
   ),
 
   s( 'it', fmt([[
