@@ -21,7 +21,7 @@ local function set_background_by_mode()
   end
 end
 
--- timer:start(0, 5000, vim.schedule_wrap(set_background_by_mode))
+timer:start(0, 5000, vim.schedule_wrap(set_background_by_mode))
 
 return {
   get_mode = get_mode,
