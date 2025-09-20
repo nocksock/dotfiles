@@ -19,5 +19,3 @@ vim.keymap.set("n", "<M-s>", ":Prettier<CR>:w<CR>", { buffer = true })
 -- else
   -- vim.cmd.LspStart("biome")
 -- end
-
-vim.cmd.LspStart("ts_ls")

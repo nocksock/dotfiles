@@ -1,4 +1,5 @@
-This is the bpoon file
+/Users/nilsriedemann/code/dotfiles/nvim/plugin/poon.lua
+plugin/terminal.lua
+plugin/keymap.vim
 
-aerc/aerc.conf
-asdf
+::read !ls

@@ -61,6 +61,8 @@ nnoremap <leader>tg <cmd>Gitsigns toggle_signs<cr>
 nnoremap <leader>tsc <cmd>TSContextToggle<cr>
 nnoremap <leader>tu <cmd>MundoToggle<CR>
 nnoremap <leader>tdb :DBUIToggle<cr>
+nnoremap <leader>do :DoToggle<cr>
+nnoremap <leader>de :DoEdit<cr>
 nnoremap <leader>tch <Cmd>CodeCompanionChat Toggle<CR>
 
 " faster window navigation

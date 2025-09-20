@@ -1,0 +1,34 @@
+-- vim.lsp.config['ruff'] = {
+--   cmd = { ls_path .. '.lan_servers_venv/bin/ruff', "server"},
+--   filetypes = { 'python' },
+--   root_markers = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', '.git' },
+--   settings = {},
+-- }
+--
+-- vim.lsp.enable('ruff')
+--
+-- vim.lsp.config['ty'] = {
+--   cmd = { ls_path .. '.lan_servers_venv/bin/ty', "server"},
+--   filetypes = { 'python' },
+--   root_markers = { 'pyproject.toml', 'ty.toml', '.ty.toml', '.git' },
+--   settings = {},
+--   on_attach = function(client, bufnr)
+--     local chars = {
+--       "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","r","s","t","u","v","w", ".", ":",
+--       'A', 'B', 'C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W',"/"
+--     }
+--     client.server_capabilities.completionProvider.triggerCharacters = chars
+--
+--     vim.lsp.completion.enable(true, client.id, bufnr, {
+--       autotrigger=true,
+--       convert = function(item)
+--         return { abbr = item.label:gsub('%b()', '') }
+--       end,
+--     })
+--     -- -- -- vim.api.nvim_create_autocmd({"InsertCharPre"}, {
+--     -- -- --   callback=function() vim.lsp.completion.get() end
+--     -- -- -- })
+--     vim.cmd[[set completeopt=menuone,menu,noselect,preview]]
+--     end,
+-- }
+-- vim.lsp.enable('ty')

@@ -9,7 +9,7 @@ require('fzf-lua').setup({
       ["<F1>"]       = "toggle-help",
       ["<c-f>"]      = "toggle-fullscreen",
       ["<F3>"]       = "toggle-preview-wrap",
-      ["<c-p>"]       = "toggle-preview",
+      ["<c-p>"]      = "toggle-preview",
       ["<F5>"]       = "toggle-preview-cw",
       ["<F6>"]       = "toggle-preview-behavior",
       ["<F7>"]       = "toggle-preview-ts-ctx",

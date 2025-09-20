@@ -6,7 +6,7 @@ vim.api.nvim_create_user_command("SnippetEdit", function()
 end, {})
 
 vim.api.nvim_create_autocmd("InsertEnter", {
-  callback = require'baggage.once'.lazy(function()
+  callback = require'baggage'.once.lazy(function()
     local luasnip = require('luasnip')
 
     vim.keymap.set({ 'i', 's' }, '<c-l>', function()

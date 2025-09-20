@@ -73,13 +73,11 @@ vim.o.cmdheight             = 1     -- height of the command bar
 -- }}}
 -- indentation and wrapping {{{
 
-vim.o.shiftwidth            = 2
-vim.o.softtabstop           = 2
+vim.o.shiftwidth            = 4
+vim.o.softtabstop           = 4
 vim.o.smartindent           = true
-vim.o.tabstop               = 2
 vim.o.textwidth             = 80
 vim.o.expandtab             = true
-
 vim.o.briopt                = 'shift:4' -- indent wrapped lines
 vim.o.linebreak             = true
 vim.o.wrap                  = false
@@ -119,4 +117,5 @@ function! s:build_quickfix_list(lines)
   cc
 endfunction
 ]])
+
 

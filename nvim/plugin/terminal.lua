@@ -40,7 +40,8 @@ for _,key in pairs({ '<M-;>', '<D-;>' }) do
         vim.api.nvim_win_close(win, true)
       end, { buffer = terminal_buf })
 
-    -- -- terminal_buf exists, focus?
+    -- -- terminal_buf exists, focus? 
+    -- -- TODO: consider this for a .open/.open_or_focus function
     -- else
     --   win = nvim_buf_get_win(terminal_buf)
     --   if win then
@@ -74,7 +75,7 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
     vim.wo.relativenumber = false
 
     table.foreach({'q', '<c-c>'}, function(_i, keys)
-      vim.keymap.set({ 'n', 't' }, keys, function()
+      vim.keymap.set({ 'n' }, keys, function()
         if vim.bo.modified then return end
         vim.cmd('bd!')
       end, { buffer = true })
