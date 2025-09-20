@@ -3,19 +3,19 @@
 -- bootstrap baggage.nvim
 vim.g.baggage_path = vim.fn.stdpath("data") .. "/site/pack/baggage/"
 if not (vim.uv or vim.loop).fs_stat(vim.g.baggage_path) then
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable",
-    "https://github.com/nocksock/baggage.nvim", vim.g.baggage_path .. 'start/baggage.nvim' })
+  local out = vim.fn.system({ "git", "clone", "--depth=1", "--branch=main", "https://github.com/nocksock/baggage.nvim", vim.g.baggage_path .. 'start/baggage.nvim' })
   if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone baggage.nvim:\n", "ErrorMsg" },
-      { out,                               "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
+    vim.notify("Failed to clone baggage.nvim", vim.log.levels.ERROR)
   end
   vim.cmd("packloadall")
 end
+
+R = require "rr"
+P = function(...)
+  print(vim.inspect(...))
+  return ...
+end
+TAP = P
 
 -- general {{{
 vim.g.mapleader      = ' '
@@ -120,20 +120,3 @@ function! s:build_quickfix_list(lines)
 endfunction
 ]])
 
-require "baggage".from {
-  "https://github.com/nvim-lua/plenary.nvim",
-}
-
-RELOAD = require 'plenary.reload'.reload_module
-
-R = function(name)
-  RELOAD(name)
-  return require(name)
-end
-
-P = function(v)
-  print(vim.inspect(v))
-  return v
-end
-
-require "poon".setup {}

@@ -62,9 +62,6 @@ vim.keymap.set({'n'} , '<leader>g'     , ':FzfLua live_grep<cr>')
 vim.keymap.set({'n'} , '<leader>s'     , ':FzfLua lsp_document_symbols<cr>')
 vim.keymap.set({'n'} , '<leader>F'     , ':FzfLua<cr><cr>')
 
-vim.keymap.set({'n'} , '<leader>a'     , ':FzfLua args<cr>')
-vim.keymap.set({'n'} , '<leader>A'     , ':argadd<cr><cr>')
-
 vim.keymap.set({'n'}, '<leader>P', function()
   local filename = vim.fn.expand('%:t:r');
   require('fzf-lua').files({

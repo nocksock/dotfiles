@@ -1,10 +1,6 @@
 " better escape
 nnoremap <esc> <cmd>nohlsearch<cr><cmd>pclose<cr><cmd>echo <cr>
 
-" escape in terminal 
-tnoremap <c-[> <C-\><C-n>
-tnoremap <Esc> <C-\><C-n>
-
 " undo stops in insert mode. `u` will halt at these points
 inoremap ! !<c-g>u
 inoremap . .<c-g>u
@@ -13,8 +9,9 @@ inoremap ; ;<c-g>u
 inoremap ? ?<c-g>u
 inoremap , ,<c-g>u
 
-" type %% in cmd mode to insert path to buffer's parent dir
+" typing %% in cmd to insert path to buffer's parent
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+cnoremap <expr> tt  getcmdtype() == ':' ? "terminal " : 'tt'
 
 " copy current file name relative to cwd to clipboard
 nnoremap <leader>yf <cmd>let @+ = expand('%:.')<cr>
@@ -27,11 +24,6 @@ nnoremap ciaw viw*<esc>:%s///<left>
 nnoremap ciaW viW*<esc>:%s///<left>
 nnoremap caaw vaw*<esc>:%s///<left>
 nnoremap caaW vaW*<esc>:%s///<left>
-
-tnoremap <M-;> <cmd>Ts<cr>
-noremap <M-;> <cmd>Ts<cr>
-tnoremap <D-;> <cmd>Ts<cr>
-noremap <D-;> <cmd>Ts<cr>
 
 " when moving more than 5 lines , then make a jump, to be able to revert via c-o
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'gj'
@@ -97,11 +89,3 @@ nnoremap zk zkzkzjzt
 nnoremap z0 zMzvzz
 nnoremap  <C-d>zz
 nnoremap  <C-u>zz
-
-" open definitions in preview windows
-nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>
-nnoremap gpt <cmd>lua require('goto-preview').goto_preview_type_definition()<CR>
-nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>
-nnoremap gpD <cmd>lua require('goto-preview').goto_preview_declaration()<CR>
-nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
-nnoremap gpr <cmd>lua require('goto-preview').goto_preview_references()<CR>
