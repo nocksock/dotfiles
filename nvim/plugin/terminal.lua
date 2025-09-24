@@ -2,7 +2,7 @@ local group = vim.api.nvim_create_augroup('terminal', { clear = true })
 
 vim.keymap.set({ 't' }, '<Esc>', '<C-\\><C-n>')
 
--- 
+--
 local nvim_buf_get_win = function(buf)
   for _, w in ipairs(vim.api.nvim_list_wins()) do
     if vim.api.nvim_win_get_buf(w) == buf then
@@ -21,7 +21,7 @@ for _,key in pairs({ '<M-;>', '<D-;>' }) do
     -- terminal_buf already focused, close
     if terminal_buf == buf then
       vim.api.nvim_win_close(win, true)
-      return 
+      return
     end
 
     -- terminal_buf invalid, reset
@@ -35,12 +35,14 @@ for _,key in pairs({ '<M-;>', '<D-;>' }) do
       vim.cmd('terminal')
       vim.cmd('startinsert')
       terminal_buf = vim.api.nvim_get_current_buf()
-      vim.keymap.set('n', '<esc>', function()
-        win = vim.api.nvim_get_current_win()
-        vim.api.nvim_win_close(win, true)
-      end, { buffer = terminal_buf })
+      vim.wo.winfixbuf = true
 
-    -- -- terminal_buf exists, focus? 
+      -- vim.keymap.set('n', '<esc>', function()
+      --   win = vim.api.nvim_get_current_win()
+      --   vim.api.nvim_win_close(win, true)
+      -- end, { buffer = terminal_buf })
+
+    -- -- terminal_buf exists, focus?
     -- -- TODO: consider this for a .open/.open_or_focus function
     -- else
     --   win = nvim_buf_get_win(terminal_buf)

@@ -20,6 +20,7 @@ M.on_attach = function(args, fn)
   -- NOTE: usually checking if client_server_capabilities.completionProvider is
   -- true, but I want to see a proper error message if it's not, and not
   -- fallback to default (tag|omni)func
+  vim.keymap.set('n', 'gd', ':lua vim.lsp.buf.definition()<cr>zt', bufopts)
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
   vim.bo.tagfunc = "v:lua.vim.lsp.tagfunc"
   vim.bo.formatexpr = "v:lua.vim.lsp.formatexpr()"
@@ -27,6 +28,11 @@ M.on_attach = function(args, fn)
   vim.keymap.set('n', ',.', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gK', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+
+  vim.keymap.set('n', "<leader>j", function() vim.diagnostic.jump({ count = 1, float = true }) end, bufopts)
+  vim.keymap.set('n', "<leader>k", function() vim.diagnostic.jump({ count = -1, float = true }) end, bufopts)
+  vim.keymap.set('n', "<leader>J", function() vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = 1, float = true }) end, bufopts)
+  vim.keymap.set('n', "<leader>K", function() vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = -1, float = true }) end, bufopts)
 
   vim.keymap.set('n', "]d", function() vim.diagnostic.jump({ count = 1 }) end, bufopts)
   vim.keymap.set('n', "[d", function() vim.diagnostic.jump({ count = -1 }) end, bufopts)

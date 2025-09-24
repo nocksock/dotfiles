@@ -1,4 +1,3 @@
-
 -- Helper Methods {{{
 ---@diagnostic disable: unused-local, unused-function
 local ls = require('luasnip')
@@ -25,15 +24,33 @@ end
 ls.filetype_extend('heex', {'elixir'})
 
 return {
-  s('do', fmt([[- [ ] {}]], { i(0) })),
-  s('note', fmt([[
-    ---
-    title: {}
-    tags: []
-    # channels: [rss, html] # rss, html, bsky, apub
-    # only: [dev] # eg.: dev | beta | prod
-    ---
-    
-    {}
-  ]], { i(1), i(0) }))
+    s('do', fmt([[- [ ] {}]], { i(0) })),
+    s('note', fmt([[
+        ---
+        title: {}
+        tags: []
+        # channels: [rss, html] # rss, html, bsky, apub
+        # only: [dev] # eg.: dev | beta | prod
+        ---
+
+        {}
+    ]], { i(1), i(0) })),
+
+    s('adr', fmt([[
+        ## Status
+
+        {}
+
+        ## Context
+
+        The issue motivating this decision, and any context that influences or constrains the decision.
+
+        ## Decision
+
+        The change that we're proposing or have agreed to implement.
+
+        ## Consequences
+
+        What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
+    ]], {i(0, "Pending")}))
 }
