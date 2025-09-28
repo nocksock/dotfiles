@@ -75,12 +75,5 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
   callback = function()
     vim.wo.number = false
     vim.wo.relativenumber = false
-
-    table.foreach({'q', '<c-c>'}, function(_i, keys)
-      vim.keymap.set({ 'n' }, keys, function()
-        if vim.bo.modified then return end
-        vim.cmd('bd!')
-      end, { buffer = true })
-    end)
   end
 })
