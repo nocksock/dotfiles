@@ -11,7 +11,6 @@ inoremap , ,<c-g>u
 
 " typing %% in cmd to insert path to buffer's parent
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-cnoremap <expr> tt  getcmdtype() == ':' ? "terminal " : 'tt'
 
 " copy current file name relative to cwd to clipboard
 nnoremap <leader>yf <cmd>let @+ = expand('%:.')<cr>
