@@ -2,7 +2,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-$directory${custom.jj_log}($git_state$git_branch$git_status)
+$hostname$directory${custom.jj_log}($git_state$git_branch$git_status)
 $jobs$character
 """
 
