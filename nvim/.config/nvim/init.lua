@@ -29,7 +29,7 @@ vim.o.mouse          = 'a'        -- enable scrolling and selecting with mouse
 vim.o.updatetime     = 250
 vim.o.splitbelow     = true       -- When on, splitting a window will put the new window below the current one
 vim.o.shiftround     = true       -- When at 3 spaces and I hit >>, go to 4, not 5.
-vim.o.shell          = '/bin/zsh' -- set default shell for :shell
+vim.o.shell          = '/usr/bin/env zsh'
 vim.o.wildignore     = table.concat({
   '.DS_Store',
   '**/.git/*',
