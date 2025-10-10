@@ -109,9 +109,9 @@ export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 # }}}
 # {{{ load zsh plugins
 
-for plugin in "$DOTDIR"/zsh/.zsh_plugins/*; do
+for plugin in "$DOTDIR"/zsh/plugins/*; do
 	plugin=$(basename $plugin)
-	plugin_path="$DOTDIR/zsh/.zsh_plugins/$plugin/$plugin.plugin.zsh"
+	plugin_path="$DOTDIR/zsh/plugins/$plugin/$plugin.plugin.zsh"
 	# ignore plugins that start with -
 	if [[ $plugin == -* ]]; then
 		continue
