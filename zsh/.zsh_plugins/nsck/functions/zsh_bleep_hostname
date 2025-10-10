@@ -1,0 +1,8 @@
+#!/usr/bin/env
+
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+	echo "ssh://$USER@$HOST:"
+else
+	echo "local"
+fi
+

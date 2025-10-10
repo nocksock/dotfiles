@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+dir=$(pwd | sed -e "s#$HOME#~#")
+name=$1
+
+if [[ "$name" == "${dir##*/}" ]]; then
+  echo "#[dim]${dir%%$name}#[default]#[fg=colour7]$name#[default]"
+else
+  echo "$name @ $dir"
+fi

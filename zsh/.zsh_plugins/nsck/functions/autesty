@@ -1,0 +1,5 @@
+#autoload
+
+echo this is from autesty
+
+autest

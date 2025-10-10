@@ -1,0 +1,10 @@
+#autoload
+
+# check if stdin
+if [ -t 0 ]; then
+	echo "$(date) $@" >> $PICKARD_LOG
+else
+	while read line; do
+		echo "$(date) $line" >> $PICKARD_LOG
+	done
+fi

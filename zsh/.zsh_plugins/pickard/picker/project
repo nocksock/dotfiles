@@ -1,0 +1,55 @@
+#!/usr/bin/env zsh
+
+PROJECTS_FILE=${PROJECTS_FILE:-"$HOME/.projects"}
+
+usage() { cat <<EOF
+  Usage $SELF_NAME [pick|open|view|list]
+EOF
+}
+
+SELF=$(realpath $0)
+SELF_DIR=$(dirname $SELF)
+SELF_NAME=$(basename $SELF)
+SUBCOMMAND=${1:-pick}
+
+open () {
+	pickard-log "Opening $1"
+	pickard --launch "$1" &>> /tmp/pickard.log
+}
+
+view () {
+  # look for readme
+  if [[ -f "$1/README.md" ]]; then
+    glow "$1/README.md"
+  elif [[ -f "$1/README" ]]; then
+    bat "$1/README"
+  else
+    tree -C "$1" | head -200
+  fi
+}
+
+
+list () {
+  while IFS= read -r dir; do
+    dir="${dir#"${dir%%[![:space:]]*}"}"  # Trim leading whitespace
+    dir="${dir%"${dir##*[![:space:]]}"}"  # Trim trailing whitespace
+
+    expanded_dir="${dir/\~/$HOME}"
+    if [[ "$expanded_dir" == *\** ]]; then
+      find "${expanded_dir%/*}" -maxdepth 1 -type d -print  \
+        | sed "s|$HOME|~|"
+    else
+      echo "${expanded_dir}"
+    fi
+  done < $PROJECTS_FILE
+}
+
+pick () {
+  list | fzf                            \
+    --keep-right --reverse --track --ansi --no-sort \
+    --prompt="Pick Project: "         \
+    --preview "$SELF view {}"				  \
+		--bind "enter:execute($SELF open {})"
+}
+
+eval "$SUBCOMMAND $@"

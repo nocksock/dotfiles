@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#
+# tm-session-delete: delete a session without leaving tmux
+#
+#   kinda like vim's :bd behaviour. Useful when using tm-qp often just to
+#   quickly do something and not wanting to hog a bunch of unused sessions.
+#
+#   mapping in .tmux.conf:
+#       bind -r X run tm-session-delete
+#
+
+deletesession=$(tmux display -p "#S")
+tmux switch-client -l
+
+if [[ $deletesession == $(tmux display -p "#S") ]]; then
+    # switch didn't work, probably was a consecutive call of this script,
+    # switching to the previous session instead
+    tmux switch-client -p
+fi
+
+tmux kill-session -t $deletesession

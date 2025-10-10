@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+tmux ls -F "#{session_name}"          \
+  | fzf                               \
+    --layout=reverse                  \
+    --border=bold                     \
+    --border-label=" select session " \
+    --margin 10%                      \
+    --padding 5%                      \
+    --no-separator                    \
+    --no-scrollbar                    \
+    --no-info                         \
+    --header " "                      \

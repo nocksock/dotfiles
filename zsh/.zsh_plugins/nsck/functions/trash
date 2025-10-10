@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+trash() { 
+	read -q "?mv $@ ~/.Trash? (y/n)"
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		mv -i "$@" ~/.Trash
+	fi
+}
+
+trash "${@}"

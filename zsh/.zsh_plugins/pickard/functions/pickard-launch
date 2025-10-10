@@ -1,0 +1,17 @@
+#autoload
+
+pickard-log "Launching \"$@\" with \"$opts\""
+
+local cmd=${@}
+local label=${opts[--label]:-$opts[-l]}
+local type=${opts[--type]:-$opts[-t]}
+
+case $type in
+  kitty) 
+    local pid=$(kitty @ launch --type=os-window --title $label --cwd="$HOME" --hold zsh -c "$cmd" &)
+    kitty @ close-window -m "id:$KITTY_WINDOW_ID" &
+    kitty @ focus-window -m "id:$pid" &
+    ;;
+  tmux)  tmux new-window -n $label $cmd ;;
+  *) notify-send -m "eval $cmd" ;;
+esac

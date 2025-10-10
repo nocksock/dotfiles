@@ -1,0 +1,43 @@
+#!/usr/bin/env zsh
+
+FILE_INDEX=${FILE_INDEX:-"$HOME/.pickard-launcher"}
+
+SELF=$(realpath $0)
+SELF_DIR=$(dirname $SELF)
+SELF_NAME=$(basename $SELF)
+SUBCOMMAND=${1:-pick}
+
+open() {  
+  local line_index=$(( $1 + 1 ))
+  local launch_line=$(sed -n "${line_index}p" $FILE_INDEX)
+  local label=$(echo $launch_line | cut -d':' -f1)
+  local cmd=$(echo $launch_line | cut -d':' -f2-)
+
+  # when the label starts with +whatevs, it uses a specific launcher instead of
+  # evaluating the command directly. This is useful for commands that make more
+  # sense to run in a new context/window/tm-session
+  local launcher
+  if [[ $label =~ "\+([a-zA-Z0-9]*)" ]]; then
+    pickard --launch -t "${match[1]}" -l "$label" $cmd
+  else
+    pickard --launch -l "$label" $cmd
+  fi
+  exit 0
+}
+
+list() {
+  while read line; do
+    label=$(echo $line | cut -d':' -f1)
+    echo $line
+  done < $FILE_INDEX
+}
+
+pick() {
+  list | fzf                                 \
+      --ansi --keep-right --track --reverse  \
+      --delimiter ':'                        \
+      --bind "enter:become($SELF open {+n})"
+}
+
+pickard-log "pickard-launcher: <$SUBCOMMAND> ${@:2}"
+eval "$SUBCOMMAND ${@:2}"

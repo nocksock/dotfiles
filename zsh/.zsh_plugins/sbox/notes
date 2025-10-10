@@ -1,0 +1,9 @@
+sbox
+
+rapid prototyping method
+
+- pick a template (source)
+- multiple template folders are possible
+  - or maybe .sboxrc denotes a template?
+- choose a new name
+- create sibling relative to target

@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+yoink() {
+	cat $1 | pbcopy
+	echo "Copied contents of $1 to clipboard"
+}
+
+yoink $@

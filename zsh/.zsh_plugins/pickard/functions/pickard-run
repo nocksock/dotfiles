@@ -1,0 +1,7 @@
+#autoload
+
+_run() {
+  SUBCOMMAND=$1
+  shift
+  eval "$SUBCOMMAND $@"
+}

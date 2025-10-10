@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+yp() {
+	filepath=`realpath $1`
+	echo "$filepath" | pbcopy
+	echo "Copied filepath to clipboard: $filepath"
+}
+
+yp $@

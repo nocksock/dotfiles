@@ -8,9 +8,6 @@ export LC_ALL=en_US.UTF-8
 
 export N_PREFIX="$HOME/n"; 
 
-export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
-
 # {{{ PATH
 
 declare -U PATH path
@@ -39,9 +36,13 @@ export PATH
 # }}}
 # brew{{{
 
-export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-export HOMEBREW_NO_INSTALL_CLEANUP=1
-export HOMEBREW_NO_ENV_HINTS=1
+if [[ $OSTYPE == darwin* ]]; then
+	export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+	export HOMEBREW_NO_INSTALL_CLEANUP=1
+	export HOMEBREW_NO_ENV_HINTS=1
+	export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
+	export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
+fi
 
 # }}}
 # cuda{{{
@@ -78,6 +79,8 @@ if [[ $OSTYPE == darwin* ]]; then
     && source /opt/homebrew/opt/fzf/shell/completion.zsh
   test -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh \
     && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+
+	source $(brew --prefix asdf)/libexec/asdf.sh
 fi
 
 if [[ $OSTYPE == linux-gnu ]]; then
@@ -106,9 +109,9 @@ export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 # }}}
 # {{{ load zsh plugins
 
-for plugin in "$DOTDIR"/zsh/plugins/*; do
+for plugin in "$DOTDIR"/zsh/.zsh_plugins/*; do
 	plugin=$(basename $plugin)
-	plugin_path="$DOTDIR/zsh/plugins/$plugin/$plugin.plugin.zsh"
+	plugin_path="$DOTDIR/zsh/.zsh_plugins/$plugin/$plugin.plugin.zsh"
 	# ignore plugins that start with -
 	if [[ $plugin == -* ]]; then
 		continue
@@ -131,4 +134,3 @@ fi
 export OP_APP_VAULT=bleepbloop
 # Added by LM Studio CLI tool (lms)
 export PATH="$PATH:$HOME/.cache/lm-studio/bin"
-source $(brew --prefix asdf)/libexec/asdf.sh
