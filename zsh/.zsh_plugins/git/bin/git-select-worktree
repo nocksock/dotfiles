@@ -1,3 +1,0 @@
-#!/usr/bin/env zsh
-selected_worktree=$(git worktree list --porcelain | grep -Po "(?<=worktree ).*" | fzf)
-cd "$selected_worktree"

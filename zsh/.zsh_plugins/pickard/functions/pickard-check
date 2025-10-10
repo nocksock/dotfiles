@@ -1,8 +1,0 @@
-#autoload
-
-if [[ $1 == "-q" ]]; then
-  exec 1>/dev/null
-fi
-
-pickard-check-fns
-pickard-check-dependencies

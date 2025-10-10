@@ -1,3 +1,0 @@
-#!/usr/bin/env zsh
-
-cd $(qufo -p | xargs dirname)

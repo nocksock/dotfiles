@@ -1,5 +1,0 @@
-#compdef nman
-
-compdef _nman=man
-
-_nman "$@"
