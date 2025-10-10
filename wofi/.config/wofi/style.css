@@ -1,0 +1,69 @@
+* {
+  font-family: 'CaskaydiaMono Nerd Font', monospace;
+  font-size: 18px;
+}
+
+window {
+  margin: 0px;
+  padding: 20px;
+  background-color: black;
+  opacity: 0.95;
+}
+
+#inner-box {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: black;
+}
+
+#outer-box {
+  margin: 0;
+  padding: 20px;
+  border: none;
+  background-color: black;
+}
+
+#scroll {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: black;
+}
+
+#input {
+  margin: 0;
+  padding: 10px;
+  border: none;
+  background-color: black;
+  color: @text;
+}
+
+#input:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+#text {
+  margin: 5px;
+  border: none;
+  color: white;
+}
+
+#entry {
+  background-color: black;
+}
+
+#entry:selected {
+  outline: none;
+  border: none;
+}
+
+#entry:selected #text {
+  color: magenta;
+}
+
+#entry image {
+  -gtk-icon-transform: scale(0.7);
+}
