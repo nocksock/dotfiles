@@ -1,0 +1,57 @@
+[[keyboard.bindings]]
+chars = "\u001E"
+key = "Key6"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "CreateNewWindow"
+key = "N"
+mods = "Command"
+
+[colors.normal]
+black = "#0d0d10"
+blue = "#81a2be"
+cyan = "#8abeb7"
+green = "#b5bd68"
+magenta = "#F13279"
+red = "#cc6666"
+white = "#D4DFF2"
+yellow = "#f0c674"
+
+[colors.primary]
+background = "#151D28"
+foreground = "#D4DFF2"
+
+[font]
+size = 16.0
+
+[font.bold_italic]
+family = "JetBrains Mono"
+style = "SemiBold Italic"
+
+[font.glyph_offset]
+x = 0
+y = 4
+
+[font.italic]
+family = "JetBrains Mono"
+style = "Light Italic"
+
+[font.normal]
+family = "JetBrains Mono"
+style = "Light"
+
+[font.offset]
+x = 0
+y = 8
+
+[window]
+decorations = "buttonless"
+dynamic_padding = true
+opacity = 1
+
+[window.padding]
+x = 8
+y = 8
+
+[keyboard]
