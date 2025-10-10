@@ -1,17 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  nix-colors,
-  lib,
-  pkgs,
-  ...
-} @ inputs: {
+{ pkgs, ... } @ inputs: {
   imports = [
-    ./system/1password.nix
-    ./system/locale.nix
-    ./system/network.nix
+    ./config/1password.nix
+    ./config/locale.nix
+    ./config/audio.nix
+    ./config/network.nix
+    ./users/nr.nix
   ];
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -58,6 +54,7 @@
     fzf
     rsync
     entr
+    tree
 
     starship
     eza
@@ -102,35 +99,22 @@
     };
   };
 
+  services.tailscale.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
   programs.xwayland.enable = true;
   programs.niri.enable = true;
-  services.tailscale.enable = true;
-
-  users.defaultUserShell = pkgs.zsh;
-  users.users.nr = {
-    isNormalUser = true;
-    description = "nils riedemann";
-    extraGroups = ["networkmanager" "wheel" "video" "input" ];
-    packages = with pkgs; [ 
-      zsh
-    ];
-
-    shell = pkgs.zsh;
-  };
-
-  home-manager.users.nr = import ./home-manager/nr.nix inputs;
-
-  programs.zsh = { 
-    enable = true;
+  programs.zsh.enable = true;
+    # enable = true;
+    # # TODO: tag after build? (to mitigate drift)
     # shellAliases = {
     #   nixos-rebuild = "nixos-rebuild-and-tag";
     # };
     # initExtra = ''
     #   nixos-rebuild-and-tag() {
-    #     sudo nixos-rebuild "$@"
+    #     sudo nixos-rebuild "$@" \
     #   }
     # '';
-  };
 
 
   fonts.packages = with pkgs; [

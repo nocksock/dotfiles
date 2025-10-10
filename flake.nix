@@ -15,9 +15,9 @@
       system = "x86_64-linux";
       specialArgs = inputs;
       modules = [
-        ./configuration.nix
         home-manager.nixosModules.home-manager
-        ./hardware-configuration.nix # Include the results of the hardware scan.
+        ./nixos/configuration.nix
+        ./nixos/hardware-configuration.nix # Include the results of the hardware scan.
       ];
     };
   };

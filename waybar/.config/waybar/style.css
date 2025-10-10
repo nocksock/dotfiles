@@ -1,5 +1,3 @@
-@import "./theme.css";
-
 * {
   border: none;
   border-radius: 0;
@@ -7,10 +5,10 @@
   font-family: CaskaydiaMono Nerd Font;
   font-size: 14px;
 }
+
 :hover {
   color: white;
 }
-
 
 #workspaces {
   margin-left: 7px;

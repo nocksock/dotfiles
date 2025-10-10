@@ -1,21 +1,10 @@
 {
   config,
   pkgs,
-  nix-colors,
   ...
 }: let
-  palette = nix-colors.colorSchemes.dracula.palette;
-  convert = nix-colors.lib.conversions.hexToRGBString;
-  backgroundRgb = "rgb(${convert ", " palette.base00})";
-  foregroundRgb = "rgb(${convert ", " palette.base03})";
 in {
   config = {
-    home.file = {
-      ".config/wofi/" = {
-        source = ../config/wofi;
-        recursive = true;
-      };
-    };
     programs.wofi = {
       enable = true;
       settings = {
