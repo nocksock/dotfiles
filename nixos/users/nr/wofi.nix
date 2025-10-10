@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
-in {
+{ ... }:  {
   config = {
     programs.wofi = {
       enable = true;

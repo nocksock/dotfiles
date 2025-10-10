@@ -1,22 +1,19 @@
 {
   pkgs,
-  config,
   home-manager,
-  lib,
   ...
-} @ inputs: {
+}: {
   users.users.nr = {
     isNormalUser = true;
     description = "nils riedemann";
-    extraGroups = ["networkmanager" "wheel" "video" "input" ];
+    extraGroups = ["networkmanager" "wheel" "video" "input"];
   };
 
   home-manager.users.nr = {
     imports = [
-      # TODO: I'm certain this can be done more elegantly
-      (import ./nr/waybar.nix inputs)
-      (import ./nr/wofi.nix inputs)
-      (import ./nr/fonts.nix inputs)
+      ./nr/waybar.nix
+      ./nr/wofi.nix
+      ./nr/fonts.nix
     ];
 
     home.packages = with pkgs; [
