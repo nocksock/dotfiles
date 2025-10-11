@@ -11,7 +11,6 @@
 
   home-manager.users.nr = {
     imports = [
-      ./nr/waybar.nix
       ./nr/wofi.nix
       ./nr/fonts.nix
     ];
