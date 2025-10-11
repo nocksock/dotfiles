@@ -1,8 +1,8 @@
-#!/bin/zsh
+#!/usr/bin/env sh
 
 figlist                                                \
 	| awk '/fonts/ {f=1;next} /control/ {f=0} f {print}' \
-	| shuf \
+	| shuf                                               \
 	| fzf                                                \
 		--preview="figlet -f {} $@"                        \
 		--preview-window="right:70%"                       \
