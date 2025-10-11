@@ -51,7 +51,7 @@
       cd ~/code/dotfiles
       ${pkgs.stow}/bin/stow --target $HOME --no-folding \
         stow zsh kitty nvim wofi niri vim git jj atuin \
-        lazygit starship rofi
+        lazygit starship rofi waybar
     '';
 
     home.stateVersion = "25.05";
