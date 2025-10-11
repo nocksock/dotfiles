@@ -26,7 +26,7 @@ foreground = "#D4DFF2"
 size = 16.0
 
 [font.bold_italic]
-family = "JetBrains Mono"
+family = "IBM Plex Mono"
 style = "SemiBold Italic"
 
 [font.glyph_offset]
@@ -34,19 +34,19 @@ x = 0
 y = 4
 
 [font.italic]
-family = "JetBrains Mono"
+family = "IBM Plex Mono"
 style = "Light Italic"
 
 [font.normal]
-family = "JetBrains Mono"
-style = "Light"
+family = "IBM Plex Mono"
+style = "Normal"
 
 [font.offset]
 x = 0
 y = 8
 
 [window]
-decorations = "buttonless"
+decorations = "None"
 dynamic_padding = true
 opacity = 1
 
