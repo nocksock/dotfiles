@@ -93,6 +93,10 @@
   services.greetd = {
     enable = true;
     settings = {
+      initial_session = {
+        command = "niri-session";
+        user = "nr";
+      };
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
       };
