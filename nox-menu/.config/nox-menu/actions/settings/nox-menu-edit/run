@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+# Open a file in nvim using fuzzel to select or create it
+
+cd $NOX_ACTIONS_ROOT
+file=$(fd run | fuzzel --dmenu --prompt="Open file in nvim:")
+if [[ -n "$file" ]]; then
+  kitty --detach --class="float.md" -d $(pwd) nvim $file
+fi

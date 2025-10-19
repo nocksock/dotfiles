@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 # small script to run a command on a file and update the output on change.
+# no longer using this in favor of entr, but keeping it as fswatch reference
 source ~/code/dotfiles/zsh/modules/colors.zsh
 
 file="$1"

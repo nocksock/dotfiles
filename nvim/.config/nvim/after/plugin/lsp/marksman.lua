@@ -1,1 +1,1 @@
-require "lspconfig".marksman.setup {}
+-- require "lspconfig".marksman.setup {}

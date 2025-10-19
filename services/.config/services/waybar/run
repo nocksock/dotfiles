@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+if [[ -n $WAYLAND_DISPLAY ]]; then
+  exec waybar
+  exit 0
+fi
+
+echo "waybar/run: not on wayland"

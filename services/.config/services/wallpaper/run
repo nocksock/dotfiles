@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+if [[ -n $WAYLAND_DISPLAY ]]; then
+  exec swaybg -m tile -i ~/Pictures/Wallpapers/tile-lines-01.png
+  exit 0
+fi
+
+echo "wallpaper/run: not on wayland"

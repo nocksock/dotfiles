@@ -1,26 +1,24 @@
 * {
-  font-family: 'CaskaydiaMono Nerd Font', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 18px;
 }
 
 window {
   margin: 0px;
   padding: 20px;
-  background-color: black;
-  opacity: 0.95;
+  background-color: #222;
 }
 
 #inner-box {
   margin: 0;
-  padding: 0;
   border: none;
-  background-color: black;
 }
 
 #outer-box {
   margin: 0;
   padding: 20px;
-  border: none;
+  border: solid 4px #333;
+  border-radius: 10px;
   background-color: black;
 }
 
@@ -36,7 +34,7 @@ window {
   padding: 10px;
   border: none;
   background-color: black;
-  color: @text;
+  color: cyan;
 }
 
 #input:focus {
@@ -53,15 +51,17 @@ window {
 
 #entry {
   background-color: black;
+  border: 2px solid transparent;
+  border-radius: 10px;
 }
 
 #entry:selected {
   outline: none;
-  border: none;
+  background: #333;
 }
 
 #entry:selected #text {
-  color: magenta;
+  color: cyan;
 }
 
 #entry image {

@@ -1,4 +1,4 @@
-vim.cmd.LspStart("marksman")
+-- vim.cmd.LspStart("marksman")
 
 vim.opt_local.formatoptions:remove({ 't', 'c' }) -- do not autowrap text at width
 vim.opt_local.wrap = true

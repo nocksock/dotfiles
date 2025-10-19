@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+# TODO: create thin wrapper to make terminals easy to change
+kitty \
+	--detach \
+	--class="column.lg" \
+	-d $DOTDIR \
+	nvim +Oil
+
+# TODO: properly wait for the launch using niri ipc event stream
+sleep 0.3
+
+niri msg action center-window

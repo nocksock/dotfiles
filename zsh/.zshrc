@@ -174,3 +174,10 @@ export PATH="$PATH:/Users/nilsriedemann/.cache/lm-studio/bin"
 # Added by microsandbox installer
 export PATH="$HOME/.local/bin:$PATH"
 export DYLD_LIBRARY_PATH="$HOME/.local/lib:$DYLD_LIBRARY_PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/nr/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)

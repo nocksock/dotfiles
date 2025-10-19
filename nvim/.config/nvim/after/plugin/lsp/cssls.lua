@@ -1,6 +1,7 @@
 require "lspconfig".cssls.setup {
   settings = {
-    css = { validate = true,
+    css = { 
+      validate = true,
       lint = {
         unknownAtRules = "ignore"
       }

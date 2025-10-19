@@ -3,7 +3,8 @@ name = "Nils Riedemann"
 email = "nils@bleepbloop.studio"
 
 [ui]
-default-command = ["status", "--no-pager"]
+default-command = ["status"]
+paginate = "never"
 
 # [template-aliases]
 # 'format_short_id(id)' = 'id.shortest()'
@@ -11,7 +12,7 @@ default-command = ["status", "--no-pager"]
 [aliases]
 l = ["log", "-n", "20"]
 ll = ["log", "-n", "20", "-r", "::@"]
-st = ["status", "--no-pager"]
+st = ["status"]
 sq = ["squash"]
 before = ['new', '--before', '@', '--no-edit']
 ci = ['commit', '-i']

@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if [[ $1 == "run" ]]; then
+  sudo nixos-rebuild switch --flake "${DOTDIR}#"
+  notify-send "NixOS Rebuild" "Rebuild complete!"
+  exit 0
+fi
+
+kitty --detach --class="float.md" -d $(pwd) \
+  sh -c "$0 run"

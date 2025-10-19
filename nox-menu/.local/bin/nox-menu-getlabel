@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+action=$1
+
+if [[ -x "$action/label" ]]; then
+	"$action/label"
+	exit 0
+fi
+
+if [[ -f "$action/label" ]]; then
+	cat <(echo "$action:") "$action/label" | tr '\n' ' '
+	exit 0
+fi
+
+echo -n "$action"

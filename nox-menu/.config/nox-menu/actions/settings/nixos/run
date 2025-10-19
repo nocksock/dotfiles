@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+kitty \
+	--detach \
+	--class="column.lg" \
+	-d $DOTDIR/nixos \
+	nvim -O configuration.nix users/nr.nix
+
+# TODO: properly wait for the launch using niri ipc event stream
+sleep 0.3
+
+niri msg action center-window

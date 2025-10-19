@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+if [[ -n $WAYLAND_DISPLAY ]]; then
+  exec wl-paste --watch cliphist store
+  exit 0
+fi
+
+echo "cliphist/run: not on wayland"

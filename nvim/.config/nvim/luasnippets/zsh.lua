@@ -22,9 +22,11 @@ local same = function(index)
 end
 -- }}}
 
+ls.filetype_extend('zsh', { 'bash', 'sh' })
+
 return {
   mate(
-  "#!",
+  "#!script",
     [=[
       #!/usr/bin/env zsh
       # function to show help text

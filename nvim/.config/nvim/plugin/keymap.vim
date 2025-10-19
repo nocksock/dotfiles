@@ -12,6 +12,7 @@ inoremap : :<c-g>u
 inoremap ; ;<c-g>u
 inoremap ? ?<c-g>u
 inoremap , ,<c-g>u
+nnoremap <c-x> <cmd>:x<cr>
 
 " type %% in cmd mode to insert path to buffer's parent dir
 cnoremap <expr> %%  getcmdtype() == ':' ? expand('%:h').'/' : '%%'

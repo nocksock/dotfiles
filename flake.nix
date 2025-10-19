@@ -10,7 +10,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-colors, home-manager } @ inputs : {
+  outputs = { self, nixpkgs, nix-colors, home-manager, ... } @ inputs : {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = inputs;

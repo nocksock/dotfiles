@@ -2,14 +2,15 @@
   pkgs,
   home-manager,
   ...
-}: {
+} @ inputs: {
   users.users.nr = {
     isNormalUser = true;
     description = "nils riedemann";
     extraGroups = ["networkmanager" "wheel" "video" "input"];
   };
-  services.immich.enable = true;
-  services.immich.port = 2283;
+
+  # services.immich.enable = true;
+  # services.immich.port = 2283;
 
   home-manager.users.nr = {
     imports = [
@@ -18,14 +19,12 @@
     ];
 
     home.packages = with pkgs; [
-      # wayland
-      clipse
-
       # cli
       atuin
       btop
+      htop
+      killall
       ffmpeg
-      stow
 
       # dev-tools
       devenv
@@ -35,34 +34,15 @@
       lazygit
       gh
       jq
+      jujutsu
 
-      # launcher
-      # todo: settle on one
-      fuzzel
-      wofi
-      tofi
-      rofi
-
-      # gui tools
-      playerctl
-      pavucontrol
-      brightnessctl
-      pamixer
-      xwayland
-      xwayland-satellite
-      waybar
-      swaybg
-      powertop
-      mako
-      ibm-plex
-
-      firefox
-      brave
-      nautilus
       zeal
-      discord
       obsidian
       lmstudio
+      discord
+      gimp
+      krita
+      cider-2
 
       _1password-gui
       _1password
@@ -84,26 +64,8 @@
       cd ~/code/dotfiles
       ${pkgs.stow}/bin/stow --target $HOME --no-folding \
         stow zsh kitty nvim wofi niri vim git jj atuin \
-        lazygit starship rofi waybar
+        lazygit starship rofi waybar services
     '';
-
-    systemd.user.services.icloudpd = {
-      Unit = {
-        Description = "iCloudPD Photo Downloader";
-        After = ["network-online.target"];
-      };
-
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.icloudpd}/bin/icloudpd --username moin@nilsriedemann.de --directory %h/Pictures/Photos --watch-with-interval 3600";
-        Restart = "on-failure";
-        RestartSec = 60;
-      };
-
-      Install = {
-        WantedBy = ["default.target"];
-      };
-    };
 
     home.stateVersion = "25.05";
   };

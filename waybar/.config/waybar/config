@@ -48,33 +48,39 @@
       "tooltip-format": "Devices connected: {num_connections}"
     },
     "clock": {
-      "format": "{:%A %I:%M %p}",
-      "format-alt": "{:%d %B W%V %Y}",
-      "tooltip": false
+      "format": " {:%H:%M}",
+      "format-alt": " {:%d %b W%V %H:%M}",
+      "tooltip": true
     },
     "cpu": {
-      "format": "󰍛",
+      "format": "󰍛 {usage}%",
       "interval": 5,
-      "on-click": "ghostty -e btop"
+      "on-click": "kitty --class=float.sm btop"
     },
     "height": 26,
     "layer": "top",
     "modules-center": [
-      "niri/window"
+      "niri/workspaces"
     ],
     "modules-left": [
-      "niri/workspaces"
+      "niri/window",
     ],
     "modules-right": [
       "tray",
       "bluetooth",
       "network",
       "wireplumber",
-      "cpu",
       "power-profiles-daemon",
+      "cpu",
+      "memory",
       "clock",
       "battery"
     ],
+    "memory": {
+      "interval": 5,
+      "format": " RAM {percentage}% ",
+      "on-click": "kitty --class=float.lg btop"
+    },
     "network": {
       "format": "{icon}",
       "format-disconnected": "󰖪",
@@ -128,9 +134,9 @@
       "tooltip": true,
       "tooltip-format": "Power profile: {profile}"
     },
-    "spacing": 0,
+    "spacing": 4,
     "tray": {
-      "spacing": 13
+      "spacing": 18
     },
     "wireplumber": {
       "format": "",

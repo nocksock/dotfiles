@@ -1,12 +1,15 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... } @inputs: let
+  inherit (pkgs.stdenv.hostPlatform) system;
+in {
   imports = [
     ./users/nr.nix
   ];
-
+# System {{{
   # Boot {{{
 
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
+  # boot.plymouth.enable = true;
 
   # }}}
   # Nix {{{
@@ -85,17 +88,16 @@
   };
 
   # }}}
+# }}}
+
   # System Level Packages {{{
   environment.systemPackages = with pkgs; [
     zsh
+    nushell
+    runit
     git
-    jujutsu
     links2
     vim
-
-    blueberry
-    libnotify
-    wl-clipboard
 
     # language tools
     gcc
@@ -118,45 +120,60 @@
     rsync
     entr
     tree
-
     starship
     eza
     zoxide
-    kitty
-    alacritty
-    ghostty
+    stow
 
-    # ui
-    powertop
-    mako
-    ibm-plex
-
-    # todo: settle on one
-    fuzzel
-    wofi
-    tofi
-    rofi
+    kitty ghostty
 
     # Desktop
+    xwayland xwayland-satellite
+    fuzzel wofi tofi rofi # TODO: settle on one
+    waybar
+    swaybg
+    blueberry
+    libnotify
+    wl-clipboard clipse
+    wtype
+    darkman
+
+    # Common GUI Apps
+    nautilus
+    gnome-font-viewer
+    loupe
+    gradia
+    planify
+    cliphist
+    flameshot
+
+    bitwarden
+    _1password _1password-gui
+    firefox brave ungoogled-chromium
+    blender
+    gnome-calendar
+
+    pamixer
     playerctl
     pavucontrol
     brightnessctl
-    pamixer
-    bitwarden
-    _1password-gui
-    _1password
-    xwayland
-    xwayland-satellite
-    firefox
-    waybar
+    mako # notifications
+    powertop # *top for power consumption
   ];
+
   # }}}
   # Fonts {{{
+
+  fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
     noto-fonts
+    ibm-plex
     noto-fonts-emoji
+    fira-code
+    fira-sans
     nerd-fonts.caskaydia-mono
   ];
+
   # }}}
   # Niri {{{
 
@@ -220,10 +237,10 @@
     enable = true;
     settings = {
       # # uncomment to auto-login (eg. for remote reboot)
-      # initial_session = {
-      #   command = "niri-session";
-      #   user = "nr";
-      # };
+      initial_session = {
+        command = "niri-session";
+        user = "nr";
+      };
 
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";

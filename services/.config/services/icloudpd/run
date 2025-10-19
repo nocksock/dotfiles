@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+exec icloudpd                      \
+  --username moin@nilsriedemann.de \
+  --directory ~/Pictures/Photos    \
+  --watch-with-interval 3600

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# ccf - current cache file/folder
+cache="$(realpath --relative-to="$HOME" "$(pwd)" | tr '/' '-')"
+echo "${NOX_CACHE_ROOT}/$cache"

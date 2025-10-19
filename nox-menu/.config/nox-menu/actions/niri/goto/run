@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+window=$(niri msg -j windows \
+  | jq --raw-output '.[] | "\(.id): \(.title)"' \
+  | fuzzel --dmenu
+)
+
+if [[ -z "$window" ]]; then
+  exit 0
+fi
+
+id=$(echo "$window" | cut -d: -f1)
+
+niri msg action focus-window --id "$id"

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+kitty \
+	--detach \
+	--class="float.md" \
+	-d $DOTDIR/niri/.config/niri \
+	nvim config.kdl
+
+# TODO: properly wait for the launch using niri ipc event stream
+sleep 0.3
+
+niri msg action center-window

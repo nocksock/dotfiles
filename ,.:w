@@ -1,0 +1,45 @@
+* {
+  border: 1px solid transparent;
+  border-radius: 0;
+  min-height: 0;
+  font-family: CaskaydiaMono Nerd Font;
+  font-size: 16px;
+  color: #aaaaaa;
+  background-color: #aaaaaa;
+}
+
+:hover {
+  color: white;
+}
+
+#window {
+  margin-left: 13px;
+}
+
+#workspaces button {
+  all: initial;
+  padding: 2px 6px;
+  margin-right: 3px;
+}
+
+#custom-dropbox,
+#cpu,
+#power-profiles-daemon,
+#battery,
+#network,
+#bluetooth,
+#wireplumber,
+#tray,
+#clock {
+  background-color: transparent;
+  min-width: 12px;
+  margin-right: 13px;
+}
+
+tooltip {
+  padding: 2px;
+}
+
+tooltip label {
+  padding: 2px;
+}

@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+kitty --single-instance --class=float.md -d "$(pwd)" $@

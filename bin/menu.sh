@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+cat ~/emoji-test.txt | fuzzel\
+  --background-color '#000000ff'\
+  --border-color '#00000000'\
+  --border-color '#00000080'\
+  --border-radius 8\
+  --border-width 8\
+  --font 'FiraCode:size=16'\
+  --line-height 32\
+  --lines 10\
+  --match-color '#FFFFFFFF'\
+  --selection-color '#ffffff20'\
+  --selection-radius 4\
+  --selection-text-color '#FFFFFFFF'\
+  --text-color '#888888ff'\
+  --input-color '#FFFFFFFF'\
+  --prompt-color '#FFFFFFFF'\
+  --width 60\
+  -P 20\
+  -x 30\
+  -y 20\
+  --dmenu\
+  --prompt 'Menu: '

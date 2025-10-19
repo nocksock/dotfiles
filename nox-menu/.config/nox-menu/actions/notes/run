@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+cd "$HOME/notes"
+
+file=$(nox-menu-pick)
+
+if [[ -n "$file" ]]; then
+  exec nox-menu-float nvim "$file"
+fi

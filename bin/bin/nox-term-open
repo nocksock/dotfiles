@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+zparseopts -D -E -F -A opts -zsh=z -float=f
+
+if [[ -n $opts[(i)-z] ]]; then
+	$prefix="zsh -c"
+fi
+
+if [[ -n $opts[(i)-f] ]]; then
+	class='--class="kitty.float"'
+	notify-send -t 1000 "class $class"
+fi
+
+kitty --detach $class -d $(pwd) $prefix "${@}"

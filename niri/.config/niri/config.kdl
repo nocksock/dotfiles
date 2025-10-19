@@ -3,69 +3,31 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
-// Input device configuration.
-// Find the full list of options on the wiki:
-// https://yalter.github.io/niri/Configuration:-Input
 input {
     keyboard {
-        xkb {
-            // You can set rules, model, layout, variant and options.
-            // For more information, see xkeyboard-config(7).
-
-            // For example:
-            layout "eu"
-
-            // If this section is empty, niri will fetch xkb settings
-            // from org.freedesktop.locale1. You can control these using
-            // localectl set-x11-keymap.
-        }
-
-        // Enable numlock on startup, omitting this setting disables it.
+        xkb { layout "eu"; }
         numlock
     }
 
-    // Next sections include libinput settings.
-    // Omitting settings disables them, or leaves them at their default values.
-    // All commented-out settings here are examples, not defaults.
     touchpad {
-        // off
         tap
-        // dwt
-        // dwtp
-        // drag false
-        // drag-lock
         natural-scroll
         accel-speed 0.2
         accel-profile "flat"
         scroll-method "two-finger"
-        // disabled-on-external-mouse
     }
 
     mouse {
-        // off
-        // natural-scroll
+        natural-scroll
         accel-speed 0.2
         accel-profile "flat"
-        // scroll-method "no-scroll"
     }
 
     trackpoint {
-        // off
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "on-button-down"
-        // scroll-button 273
-        // scroll-button-lock
-        // middle-emulation
     }
 
     // Uncomment this to make the mouse warp to the center of newly focused windows.
     // warp-mouse-to-focus
-
-    // Focus windows and outputs automatically when moving the mouse into them.
-    // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    // focus-follows-mouse max-scroll-amount="0%"
 }
 
 // You can configure outputs by their name, which you can find
@@ -119,6 +81,8 @@ layout {
     // - "on-overflow", focusing a column will center it if it doesn't fit
     //   together with the previously focused column.
     center-focused-column "on-overflow"
+    always-center-single-column
+    empty-workspace-above-first
 
     // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
     preset-column-widths {
@@ -135,129 +99,71 @@ layout {
 
     // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
     // preset-window-heights { }
-
-    // You can change the default width of the new windows.
-    default-column-width { proportion 0.5; }
+    default-column-width { proportion 0.3333; }
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     // default-column-width {}
-
-    // By default focus ring and border are rendered as a solid background rectangle
-    // behind windows. That is, they will show up through semitransparent windows.
-    // This is because windows using client-side decorations can have an arbitrary shape.
-    //
-    // If you don't like that, you should uncomment `prefer-no-csd` below.
-    // Niri will draw focus ring and border *around* windows that agree to omit their
-    // client-side decorations.
-    //
-    // Alternatively, you can override it with a window rule called
-    // `draw-border-with-background`.
-
-    // You can change how the focus ring looks.
     focus-ring {
-        // Uncomment this line to disable the focus ring.
-        off
+       width 2
+       // active-color "white"
+       // inactive-color "red"
 
-        // How many logical pixels the ring extends out from the windows.
-        width 1
-
-        // Colors can be set in a variety of ways:
-        // - CSS named colors: "red"
-        // - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
-        // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
-
-        // Color of the ring on the active monitor.
-        active-color "#7fc8ff"
-
-        // Color of the ring on inactive monitors.
-        //
-        // The focus ring only draws around the active window, so the only place
-        // where you can see its inactive-color is on other monitors.
-        inactive-color "#505050"
-
-        // You can also use gradients. They take precedence over solid colors.
-        // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
-        // The angle is the same as in linear-gradient, and is optional,
-        // defaulting to 180 (top-to-bottom gradient).
-        // You can use any CSS linear-gradient tool on the web to set these up.
-        // Changing the color space is also supported, check the wiki for more info.
-        //
-        active-gradient from="#80c8ff" to="#c7ff7f" angle=45
-
-        // You can also color the gradient relative to the entire view
-        // of the workspace, rather than relative to just the window itself.
-        // To do that, set relative-to="workspace-view".
-        //
-        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+       // Color of the focus ring around windows that request your attention.
+       // urgent-color "#ff0000"
+       // Gradients can use a few different interpolation color spaces.
+       // For example, this is a pastel rainbow gradient via in="oklch longer hue".
+       //
+      // active-gradient from="hsl(330 100% 50%)" to="#00ff00" angle=45 relative-to="workspace-view" in="oklch longer hue"
+      // inactive-gradient from="#000000" to="#808080" angle=45 #relative-to="workspace-view"
     }
 
     // You can also add a border. It's similar to the focus ring, but always visible.
     border {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
-        // on
+       // off
 
-        width 2
+        width 6
+        active-color "#000a"
         // active-color "#ffc87f"
-        // inactive-color "#505050"
+        inactive-color "#000a"
 
         // Color of the border around windows that request your attention.
-        urgent-color "#9b0000"
+        // urgent-color "#9b0000"
 
         // Gradients can use a few different interpolation color spaces.
         // For example, this is a pastel rainbow gradient via in="oklch longer hue".
         //
-        active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
-
-        inactive-gradient from="#000000" to="#808080" angle=45 relative-to="workspace-view"
+        // active-gradient from="hsl(330 100% 50%)" to="#00ff00" angle=45 relative-to="workspace-view" in="oklch longer hue"
+        // inactive-gradient from="#000000" to="#808080" angle=45 relative-to="workspace-view"
     }
 
     // You can enable drop shadows for windows.
     shadow {
-        // Uncomment the next line to enable shadows.
         on
 
-        // By default, the shadow draws only around its window, and not behind it.
-        // Uncomment this setting to make the shadow draw behind its window.
-        //
-        // Note that niri has no way of knowing about the CSD window corner
-        // radius. It has to assume that windows have square corners, leading to
-        // shadow artifacts inside the CSD rounded corners. This setting fixes
-        // those artifacts.
-        //
-        // However, instead you may want to set prefer-no-csd and/or
-        // geometry-corner-radius. Then, niri will know the corner radius and
-        // draw the shadow correctly, without having to draw it behind the
-        // window. These will also remove client-side shadows if the window
-        // draws any.
-        //
-        // draw-behind-window true
-
-        // You can change how shadows look. The values below are in logical
-        // pixels and match the CSS box-shadow properties.
-
-        // Softness controls the shadow blur radius.
         softness 16
-
-        // Spread expands the shadow.
         spread 0
-
-        // Offset moves the shadow relative to the window.
         offset x=8 y=16
-
-        // You can also change the shadow color and opacity.
         color "0008"
     }
 
-    // Struts shrink the area occupied by windows, similarly to layer-shell panels.
-    // You can think of them as a kind of outer gaps. They are set in logical pixels.
-    // Left and right struts will cause the next window to the side to always be visible.
-    // Top and bottom struts will simply add outer gaps in addition to the area occupied by
-    // layer-shell panels and regular gaps.
     struts {
         left 64
         right 64
         top 16
         bottom 16
+    }
+
+    tab-indicator {
+      // // place-within-column
+      width 8
+      gap 2
+      gaps-between-tabs 0
+      active-color "#7fc8ff"
+      inactive-color "#000"
+      corner-radius 3
+      length total-proportion=0.333
+      active-gradient from="hsl(330 100% 50%)" to="#00ff00" angle=45 relative-to="workspace-view" in="oklch longer hue"
     }
 }
 
@@ -266,9 +172,7 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-at-startup "waybar"
-spawn-at-startup "clipse -listen"
-spawn-at-startup "swaybg -m tile -i ~/Pictures/Wallpapers/tile-lines-01.png"
+spawn-at-startup "runsvdir ~/.config/services"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -283,7 +187,11 @@ hotkey-overlay {
 // Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
 // This option will also fix border/focus ring drawing behind some semitransparent windows.
 // After enabling or disabling this, you need to restart the apps for this to take effect.
-// prefer-no-csd
+prefer-no-csd
+
+environment {
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+}
 
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
@@ -330,13 +238,40 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
 }
 
 window-rule {
+    match app-id=r#"column.sm$"#
+    default-column-width { proportion 0.33333; }
+}
+
+window-rule {
+    match app-id=r#"column.md$"#
+    default-column-width { proportion 0.5; }
+}
+
+window-rule {
+    match app-id=r#"column.lg$"#
+    default-column-width { proportion 0.66667; }
+}
+
+window-rule {
+    match app-id=r#"float.md$"#
+    match app-id=r#"1Password$"#
     match app-id=r#"waypaper$"#
+    match app-id=r#"clipse$"#
     open-floating true
     default-column-width { fixed 960; }
     default-window-height { fixed 800; }
+}
+
+window-rule {
+    match app-id=r#"float.lg$"#
+    match app-id=r#"NautilusPreviewer"#
+    open-floating true
+    default-column-width { fixed 1920; }
+    default-window-height { fixed 1080; }
 }
 
 window-rule {
@@ -347,21 +282,17 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"clipse$"#
-    open-floating true
-    default-column-width { fixed 800; }
-    default-window-height { fixed 900; }
-}
+    match app-id=r#"1Password$"#
+    match app-id=r#"chrome-app.fastmail"#
+    match title=r#"Discord$"#
+    match title=r#"Cinny$"#
+    match title=r#"WhatsApp Web$"#
+    match title=r#"Microsoft Teams$"#
 
-// Example: block out two password managers from screen capture.
-// (This example rule is commented out with a "/-" in front.)
-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
-
+    // block out from all captures: 
     block-out-from "screen-capture"
 
-    // Use this instead if you want them visible on third-party screenshot tools.
+    // block out from screenshare (visible in screenshots)
     // block-out-from "screencast"
 }
 
@@ -390,11 +321,18 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance zsh"; }
     Mod+B hotkey-overlay-title="Run Firefox" { spawn "firefox"; }
-    Mod+Ctrl+Comma hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
-    Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn-sh "wofi"; }
+    Mod+Space hotkey-overlay-title="Run an Application: wofi" { spawn "wofi"; }
+    Mod+Semicolon hotkey-overlay-title="Wofi: Run in Path" { spawn-sh "kitty --class=float.md zsh"; }
+
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-    Mod+Alt+C hotkey-overlay-title="Clipse" { spawn-sh "kitty -1 --class clipse -e clipse"; }
+    Mod+Mod5+C hotkey-overlay-title="Cliboard History" { spawn-sh "cliphist list | wofi --dmenu --pre-display-cmd \"echo '%s' | cut -f 2\" | cliphist decode | wl-copy"; }
+
+    Mod+Ctrl+Comma hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
+
     Mod+Slash hotkey-overlay-title="1password" { spawn "1password"; }
+    Mod+G hotkey-overlay-title="Goto" { spawn-sh "nox-menu --run niri/goto"; }
+    Mod+X hotkey-overlay-title="Nox" { spawn "nox-menu"; }
+    Mod+N hotkey-overlay-title="Notes" { spawn-sh "nox-menu --run notes"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -419,7 +357,6 @@ binds {
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
     Mod+O repeat=false { toggle-overview; }
-
     Mod+Q repeat=false { close-window; }
 
     Mod+Down       { focus-window-or-workspace-down; }
@@ -559,6 +496,7 @@ binds {
 
     // Switches focus between the current and the previous workspace.
     Mod+Tab { focus-workspace-previous; }
+    Mod5+Tab hotkey-overlay-title="Switch" { spawn "niri-switch"; }
 
     // The following binds move the focused window in and out of a column.
     // If the window is alone, they will consume it into the nearby column to the side.
@@ -605,7 +543,7 @@ binds {
 
     // Move the focused window between the floating and the tiling layout.
     Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+Grave { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
@@ -617,8 +555,8 @@ binds {
     // a matching layout switch hotkey configured in xkb options above.
     // Having both at once on the same hotkey will break the switching,
     // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
-    // Mod+Space       { switch-layout "next"; }
-    // Mod+Shift+Space { switch-layout "prev"; }
+    // Mod+Ctrl+Space       { switch-layout "next"; }
+    // Mod+Ctrl+Shift+Space { switch-layout "prev"; }
 
     Mod+Shift+4 { screenshot; }
     Mod+Shift+5 { screenshot-screen; }
@@ -643,4 +581,5 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+
 }
