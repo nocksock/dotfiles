@@ -155,10 +155,10 @@ layout {
     // You can change how the focus ring looks.
     focus-ring {
         // Uncomment this line to disable the focus ring.
-        // off
+        off
 
         // How many logical pixels the ring extends out from the windows.
-        width 3
+        width 1
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -194,11 +194,11 @@ layout {
     border {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
-        off
+        // on
 
-        width 4
-        active-color "#ffc87f"
-        inactive-color "#505050"
+        width 2
+        // active-color "#ffc87f"
+        // inactive-color "#505050"
 
         // Color of the border around windows that request your attention.
         urgent-color "#9b0000"
@@ -206,15 +206,15 @@ layout {
         // Gradients can use a few different interpolation color spaces.
         // For example, this is a pastel rainbow gradient via in="oklch longer hue".
         //
-        // active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
+        active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
 
-        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+        inactive-gradient from="#000000" to="#808080" angle=45 relative-to="workspace-view"
     }
 
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
-        // on
+        on
 
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
@@ -236,16 +236,16 @@ layout {
         // pixels and match the CSS box-shadow properties.
 
         // Softness controls the shadow blur radius.
-        softness 0
+        softness 16
 
         // Spread expands the shadow.
-        spread 5
+        spread 0
 
         // Offset moves the shadow relative to the window.
-        offset x=0 y=0
+        offset x=8 y=16
 
         // You can also change the shadow color and opacity.
-        color "#0007"
+        color "0008"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -256,8 +256,8 @@ layout {
     struts {
         left 64
         right 64
-        top 0
-        bottom 0
+        top 16
+        bottom 16
     }
 }
 
@@ -266,9 +266,9 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
 spawn-at-startup "clipse -listen"
+spawn-at-startup "swaybg -m tile -i ~/Pictures/Wallpapers/tile-lines-01.png"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -330,6 +330,13 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+}
+
+window-rule {
+    match app-id=r#"waypaper$"#
+    open-floating true
+    default-column-width { fixed 960; }
+    default-window-height { fixed 800; }
 }
 
 window-rule {
