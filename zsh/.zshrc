@@ -165,7 +165,6 @@ if [[ -f "$HOME/.zsh_secrets" ]]; then
 fi
 
 # zprof # show profiling result
-alias claude="/Users/nilsriedemann/.claude/local/claude"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/nilsriedemann/.cache/lm-studio/bin"
