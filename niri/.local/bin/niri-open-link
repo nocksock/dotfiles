@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+firefox "$@"
+sleep 0.150
+
+# Get last firefox window ID and focus it
+FIREFOX_ID=$(niri msg --json windows | jq -r '.[] | select(.app_id == "firefox") | .id' | tail -n1)
+
+if [ -n "$FIREFOX_ID" ]; then
+    niri msg action focus-window --id "$FIREFOX_ID"
+fi

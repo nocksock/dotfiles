@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Url (with focus)
+Exec=/home/nr/.local/bin/niri-open-link %u
+Type=Application
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+Icon=firefox
+NoDisplay=true
