@@ -7,11 +7,9 @@
     isNormalUser = true;
     description = "nils riedemann";
     extraGroups = ["networkmanager" "wheel" "video" "input"];
-
   };
-    services.immich.enable = true;
-    services.immich.port = 2283;
-
+  services.immich.enable = true;
+  services.immich.port = 2283;
 
   home-manager.users.nr = {
     imports = [
@@ -20,9 +18,12 @@
     ];
 
     home.packages = with pkgs; [
+      # wayland
+      clipse
+
+      # cli
       atuin
       btop
-      clipse
       ffmpeg
       stow
 
@@ -35,17 +36,39 @@
       gh
       jq
 
+      # launcher
+      # todo: settle on one
+      fuzzel
+      wofi
+      tofi
+      rofi
+
       # gui tools
+      playerctl
+      pavucontrol
+      brightnessctl
+      pamixer
+      xwayland
+      xwayland-satellite
+      waybar
+      swaybg
+      powertop
+      mako
+      ibm-plex
+
+      firefox
       brave
       nautilus
       zeal
       discord
       obsidian
-      swww
+      lmstudio
 
+      _1password-gui
+      _1password
+
+      # misc
       syncthing
-
-      # Photo things
       icloudpd
       libheif
     ];
@@ -67,7 +90,7 @@
     systemd.user.services.icloudpd = {
       Unit = {
         Description = "iCloudPD Photo Downloader";
-        After = [ "network-online.target" ];
+        After = ["network-online.target"];
       };
 
       Service = {
@@ -78,7 +101,7 @@
       };
 
       Install = {
-        WantedBy = [ "default.target" ];
+        WantedBy = ["default.target"];
       };
     };
 

@@ -148,6 +148,7 @@
     xwayland
     xwayland-satellite
     firefox
+    waybar
   ];
   # }}}
   # Fonts {{{
@@ -158,7 +159,9 @@
   ];
   # }}}
   # Niri {{{
+
   programs.niri.enable = true;
+
   # }}}
   # Gnome {{{
 
@@ -202,8 +205,10 @@
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   programs.xwayland.enable = true;
+  programs.nix-ld.enable = true;
   security.rtkit.enable = true;
   hardware.bluetooth.enable = true;
+  services.flatpak.enable = true;
 
   services.sunshine = {
     enable = true;
