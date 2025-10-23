@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 kitty \
 	--detach \
-	--class="column.lg" \
+	--class="float.lg" \
 	-d $DOTDIR/nixos \
 	nvim -O configuration.nix users/nr.nix
 

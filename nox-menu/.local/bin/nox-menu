@@ -41,12 +41,16 @@ fi
 
 # make sure we're in a subdirectory of the actions root
 if [[ $(pwd) != $NOX_ACTIONS_ROOT* ]]; then
+    echo "Not in actions root, going to default"
 	cd $default
 fi
 
 # run specified action directly
 if [[ -n $opts[--run] ]]; then
-	cd $opts[--run]
+    pwd
+    echo $1
+    cd $opts[--run]
+	ls -la
 	exec ./run
 fi
 
