@@ -14,6 +14,7 @@ in {
   # }}}
   # Nix {{{
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnsupportedSystem = true; # eg. for tableplus
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.extraOptions = ''
     extra-substituters = https://devenv.cachix.org
@@ -95,9 +96,8 @@ in {
     zsh
     nushell
     runit
-    git
-    links2
-    vim
+
+    kitty ghostty
 
     # language tools
     gcc
@@ -110,6 +110,9 @@ in {
     alejandra
 
     # cli utils
+    git
+    links2
+    vim
     unzip
     ripgrep
     fd
@@ -124,8 +127,12 @@ in {
     eza
     zoxide
     stow
+    nnn
+    yazi
 
-    kitty ghostty
+    iwmenu
+    pwmenu
+    bzmenu
 
     # Desktop
     xwayland xwayland-satellite
@@ -137,6 +144,7 @@ in {
     wl-clipboard clipse
     wtype
     darkman
+    apple-cursor
 
     # Common GUI Apps
     nautilus

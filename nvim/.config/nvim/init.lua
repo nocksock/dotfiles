@@ -3,19 +3,19 @@
 -- bootstrap baggage.nvim
 vim.g.baggage_path = vim.fn.stdpath("data") .. "/site/pack/baggage/"
 if not (vim.uv or vim.loop).fs_stat(vim.g.baggage_path) then
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable",
-    "https://github.com/nocksock/baggage.nvim", vim.g.baggage_path .. 'start/baggage.nvim' })
+  local out = vim.fn.system({ "git", "clone", "--depth=1", "--branch=main", "https://github.com/nocksock/baggage.nvim", vim.g.baggage_path .. 'start/baggage.nvim' })
   if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone baggage.nvim:\n", "ErrorMsg" },
-      { out,                               "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
+    vim.notify("Failed to clone baggage.nvim", vim.log.levels.ERROR)
   end
   vim.cmd("packloadall")
 end
+
+R = require "rr"
+P = function(...)
+  print(vim.inspect(...))
+  return ...
+end
+TAP = P
 
 -- general {{{
 vim.g.mapleader      = ' '
@@ -29,7 +29,7 @@ vim.o.mouse          = 'a'        -- enable scrolling and selecting with mouse
 vim.o.updatetime     = 250
 vim.o.splitbelow     = true       -- When on, splitting a window will put the new window below the current one
 vim.o.shiftround     = true       -- When at 3 spaces and I hit >>, go to 4, not 5.
-vim.o.shell          = '/usr/bin/env zsh'
+vim.o.shell          = vim.env.SHELL or '/bin/zsh'
 vim.o.wildignore     = table.concat({
   '.DS_Store',
   '**/.git/*',
@@ -73,13 +73,11 @@ vim.o.cmdheight             = 1     -- height of the command bar
 -- }}}
 -- indentation and wrapping {{{
 
-vim.o.shiftwidth            = 2
-vim.o.softtabstop           = 2
-vim.o.smartindent           = true
-vim.o.tabstop               = 2
+vim.o.shiftwidth            = 4
+vim.o.softtabstop           = 4
+vim.o.smartindent           = false -- handled by lsp/treesitter
 vim.o.textwidth             = 80
 vim.o.expandtab             = true
-
 vim.o.briopt                = 'shift:4' -- indent wrapped lines
 vim.o.linebreak             = true
 vim.o.wrap                  = false
@@ -119,19 +117,3 @@ function! s:build_quickfix_list(lines)
   cc
 endfunction
 ]])
-
-require "baggage".from {
-  "https://github.com/nvim-lua/plenary.nvim",
-}
-
-RELOAD = require 'plenary.reload'.reload_module
-
-R = function(name)
-  RELOAD(name)
-  return require(name)
-end
-
-P = function(v)
-  print(vim.inspect(v))
-  return v
-end

@@ -43,6 +43,7 @@
       gimp
       krita
       cider-2
+      tableplus
 
       _1password-gui
       _1password

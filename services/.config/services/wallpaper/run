@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 if [[ -n $WAYLAND_DISPLAY ]]; then
-  exec swaybg -m tile -i ~/Pictures/Wallpapers/tile-lines-01.png
+  exec swaybg -m tile -i ~/Pictures/Wallpapers/dharmx-walls/monochrome/a_black_and_white_photo_of_clouds.jpg
   exit 0
 fi
 
