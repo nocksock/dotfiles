@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Discord
-Exec=chromium --app="https://discord.com/channels"
-icon=discord
+Name=Excalidraw
+Exec=brave --app="https://excalidraw.com"
+icon=excalidraw
