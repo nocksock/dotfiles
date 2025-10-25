@@ -1,0 +1,12 @@
+dotfiles
+
+I use `stow` to set this up.
+
+
+    ./core: cross-platform cli
+    ./gui-core: cross platform gui configs
+    ./gui-linux: linux gui configs (waybar, niri etc)
+    ./macos: macos specific
+    ./nixos: nixos config
+    ./linux: linux specifc
+
