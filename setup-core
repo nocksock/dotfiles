@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+stow --restow --target="$HOME" --dotfiles \
+    zsh git nvim tmux vim atuin lazygit jj starship zellij rustic

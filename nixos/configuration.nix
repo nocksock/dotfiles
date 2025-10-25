@@ -136,7 +136,7 @@ in {
 
     # Desktop
     xwayland xwayland-satellite
-    fuzzel wofi tofi rofi # TODO: settle on one
+    fuzzel wofi tofi rofi dmenu # TODO: settle on one
     waybar
     swaybg
     blueberry
@@ -160,6 +160,7 @@ in {
     firefox brave ungoogled-chromium
     blender
     gnome-calendar
+    qutebrowser
 
     pamixer
     playerctl

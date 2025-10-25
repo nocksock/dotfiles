@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# Open a file in nvim using fuzzel to select or create it
+
+cd $NOX_ACTIONS_ROOT
+file=$(fd  | fuzzel --dmenu --prompt="edit/create: " --placeholder="search or create file")
+
+if [[ -n "$file" ]]; then
+   if [[ ! -f "$file" ]]; then
+        create_file=$(zenity --question --text="File does not exist. Create it?" --ok-label="Create" --cancel-label="Cancel")
+
+        if [[ $? -ne 0 ]]; then
+            exit 0
+        fi
+
+        mkdir -p "$(dirname "$file")"
+        echo -e "#!/usr/bin/env sh\n" > "$file"
+        chmod +x "$file"
+    fi
+
+    exec kitty --detach --class="float.md" -d $(pwd) zsh -c "exec nvim \"$file\""
+fi

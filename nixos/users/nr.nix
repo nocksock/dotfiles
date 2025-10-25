@@ -43,7 +43,6 @@
       gimp
       krita
       cider-2
-      tableplus
 
       _1password-gui
       _1password
@@ -60,13 +59,11 @@
       enableZshIntegration = true;
     };
 
-    # TODO: define path in flake.nix
-    home.activation.stowDotfiles = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-      cd ~/code/dotfiles
-      ${pkgs.stow}/bin/stow --target $HOME --no-folding \
-        stow zsh kitty nvim wofi niri vim git jj atuin \
-        lazygit starship rofi waybar services
-    '';
+    # # TODO: define path in flake.nix
+    # home.activation.stowDotfiles = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #   cd ~/code/dotfiles
+    #   ./setup-wayland.sh
+    # '';
 
     home.stateVersion = "25.05";
   };

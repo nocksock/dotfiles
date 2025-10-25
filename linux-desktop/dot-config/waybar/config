@@ -1,0 +1,151 @@
+[
+  {
+    "height": 26,
+    "spacing": 4,
+    "layer": "top",
+    "position": "top",
+    "modules-center": [
+      "niri/workspaces"
+    ],
+    "modules-left": [
+      "niri/window",
+    ],
+    "modules-right": [
+      "tray",
+      "bluetooth",
+      "network",
+      "wireplumber",
+      "power-profiles-daemon",
+      "cpu",
+      "memory",
+      "clock",
+      "battery"
+    ],
+    "battery": {
+      "format": "{capacity}% {icon}",
+      "format-charging": "{icon}",
+      "format-discharging": "{icon}",
+      "format-full": "Charged ",
+      "format-icons": {
+        "charging": [
+          "󰢜",
+          "󰂆",
+          "󰂇",
+          "󰂈",
+          "󰢝",
+          "󰂉",
+          "󰢞",
+          "󰂊",
+          "󰂋",
+          "󰂅"
+        ],
+        "default": [
+          "󰁺",
+          "󰁻",
+          "󰁼",
+          "󰁽",
+          "󰁾",
+          "󰁿",
+          "󰂀",
+          "󰂁",
+          "󰂂",
+          "󰁹"
+        ]
+      },
+      "format-plugged": "",
+      "interval": 5,
+      "states": {
+        "critical": 10,
+        "warning": 20
+      },
+      "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+      "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%"
+    },
+    "bluetooth": {
+      "format": "󰂯",
+      "format-connected": "",
+      "format-disabled": "󰂲",
+      "on-click": "blueberry",
+      "tooltip-format": "Devices connected: {num_connections}"
+    },
+    "clock": {
+      "format": " {:%H:%M}",
+      "format-alt": " {:%d %b W%V %H:%M}",
+      "tooltip": true
+    },
+    "cpu": {
+      "format": "󰍛 {usage}%",
+      "interval": 5,
+      "on-click": "kitty --class=float.sm btop"
+    },
+    "memory": {
+      "interval": 5,
+      "format": " RAM {percentage}% ",
+      "on-click": "kitty --class=float.lg btop"
+    },
+    "network": {
+      "format": "{icon}",
+      "format-disconnected": "󰖪",
+      "format-ethernet": "󰀂",
+      "format-icons": [
+        "󰤯",
+        "󰤟",
+        "󰤢",
+        "󰤥",
+        "󰤨"
+      ],
+      "format-wifi": "{icon}",
+      "interval": 3,
+      "nospacing": 1,
+      "on-click": "ghostty -e nmcli",
+      "tooltip-format-disconnected": "Disconnected",
+      "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+      "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}"
+    },
+    "niri/workspaces": {
+      "format": "{icon}",
+      "format-icons": {
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+        "6": "6",
+        "7": "7",
+        "8": "8",
+        "9": "9",
+        "active": "󱓻",
+        "default": ""
+      },
+      "persistent-workspaces": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": []
+      }
+    },
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "format-icons": {
+        "balanced": "󰊚",
+        "performance": "󰡴",
+        "power-saver": "󰡳"
+      },
+      "tooltip": true,
+      "tooltip-format": "Power profile: {profile}"
+    },
+    "tray": {
+      "spacing": 18
+    },
+    "wireplumber": {
+      "format": "",
+      "format-muted": "󰝟",
+      "max-volume": 150,
+      "on-click": "pavucontrol",
+      "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+      "scroll-step": 5,
+      "tooltip-format": "Playing at {volume}%"
+    }
+  }
+]

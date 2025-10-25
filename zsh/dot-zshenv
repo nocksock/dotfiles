@@ -1,0 +1,137 @@
+export DOTLOG="$HOME/.dotfiles.log"
+export DOTDIR="$HOME/code/dotfiles"
+
+export BUN_INSTALL="$HOME/.bun"
+export EDITOR='/usr/local/bin/nvim' # used for commits and such
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+export N_PREFIX="$HOME/n"; 
+
+# {{{ PATH
+
+declare -U PATH path
+path=(
+  "$HOME/bin"
+  "$DOTDIR/bin"
+        "/opt/homebrew/opt/postgresql@15/bin"
+  "/opt/homebrew/opt/grep/libexec/gnubin" 
+  "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
+        "$HOME/.deno/bin"
+        "$HOME/.mix/escripts"
+        "$HOME/go/bin"
+  "$HOME/.cargo/bin"
+  "$HOME/.local/bin"
+  "$PNPM_HOME"
+  "$BUN_INSTALL/bin"
+  "$HOME/.composer/vendor/bin"
+  "/usr/local/bin" 
+  "/usr/local/cuda-11.6/bin"
+  "$path[@]"
+  "$N_PREFIX/bin"
+)
+export PATH
+
+# }}}
+# brew{{{
+
+if [[ $OSTYPE == darwin* ]]; then
+        export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+        export HOMEBREW_NO_INSTALL_CLEANUP=1
+        export HOMEBREW_NO_ENV_HINTS=1
+        export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
+        export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
+fi
+
+# }}}
+# cuda{{{
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    export PATH="/usr/local/cuda-11.6/bin:$PATH"
+    export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
+fi
+
+# }}}
+# {{{ FZF
+
+# check if fzf is installed
+if ! command -v fzf &> /dev/null; then
+    style -fg yellow "Warning: fzf was not found!"
+    return
+fi
+
+export FZF_OPTS=(
+  "-m"
+  "--bind ctrl-j:down,ctrl-k:up"
+  "--bind ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up"
+  "--bind ctrl-a:select-all,ctrl-t:toggle-all"
+  "--bind ctrl-s:toggle-sort,ctrl-r:toggle-preview,ctrl-/:toggle-search"
+)
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
+export FZF_DEFAULT_OPTS="$FZF_OPTS"
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat -pf --line-range :999 {}' --bind='ctrl-o:execute(nvim {})'"
+
+if [[ $OSTYPE == darwin* ]]; then
+  test -f /opt/homebrew/opt/fzf/shell/completion.zsh   \
+    && source /opt/homebrew/opt/fzf/shell/completion.zsh
+  test -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh \
+    && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+
+        source $(brew --prefix asdf)/libexec/asdf.sh
+fi
+
+if [[ $OSTYPE == linux-gnu ]]; then
+  test -f /usr/share/doc/fzf/examples/completion.zsh   \
+    && source /usr/share/doc/fzf/examples/completion.zsh
+  test -f /usr/share/doc/fzf/examples/key-bindings.zsh \
+    && source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
+
+# }}}
+# {{{ pnpm
+
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+# }}}
+# {{{ python
+
+export PYENV_ROOT="$HOME/.pyenv"
+
+# }}}
+# {{{ ripgrep
+
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
+# }}}
+# {{{ load zsh plugins
+
+ZSH_PLUGIN_PATH="$DOTDIR/zsh/dot-local/share/zsh"
+for plugin in "$ZSH_PLUGIN_PATH"/*; do
+    plugin=$(basename $plugin)
+    plugin_path="$ZSH_PLUGIN_PATH/$plugin/$plugin.plugin.zsh"
+    # ignore plugins that start with -
+    if [[ $plugin == -* ]]; then
+        continue
+    elif [[ -f "$plugin_path" ]]; then
+        source $plugin_path
+    else
+        echo "Huh? Plugin $plugin has no $plugin_path?" >&2
+    fi
+done
+
+# }}}
+# load local zshenv{{{
+
+if [[ -f $HOME/.zshenv.local ]]; then
+    source $HOME/.zshenv.local
+fi
+
+# }}}
+
+export OP_APP_VAULT=bleepbloop
+# Added by LM Studio CLI tool (lms)
+export PATH="$PATH:$HOME/.cache/lm-studio/bin"

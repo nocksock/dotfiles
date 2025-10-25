@@ -1,2 +1,0 @@
-#!/usr/bin/env sh
-exec fd | fuzzel --dmenu --cache "$(nox-menu-ccf)"

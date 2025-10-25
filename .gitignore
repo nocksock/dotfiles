@@ -1,7 +1,6 @@
-.DS_Store
-vim/vim/tmp
-vim/vim/pack
-vim/vim/undo-history/
-vim/vim/.netrwbook
+core/dot-vim/tmp
+core/dot-vim/pack
+core/dot-vim/undo-history/
+core/dot-vim/.netrwbook
 scratch
 result

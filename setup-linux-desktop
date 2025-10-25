@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+./setup-core
+
+stow --restow --target="$HOME" --dotfiles \
+    nox-menu linux-desktop

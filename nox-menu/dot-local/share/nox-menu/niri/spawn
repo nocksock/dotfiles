@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+cmd=$(fuzzel --dmenu --prompt-only "$ ") || exit 0
+niri msg action spawn-sh -- "$cmd"

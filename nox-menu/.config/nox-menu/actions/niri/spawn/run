@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-cmd=$(fuzzel --dmenu --prompt-only "spawn: ")
-
-if [[ -n $cmd ]]; then
-    notify-send -t 1000 "nox-menu" "spawning: $cmd"
-    niri msg action spawn-sh -- "$cmd"
-fi
