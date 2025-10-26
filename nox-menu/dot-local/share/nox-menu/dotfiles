@@ -1,11 +1,14 @@
 #!/usr/bin/env sh
 
+cd ~/.config
+
+pick=$(fd | fuzzel --dmenu --cache ~/.cache/nox-menu/dotfiles) || exit 0
+
 # TODO: create thin wrapper to make terminals easy to change
 kitty \
 	--detach \
-	--class="column.lg" \
-	-d $DOTDIR \
-	nvim +Oil
+	--class="float.lg" \
+	nvim $pick
 
 # TODO: properly wait for the launch using niri ipc event stream
 sleep 0.3
