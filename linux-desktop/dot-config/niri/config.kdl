@@ -58,15 +58,15 @@ layout {
        active-color "white"
        // inactive-color "red"
        urgent-color "#ff0000"
-      // active-gradient from="hsl(190 100% 50% / 80%)" to="hsl(150 50% 50% / 80%)" angle=45 relative-to="workspace-view" in="oklch"
+      active-gradient from="hsl(190 100% 50% / 80%)" to="hsl(150 50% 50% / 80%)" angle=45 relative-to="workspace-view" in="oklch"
       // inactive-gradient from="#000000" to="#808080" angle=45 #relative-to="workspace-view"
     }
 
     border {
        // off
-        width 6
-        active-color "#0006"
-        inactive-color "#0006"
+        width 3
+        active-color "#0003"
+        inactive-color "#0008"
         // Color of the border around windows that request your attention.
         urgent-color "#9b0000"
     }
