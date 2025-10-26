@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 cd "$HOME/notes"
 
-file=$(nox-menu-pick)
+file=$(fd -tf | fuzzel --dmenu -p ":e " --cache ~/.cache/nox-menu/notes)
 
 if [[ -n "$file" ]]; then
   exec nox-menu-float nvim "$file"

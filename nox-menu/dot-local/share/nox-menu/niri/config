@@ -2,7 +2,7 @@
 kitty \
 	--detach \
 	--class="float.md" \
-	-d $DOTDIR/niri/.config/niri \
+	-d $HOME/.config/niri \
 	nvim config.kdl
 
 # TODO: properly wait for the launch using niri ipc event stream

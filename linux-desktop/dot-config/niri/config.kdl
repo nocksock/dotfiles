@@ -213,7 +213,7 @@ binds {
 
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance zsh"; }
-    Mod+B hotkey-overlay-title="Focus or spawn brave" { spawn-sh "focus-or-spawn brave"; }
+    Mod+B hotkey-overlay-title="Focus or spawn brave" { spawn-sh "niri-focus-or-spawn brave"; }
     Mod+Space hotkey-overlay-title="Run an Application: wofi" { spawn "wofi"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+Mod5+C hotkey-overlay-title="Cliboard History" { spawn-sh "cliphist list | wofi --dmenu --pre-display-cmd \"echo '%s' | cut -f 2\" | cliphist decode | wl-copy"; }
