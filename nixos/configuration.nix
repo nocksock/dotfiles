@@ -148,6 +148,7 @@ in {
 
     # Common GUI Apps
     nautilus
+    kdePackages.dolphin
     gnome-font-viewer
     loupe
     gradia
@@ -231,6 +232,7 @@ in {
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   programs.xwayland.enable = true;
+    programs.hyprland.enable = true;
   programs.nix-ld.enable = true;
   security.rtkit.enable = true;
   hardware.bluetooth.enable = true;
