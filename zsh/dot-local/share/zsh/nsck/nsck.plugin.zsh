@@ -14,7 +14,7 @@ alias reload="exec zsh"
 alias nnn='nnn -ei'
 alias qf='qufo'
 alias abd='abduco'
-alias ll='ls -la'
+alias lll='ls -lah'
 alias love='/Applications/love.app/Contents/MacOS/love'
 
 alias pio='pnpm install --prefer-offline .'
