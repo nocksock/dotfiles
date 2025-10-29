@@ -1,8 +1,4 @@
-{
-  pkgs,
-  home-manager,
-  ...
-} @ inputs: {
+{ ... }: {
   users.users.nr = {
     isNormalUser = true;
     description = "nils riedemann";
@@ -16,54 +12,10 @@
     imports = [
       ./nr/wofi.nix
       ./nr/fonts.nix
+      ./nr/cli.nix
+      ./nr/desktop.nix
     ];
-
-    home.packages = with pkgs; [
-      # cli
-      atuin
-      btop
-      htop
-      killall
-      ffmpeg
-
-      # dev-tools
-      devenv
-      direnv
-      lazydocker
-      neovim
-      lazygit
-      gh
-      jq
-      jujutsu
-
-      zeal
-      obsidian
-      lmstudio
-      discord
-      gimp
-      krita
-      cider-2
-
-      _1password-gui
-      _1password
-
-      # misc
-      syncthing
-      icloudpd
-      libheif
-    ];
-
-    programs.direnv.enable = true;
-    programs.zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    # # TODO: define path in flake.nix
-    # home.activation.stowDotfiles = home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-    #   cd ~/code/dotfiles
-    #   ./setup-wayland.sh
-    # '';
+    nixpkgs.config.allowUnfree = true;
 
     home.stateVersion = "25.05";
   };

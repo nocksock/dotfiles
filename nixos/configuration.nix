@@ -1,10 +1,14 @@
-{ lib, pkgs, ... } @inputs: let
+{
+  lib,
+  pkgs,
+  ...
+} @ inputs: let
   inherit (pkgs.stdenv.hostPlatform) system;
 in {
   imports = [
     ./users/nr.nix
   ];
-# System {{{
+  # System {{{
   # Boot {{{
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -16,6 +20,7 @@ in {
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnsupportedSystem = true; # eg. for tableplus
   nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.trusted-users = ["nr" "root"];
   nix.extraOptions = ''
     extra-substituters = https://devenv.cachix.org
     extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
@@ -89,86 +94,34 @@ in {
   };
 
   # }}}
-# }}}
+  # }}}
 
   # System Level Packages {{{
   environment.systemPackages = with pkgs; [
+    # Core system utilities
     zsh
-    nushell
-    runit
-
-    kitty ghostty
-
-    # language tools
-    gcc
-    zig
-    gnumake
-    cargo
-    rustc
-    nodejs
-    python3
-    alejandra
-
-    # cli utils
     git
-    links2
     vim
-    unzip
-    ripgrep
-    fd
     curl
     wget
-    tmux
-    fzf
     rsync
-    entr
-    tree
+    unzip
     starship
-    eza
-    zoxide
-    stow
-    nnn
-    yazi
 
-    iwmenu
-    pwmenu
-    bzmenu
+    xwayland
+    xwayland-satellite
 
-    # Desktop
-    xwayland xwayland-satellite
-    fuzzel wofi tofi rofi dmenu # TODO: settle on one
-    waybar
-    swaybg
-    blueberry
     libnotify
-    wl-clipboard clipse
-    wtype
+    wl-clipboard
     darkman
-    apple-cursor
+    mako # notification daemon
 
-    # Common GUI Apps
-    nautilus
-    kdePackages.dolphin
-    gnome-font-viewer
-    loupe
-    gradia
-    planify
-    cliphist
-    flameshot
-
-    bitwarden
-    _1password _1password-gui
-    firefox brave ungoogled-chromium
-    blender
-    gnome-calendar
-    qutebrowser
-
+    # Hardware control
     pamixer
     playerctl
-    pavucontrol
     brightnessctl
-    mako # notifications
-    powertop # *top for power consumption
+    powertop
+    blueberry # bluetooth manager
   ];
 
   # }}}
@@ -192,8 +145,7 @@ in {
   # }}}
   # Gnome {{{
 
-
-  services.xserver ={
+  services.xserver = {
     enable = true;
     xkb.layout = "eu";
     xkbOptions = "compose:ralt";
@@ -227,12 +179,12 @@ in {
   # }}}
 
   # Miscellaneous
-  
+
   services.tailscale.enable = true;
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   programs.xwayland.enable = true;
-    programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
   programs.nix-ld.enable = true;
   security.rtkit.enable = true;
   hardware.bluetooth.enable = true;
