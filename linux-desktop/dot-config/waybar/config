@@ -1,6 +1,7 @@
 [
   {
     "height": 26,
+    "reload_style_on_change": true,
     "spacing": 4,
     "layer": "top",
     "position": "top",
@@ -102,6 +103,13 @@
       "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
       "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}"
     },
+    "niri/window": {
+        "format": "{title}",
+        "icon": true,
+        "rewrite": {
+            "(.*) - Brave": "$1"
+        }
+    },
     "niri/workspaces": {
       "format": "{icon}",
       "format-icons": {
@@ -113,9 +121,7 @@
         "6": "6",
         "7": "7",
         "8": "8",
-        "9": "9",
-        "active": "󱓻",
-        "default": ""
+        "9": "9"
       },
       "persistent-workspaces": {
         "1": [],

@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
-if [[ -n $WAYLAND_DISPLAY ]]; then
-  exec waybar
-  exit 0
+
+current=$(gsettings get org.gnome.desktop.interface color-scheme)
+
+if [[ "$current" == *"dark"* ]]; then
+    exec waybar --style  ~/.config/waybar/dark.css
+else
+    exec waybar --style  ~/.config/waybar/light.css
 fi
 
-echo "waybar/run: not on wayland"

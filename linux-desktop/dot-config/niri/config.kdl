@@ -3,9 +3,14 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
-spawn-sh-at-startup "runsvdir ~/.config/services"
+spawn-sh-at-startup "runsvdir ~/services"
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 prefer-no-csd
+
+cursor {
+    // xcursor-theme "breeze_cursor"
+    // xcursor-size 16
+}
 
 environment {
     ELECTRON_OZONE_PLATFORM_HINT "auto"
@@ -39,7 +44,7 @@ input {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
-    gaps 32
+    gaps 34
     center-focused-column "on-overflow"
     always-center-single-column
     empty-workspace-above-first
@@ -54,19 +59,19 @@ layout {
     default-column-width { proportion 0.3333; }
     // default-column-width {}
     focus-ring {
-       width 2
+       width 3
        active-color "white"
        // inactive-color "red"
        urgent-color "#ff0000"
-      active-gradient from="hsl(190 100% 50% / 80%)" to="hsl(150 50% 50% / 80%)" angle=45 relative-to="workspace-view" in="oklch"
+      active-gradient from="white" to="hsl(150 0% 50% / 90%)" angle=45 
       // inactive-gradient from="#000000" to="#808080" angle=45 #relative-to="workspace-view"
     }
 
     border {
        // off
-        width 3
-        active-color "#0003"
-        inactive-color "#0008"
+        width 6
+        active-color "#0008"
+        inactive-color "#0003"
         // Color of the border around windows that request your attention.
         urgent-color "#9b0000"
     }
@@ -83,8 +88,8 @@ layout {
     struts {
         left 96
         right 96
-        top 16
-        bottom 16
+        top 0
+        bottom 0
     }
 
     tab-indicator {
@@ -103,7 +108,7 @@ layout {
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    // skip-at-startup
+    skip-at-startup
 }
 
 // Animation settings.
@@ -219,7 +224,7 @@ binds {
     Mod+Mod5+C hotkey-overlay-title="Cliboard History" { spawn-sh "cliphist list | wofi --dmenu --pre-display-cmd \"echo '%s' | cut -f 2\" | cliphist decode | wl-copy"; }
     Mod+Ctrl+Comma hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash hotkey-overlay-title="1password" { spawn "1password"; }
-    Mod+Semicolon { spawn-sh "kitty --class=float.md zsh"; }
+    Mod+Semicolon { spawn-sh "kitten quick-access-terminal"; }
     Mod+Shift+SemiColon { spawn-sh "nox-menu niri/spawn"; }
     Mod+G hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri/goto"; }
     Mod+X hotkey-overlay-title="Nox" { spawn "nox-menu"; }
@@ -260,8 +265,8 @@ binds {
     // + Ctrl to move
     Mod+Ctrl+H     { move-column-left; }
     Mod+Ctrl+L     { move-column-right; }
-    Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
-    Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
+    Mod+Ctrl+K     { move-column-to-workspace-up; }
+    Mod+Ctrl+J     { move-column-to-workspace-down; }
     Mod+Ctrl+Left  { move-column-left; }
     Mod+Ctrl+Right { move-column-right; }
     Mod+Ctrl+Up    { move-window-up-or-to-workspace-up; }
@@ -317,7 +322,7 @@ binds {
     Mod+Ctrl+9 { move-window-to-workspace 9; }
 
     // Switches focus between the current and the previous workspace.
-    Mod+Tab { focus-workspace-previous; }
+    Mod+Backspace { focus-workspace-previous; }
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
     Mod+Comma  { consume-window-into-column; }

@@ -1,25 +1,19 @@
 * {
-  border: 1px solid transparent;
-  border-radius: 0;
-  min-height: 0;
+  all: initial;
   font-family: CaskaydiaMono Nerd Font;
+  min-height: 0;
   font-size: 16px;
-  color: #aaaaaa;
-  background-color: #111111;
+  color: @fg;
 }
 
-:hover {
-  color: white;
-}
-
-#window {
-  margin-left: 13px;
+button:hover {
+opacity: 0.5;
 }
 
 #workspaces button {
-  all: initial;
-  padding: 2px 6px;
-  margin-right: 3px;
+  padding: 0 6px;
+  border: 2px solid transparent;
+  border-radius: 4px;
 }
 
 #custom-dropbox,
@@ -31,9 +25,24 @@
 #wireplumber,
 #tray,
 #clock {
-  background-color: transparent;
   min-width: 12px;
-  margin-right: 13px;
+    padding: 4px 8px;
+}
+
+#workspaces button.active {
+  color: @fg;
+border-color: @fg;
+}
+
+.modules-center,
+.modules-left,
+.modules-right {
+  background-color: @bg;
+  color: black;
+  padding: 3px 6px;
+    border-radius: 4px;
+    margin: 12px;
+    padding: 8px;
 }
 
 tooltip {

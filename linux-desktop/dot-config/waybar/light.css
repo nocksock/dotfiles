@@ -1,0 +1,4 @@
+@define-color fg black;
+@define-color bg #eeeeee;
+
+@import url("./style.css");
