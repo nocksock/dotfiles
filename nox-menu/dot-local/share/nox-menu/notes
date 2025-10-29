@@ -1,8 +1,4 @@
 #!/usr/bin/env sh
 cd "$HOME/notes"
-
-file=$(fd -tf | fuzzel --dmenu -p ":e " --cache ~/.cache/nox-menu/notes)
-
-if [[ -n "$file" ]]; then
-  exec nox-menu-float nvim "$file"
-fi
+file=$(fd -tf | fuzzel --dmenu -p ":e " --cache ~/.cache/nox-menu/notes) || exit 0
+exec kitty --class=float.md nvim "$file"
