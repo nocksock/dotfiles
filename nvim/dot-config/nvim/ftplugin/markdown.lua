@@ -17,5 +17,7 @@ vim.cmd([[
     autocmd!
     autocmd BufEnter *.md let b:copilot_enabled = v:false
   augroup END
+
 ]])
 
+vim.cmd.Num()
