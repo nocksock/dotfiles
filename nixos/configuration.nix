@@ -5,9 +5,8 @@
 } @ inputs: let
   inherit (pkgs.stdenv.hostPlatform) system;
 in {
-  imports = [
-    ./users/nr.nix
-  ];
+  imports = [];
+
   # System {{{
   # Boot {{{
 
@@ -57,6 +56,10 @@ in {
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+    networking.hosts = {
+        "188.245.39.71" = ["blpblp.io" "budget.blpblp.io"];
+    };
+
   # }}}
   # locale {{{
 
@@ -95,7 +98,6 @@ in {
 
   # }}}
   # }}}
-
   # System Level Packages {{{
   environment.systemPackages = with pkgs; [
     # Core system utilities
@@ -125,6 +127,24 @@ in {
   ];
 
   # }}}
+# User Setup {{{
+
+  users.users.nr = {
+    isNormalUser = true;
+    description = "nils riedemann";
+    extraGroups = ["networkmanager" "wheel" "video" "input"];
+  };
+
+  home-manager.users.nr = {
+    imports = [
+      ./users/nr/cli.nix
+      ./users/nr/desktop.nix
+    ];
+    nixpkgs.config.allowUnfree = true;
+    home.stateVersion = "25.05";
+  };
+
+# }}}
   # Fonts {{{
 
   fonts.enableDefaultPackages = true;
@@ -179,6 +199,7 @@ in {
   # }}}
 
   # Miscellaneous
+
 
   services.tailscale.enable = true;
   users.defaultUserShell = pkgs.zsh;

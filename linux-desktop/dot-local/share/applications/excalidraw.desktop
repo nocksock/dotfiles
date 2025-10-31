@@ -1,6 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Excalidraw
-Exec=brave --app="https://excalidraw.com"
-icon=excalidraw

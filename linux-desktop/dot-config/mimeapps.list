@@ -1,13 +1,15 @@
 [Default Applications]
-x-scheme-handler/http=niri-open-link.desktop
-x-scheme-handler/https=niri-open-link.desktop
+x-scheme-handler/http=brave-browser.desktop
+x-scheme-handler/https=brave-browser.desktop
 x-scheme-handler/chrome=niri-open-link.desktop
-text/html=niri-open-link.desktop
+text/html=brave-browser.desktop
 application/x-extension-htm=niri-open-link.desktop
 application/x-extension-html=niri-open-link.desktop
 application/x-extension-shtml=niri-open-link.desktop
 application/xhtml+xml=niri-open-link.desktop
 application/x-extension-xhtml=niri-open-link.desktop
 application/x-extension-xht=niri-open-link.desktop
-x-scheme-handler/about=niri-open-link.desktop
-x-scheme-handler/unknown=niri-open-link.desktop
+x-scheme-handler/about=brave-browser.desktop
+x-scheme-handler/unknown=brave-browser.desktop
+x-scheme-handler/sgnl=signal.desktop
+x-scheme-handler/signalcaptcha=signal.desktop

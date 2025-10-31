@@ -3,7 +3,6 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
-spawn-sh-at-startup "runsvdir ~/services"
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 prefer-no-csd
 
@@ -139,6 +138,29 @@ window-rule {
     default-column-width {} 
 }
 
+// Indicate screencasted windows with red colors.
+window-rule {
+    match is-window-cast-target=true
+
+    focus-ring {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+
+    border {
+        inactive-color "#7d0d2d"
+    }
+
+    shadow {
+        color "#7d0d2d70"
+    }
+
+    tab-indicator {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+}
+
 window-rule {
     match app-id=r#"dmenu"#
     default-column-width { proportion 0.33333; }
@@ -178,6 +200,14 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"float.sm$"#
+    match title=r#"Wayland Ouput Mirror for HDMI-A-1"#
+    open-floating true
+    default-column-width { fixed 600; }
+    default-window-height { fixed 600; }
+}
+
+window-rule {
     match app-id=r#"float.lg$"#
     match app-id=r#"NautilusPreviewer"#
     open-floating true
@@ -212,6 +242,12 @@ window-rule {
     clip-to-geometry true
 }
 
+// Block out mako notifications from screencasts.
+layer-rule {
+    match namespace="^notifications$"
+    block-out-from "screencast"
+}
+
 binds {
     // "Mod" is a special modifier equal to Super when running on a TTY, and to Alt
     // when running as a winit window.
@@ -225,10 +261,13 @@ binds {
     Mod+Ctrl+Comma hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash hotkey-overlay-title="1password" { spawn "1password"; }
     Mod+Semicolon { spawn-sh "kitten quick-access-terminal"; }
-    Mod+Shift+SemiColon { spawn-sh "nox-menu niri/spawn"; }
+    Mod+Shift+1 { spawn-sh "nox-menu niri/spawn"; }
     Mod+G hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri/goto"; }
     Mod+X hotkey-overlay-title="Nox" { spawn "nox-menu"; }
     Mod+N hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
+
+    Mod+P repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
+    Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -364,5 +403,5 @@ binds {
 
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
-    Mod+Shift+P { power-off-monitors; }
+    // Mod+Shift+P { power-off-monitors; }
 }

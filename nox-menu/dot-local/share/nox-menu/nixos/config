@@ -3,7 +3,7 @@ kitty \
 	--detach \
 	--class="float.lg" \
 	-d $DOTDIR/nixos \
-	nvim -O configuration.nix users/nr.nix
+	nvim -O configuration.nix users/nr/desktop.nix users/nr/cli.nix
 
 # TODO: properly wait for the launch using niri ipc event stream
 sleep 0.3
