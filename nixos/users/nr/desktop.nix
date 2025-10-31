@@ -4,6 +4,11 @@
   ...
 }: {
   config = {
+
+    services.syncthing = {
+        enable = true;
+    };
+
     home.packages = with pkgs; [
       # Terminal emulators
       kitty
@@ -44,7 +49,7 @@
       thunderbird
 
       # Password managers
-      _1password
+      _1password-cli
       _1password-gui
       bitwarden
 

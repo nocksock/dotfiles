@@ -7,6 +7,11 @@
 in {
   imports = [];
 
+virtualisation.docker = {
+  enable = true;
+};
+
+
   # System {{{
   # Boot {{{
 
@@ -50,15 +55,34 @@ in {
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [47984 47987 47989 48010];
-  networking.firewall.allowedUDPPorts = [47998 47999 48000 48002 48010];
+  networking.firewall.allowedTCPPorts = [
+    # sunshine/moonlight
+    47984
+    47987
+    47989
+    48010
+    # syncthing
+    22000
+  ];
+  networking.firewall.allowedUDPPorts = [
+    # sunshine/moonlight
+    47998
+    47999
+    48000
+    48002
+    48010
+
+    # syncthing
+    22000
+    21027
+  ];
 
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-    networking.hosts = {
-        "188.245.39.71" = ["blpblp.io" "budget.blpblp.io"];
-    };
+  networking.hosts = {
+    "188.245.39.71" = ["blpblp.io" "budget.blpblp.io"];
+  };
 
   # }}}
   # locale {{{
@@ -127,12 +151,12 @@ in {
   ];
 
   # }}}
-# User Setup {{{
+  # User Setup {{{
 
   users.users.nr = {
     isNormalUser = true;
     description = "nils riedemann";
-    extraGroups = ["networkmanager" "wheel" "video" "input"];
+    extraGroups = ["networkmanager" "wheel" "video" "input" "docker"];
   };
 
   home-manager.users.nr = {
@@ -144,7 +168,7 @@ in {
     home.stateVersion = "25.05";
   };
 
-# }}}
+  # }}}
   # Fonts {{{
 
   fonts.enableDefaultPackages = true;
@@ -200,7 +224,6 @@ in {
 
   # Miscellaneous
 
-
   services.tailscale.enable = true;
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
@@ -227,7 +250,7 @@ in {
       };
 
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
       };
     };
   };

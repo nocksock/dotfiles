@@ -52,6 +52,7 @@
     unzip
     curl
     wget
+    runit
   ];
 
   programs.direnv.enable = true;

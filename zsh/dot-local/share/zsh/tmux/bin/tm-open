@@ -9,19 +9,12 @@ if [[ -z $selected_dir ]]; then
     exit 1
 fi
 
-selected_name=$(basename "$selected_dir" | tr . _)
+selected_name=$(basename "$selected_dir" | tr . _ | tr ' ' _)
 
 tmux has-session -t=$selected_name 2>/dev/null
 
 if [ $? != 0 ]; then
-		if [[ -f "$selected_dir/.sboxrc" ]]; then
-			tmux new-session -d \
-				-s "$selected_name"        \
-        -c "$selected_dir"    \
-				"(source $selected_dir/.sboxrc && launch)"
-		else
-        tmux new-session -ds $selected_name -c $selected_dir tm-launch
-		fi
+    tmux new-session -ds $selected_name -c $selected_dir
 fi
 
 if [[ -z $TMUX ]]; then

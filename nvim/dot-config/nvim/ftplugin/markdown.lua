@@ -20,4 +20,4 @@ vim.cmd([[
 
 ]])
 
-vim.cmd.Num()
+-- vim.cmd.Num()

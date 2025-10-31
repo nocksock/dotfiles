@@ -1,0 +1,8 @@
+lock
+pid
+stat
+status
+current
+supervise
+*/log/main
+!log/run

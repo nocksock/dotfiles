@@ -22,6 +22,7 @@ cmp.setup({-- {{{
     documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
+    ["<A-y>"] = require('minuet').make_cmp_map(),
     ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
@@ -46,8 +47,9 @@ cmp.setup({-- {{{
     end, { 'i', 'c' }),
   }),
   sources = cmp.config.sources({
-    { name = "luasnip" },
     { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = 'minuet' },
     { name = "buffer" },
     { name = "path" },
     { name = "copilot" },

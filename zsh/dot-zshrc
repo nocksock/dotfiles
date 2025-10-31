@@ -221,3 +221,5 @@ export PATH="$PATH:/home/nr/.lmstudio/bin"
 source <(fzf --zsh)
 
 eval "$(atuin init zsh --disable-up-arrow)"
+
+alias ll='ls -lAh --color=auto'

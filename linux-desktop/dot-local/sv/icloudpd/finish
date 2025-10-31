@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 # wait 60 seconds before restart
+echo "icloudpd/finish: waiting 60 seconds before restart"
 sleep 60

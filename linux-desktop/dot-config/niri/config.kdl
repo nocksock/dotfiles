@@ -6,6 +6,10 @@
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 prefer-no-csd
 
+spawn-sh-at-startup "nox-wallpaper"
+spawn-sh-at-startup "nox-waybar"
+spawn-sh-at-startup "nox-color-scheme-watch"
+
 cursor {
     // xcursor-theme "breeze_cursor"
     // xcursor-size 16
@@ -253,20 +257,22 @@ binds {
     // when running as a winit window.
 
     Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance zsh"; }
-    Mod+B hotkey-overlay-title="Focus or spawn brave" { spawn-sh "niri-focus-or-spawn brave"; }
-    Mod+Space hotkey-overlay-title="Run an Application: wofi" { spawn "wofi"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-    Mod+Mod5+C hotkey-overlay-title="Cliboard History" { spawn-sh "cliphist list | wofi --dmenu --pre-display-cmd \"echo '%s' | cut -f 2\" | cliphist decode | wl-copy"; }
-    Mod+Ctrl+Comma hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
-    Mod+Slash hotkey-overlay-title="1password" { spawn "1password"; }
-    Mod+Semicolon { spawn-sh "kitten quick-access-terminal"; }
-    Mod+Shift+1 { spawn-sh "nox-menu niri/spawn"; }
-    Mod+G hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri/goto"; }
-    Mod+X hotkey-overlay-title="Nox" { spawn "nox-menu"; }
-    Mod+N hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
+    Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance"; }
+    Mod+B           repeat=false hotkey-overlay-title="Spawn Brave" { spawn "brave"; }
+    Mod+Space       repeat=false hotkey-overlay-title="Run an Application: wofi" { spawn "fuzzel"; }
+    Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "cliphist list | wofi --dmenu --pre-display-cmd \"echo '%s' | cut -f 2\" | cliphist decode | wl-copy"; }
+    Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
+    Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
+    Mod+Semicolon   repeat=false { spawn-sh "kitten quick-access-terminal"; }
+    Mod+Shift+1     repeat=false { spawn-sh "nox-menu niri/spawn"; }
 
-    Mod+P repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
+    Mod+G       repeat=false hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri/goto"; }
+    Mod+X       repeat=false hotkey-overlay-title="Nox" { spawn "nox-menu"; }
+    Mod+Shift+X       repeat=false hotkey-overlay-title="Niri-Menu" { spawn-sh "nirictl _menu"; }
+    Mod+N       repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
+    Mod+E       repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d"; }
+    Mod+Shift+O  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
+    Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
     Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -320,10 +326,10 @@ binds {
     // Mod+Shift+Down  { focus-monitor-down; }
     // Mod+Shift+Up    { focus-monitor-up; }
     // Mod+Shift+Right { focus-monitor-right; }
-    // Mod+Shift+H     { focus-monitor-left; }
-    // Mod+Shift+J     { focus-monitor-down; }
-    // Mod+Shift+K     { focus-monitor-up; }
-    // Mod+Shift+L     { focus-monitor-right; }
+    Mod+Shift+H     { focus-monitor-left; }
+    Mod+Shift+J     { focus-monitor-down; }
+    Mod+Shift+K     { focus-monitor-up; }
+    Mod+Shift+L     { focus-monitor-right; }
 
     Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
