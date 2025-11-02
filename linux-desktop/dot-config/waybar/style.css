@@ -10,10 +10,21 @@ button:hover {
 opacity: 0.5;
 }
 
+#workspaces {
+    padding: 0;
+}
 #workspaces button {
-  padding: 0 6px;
-  border: 2px solid transparent;
-  border-radius: 4px;
+  min-width: 8px;
+  border-radius: 99px;
+    background: @fg;
+    opacity: 0.3;
+    margin: 4px;
+    transition: opacity 0.2s;
+}
+
+#workspaces button:first-child,
+#workspaces button:last-child {
+    opacity: 0.1;
 }
 
 #custom-dropbox,
@@ -31,7 +42,8 @@ opacity: 0.5;
 
 #workspaces button.active {
   color: @fg;
-border-color: @fg;
+    background: @fg;
+    opacity: 0.8;
 }
 
 .modules-center,

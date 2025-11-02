@@ -5,11 +5,11 @@
     "spacing": 4,
     "layer": "top",
     "position": "top",
+    "modules-left": [
+      "niri/window"
+    ],
     "modules-center": [
       "niri/workspaces"
-    ],
-    "modules-left": [
-      "niri/window",
     ],
     "modules-right": [
       "tray",
@@ -70,8 +70,8 @@
       "tooltip-format": "Devices connected: {num_connections}"
     },
     "clock": {
-      "format": " {:%H:%M}",
-      "format-alt": " {:%d %b W%V %H:%M}",
+      "format-alt": " {:%H:%M}",
+      "format": " {:%d %b W%V %H:%M}",
       "tooltip": true
     },
     "cpu": {
@@ -113,15 +113,15 @@
     "niri/workspaces": {
       "format": "{icon}",
       "format-icons": {
-        "1": "1",
-        "2": "2",
-        "3": "3",
-        "4": "4",
-        "5": "5",
-        "6": "6",
-        "7": "7",
-        "8": "8",
-        "9": "9"
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": "",
+        "8": "",
+        "9": ""
       },
       "persistent-workspaces": {
         "1": [],

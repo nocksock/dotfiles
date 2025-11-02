@@ -32,6 +32,9 @@
       pwmenu
       bzmenu
 
+      zenity
+      pkg-config
+
       # GUI file managers & utilities
       nautilus
       kdePackages.dolphin

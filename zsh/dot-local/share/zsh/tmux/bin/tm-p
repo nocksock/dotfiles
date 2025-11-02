@@ -5,15 +5,5 @@
 #   mnemonic: pick.
 
 
-if [[ $# -eq 1 ]]; then
-    selected_dir=$1
-else
-    selected_dir=$(tm-list-projects | fzf --preview="tm-preview {}")
-fi
-
-if [[ -z $selected_dir ]]; then
-    echo "Cancelled"
-    exit 1
-fi
-
+selected_dir=${1:-$(tm-list-projects | fzf --preview="tm-preview {}")} || exit 0
 tm-open $selected_dir

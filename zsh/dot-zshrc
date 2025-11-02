@@ -17,16 +17,15 @@ export SBOX_PATHS=(
 # {{{ compinit
 
 autoload -Uz compinit
-autoload -U +X bashcompinit && bashcompinit
+# autoload -U +X bashcompinit && bashcompinit
 
 if [[ ! -f ~/.zcompdump ]] ; then
-  compinit
-        bashcompinit
-        compdump
+    compinit
+        # bashcompinit
         echo "refreshed completions"
 else
         compinit -C
-        bashcompinit -C
+        # bashcompinit -C
 fi
 
 # brew completions {{{ 
@@ -180,6 +179,7 @@ fi
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
+source <(fzf --zsh) 
 
 if [[ -n $KITTY_PID ]]; then
         alias ssh="kitty +kitten ssh"
@@ -193,33 +193,14 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-if [[ -s "$DOTLOG" ]]; then
-        echo "There are log messages in $DOTLOG"
-fi
-
 # things that must not be in git
 if [[ -f "$HOME/.zsh_secrets" ]]; then
         source "$HOME/.zsh_secrets"
 fi
 
-# zprof # show profiling result
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/nilsriedemann/.cache/lm-studio/bin"
-# End of LM Studio CLI section
-
-
-# Added by microsandbox installer
-export PATH="$HOME/.local/bin:$PATH"
-export DYLD_LIBRARY_PATH="$HOME/.local/lib:$DYLD_LIBRARY_PATH"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/nr/.lmstudio/bin"
-# End of LM Studio CLI section
-
-# Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
 
 eval "$(atuin init zsh --disable-up-arrow)"
 
-alias ll='ls -lAh --color=auto'
+alias ls='eza'
+alias ll='ls -lah'
+# zprof # show profiling result

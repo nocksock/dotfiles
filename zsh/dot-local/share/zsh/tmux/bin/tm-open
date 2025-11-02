@@ -1,21 +1,18 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # tm-open
 #   create new or switch to existing sessiong
+
+set -e
+exec &>> /tmp/tm-open.log
 
 selected_dir=$1
 
 if [[ -z $selected_dir ]]; then
-    echo "Usage: tm-open <path>"
     exit 1
 fi
 
 selected_name=$(basename "$selected_dir" | tr . _ | tr ' ' _)
-
-tmux has-session -t=$selected_name 2>/dev/null
-
-if [ $? != 0 ]; then
-    tmux new-session -ds $selected_name -c $selected_dir
-fi
+tmux new-session -ds $selected_name -c $selected_dir 2>/dev/null || true
 
 if [[ -z $TMUX ]]; then
     tmux attach-session -t=$selected_name

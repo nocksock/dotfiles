@@ -52,7 +52,8 @@ nnoremap <c-n> <cmd>bn<cr>
 nnoremap <c-p> <cmd>bp<cr>
 
 " show treesitter highlight groups for word under cursor
-nnoremap <leader>it <cmd>TSHighlightCapturesUnderCursor<cr>
+nnoremap <leader>it <cmd>InspectTree<cr>
+nnoremap <leader>ii <cmd>Inspect<cr>
 
 " toggles
 nnoremap <leader>tn <cmd>Num<cr>

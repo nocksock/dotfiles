@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+entry=$(cliphist list  | fuzzel --dmenu) || exit 0
+cliphist decode $entry | wl-copy

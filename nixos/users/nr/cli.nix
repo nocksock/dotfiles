@@ -32,6 +32,8 @@
     zoxide
     stow
     links2
+    yt-dlp
+    moreutils
 
     # File managers (TUI)
     nnn
@@ -46,6 +48,7 @@
     gh
     jq
     jujutsu
+    podman
 
     # Server utilities
     rsync

@@ -10,8 +10,8 @@ paginate = "never"
 # 'format_short_id(id)' = 'id.shortest()'
 
 [aliases]
-l = ["log", "-n", "20"]
-ll = ["log", "-n", "20", "-r", "::@"]
+l = ["log", "-n", "15"]
+ll = ["log", "-n", "15", "-r", "::@"]
 st = ["status"]
 sq = ["squash"]
 before = ['new', '--before', '@', '--no-edit']

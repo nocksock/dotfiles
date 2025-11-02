@@ -6,10 +6,6 @@
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 prefer-no-csd
 
-spawn-sh-at-startup "nox-wallpaper"
-spawn-sh-at-startup "nox-waybar"
-spawn-sh-at-startup "nox-color-scheme-watch"
-
 cursor {
     // xcursor-theme "breeze_cursor"
     // xcursor-size 16
@@ -48,7 +44,7 @@ input {
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
     gaps 34
-    center-focused-column "on-overflow"
+    // center-focused-column "on-overflow"
     always-center-single-column
     empty-workspace-above-first
 
@@ -88,12 +84,12 @@ layout {
         color "0008"
     }
 
-    struts {
-        left 96
-        right 96
-        top 0
-        bottom 0
-    }
+    // struts {
+    //     left 32
+    //     right 32
+    //     top 0
+    //     bottom 0
+    // }
 
     tab-indicator {
       place-within-column
@@ -118,13 +114,57 @@ hotkey-overlay {
 // The wiki explains how to configure individual animations:
 // https://yalter.github.io/niri/Configuration:-Animations
 animations {
+    // Uncomment to turn off all animations.
+    // You can also put "off" into each individual animation to disable it.
     // off
+
+    // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+
+    // Individual animations.
+
     workspace-switch {
-        spring damping-ratio=0.8 stiffness=1000 epsilon=0.0001
+        off
+        // spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
     }
+
+    window-open {
+        duration-ms 150
+        curve "ease-out-expo"
+    }
+
+    window-close {
+        duration-ms 150
+        curve "ease-out-quad"
+    }
+
     horizontal-view-movement {
-        spring damping-ratio=0.8 stiffness=1000 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    window-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    window-resize {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    config-notification-open-close {
+        spring damping-ratio=0.6 stiffness=1000 epsilon=0.001
+    }
+
+    exit-confirmation-open-close {
+        spring damping-ratio=0.6 stiffness=500 epsilon=0.01
+    }
+
+    screenshot-ui-open {
+        duration-ms 200
+        curve "ease-out-quad"
+    }
+
+    overview-open-close {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
     }
 }
 
@@ -197,7 +237,6 @@ window-rule {
     match app-id=r#"float.md$"#
     match app-id=r#"1Password$"#
     match app-id=r#"waypaper$"#
-    match app-id=r#"clipse$"#
     open-floating true
     default-column-width { fixed 960; }
     default-window-height { fixed 800; }
@@ -260,7 +299,7 @@ binds {
     Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance"; }
     Mod+B           repeat=false hotkey-overlay-title="Spawn Brave" { spawn "brave"; }
     Mod+Space       repeat=false hotkey-overlay-title="Run an Application: wofi" { spawn "fuzzel"; }
-    Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "cliphist list | wofi --dmenu --pre-display-cmd \"echo '%s' | cut -f 2\" | cliphist decode | wl-copy"; }
+    Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
     Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
     Mod+Semicolon   repeat=false { spawn-sh "kitten quick-access-terminal"; }
