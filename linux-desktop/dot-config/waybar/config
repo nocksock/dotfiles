@@ -17,6 +17,7 @@
       "network",
       "wireplumber",
       "power-profiles-daemon",
+      "temperature",
       "cpu",
       "memory",
       "clock",
@@ -105,9 +106,9 @@
     },
     "niri/window": {
         "format": "{title}",
-        "icon": true,
+        "icon": false,
         "rewrite": {
-            "(.*) - Brave": "$1"
+            // "(.*) - Brave": "$1"
         }
     },
     "niri/workspaces": {

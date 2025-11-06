@@ -3,6 +3,8 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+
+spawn-sh-at-startup "runsvdir ~/services/"
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 prefer-no-csd
 
@@ -17,7 +19,10 @@ environment {
 
 input {
     keyboard {
-        xkb { layout "eu"; }
+        xkb { 
+            layout "eu";
+            options "ctrl:nocaps,altwin:swap_alt_win"
+        }
         numlock
     }
 
@@ -25,6 +30,7 @@ input {
         tap
         natural-scroll
         accel-speed 0.2
+        scroll-factor 0.1
         accel-profile "flat"
         scroll-method "two-finger"
     }
@@ -43,26 +49,26 @@ input {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
-    gaps 34
+    gaps 16
     // center-focused-column "on-overflow"
     always-center-single-column
     empty-workspace-above-first
 
     preset-column-widths {
-        proportion 0.33333
         proportion 0.5
         proportion 0.66667
+        proportion 0.33333
         // fixed 1920
     }
 
-    default-column-width { proportion 0.3333; }
+    default-column-width { proportion 0.5; }
     // default-column-width {}
     focus-ring {
-       width 3
-       active-color "white"
+       width 0.5
+       // active-color "#00ff0088"
        // inactive-color "red"
        urgent-color "#ff0000"
-      active-gradient from="white" to="hsl(150 0% 50% / 90%)" angle=45 
+      active-gradient from="white" to="hsl(150 50% 50% / 90%)" angle=180
       // inactive-gradient from="#000000" to="#808080" angle=45 #relative-to="workspace-view"
     }
 
@@ -309,7 +315,7 @@ binds {
     Mod+X       repeat=false hotkey-overlay-title="Nox" { spawn "nox-menu"; }
     Mod+Shift+X       repeat=false hotkey-overlay-title="Niri-Menu" { spawn-sh "nirictl _menu"; }
     Mod+N       repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
-    Mod+E       repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d"; }
+    Mod+E       repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "brightnessctl -d amdgpu_bl1 set 20% "; }
     Mod+Shift+O  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
     Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
     Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
@@ -330,8 +336,8 @@ binds {
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--device=amdgpubl_1" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--device=amdgpubl_1" "set" "10%-"; }
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }

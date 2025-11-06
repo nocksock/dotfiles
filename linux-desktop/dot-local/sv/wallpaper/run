@@ -4,9 +4,9 @@ current=$(gsettings get org.gnome.desktop.interface color-scheme)
 echo "Current color scheme: $current"
 
 if [[ "$current" == *"dark"* ]]; then
-    bg="$HOME/Pictures/Wallpapers/dharmx-walls/monochrome/a_mountain_with_snow_on_it.jpg"
+    bg="$HOME/Pictures/Wallpapers/a_mountain_with_snow_on_it.jpg"
 else
-    bg="$HOME/Pictures/Wallpapers/dharmx-walls/mountain/a_snowy_mountain_tops.jpg"
+    bg="$HOME/Pictures/Wallpapers/a_snowy_mountain_tops.jpg"
 fi
 
 swaybg -m fill -i $bg

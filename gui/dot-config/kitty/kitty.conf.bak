@@ -25,8 +25,8 @@ macos_traditional_fullscreen yes
 # Font Settings {{{
 
 macos_thicken_font  0.0
-font_size           11.0
-adjust_line_height  130%
+font_size           10.0
+adjust_line_height  150%
 adjust_column_width 100%
 adjust_baseline     0
 
@@ -384,11 +384,3 @@ map ctrl+q>w>z          toggle_layout stack
 # italic_font      auto
 # bold_italic_font auto
 # # END_KITTY_FONTS
-
-
-# BEGIN_KITTY_FONTS
-font_family      family="IBM Plex Mono"
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
-# END_KITTY_FONTS

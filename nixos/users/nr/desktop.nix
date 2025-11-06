@@ -54,7 +54,7 @@
       # Password managers
       _1password-cli
       _1password-gui
-      bitwarden
+      bitwarden-desktop
 
       # Creative apps
       blender
@@ -67,6 +67,7 @@
       discord
       signal-desktop
       signal-cli
+      teams-for-linux
 
       # AI/ML tools
       ollama-cuda

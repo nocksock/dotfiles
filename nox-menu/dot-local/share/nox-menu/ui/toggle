@@ -8,3 +8,6 @@ else
 fi
 
 gsettings set org.gnome.desktop.interface color-scheme $new
+
+pkill waybar
+pkill swaybg

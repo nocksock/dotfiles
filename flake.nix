@@ -15,11 +15,22 @@
     home-manager,
     ...
   } @ inputs: {
+    nixosConfigurations.blade = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = inputs;
+      modules = [
+        home-manager.nixosModules.home-manager
+        { networking.hostName = "blade"; }
+        ./nixos/configuration.nix
+        ./nixos/machines/razer-blade/hardware-configuration.nix
+      ];
+    };
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = inputs;
       modules = [
         home-manager.nixosModules.home-manager
+        { networking.hostName = "nixos"; }
         ./nixos/configuration.nix
         ./nixos/hardware-configuration.nix # Include the results of the hardware scan.
       ];

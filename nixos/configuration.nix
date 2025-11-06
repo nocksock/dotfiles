@@ -12,9 +12,36 @@ virtualisation.docker = {
 };
 
 
+# powerManagement.powertop.enable = true;
+
+# services.tlp = {
+#   enable = true;
+#   settings = {
+#     CPU_SCALING_GOVERNOR_ON_AC = "performance";
+#     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+#
+#     CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+#     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+#
+#     CPU_MIN_PERF_ON_AC = 0;
+#     CPU_MAX_PERF_ON_AC = 100;
+#     CPU_MIN_PERF_ON_BAT = 0;
+#     CPU_MAX_PERF_ON_BAT = 20;
+#
+#     # Optional helps save long term battery health
+#     START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
+#     STOP_CHARGE_THRESH_BAT0 = 80;  # 80 and above it stops charging
+#   };
+# };
+
   # System {{{
   # Boot {{{
 
+      services.logind.lidSwitch = "poweroff";
+      services.logind.lidSwitchExternalPower = "lock";
+      services.logind.lidSwitchDocked = "ignore";
+
+    boot.kernelParams = [ "button.lid_init_state=open" ];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
   # boot.plymouth.enable = true;
@@ -40,8 +67,6 @@ virtualisation.docker = {
 
   # }}}
   # Network {{{
-
-  networking.hostName = "nixos"; # Define your hostname.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -175,7 +200,7 @@ virtualisation.docker = {
   fonts.packages = with pkgs; [
     noto-fonts
     ibm-plex
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     fira-code
     fira-sans
     nerd-fonts.caskaydia-mono
@@ -189,14 +214,18 @@ virtualisation.docker = {
   # }}}
   # Gnome {{{
 
-  services.xserver = {
-    enable = true;
-    xkb.layout = "eu";
-    xkbOptions = "compose:ralt";
 
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+  console.useXkbConfig = true;
+
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    options = "ctrl:nocaps";
   };
+
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # services.gnome.core-apps.enable = false;
   # services.gnome.core-developer-tools.enable = false;
