@@ -1,6 +1,3 @@
-dotfiles|1
-niri/config|11
-nixos/config|2
-nixos/rebuild|32
-notifications/clear-all|7
-ui/toggle|22
+niri-config-edit|1
+nixos-rebuild-switch|6
+notifications-clear-all|4

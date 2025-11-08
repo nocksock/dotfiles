@@ -95,7 +95,10 @@ in {
 
       # AI/ML tools
       ollama-cuda
+      n8n
+      crush
       lmstudio
+      open-webui
 
       # Other apps
       zeal

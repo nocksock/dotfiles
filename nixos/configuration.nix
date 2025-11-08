@@ -239,6 +239,9 @@ in {
   hardware.bluetooth.enable = true;
   services.flatpak.enable = true;
 
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.config.common.default = "gtk";
+
   services.sunshine = {
     enable = true;
     autoStart = true;

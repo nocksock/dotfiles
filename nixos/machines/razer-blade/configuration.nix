@@ -4,6 +4,9 @@
   ...
 }: {
   imports = [];
+  environment.systemPackages = with pkgs; [
+    nvitop
+  ];
 
   services.logind.lidSwitch = "suspend-then-hibernate";
   services.logind.lidSwitchExternalPower = "lock";

@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-cd $DOTDIR
-nox-menu-float nvim linux-desktop/dot-config/waybar/config

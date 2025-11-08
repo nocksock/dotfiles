@@ -1,3 +1,0 @@
-#!/usr/bin/env zsh
-
-nix-shell -p "$1" --command "$1"
