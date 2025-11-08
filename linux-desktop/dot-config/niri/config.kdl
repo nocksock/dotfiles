@@ -312,15 +312,16 @@ binds {
     Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance"; }
     Mod+B           repeat=false hotkey-overlay-title="Spawn Brave" { spawn "brave"; }
     Mod+Space       repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+
     Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
+    Mod+Alt+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
+
     Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
     Mod+Semicolon   repeat=false { spawn-sh "kitten quick-access-terminal"; }
-    Mod+Shift+1     repeat=false { spawn-sh "nox-menu niri/spawn"; }
 
-    Mod+G       repeat=false hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri/goto"; }
+    Mod+G       repeat=false hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri-window-search"; }
     Mod+X       repeat=false hotkey-overlay-title="Nox" { spawn "nox-menu"; }
-    Mod+Shift+X       repeat=false hotkey-overlay-title="Niri-Menu" { spawn-sh "nirictl _menu"; }
     Mod+N       repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
     Mod+E       repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "brightnessctl -d amdgpu_bl1 set 20% "; }
     Mod+Shift+O  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
