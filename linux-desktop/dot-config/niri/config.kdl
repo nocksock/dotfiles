@@ -18,6 +18,8 @@ environment {
 }
 
 input {
+    workspace-auto-back-and-forth
+
     keyboard {
         xkb { 
             layout "eu";
@@ -30,8 +32,8 @@ input {
         tap
         natural-scroll
         accel-speed 0.2
-        scroll-factor 0.1
-        accel-profile "flat"
+        // scroll-factor 0.1
+        // accel-profile "flat"
         scroll-method "two-finger"
     }
 
@@ -114,6 +116,11 @@ layout {
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
+}
+
+switch-events {
+    lid-close { spawn "notify-send" "The laptop lid is closed!"; }
+    lid-open { spawn "notify-send" "The laptop lid is open!"; }
 }
 
 // Animation settings.
@@ -304,7 +311,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance"; }
     Mod+B           repeat=false hotkey-overlay-title="Spawn Brave" { spawn "brave"; }
-    Mod+Space       repeat=false hotkey-overlay-title="Run an Application: wofi" { spawn "fuzzel"; }
+    Mod+Space       repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
     Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
@@ -319,6 +326,7 @@ binds {
     Mod+Shift+O  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
     Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
     Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
+    Mod+Y { spawn-sh "kitty -1 yazi"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -336,8 +344,10 @@ binds {
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--device=amdgpubl_1" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--device=amdgpubl_1" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--device=amdgpu_bl1" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--device=amdgpu_bl1" "set" "10%-"; }
+    Mod+F8 allow-when-locked=true { spawn-sh "brightnessctl --device=amdgpu_bl1 set 10%"; }
+    Mod+F9 allow-when-locked=true { spawn-sh "brightnessctl --device=amdgpu_bl1 set 50%"; }
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
@@ -412,7 +422,7 @@ binds {
     Mod+Ctrl+9 { move-window-to-workspace 9; }
 
     // Switches focus between the current and the previous workspace.
-    Mod+Backspace { focus-workspace-previous; }
+    Mod+Tab { focus-workspace-previous; }
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
     Mod+Comma  { consume-window-into-column; }

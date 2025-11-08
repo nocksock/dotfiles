@@ -4,4 +4,4 @@ local bag = require "baggage"
     }
 
 bag.setup("rose-pine")
-vim.cmd.colorscheme 'rose-pine'
+vim.cmd.colorscheme 'default'

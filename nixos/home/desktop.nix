@@ -1,13 +1,44 @@
 {
   config,
   pkgs,
+  inputs,
   ...
-}: {
+}: let
+  mkPWA = {
+    name,
+    url,
+    icon,
+    categories ? ["Network"],
+  }: {
+    inherit name categories;
+    exec = "${pkgs.brave}/bin/brave --app=${url} --class=${pkgs.lib.toLower name}";
+    icon = icon;
+  };
+in {
   config = {
-
     services.syncthing = {
-        enable = true;
+      enable = true;
     };
+
+    home.pointerCursor = let
+      getFrom = url: hash: name: {
+        gtk.enable = true;
+        x11.enable = true;
+        name = name;
+        size = 48;
+        package = pkgs.runCommand "moveUp" {} ''
+          mkdir -p $out/share/icons
+          ln -s ${pkgs.fetchzip {
+            url = url;
+            hash = hash;
+          }} $out/share/icons/${name}
+        '';
+      };
+    in
+      getFrom
+      "https://github.com/ful1e5/fuchsia-cursor/releases/download/v2.0.0/Fuchsia-Pop.tar.gz"
+      "sha256-BvVE9qupMjw7JRqFUj1J0a4ys6kc9fOLBPx2bGaapTk="
+      "Fuchsia-Pop";
 
     home.packages = with pkgs; [
       # Terminal emulators
@@ -16,32 +47,25 @@
 
       # Desktop environment components
       fuzzel
-      wofi
       tofi
-      rofi
-      dmenu
+      zenity
 
       waybar
       swaybg
       wtype
       clipse
       cliphist
-      flameshot
       apple-cursor
-      iwmenu
-      pwmenu
-      bzmenu
-
-      zenity
       pkg-config
+
+      inputs.quickshell.packages.${system}.default
+      inputs.noctalia.packages.${system}.default
 
       # GUI file managers & utilities
       nautilus
-      kdePackages.dolphin
       gnome-font-viewer
       loupe
       gradia
-      planify
       pavucontrol
 
       # Browsers etc
@@ -87,6 +111,7 @@
       libheif
       pnpm
     ];
+
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
@@ -97,56 +122,36 @@
     };
 
     xdg.desktopEntries = {
+      feedbin = mkPWA {
+        name = "Feedbin";
+        url = "https://feedbin.com";
+        icon = ./icons/feedbin.com.png;
+      };
+
+      excalidraw = mkPWA {
+        name = "Excalidraw";
+        url = "https://excalidraw.com";
+        icon = ./icons/excalidraw.com.png;
+      };
+
+      fastmail = mkPWA {
+        name = "Fastmail";
+        url = "https://www.fastmail.com/";
+        icon = ./icons/fastmail.com.png;
+      };
+
       tableplus = {
         name = "TablePlus";
         type = "Application";
         terminal = false;
-        exec = "${pkgs.appimage-run}/bin/appimage-run ${config.home.homeDirectory}/apps/TablePlus-x64.AppImage";
-      };
-
-      excalidraw = {
-        name = "Excalidraw";
-        type = "Application";
-        terminal = false;
-        exec = "${pkgs.brave}/bin/brave --app=https://excalidraw.com";
-        icon = "${pkgs.brave}/share/icons/hicolor/128x128/apps/brave.png";
-      };
-
-      fastmail = {
-        name = "Fastmail";
-        type = "Application";
-        terminal = false;
-        exec = "${pkgs.brave}/bin/brave --app=https://www.fastmail.com/";
-        icon = "${pkgs.brave}/share/icons/hicolor/128x128/apps/chromium.png";
+        exec = "${pkgs.appimage-run}/bin/appimage-run ${config.home.homeDirectory}/.local/bin/TablePlus-x64.AppImage";
       };
 
       btop = {
         name = "btop";
         type = "Application";
         terminal = false;
-        exec = "${pkgs.kitty}/bin/kitty --class=column.lg ${pkgs.btop}/bin/btop";
-      };
-    };
-
-    programs.wofi = {
-      enable = true;
-      settings = {
-        width = 800;
-        height = 350;
-        location = "center";
-        show = "drun";
-        prompt = "Search...";
-        filter_rate = 100;
-        allow_markup = true;
-        matching = "fuzzy";
-        no_actions = true;
-        halign = "fill";
-        orientation = "vertical";
-        content_halign = "fill";
-        insensitive = true;
-        allow_images = true;
-        image_size = 40;
-        gtk_dark = true;
+        exec = "${pkgs.kitty}/bin/kitty  ${pkgs.btop}/bin/btop";
       };
     };
   };

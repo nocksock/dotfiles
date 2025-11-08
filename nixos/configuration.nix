@@ -7,44 +7,16 @@
 in {
   imports = [];
 
-virtualisation.docker = {
-  enable = true;
-};
-
-
-# powerManagement.powertop.enable = true;
-
-# services.tlp = {
-#   enable = true;
-#   settings = {
-#     CPU_SCALING_GOVERNOR_ON_AC = "performance";
-#     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-#
-#     CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-#     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-#
-#     CPU_MIN_PERF_ON_AC = 0;
-#     CPU_MAX_PERF_ON_AC = 100;
-#     CPU_MIN_PERF_ON_BAT = 0;
-#     CPU_MAX_PERF_ON_BAT = 20;
-#
-#     # Optional helps save long term battery health
-#     START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
-#     STOP_CHARGE_THRESH_BAT0 = 80;  # 80 and above it stops charging
-#   };
-# };
+  virtualisation.docker = {
+    enable = true;
+  };
 
   # System {{{
   # Boot {{{
 
-      services.logind.lidSwitch = "poweroff";
-      services.logind.lidSwitchExternalPower = "lock";
-      services.logind.lidSwitchDocked = "ignore";
-
-    boot.kernelParams = [ "button.lid_init_state=open" ];
+  boot.kernelParams = ["button.lid_init_state=open"];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
-  # boot.plymouth.enable = true;
 
   # }}}
   # Nix {{{
@@ -181,13 +153,13 @@ virtualisation.docker = {
   users.users.nr = {
     isNormalUser = true;
     description = "nils riedemann";
-    extraGroups = ["networkmanager" "wheel" "video" "input" "docker"];
+    extraGroups = ["networkmanager" "openrazer" "wheel" "video" "input" "docker"];
   };
 
   home-manager.users.nr = {
     imports = [
-      ./users/nr/cli.nix
-      ./users/nr/desktop.nix
+      ./home/cli.nix
+      ./home/desktop.nix
     ];
     nixpkgs.config.allowUnfree = true;
     home.stateVersion = "25.05";
@@ -198,12 +170,18 @@ virtualisation.docker = {
 
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
-    noto-fonts
-    ibm-plex
-    noto-fonts-color-emoji
+    dina-font
     fira-code
+    fira-code-symbols
     fira-sans
+    ibm-plex
+    liberation_ttf
+    mplus-outline-fonts.githubRelease
     nerd-fonts.caskaydia-mono
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+    proggyfonts
   ];
 
   # }}}
@@ -214,9 +192,7 @@ virtualisation.docker = {
   # }}}
   # Gnome {{{
 
-
   console.useXkbConfig = true;
-
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -272,7 +248,6 @@ virtualisation.docker = {
   services.greetd = {
     enable = true;
     settings = {
-      # # uncomment to auto-login (eg. for remote reboot)
       initial_session = {
         command = "niri-session";
         user = "nr";
