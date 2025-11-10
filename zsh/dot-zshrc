@@ -203,6 +203,8 @@ eval "$(atuin init zsh --disable-up-arrow)"
 
 alias ls='eza'
 alias ll='ls -lah'
+alias dcu='docker compose up'
+alias dcb='docker compose build'
 # zprof # show profiling result
 
 # Added by LM Studio CLI (lms)
