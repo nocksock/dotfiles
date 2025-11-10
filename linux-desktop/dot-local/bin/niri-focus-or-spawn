@@ -2,7 +2,12 @@
 # focus-or-spawn
 #   NOTE: this is assuming that the executable is a substring of the app_id
 
-id=$(niri msg -j windows | jq ".[] | select(.app_id | contains(\"$1\")) | .id" | tail -n 1 | tr -d '"')
+get-window() {
+    niri msg -j windows | jq ".[] | select(.title | contains(\"$1\")) | .id" \
+        || niri msg -j windows | jq ".[] | select(.app_id | contains(\"$1\")) | .id"
+}
+
+id=$(get-window $1 | tail -n 1 | tr -d '"')
 
 if [[ -n "$id" ]]; then
     niri msg action focus-window --id "$id"

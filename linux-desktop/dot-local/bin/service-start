@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+# symlink service from dot-local to ~/service and start it
+set -e
+
+if [ ! -d "$HOME/services" ]; then
+    mkdir -p "$HOME/services"
+fi
+
+if [[ -z "$1" ]]; then
+    set -- $(ls -1 "$HOME/.local/services")
+fi
+
+for name in "$@"; do
+    if [ ! -d "$HOME/.local/services/$name" ]; then
+        echo "Service $name does not exist in $HOME/.local/services/"
+        exit 1
+    fi
+done
+
+for name in "$@"; do
+    ln -s "$HOME/.local/services/$name" "$HOME/services/$name"
+    sv up "~/services/$name" 2>/dev/null || true
+done
