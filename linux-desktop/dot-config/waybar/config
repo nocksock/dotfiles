@@ -10,7 +10,8 @@
       "temperature",
       "cpu",
       "memory",
-      "niri/window"
+      "niri/window",
+      "custom/now"
     ],
     "modules-center": [
       "niri/workspaces"
@@ -24,6 +25,10 @@
       "upower",
       "battery"
     ],
+    "custom/now": {
+        "interval": 1,
+        "exec": "cat ~/now | head -n1"
+    },
     "upower": {
         "icon-size": 16,
         "tooltip": true,

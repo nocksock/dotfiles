@@ -113,6 +113,11 @@ tooltip label {
     animation-direction: alternate;
 }
 
+#custom-now {
+    margin-left: 1rem;
+    color: @fg-high;
+}
+
 menu {
     background: @bg;
     padding: 4px;
