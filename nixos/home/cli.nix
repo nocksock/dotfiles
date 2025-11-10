@@ -47,6 +47,7 @@
     lazygit
     gh
     jq
+    htmlq
     jujutsu
     podman
 

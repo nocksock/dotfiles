@@ -137,6 +137,12 @@ in {
         icon = ./icons/excalidraw.com.png;
       };
 
+      whatsapp = mkPWA {
+        name = "WhatsApp";
+        url = "https://web.whatsapp.com";
+        icon = ./icons/web.whatsapp.com.png;
+      };
+
       fastmail = mkPWA {
         name = "Fastmail";
         url = "https://www.fastmail.com/";
