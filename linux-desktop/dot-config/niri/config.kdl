@@ -311,9 +311,10 @@ binds {
 
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty" "-1"; }
-    Mod+B           repeat=false hotkey-overlay-title="Spawn Brave" { spawn "brave"; }
     Mod+Space       repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel" "--list-executables-in-path"; }
     Mod+D repeat=false hotkey-overlay-title="Edit Dotfiles" { spawn-sh "kitty -1 -d $DOTDIR nvim +FzfLua\\ files"; }
+
+    Mod+B           repeat=false hotkey-overlay-title="Focus or spawn Brave" { spawn-sh "niri-focus-or-spawn Brave"; }
 
     Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
     Mod+Alt+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
@@ -322,15 +323,17 @@ binds {
     Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
     Mod+Semicolon   repeat=false { spawn-sh "kitten quick-access-terminal"; }
 
-    Mod+G       repeat=false hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri-window-search"; }
-    Mod+X       repeat=false hotkey-overlay-title="Nox" { spawn "nox-menu"; }
+    Alt+Tab     repeat=false hotkey-overlay-title="Goto"  { spawn-sh "nox-menu niri-window-search"; }
+    Mod+X       repeat=false hotkey-overlay-title="Nox"   { spawn "nox-menu"; }
     Mod+N       repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
+    Mod+Shift+N repeat=false hotkey-overlay-title="Notes" { spawn-sh "kitty -1 --class=float.sm vim ~/now"; }
+
     Mod+E  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
     Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
     Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
     Mod+Y { spawn-sh "kitty -1 yazi"; }
 
-    Mod+M { spawn-sh "niri msg action set-column-width 75%; niri msg action center-column"; }
+    Mod+M { spawn-sh "niri msg action set-column-width 80%; niri msg action center-column"; }
     Mod+S { spawn "niri-split"; }
     Mod+Tab { focus-workspace-previous; }
     Mod+BracketLeft  { consume-or-expel-window-left; }
