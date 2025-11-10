@@ -1,1 +1,1 @@
-require "lspconfig".cssmodules_ls.setup {}
+vim.lsp.config("cssmodules_ls",{})

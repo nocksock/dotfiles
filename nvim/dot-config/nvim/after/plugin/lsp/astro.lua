@@ -1,1 +1,1 @@
-require "lspconfig".astro.setup {}
+vim.lsp.config("astro",{})

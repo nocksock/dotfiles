@@ -1,4 +1,4 @@
-require "lspconfig".tailwindcss.setup {
+vim.lsp.config("tailwindcss",{
   capabilities = capabilities,
   init_options = {
     userLanguages = {
@@ -18,4 +18,4 @@ require "lspconfig".tailwindcss.setup {
       }
     }
   }
-}
+})

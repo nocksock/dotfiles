@@ -1,4 +1,4 @@
-require "lspconfig".cssls.setup {
+vim.lsp.config("cssls",{
   settings = {
     css = { 
       validate = true,
@@ -7,4 +7,4 @@ require "lspconfig".cssls.setup {
       }
     },
   }
-}
+})

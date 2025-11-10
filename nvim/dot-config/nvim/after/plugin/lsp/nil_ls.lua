@@ -1,1 +1,1 @@
-require "lspconfig".nil_ls.setup {}
+vim.lsp.config("nil_ls",{})

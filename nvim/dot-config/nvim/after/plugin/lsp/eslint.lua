@@ -1,4 +1,4 @@
-require "lspconfig".eslint.setup {}
+vim.lsp.config("eslint",{})
 
 vim.api.nvim_create_user_command('FixAll', function()
   if vim.lsp.buf.code_action then

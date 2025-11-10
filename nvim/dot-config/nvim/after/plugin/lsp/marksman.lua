@@ -1,1 +1,1 @@
--- require "lspconfig".marksman.setup {}
+-- vim.lsp.config("marksman",{})
