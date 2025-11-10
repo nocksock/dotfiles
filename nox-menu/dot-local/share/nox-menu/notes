@@ -1,11 +1,17 @@
 #!/usr/bin/env sh
 cd "$HOME/notes"
-file=$(fd -tf | fuzzel --dmenu -p ":e " --cache ~/.cache/nox-menu/notes) || exit 0
+file=${1:-$(fd -tf | fuzzel --dmenu -p ":e " --cache ~/.cache/nox-menu/notes)} || exit 0
 
 # Starting with '!!' -> create file with timestamp as name in Inbox
+# !!foo/bar -> foo/bar/2024-06-15-14:30:00.md
 if [[ "$file" == '!!'* ]]; then
+    file=${file:2}
     timestamp=$(date +"%Y-%m-%d-%H:%M:%S")
-    file="Inbox/$timestamp.md"
+    if [[ -n "$file" ]]; then
+        file="$file/$timestamp.md"
+    else
+        file="inbox/$timestamp.md"
+    fi
 fi
 
 # Starting with '!' is just to clear the fuzzy result, will be removed from path
@@ -14,11 +20,12 @@ if [[ "$file" == '!'* ]]; then
 fi
 
 if [[ ! -f "$file" ]]; then
+    mkdir -p "$(dirname "$file")"
     touch "$file"
 fi
 
 # note: no exec so we can clean up after nvim exits
-kitty --class=float.md nvim "$file"
+niri-split nvim "$file"
 
 # clean up if file is empty
 if [[ ! -s "$file" ]]; then

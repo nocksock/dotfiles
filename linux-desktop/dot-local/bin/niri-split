@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+niri msg action set-column-width 50%
+exec kitty -1 ${@}
