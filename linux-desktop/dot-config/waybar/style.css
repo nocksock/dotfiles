@@ -30,6 +30,7 @@ button:hover {
     background: @fg;
 }
 
+
 #custom-dropbox,
 #cpu,
 #power-profiles-daemon,
@@ -48,6 +49,17 @@ button:hover {
     opacity: 0.9;
 }
 
+#power-profiles-daemon.power-saver {
+    /* color: #008800; */
+}
+
+#power-profiles-daemon.balanced {
+    color: #ffaa00;
+}
+
+#power-profiles-daemon.performance {
+    color: #ff0000;
+}
 
 @keyframes blink {
     to {
