@@ -1,1 +1,1 @@
-require "lspconfig".biome.setup {}
+vim.lsp.config("biome",{})

@@ -3,6 +3,8 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+
+spawn-sh-at-startup "runsvdir ~/services/"
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 prefer-no-csd
 
@@ -16,8 +18,14 @@ environment {
 }
 
 input {
+    workspace-auto-back-and-forth
+
     keyboard {
-        xkb { layout "eu"; }
+        xkb { 
+            layout "eu";
+            options "ctrl:nocaps,altwin:swap_lalt_lwin"
+        }
+        
         numlock
     }
 
@@ -25,7 +33,8 @@ input {
         tap
         natural-scroll
         accel-speed 0.2
-        accel-profile "flat"
+        // scroll-factor 0.1
+        // accel-profile "flat"
         scroll-method "two-finger"
     }
 
@@ -43,26 +52,26 @@ input {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
-    gaps 34
+    gaps 16
     // center-focused-column "on-overflow"
     always-center-single-column
     empty-workspace-above-first
 
     preset-column-widths {
-        proportion 0.33333
         proportion 0.5
         proportion 0.66667
+        proportion 0.33333
         // fixed 1920
     }
 
-    default-column-width { proportion 0.3333; }
+    default-column-width { proportion 0.5; }
     // default-column-width {}
     focus-ring {
-       width 3
-       active-color "white"
+       width 0.5
+       // active-color "#00ff0088"
        // inactive-color "red"
        urgent-color "#ff0000"
-      active-gradient from="white" to="hsl(150 0% 50% / 90%)" angle=45 
+      active-gradient from="white" to="hsl(150 50% 50% / 90%)" angle=180
       // inactive-gradient from="#000000" to="#808080" angle=45 #relative-to="workspace-view"
     }
 
@@ -108,6 +117,11 @@ layout {
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
+}
+
+switch-events {
+    lid-close { spawn "notify-send" "The laptop lid is closed!"; }
+    lid-open { spawn "notify-send" "The laptop lid is open!"; }
 }
 
 // Animation settings.
@@ -254,8 +268,8 @@ window-rule {
     match app-id=r#"float.lg$"#
     match app-id=r#"NautilusPreviewer"#
     open-floating true
-    default-column-width { fixed 1920; }
-    default-window-height { fixed 1080; }
+    default-column-width { fixed 1200; }
+    default-window-height { fixed 960; }
 }
 
 window-rule {
@@ -303,38 +317,64 @@ binds {
     Mod+B           repeat=false hotkey-overlay-title="Focus or spawn Brave" { spawn-sh "niri-focus-or-spawn Brave"; }
 
     Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
+    Mod+Alt+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
+
     Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
     Mod+Semicolon   repeat=false { spawn-sh "kitten quick-access-terminal"; }
-    Mod+Shift+1     repeat=false { spawn-sh "nox-menu niri/spawn"; }
 
-    Mod+G       repeat=false hotkey-overlay-title="Goto" { spawn-sh "nox-menu niri/goto"; }
-    Mod+X       repeat=false hotkey-overlay-title="Nox" { spawn "nox-menu"; }
-    Mod+Shift+X       repeat=false hotkey-overlay-title="Niri-Menu" { spawn-sh "nirictl _menu"; }
+    Alt+Tab     repeat=false hotkey-overlay-title="Goto"  { spawn-sh "nox-menu niri-window-search"; }
+    Mod+X       repeat=false hotkey-overlay-title="Nox"   { spawn "nox-menu"; }
     Mod+N       repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
-    Mod+E       repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d"; }
-    Mod+Shift+O  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
+    Mod+Shift+N repeat=false hotkey-overlay-title="Notes" { spawn-sh "kitty -1 --class=float.sm vim ~/now"; }
+
+    Mod+E  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
     Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
     Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
+    Mod+Y { spawn-sh "kitty -1 yazi"; }
 
-    // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
-    // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
-    // For example, this is a standard bind to toggle the screen reader (orca).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    Mod+M { spawn-sh "niri msg action set-column-width 80%; niri msg action center-column"; }
+    Mod+S { spawn "niri-split"; }
+    Mod+Tab { focus-workspace-previous; }
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+Comma  { consume-window-into-column; }
+    Mod+Period { expel-window-from-column; }
+    Mod+R { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Ctrl+R { reset-window-height; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Ctrl+F { expand-column-to-available-width; }
+    Mod+C { center-column; }
+    Mod+Ctrl+C { center-visible-columns; }
 
-    // Example volume keys mappings for PipeWire & WirePlumber.
-    // The allow-when-locked=true property makes them work even when the session is locked.
-    // Using spawn-sh allows to pass multiple arguments together with the command.
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    Mod+V       { toggle-window-floating; }
+    Mod+Grave { switch-focus-between-floating-and-tiling; }
+
+    Mod+W { toggle-column-tabbed-display; }
+
+    Mod+Shift+4 { screenshot; }
+    Mod+Shift+5 { screenshot-screen; }
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
-    // Example brightness key mappings for brightnessctl.
-    // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
-    // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--device=amdgpu_bl1" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--device=amdgpu_bl1" "set" "10%-"; }
+    Mod+F8 allow-when-locked=true { spawn-sh "brightnessctl --device=amdgpu_bl1 set 10%"; }
+    Mod+F9 allow-when-locked=true { spawn-sh "brightnessctl --device=amdgpu_bl1 set 50%"; }
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
@@ -407,37 +447,6 @@ binds {
     Mod+Ctrl+7 { move-window-to-workspace 7; }
     Mod+Ctrl+8 { move-window-to-workspace 8; }
     Mod+Ctrl+9 { move-window-to-workspace 9; }
-
-    // Switches focus between the current and the previous workspace.
-    Mod+Backspace { focus-workspace-previous; }
-    Mod+BracketLeft  { consume-or-expel-window-left; }
-    Mod+BracketRight { consume-or-expel-window-right; }
-    Mod+Comma  { consume-window-into-column; }
-    Mod+Period { expel-window-from-column; }
-    Mod+R { switch-preset-column-width; }
-    Mod+Shift+R { switch-preset-window-height; }
-    Mod+Ctrl+R { reset-window-height; }
-    Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
-    Mod+Ctrl+F { expand-column-to-available-width; }
-    Mod+C { center-column; }
-    Mod+Ctrl+C { center-visible-columns; }
-
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
-    Mod+Shift+Minus { set-window-height "-10%"; }
-    Mod+Shift+Equal { set-window-height "+10%"; }
-
-    Mod+V       { toggle-window-floating; }
-    Mod+Grave { switch-focus-between-floating-and-tiling; }
-
-    Mod+W { toggle-column-tabbed-display; }
-
-    Mod+Shift+4 { screenshot; }
-    Mod+Shift+5 { screenshot-screen; }
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here

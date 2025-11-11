@@ -1,1 +1,1 @@
-require "lspconfig".antlersls.setup {}
+vim.lsp.config('antlersls', {})

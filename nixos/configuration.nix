@@ -7,17 +7,16 @@
 in {
   imports = [];
 
-virtualisation.docker = {
-  enable = true;
-};
-
+  virtualisation.docker = {
+    enable = true;
+  };
 
   # System {{{
   # Boot {{{
 
+  boot.kernelParams = ["button.lid_init_state=open"];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
-  # boot.plymouth.enable = true;
 
   # }}}
   # Nix {{{
@@ -40,8 +39,6 @@ virtualisation.docker = {
 
   # }}}
   # Network {{{
-
-  networking.hostName = "nixos"; # Define your hostname.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -156,13 +153,13 @@ virtualisation.docker = {
   users.users.nr = {
     isNormalUser = true;
     description = "nils riedemann";
-    extraGroups = ["networkmanager" "wheel" "video" "input" "docker"];
+    extraGroups = ["networkmanager" "openrazer" "wheel" "video" "input" "docker"];
   };
 
   home-manager.users.nr = {
     imports = [
-      ./users/nr/cli.nix
-      ./users/nr/desktop.nix
+      ./home/cli.nix
+      ./home/desktop.nix
     ];
     nixpkgs.config.allowUnfree = true;
     home.stateVersion = "25.05";
@@ -173,12 +170,18 @@ virtualisation.docker = {
 
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
-    noto-fonts
-    ibm-plex
-    noto-fonts-emoji
+    dina-font
     fira-code
+    fira-code-symbols
     fira-sans
+    ibm-plex
+    liberation_ttf
+    mplus-outline-fonts.githubRelease
     nerd-fonts.caskaydia-mono
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+    proggyfonts
   ];
 
   # }}}
@@ -189,14 +192,16 @@ virtualisation.docker = {
   # }}}
   # Gnome {{{
 
-  services.xserver = {
-    enable = true;
-    xkb.layout = "eu";
-    xkbOptions = "compose:ralt";
+  console.useXkbConfig = true;
 
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    options = "ctrl:nocaps";
   };
+
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # services.gnome.core-apps.enable = false;
   # services.gnome.core-developer-tools.enable = false;
@@ -234,6 +239,9 @@ virtualisation.docker = {
   hardware.bluetooth.enable = true;
   services.flatpak.enable = true;
 
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.config.common.default = "gtk";
+
   services.sunshine = {
     enable = true;
     autoStart = true;
@@ -243,7 +251,6 @@ virtualisation.docker = {
   services.greetd = {
     enable = true;
     settings = {
-      # # uncomment to auto-login (eg. for remote reboot)
       initial_session = {
         command = "niri-session";
         user = "nr";

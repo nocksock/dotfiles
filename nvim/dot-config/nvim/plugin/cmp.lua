@@ -49,10 +49,10 @@ cmp.setup({-- {{{
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
     { name = "luasnip" },
-    { name = 'minuet' },
-    { name = "buffer" },
     { name = "path" },
     { name = "copilot" },
+    { name = 'minuet' },
+    { name = "buffer" },
   }, {
     -- 
   }),

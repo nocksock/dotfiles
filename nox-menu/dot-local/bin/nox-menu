@@ -3,19 +3,7 @@ export NOX_ACTIONS_ROOT="$HOME/.local/share/nox-menu"
 export NOX_CACHE_ROOT="$HOME/.cache/nox-menu"
 
 pick() {
-    fd | fuzzel --dmenu --cache "$(cache-path)"
-}
-
-cache-path() {
-    if [[ ! -d $NOX_CACHE_ROOT ]]; then
-	mkdir -p $NOX_CACHE_ROOT
-	if [[ $? -ne 0 ]]; then
-	    notify-send -u urgent "nox-menu" "Error: could not create cache at $NOX_CACHE_ROOT"
-	    exit 1
-	fi
-    fi
-
-    realpath --relative-to="$HOME" "$(pwd)" | tr '/' '-'
+    fd | fuzzel --dmenu --cache "/tmp/nox-menu-cache"
 }
 
 run() {
@@ -25,7 +13,7 @@ run() {
     fi
 
     if [[ -x "$1" ]]; then
-	exec "$1"
+	exec "$1" "${@:2}"
     fi
 
     notify-send -u urgent "nox-menu" "Error: $1 is neither executable nor directory"
@@ -38,4 +26,4 @@ if [[ $(pwd) != $NOX_ACTIONS_ROOT* ]]; then
 fi
 
 action="${1-$(pick)}" || exit 0
-exec run "$action"
+exec run "$action" "${@:2}"

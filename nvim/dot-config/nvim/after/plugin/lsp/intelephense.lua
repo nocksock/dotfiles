@@ -1,1 +1,1 @@
-require "lspconfig".intelephense.setup {}
+vim.lsp.config("intelephense",{})

@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+# A script to add a new service to the user's local services directory.
+
+name="$1"
+
+if [ -z "$name" ]; then
+    echo "Usage: service-create <service-name>"
+    exit 1
+fi
+
+target_dir="$HOME/.local/services/$name"
+
+mkdir -p "$target_dir"
+cat << EOF > "$target_dir/run"
+#!/usr/bin/env sh
+EOF
+chmod +x "$target_dir/run"
+nvim "$target_dir/run"
+
+# if file is only shebang, remove the created directory
+if [ "$(wc -l < "$target_dir/run")" -le 1 ]; then
+    rm -rf "$target_dir"
+    notify-send -t 2000 "Service $name was not created."
+else
+    notify-send -t 2000 "Service $name created."
+    exec service-start "$name"
+fi

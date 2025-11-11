@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-# use gsettings montor changes to kill processes. restart handled by runit
-
-gsettings monitor org.gnome.desktop.interface color-scheme | while read -r line; do
-    sv restart ~/service/waybar
-    sv restart ~/service/wallpaper
-done

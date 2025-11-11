@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+niri msg -j event-stream | while read -r line
+do
+    workspace_active="$(niri msg -j workspaces | jq '.[] | select(.is_active).id')"
+    window_closed="$(echo $line | jq .WindowClosed.id)"
+    window_changed="$(echo $line | jq .WindowOpenedOrChanged.window.id)"
+    window_changed_floating="$(echo $line | jq .WindowOpenedOrChanged.window.is_floating)"
+    workspace_active_size="$(niri msg -j windows | jq "(. | map(select(.workspace_id == $workspace_active and .is_floating == false))) | length")"
+    workspace_activated="$(echo $line | jq .WorkspaceActivated.id)"
+    
+    if [[ $window_closed != "null" && $workspace_active_size -eq 1 ]]; then
+        niri msg action set-column-width 85%
+    
+    elif [[ $window_changed != "null" && $workspace_active_size -eq 1 && $window_changed_floating == 'false' ]]; then
+        niri msg action set-column-width 85%
+    
+    elif [[ $window_changed != "null" && $workspace_active_size -eq 2 && $window_changed_floating == 'false' ]]; then
+        first_window="$(niri msg -j windows | jq "(.[] | select(.workspace_id == $workspace_active and .id != $window_changed and .is_floating == false).id)")"
+        niri msg action set-window-width --id $first_window 50%
+    fi
+done

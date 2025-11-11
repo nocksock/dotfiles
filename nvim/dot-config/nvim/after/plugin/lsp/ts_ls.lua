@@ -1,6 +1,5 @@
-local lspconfig = require("lspconfig")
 
-lspconfig.ts_ls.setup {
+vim.lsp.config('ts_ls', {
   init_options = {
     hostInfo = "neovim",
     tsserver = {
@@ -15,4 +14,4 @@ lspconfig.ts_ls.setup {
     require "lsp-utils".on_attach(client, bufnr)
     require "twoslash-queries".attach(client, bufnr)
   end
-}
+})

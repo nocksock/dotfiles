@@ -1,0 +1,386 @@
+# vim:fileencoding=utf-8:foldmethod=marker:foldclose=all:foldopen=all:foldlevel=0
+# tip: use `zk` and `zj` to navigate
+# shell /Users/nilsriedemann/.nix-profile/bin/nu
+
+# About the shortcuts
+#
+# ctrl+q and then it's pretty much first letter of the feature and then first
+# letter of a verb. eg: ctrl+q>w>n -> [w]indow [n]ew. Or they take inspiraton
+# from vim.
+
+# System Settings {{{
+
+listen_on                    unix:/tmp/kitty
+allow_remote_control         yes
+editor                       nvim
+env                          KITTY_DEVELOP_FROM ~/code/forks/kitty/
+enable_audio_bell            no
+visual_bell_duration         0.100
+remember_window_size         no
+initial_window_height        20c
+initial_window_width         90c
+macos_traditional_fullscreen yes
+
+# }}}
+# Font Settings {{{
+
+macos_thicken_font  0.0
+font_size           10.0
+adjust_line_height  150%
+adjust_column_width 100%
+adjust_baseline     0
+
+# default font when non of the other fonts below is used
+# font_family      JetBrains Mono Light
+# bold_font        JetBrains Mono Bold
+# italic_font      JetBrains Mono Italic
+# bold_italic_font JetBrains Mono Bold Italic
+
+# other fonts {{{
+
+# bunch of other fonts I like to use occasionally. I leave them in for easy
+# uncommenting.
+
+# font_family      Ligconsolata Regular
+# bold_font        Ligconsolata Regular
+# italic_font      Ligconsolata Bold
+# bold_italic_font Ligconsolata Bold 
+
+# font_family      Dank Mono Regular
+# bold_font        Dank Mono Bold
+# italic_font      Dank Mono Italic
+# bold_italic_font Dank Mono Bold Italic
+
+# font_family      Operator Mono Medium
+# bold_font        Operator Mono Bold
+# bold_italic_font Operator Mono Bold Italic
+# italic_font      Operator Mono Book Italic
+
+# font_family      Menlo Regular
+# bold_font        Menlo Bold
+# italic_font      Menlo Italic
+# bold_italic_font Menlo Bold Italic
+
+# font_family      MonoLisa Book
+# bold_font        MonoLisa Bold
+# bold_italic_font MonoLisa Bold Italic
+# italic_font      MonoLisa Book Italic
+
+# font_family      Fira Code Regular
+# bold_font        Fira Code Bold
+# italic_font      Fira Code Italic
+# bold_italic_font Fira Code Bold Italic
+
+# font_family      Envy Code R Regular
+# bold_font        Envy Code R Bold
+# italic_font      Envy Code R Italic
+# bold_italic_font Envy Code R Bold Italic
+
+# font_family      Rec Mono Duotone Regular
+# bold_font        Rec Mono Duotone Bold
+# italic_font      Rec Mono Duotone Italic
+# bold_italic_font Rec Mono Duotone Bold Italic
+
+# font_family      Rec Mono Casual Normal
+# bold_font        Rec Mono Casual Bold
+# italic_font      Rec Mono Casual Regular
+# bold_italic_font Rec Mono Casual Bold
+
+# font_family      Comic Mono Normal
+# bold_font        Comic Mono Bold
+# italic_font      Comic Mono Normal
+# bold_italic_font Comic Mono Bold
+# adjust_line_height  160%
+
+# font_family      Departure Mono
+# bold_font        Departure Mono
+# italic_font      Departure Mono
+# bold_italic_font Departure Mono 
+
+# font_family      Rec Mono Linear Regular
+# bold_font        Rec Mono Linear Bold
+# italic_font      Rec Mono Linear Italic
+# bold_italic_font Rec Mono Linear Bold Italic
+
+# font_family      Iosevka Slab Medium
+# bold_font        Iosevka Slab Bold
+# italic_font      Iosevka Slab Italic
+# bold_italic_font Iosevka Slab Bold Italic
+
+# font_family      Iosevka Snock Regular
+# bold_font        Iosevka Snock Medium
+# italic_font      Iosevka Snock Italic
+# bold_italic_font Iosevka Snock Bold Italic
+
+# font_family      Pragmata Pro Mono Regular
+# bold_font        Pragmata Pro Mono Bold
+# italic_font      Pragmata Pro Mono Italic
+# bold_italic_font Pragmata Pro Mono Bold Italic
+
+# }}}
+# }}}
+# UI Settings {{{
+
+draw_minimal_borders         yes
+dynamic_background_opacity   yes
+enabled_layouts              tall:bias=70,tall:bias=70;mirrored=true,fat:bias=66,fat:bias=80,stack,splits
+hide_window_decorations      yes
+inactive_text_alpha          0.80
+tab_bar_align                left
+tab_bar_edge                 top
+tab_bar_margin_height        0.0 0.0
+tab_bar_margin_width         8.0
+tab_bar_style                separator
+tab_separator                " "
+tab_title_template           "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab} {title} "
+
+# spacings
+single_window_margin_width   0
+window_border_width          1
+# window_margin_width          12
+window_padding_width         2 8
+
+
+# cursor effect
+# cursor_trail 500
+# cursor_trail_decay 0.1 0.4
+# cursor_trail_start_threshold 2
+
+# }}}
+# Theme{{{
+
+# BEGIN_KITTY_THEME
+# Black Metal
+include current-theme.conf
+# END_KITTY_THEME
+
+# }}}
+# Shortcuts and key-settings {{{
+
+kitty_mod           ctrl+shift
+macos_option_as_alt right
+map                 kitty_mod+v paste_from_clipboard
+map                 kitty_mod+c copy_to_clipboard
+
+# Common {{{
+
+# Shortcuts to make kitty behave similar to most applications.
+
+map cmd+n            new_os_window
+map cmd+t            new_os_window_with_cwd
+
+map kitty_mod+k combine : clear_terminal scrollback active : send_text normal \x0c
+map kitty_mod+opt+s        no_op
+map kitty_mod+[            previous_window
+map kitty_mod+]            next_window
+map kitty_mod+x            close_window
+map kitty_mod+w            close_window
+map kitty_mod+shift+[      kitten smart_tab.py previous_tab cmd+shift+[
+map kitty_mod+shift+]      kitten smart_tab.py next_tab  cmd+shift+]
+
+map kitty_mod+opt+t        launch --type=tab --location=after --title="tmux" zsh -c "tmux attach"
+map kitty_mod+n            new_os_window
+map kitty_mod+t            new_os_window_with_cwd
+
+map kitty_mod+o            launch --type=overlay --title="choose project" kitty-qp tab
+map kitty_mod+shift+o     launch --type=overlay --title="choose project" zsh -c qufo tab
+
+map kitty_mod+enter        launch --location=vsplit --cwd=current
+map kitty_mod+enter  new_os_window
+
+# this is usually whatever script etc I'm working on
+map kitty_mod+equal change_font_size current +1.0
+map kitty_mod+minus change_font_size current -1.0
+map kitty_mod+0     change_font_size current 0.0
+
+# }}}
+
+# Base {{{
+
+map kitty_mod+'   next_layout
+map kitty_mod+f1  show_kitty_env_vars
+map kitty_mod+f4  launch --stdin-source=@screen_scrollback --type=tab nvim -c "setlocal ft=man nonumber nolist showtabline foldcolumn=0" -c "autocmd VimEnter * normal G"
+
+map ctrl+q>%      launch --location=vsplit --cwd=current
+map ctrl+q>,      launch --type=os-window --cwd=~/.config/kitty/ --title="dotfiles" --copy-env zsh -c "nvim kitty.conf"
+map ctrl+q>c      close_window
+map ctrl+q>f      launch --type=tab zsh -c "qf -e"
+map ctrl+q>g      launch --type=tab --stdin-source @last_cmd_output --copy-env zsh -c "nvim -"
+map ctrl+q>n      new_os_window
+map ctrl+q>s      launch --location=hsplit --cwd=current
+map ctrl+q>v      launch --location=vsplit --cwd=current
+map ctrl+q>z      toggle_layout stack
+map ctrl+q>space  next_layout
+
+map ctrl+q>ctrl+c      launch --stdin-source @last_cmd_output pbcopy
+
+map ctrl+q>h      neighboring_window left
+map ctrl+q>j      neighboring_window down
+map ctrl+q>k      neighboring_window up
+map ctrl+q>l      neighboring_window right
+
+# shift: create context {{{
+# all shortcuts with shift are meant to create a window/tab and usuall start
+# some kind of picker
+
+map ctrl+q>shift+j combine : launch --location=hsplit --cwd=current : resize_window shorter 1
+map ctrl+q>shift+l combine : launch --location=vsplit --cwd=current : resize_window narrower 15
+map ctrl+q>shift+b launch --type=tab --copy-env sbox
+
+
+# }}}
+# }}}
+
+# Alpha {{{
+
+map ctrl+q>a>1   set_background_opacity 1
+map ctrl+q>a>2   set_background_opacity 0.8
+map ctrl+q>a>3   set_background_opacity 0.4
+map ctrl+q>a>0   set_background_opacity 0
+map ctrl+q>a>l   set_background_opacity -0.1
+map ctrl+q>a>m   set_background_opacity +0.1
+map ctrl+q>a>r   set_background_opacity default
+
+# }}}
+# Tab {{{
+
+map ctrl+q>r       set_tab_title
+map ctrl+q>t>r     set_tab_title
+map ctrl+q>t>c     close_tab
+map ctrl+q>t>d     detach_tab ask
+map ctrl+q>t>n     new_tab_with_cwd !neighbor
+map ctrl+q>t>left  move_tab_backward
+map ctrl+q>t>h     move_tab_backward
+map ctrl+q>t>right move_tab_forward
+map ctrl+q>t>l     move_tab_forward
+
+map kitty_mod+1 goto_tab 1
+map kitty_mod+2 goto_tab 2
+map kitty_mod+3 goto_tab 3
+map kitty_mod+4 goto_tab 4
+map kitty_mod+5 goto_tab 5
+map kitty_mod+6 goto_tab 6
+map kitty_mod+7 goto_tab 7
+map kitty_mod+8 goto_tab 8
+map kitty_mod+9 goto_tab 9
+
+# }}}
+# Font {{{
+
+map ctrl+q>f>b   change_font_size current 30
+map ctrl+q>f>s   change_font_size current 11
+map ctrl+q>f>r   change_font_size current 15
+map ctrl+q>f>B   change_font_size all 30
+map ctrl+q>f>S   change_font_size all 11
+map ctrl+q>f>R   change_font_size all 15
+
+# }}}
+# Grab output {{{
+
+map ctrl+q>g>l  launch --type=tab --stdin-source @last_cmd_output --copy-env zsh -c "nvim -"
+
+# }}}
+# Open {{{
+
+map ctrl+q>o>t  launch --type=overlay --copy-env zsh -c "tm-select | xargs kitty @ launch --type=tab --copy-env tmux attach -t"
+map ctrl+q>o>n  launch --type=os-window --title="choose project" ~/code/dotfiles/bin/kitty-qp os-window
+map ctrl+q>o>p  launch --type=overlay --title="choose project" ~/code/dotfiles/bin/kitty-qp tab
+
+# }}}
+# [H]ints {{{
+
+map  ctrl+q>h>u     open_url_with_hints
+map  ctrl+option>w  kitten  hints  --type  word  --program  -
+map  ctrl+option>p  kitten  hints  --type  path  --program  -
+map  ctrl+option>l  kitten  hints  --type  line  --program  -
+map  ctrl+option>h  kitten  hints  --type  hash  --program  -
+
+# lower case to paste
+# upper case to copy
+# [h]ash
+map ctrl+q>h>h       kitten hints --type hash --program -
+map ctrl+q>h>shift+h kitten hints --type hash --program @
+# [w]ord
+map ctrl+q>h>w       kitten hints --type word --program -
+map ctrl+q>h>shift+w kitten hints --type word --program @
+# [p]ath
+map ctrl+q>h>p       kitten hints --type path --program -
+map ctrl+q>h>shift+p kitten hints --type path --program @
+# [f]ile (both because I keep trying either)
+map ctrl+q>h>f       kitten hints --type path --program -
+map ctrl+q>h>shift+f kitten hints --type path --program @
+# [l]ine
+map ctrl+q>h>l       kitten hints --type line --program -
+map ctrl+q>h>shift+l kitten hints --type line --program @
+
+# }}}
+# Marker {{{
+
+map ctrl+q>m>c  create_marker
+map ctrl+q>m>r  remove_marker
+map ctrl+q>m>e  toggle_marker regex 1 \\bERROR\\b
+
+# }}}
+# Resizing {{{
+
+map ctrl+option+h  resize_window narrower 6
+map ctrl+option+j  resize_window shorter  6
+map ctrl+option+k  resize_window taller   6
+map ctrl+option+l  resize_window wider    6
+map ctrl+left      resize_window narrower 6
+map ctrl+right     resize_window wider    6
+map ctrl+up        resize_window taller   6
+map ctrl+down      resize_window shorter  6
+
+# }}}
+# Scrolling {{{
+
+map ctrl+q>s>p  scroll_to_prompt -1
+map ctrl+q>s>n  scroll_to_prompt 1
+map ctrl+q>s>r  scroll_to_prompt 0
+map ctrl+q>s>t  scroll_prompt_to_top
+map ctrl+q>s>b  scroll_prompt_to_bottom
+
+# }}}
+# sYstem {{{
+
+map ctrl+q>y>r  load_config_file
+map ctrl+q>y>s  kitty_shell window
+map ctrl+q>y>t  kitten themes
+map ctrl+q>y>h  show_kitty_doc overview
+
+# }}}
+# Window (vimlike) {{{
+
+map ctrl+q>w>=          resize_window reset
+map ctrl+q>w>c          close_window
+map ctrl+q>w>c+shift    close_os_window
+map ctrl+q>w>d          detach_window ask
+map ctrl+q>w>n        new_os_window_with_cwd
+map ctrl+q>w>N+shift  new_os_window
+map ctrl+q>w>r          layout_action rotate
+map ctrl+q>w>s          launch --location=hsplit --cwd=current
+map ctrl+q>w>S+shift    launch --location=hsplit
+map ctrl+q>w>T+shift    detach_window new_tab
+map ctrl+q>w>v          launch --location=vsplit --cwd=current
+map ctrl+q>w>v+shift    launch --location=vsplit
+map ctrl+q>w>x          swap_with_window
+map ctrl+q>w>z          toggle_layout stack
+
+# }}}
+# }}}
+
+# # BEGIN_KITTY_FONTS
+# font_family      family="Comic Mono"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+# # END_KITTY_FONTS
+
+
+# # BEGIN_KITTY_FONTS
+# font_family      family="CaskaydiaMono Nerd Font Mono"
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
+# # END_KITTY_FONTS

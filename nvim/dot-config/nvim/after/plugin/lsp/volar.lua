@@ -1,1 +1,1 @@
-require "lspconfig".volar.setup {}
+vim.lsp.config("volar",{})

@@ -10,10 +10,11 @@ fi
 while IFS= read -r dir; do
   dir="${dir#"${dir%%[![:space:]]*}"}"  # Trim leading whitespace
   dir="${dir%"${dir##*[![:space:]]}"}"  # Trim trailing whitespace
+  dir="${dir/\~/$HOME}"
 
-  expanded_dir="${dir/\~/$HOME}"
-  if [[ "$expanded_dir" == *\** ]]; then
-    find "${expanded_dir%/*}" -maxdepth 1 -type d -print
+  if [[ "$dir" == *\** ]]; then
+    dir="${dir//\*/}" # remove trailing *
+    fd -td --max-depth=1 . "$dir"
   else
     echo "${expanded_dir}"
   fi

@@ -1,5 +1,5 @@
 export DOTLOG="$HOME/.dotfiles.log"
-export DOTDIR="$HOME/code/dotfiles"
+export DOTDIR="$HOME/dotfiles"
 
 export BUN_INSTALL="$HOME/.bun"
 export EDITOR='/usr/local/bin/nvim' # used for commits and such

@@ -1,31 +1,35 @@
 * {
-  all: initial;
-  font-family: CaskaydiaMono Nerd Font;
-  min-height: 0;
-  font-size: 16px;
-  color: @fg;
+    all: initial;
+    font-family: CaskaydiaMono Nerd Font;
+    min-height: 0;
+    font-size: 9pt;
+    color: @fg;
 }
 
 button:hover {
-opacity: 0.5;
+    opacity: 0.5;
 }
 
-#workspaces {
-    padding: 0;
-}
+#workspaces {}
+
 #workspaces button {
-  min-width: 8px;
-  border-radius: 99px;
-    background: @fg;
-    opacity: 0.3;
-    margin: 4px;
+    min-width: 8px;
+    border-radius: 99px;
+    margin: 2px 4px;
     transition: opacity 0.2s;
 }
 
 #workspaces button:first-child,
 #workspaces button:last-child {
-    opacity: 0.1;
+    /* these are always empty in my niri config */
+    opacity: 0.5;
 }
+
+#workspaces button.active {
+    color: @fg;
+    background: @fg;
+}
+
 
 #custom-dropbox,
 #cpu,
@@ -36,31 +40,96 @@ opacity: 0.5;
 #wireplumber,
 #tray,
 #clock {
-  min-width: 12px;
-    padding: 4px 8px;
+    min-width: 12px;
+    padding: 0px 4px;
 }
 
-#workspaces button.active {
-  color: @fg;
-    background: @fg;
-    opacity: 0.8;
+#waybar {
+    background: @bg;
+    opacity: 0.9;
+}
+
+#power-profiles-daemon.power-saver {
+    /* color: #008800; */
+}
+
+#power-profiles-daemon.balanced {
+    color: #ffaa00;
+}
+
+#power-profiles-daemon.performance {
+    color: #ff0000;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#tray>.passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray>.needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
 }
 
 .modules-center,
 .modules-left,
 .modules-right {
-  background-color: @bg;
-  color: black;
-  padding: 3px 6px;
-    border-radius: 4px;
-    margin: 12px;
-    padding: 8px;
+    background-color: @bg;
+    color: black;
+}
+
+.modules-left {
+    padding-left: 8px;
+}
+
+.modules-right {
+    padding-right: 8px;
 }
 
 tooltip {
-  padding: 2px;
+    padding: 2px;
+    background: @bg;
 }
 
 tooltip label {
-  padding: 2px;
+    padding: 2px;
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#temperature.critical,
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#custom-now {
+    margin-left: 1rem;
+    color: @fg-high;
+}
+
+menu {
+    background: @bg;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+menuitem {
+    margin: 2px 4px;
+}
+
+widget {}
+
+#battery.charging {
+    color: #008800;
 }

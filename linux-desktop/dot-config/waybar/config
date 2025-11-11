@@ -6,7 +6,12 @@
     "layer": "top",
     "position": "top",
     "modules-left": [
-      "niri/window"
+      "power-profiles-daemon",
+      "temperature",
+      "cpu",
+      "memory",
+      "niri/window",
+      "custom/now"
     ],
     "modules-center": [
       "niri/workspaces"
@@ -16,16 +21,23 @@
       "bluetooth",
       "network",
       "wireplumber",
-      "power-profiles-daemon",
-      "cpu",
-      "memory",
       "clock",
+      "upower",
       "battery"
     ],
+    "custom/now": {
+        "interval": 1,
+        "exec": "cat ~/now | head -n1"
+    },
+    "upower": {
+        "icon-size": 16,
+        "tooltip": true,
+        "tooltip-format": "{time}"
+    },
     "battery": {
-      "format": "{capacity}% {icon}",
-      "format-charging": "{icon}",
-      "format-discharging": "{icon}",
+      "format": "BAT {capacity}% {icon}",
+      "format-charging": "{capacity}% {icon}",
+      "format-discharging": "{power} {icon}",
       "format-full": "Charged ",
       "format-icons": {
         "charging": [
@@ -105,44 +117,26 @@
     },
     "niri/window": {
         "format": "{title}",
-        "icon": true,
+        "icon": false,
         "rewrite": {
-            "(.*) - Brave": "$1"
+            // "(.*) - Brave": "$1"
         }
     },
     "niri/workspaces": {
-      "format": "{icon}",
-      "format-icons": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": "",
-        "5": "",
-        "6": "",
-        "7": "",
-        "8": "",
-        "9": ""
-      },
-      "persistent-workspaces": {
-        "1": [],
-        "2": [],
-        "3": [],
-        "4": [],
-        "5": []
-      }
+      "format": ""
     },
     "power-profiles-daemon": {
       "format": "{icon}",
       "format-icons": {
-        "balanced": "󰊚",
-        "performance": "󰡴",
-        "power-saver": "󰡳"
+        "balanced": "󰊚 BLNC",
+        "performance": "󰡴 PERF",
+        "power-saver": "󰡳 SAVR"
       },
       "tooltip": true,
-      "tooltip-format": "Power profile: {profile}"
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}"
     },
     "tray": {
-      "spacing": 18
+      "spacing": 12
     },
     "wireplumber": {
       "format": "",

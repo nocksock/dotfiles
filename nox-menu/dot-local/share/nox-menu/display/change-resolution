@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-outputs=$(niri msg -j outputs)
-name=$(echo $outputs | jq --raw-output 'values | .[] | .name' | fuzzel --dmenu)
-resolution=$(echo $outputs | jq --raw-output --arg NAME "$name" 'values | .[] | select(.name == $NAME) | .modes[] | "\(.width)x\(.height)@\(.refresh_rate/1000)"' | wofi --dmenu)
-
-if [ -n "$name" ] && [ -n "$resolution" ]; then
-  niri msg output $name mode $resolution
-fi

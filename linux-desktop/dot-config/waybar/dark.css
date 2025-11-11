@@ -1,4 +1,5 @@
 @define-color fg #aaaaaa;
+@define-color fg-high #ffffff;
 @define-color bg #000000;
 
 @import url("./style.css");
