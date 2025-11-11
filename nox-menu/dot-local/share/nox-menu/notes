@@ -4,8 +4,13 @@ file=$(fd -tf | fuzzel --dmenu -p ":e " --cache ~/.cache/nox-menu/notes) || exit
 
 # Starting with '!!' -> create file with timestamp as name in Inbox
 if [[ "$file" == '!!'* ]]; then
-    timestamp=$(date +"%Y-%m-%d-%H:%M:%S")
-    file="Inbox/$timestamp.md"
+    file=${file:2}
+    timestamp=$(date +"%Y-%m-%d-%H%M%S")
+    if [[ -n "$file" ]]; then
+        file="$file/$timestamp.md"
+    else
+        file="inbox/$timestamp.md"
+    fi
 fi
 
 # Starting with '!' is just to clear the fuzzy result, will be removed from path

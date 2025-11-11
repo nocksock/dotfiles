@@ -7,6 +7,26 @@
 
     services.syncthing = {
         enable = true;
+        };
+    home.pointerCursor = {
+      gtk.enable = true;
+      x11.enable = true;
+      name = "apple-cursor";
+      size = 48;
+      package = pkgs.stdenv.mkDerivation {
+        pname = "apple-cursor";
+        version = "2.0.1";
+        src = pkgs.fetchFromGitHub {
+          owner = "ful1e5";
+          repo = "apple_cursor";
+          rev = "v2.0.1";
+          sha256 = "sha256-gWdumtTFeTOu//APtaf255v9Hx61H1KtCfWZ39wPkFo=";
+        };
+        installPhase = ''
+          mkdir -p $out/share/icons/apple
+          cp -r * $out/share/icons/apple/
+        '';
+      };
     };
 
     home.packages = with pkgs; [

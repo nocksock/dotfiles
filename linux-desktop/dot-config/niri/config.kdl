@@ -124,7 +124,7 @@ animations {
     // Individual animations.
 
     workspace-switch {
-        off
+        // off
         // spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
     }
 
@@ -296,9 +296,12 @@ binds {
     // when running as a winit window.
 
     Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn-sh "kitty --single-instance"; }
-    Mod+B           repeat=false hotkey-overlay-title="Spawn Brave" { spawn "brave"; }
-    Mod+Space       repeat=false hotkey-overlay-title="Run an Application: wofi" { spawn "fuzzel"; }
+    Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty" "-1"; }
+    Mod+Space       repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel" "--list-executables-in-path"; }
+    Mod+D repeat=false hotkey-overlay-title="Edit Dotfiles" { spawn-sh "kitty -1 -d $DOTDIR nvim index"; }
+
+    Mod+B           repeat=false hotkey-overlay-title="Focus or spawn Brave" { spawn-sh "niri-focus-or-spawn Brave"; }
+
     Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
     Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
