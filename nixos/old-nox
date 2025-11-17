@@ -1,0 +1,154 @@
+#!/usr/bin/env zsh
+
+nix_channel="nixos-24.11"
+prefix="[nox]: "
+
+help () {
+	echo "Usage: $0 [-h|--help] [-M|--machine <machine>] [-H|--host <host>] [-I|--ssh-key <ssh_key>] <cmd>"
+	echo ""
+	echo "Commands:"
+	echo "  keys            - Show the public key of the server"
+	echo "  key-update      - Fetch and update machine's public key in globals/keys.nix"
+}
+
+args=("$@")
+zparseopts -D -E -F -A opts h -help M: -machine: H: -host: I: -ssh-key: S: -system: U: -user: P: -ssh-port: 
+
+machine=${opts[--machine]:-${opts[-M]:-$2}}
+host=${opts[--host]:-${opts[-H]:-$machine}}
+system=${opts[--system]:-${opts[-S]:-$machine}}
+user=${opts[--user]:-${opts[-U]:-root}}
+ssh_key=${opts[--ssh-key]:-${opts[-I]:-$SSH_KEY}}
+ssh_port=${opts[--ssh-port]:-${opts[-P]:-22}}
+show_help=${opts[--help]:-${opts[-h]}}
+
+# 
+# Make sure required variables are set, exit 1 otherwise
+#
+# Example
+#		needs var1 var2 var3
+#		echo "All required variables are set"
+#
+needs() {
+	abort=0
+	for var in "$@"; do
+		value=${(P)var}
+		if [[ ! $value ]]; then
+			echo "ERR: Missing $var"
+			echo "  set it with --$var"
+			echo
+			abort=1
+			exit 1 # not sure which version I prefer
+		fi
+	done
+	if [[ $abort -eq 1 ]]; then
+		echo "aborting" 
+		exit 1
+	fi
+}
+
+if [[ -n $show_help ]]; then
+	help
+	exit 0
+fi
+
+function out() {
+	if [[ -n $1 ]]; then
+		echo "$prefix $1"
+	else
+		echo "$prefix"
+	fi
+}
+
+# TODO: convert to nu
+if [[ $1 == "keys" ]]; then
+	needs host
+
+	# Get the actual hostname/IP from SSH config
+	actual_host=$(ssh -G $host | grep "^hostname " | awk '{print $2}')
+	port=$(ssh -G $host | grep "^port " | awk '{print $2}')
+
+	out "Public key for $host ($actual_host:$port):"
+	if [[ "$port" != "22" ]]; then
+		ssh-keyscan -p $port $actual_host | grep -o "ssh-ed25519.*"
+	else
+		ssh-keyscan $actual_host | grep -o "ssh-ed25519.*"
+	fi
+	exit 0
+fi
+
+if [[ $1 == "key-update" ]]; then
+	needs machine host
+
+	out "Fetching new public key for $machine from $host..."
+	
+	# Get the actual hostname/IP from SSH config
+	actual_host=$(ssh -G $host | grep "^hostname " | awk '{print $2}')
+	port=$(ssh -G $host | grep "^port " | awk '{print $2}')
+	
+	# Use ssh-keyscan with the resolved hostname and port
+	if [[ "$port" != "22" ]]; then
+		new_key=$(ssh-keyscan -p $port $actual_host 2>/dev/null | grep "ssh-ed25519" | awk '{print $3}')
+	else
+		new_key=$(ssh-keyscan $actual_host 2>/dev/null | grep "ssh-ed25519" | awk '{print $3}')
+	fi
+	
+	if [[ -z "$new_key" ]]; then
+		echo "ERROR: Could not fetch public key from $actual_host:$port"
+		echo "Make sure the server is accessible and SSH is running"
+		exit 1
+	fi
+	
+	out "Updating key in globals/keys.nix..."
+	
+	awk -v machine="$machine" -v new_key="$new_key" '
+	BEGIN { in_machine = 0 }
+	/machines = {/ { in_machines = 1 }
+	in_machines && $0 ~ machine " = {" { in_machine = 1 }
+	in_machine && /publicKey = "ssh-ed25519/ { 
+		gsub(/publicKey = "ssh-ed25519 [^"]*"/, "publicKey = \"ssh-ed25519 " new_key "\"")
+		in_machine = 0
+	}
+	in_machine && /};/ { in_machine = 0 }
+	{ print }
+	' globals/keys.nix > globals/keys.nix.tmp && mv globals/keys.nix.tmp globals/keys.nix
+	
+
+	agenix -r
+
+	out "Updated $machine public key."
+
+	$0 forget-key -M $machine
+
+	out "Done."
+	exit 0
+fi
+
+# TODO: convert to nu
+if [[ $1 == "key-forget" ]]; then
+	needs host
+	
+	# Get the actual hostname/IP from SSH config
+	actual_host=$(ssh -G $host | grep "^hostname " | awk '{print $2}')
+	port=$(ssh -G $host | grep "^port " | awk '{print $2}')
+	
+	out "Removing known_hosts entries for $host ($actual_host:$port)"
+	
+	# Remove both the SSH config alias and the actual hostname
+	ssh-keygen -R $host 2>/dev/null
+	ssh-keygen -R $actual_host 2>/dev/null
+	
+	# Also remove with port if not standard
+	if [[ "$port" != "22" ]]; then
+		ssh-keygen -R "[$actual_host]:$port" 2>/dev/null
+		ssh-keygen -R "[$host]:$port" 2>/dev/null
+	fi
+	
+	out "Removed known_hosts entries for $host"
+	exit 0
+fi
+
+if [[ -z $1 ]]; then
+	help
+	exit 1
+fi

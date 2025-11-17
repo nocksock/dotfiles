@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+current_workspace=$(niri msg -j workspaces | jq '.[] | select(.is_focused == true) | .id' --raw-output)
+workspace_windows=$(niri msg -j windows | jq '.[] | select(.workspace_id == '"$current_workspace"') | .id' --raw-output)
+mode=${1:-floating}
+
+for win in $workspace_windows; do
+    if [[ "$mode" == "tiling" ]]; then
+        niri msg action move-window-to-tiling --id $win
+    else
+        niri msg action move-window-to-floating --id $win
+    fi
+done

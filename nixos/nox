@@ -1,0 +1,89 @@
+#!/usr/bin/env nu
+# let API_TOKEN = $"Bearer ($env.HETZNER_API_KEY)"
+# let AUTH_HEADER = {Authorization: $API_TOKEN}
+
+def "main" [] { }
+
+def "main deploy" [machine: string, --as: string = ""] {
+  main config push $machine --as $as
+  main rebuild $machine --as $as
+}
+
+# Push local configuration to machine
+def "main config push" [machine: string, --as: string = ""] {
+  let as = if $as == "" { "" } else { $"($as)@" } 
+
+  # TODO: add check if config has not yet been fetched (eg. machines.nix missing, networking.nix still in place)
+  (
+    rsync -avz --delete --exclude-from=.gitignore --exclude=.jj --exclude=.git
+      --rsync-path="sudo rsync"
+      ./ $"($as)($machine):/etc/nixos/"
+  )
+
+  print $"Configuration pushed to ($machine)"
+	(
+		ssh $"($as)($machine)" 
+			$"sudo ln -s ./machines/($machine)/configuration.nix /etc/nixos/configuration.nix"
+	)
+}
+
+# Rebuild and switch machine
+def "main rebuild" [machine: string, --as: string] {
+  let as = if $as == "" { "" } else { $"($as)@" } 
+  (
+    ssh $"($as)($machine)"
+    $"nixos-rebuild switch --impure --flake /etc/nixos#($machine) --option sandbox false --show-trace --use-remote-sudo"
+  )
+}
+
+# Fetch auto-generated configuration from remote machine.
+def "main config fetch" [machine: string] {
+  # TODO: add check if config was already fetched and/or config is already built on this one (eg. networking.nix not in place)
+	print $"Fetching configuration from ($machine)"
+  (
+    rsync -av 
+      --include=hardware-configuration.nix 
+      --include=networking.nix
+      $"root@($machine):/etc/nixos/" $"./machines/($machine)/"
+  )
+}
+
+# install nixos onto a machine
+def "main server infect" [machine: string] {(
+  ssh $"root@($machine)" 
+    "curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | NIX_CHANNEL=$nix_channel bash -x"
+)}
+
+def "main server list" [] {
+	list-servers | get servers | select id name status
+}
+
+# def "main server info" [--server: string] {
+# 	let server = $server | default (pick-server)
+# 	http get $"https://api.hetzner.cloud/v1/servers/($server)" --headers $AUTH_HEADER | get server
+# }
+
+# def "main server rebuild" [ --server: string ] {
+# 	let server = $server | default (pick-server)
+# 	http post --content-type application/json $"https://api.hetzner.cloud/v1/servers/($server)/actions/rebuild" { image: "ubuntu-20.04" } --headers $AUTH_HEADER
+# }
+
+# Remove key from known_hosts (eg. after rebuilding server)
+def "main key forget" [host: string] {
+  ./old-nox key-forget -H $host
+}
+
+# Update keys and secrets
+def "main key update" [machine: string] {
+  ./old-nox key-update -M $machine
+}
+
+# def list-servers [] {
+# 	http get https://api.hetzner.cloud/v1/servers --headers $AUTH_HEADER
+# }
+
+def pick-server [] {
+	let list = list-servers
+	let name = $list | get servers | get name | str join "\n" | fzf 
+	$list | get servers | where ($it | get name) == $name | first | get id
+}

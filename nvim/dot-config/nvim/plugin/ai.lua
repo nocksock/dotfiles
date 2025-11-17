@@ -2,7 +2,7 @@
 require 'baggage'.from {
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/zbirenbaum/copilot.lua',
-  'https://github.com/milanglacier/minuet-ai.nvim'
+  -- 'https://github.com/milanglacier/minuet-ai.nvim'
 }
 
 

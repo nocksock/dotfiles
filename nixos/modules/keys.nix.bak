@@ -1,0 +1,35 @@
+{
+  users = {
+    snock = {
+      name = "snock";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKvwpMNCPRDapiEGHKpvCpQvrDPtQMbAONFB/J7MEoPO";
+    };
+    agent = {
+      name = "agent";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFqVB+MuXOi0nZZ8s3RBgIKkHiRHtyro2h0DKl96y4YD";
+    };
+    coworker = {
+      name = "coworker";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFqVB+MuXOi0nZZ8s3RBgIKkHiRHtyro2h0DKl96y4YD";
+    };
+  };
+
+  machines = {
+    macbook_air = {
+      name = "macbook_air";
+      publicKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMxWFonAqQYCE8ilpF0atqKhVWpAYOOfJIkBF7DZgaGYcP3sOa2oXo592gZ30GJPcTosqibdAHW/SWt8Ob/eGmookHZh+CrxXkFDVqgIFUkeZL074ySPTPnOD1odF/aP5TQqV9ZmHBjN0ngNo0SGSWzai9TRnqsAkcaynTu1htUSEBqHq1vgyPTSQh+fHn+maHKVskz7AH6zeyixFxQkGwfMGn1PgN/cdElFBFgcdFpbfRzjKbRPOJDRtVDbgZqz7Ni0kFmJaellKrCM4LU/TjoS0M7iBah+PI43JjOQERV9lLguzrUrO7KTGd2NY0EWIJi8JkXNTAG9BxZFBYZuwXX6SExbVhM3IYliI4zyKFwS1kiLupStL7qv6Lhlfv76Kq2uUcPzsnvZmCrvpU0rYJXgNs+v6EUbXhwPQZvvtKaUvd37gBOyiK8bwn+fmC8yYJT+AaY73sEwTdirIcgOXEhkZYXkme9xEtEKD+w0z9tFNrIkF2sFqxKchtQNPtSVM= nilsriedemann@Nilss-Air.fritz.box";
+    };
+    studio = {
+      name = "studio";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIyLOmkAIriJ0j+CDjl6/xIhGeMBDcc0vSAGA21oAn0U";
+    };
+    sprout = {
+      name = "sprout";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDj2Oc5rV0+i5HC63Y306d4R0s2nK2IgTKzDS91IaBND";
+    };
+    coworker = {
+      name = "coworker";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIYkHiAEaprxUjGZJ0uM+13xmJBsh35l2fZrjScOJtL/";
+    };
+  };
+}

@@ -1,0 +1,16 @@
+[Unit]
+Description=iCloud Photos downloader
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=icloudpd \
+  --username moin@nilsriedemann.de \
+  --directory %h/Pictures/Photos \
+  --watch-with-interval 3600
+Restart=on-failure
+RestartSec=60
+
+[Install]
+WantedBy=default.target

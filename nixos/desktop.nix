@@ -156,15 +156,6 @@ in {
     extraGroups = ["networkmanager" "openrazer" "wheel" "video" "input" "docker"];
   };
 
-  home-manager.users.nr = {
-    imports = [
-      ./home/cli.nix
-      ./home/desktop.nix
-    ];
-    nixpkgs.config.allowUnfree = true;
-    home.stateVersion = "25.05";
-  };
-
   # }}}
   # Fonts {{{
 
@@ -190,25 +181,6 @@ in {
   programs.niri.enable = true;
 
   # }}}
-  # Gnome {{{
-
-  console.useXkbConfig = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    options = "ctrl:nocaps";
-  };
-
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # services.gnome.core-apps.enable = false;
-  # services.gnome.core-developer-tools.enable = false;
-  services.gnome.games.enable = false;
-  # environment.gnome.excludePackages = with pkgs; [ gnome-tour gnome-user-docs ];
-
-  # }}}
   # 1Password {{{
 
   nixpkgs.config.allowUnfreePredicate = pkg:
@@ -229,6 +201,12 @@ in {
 
   # Miscellaneous
 
+  # Configure keymap in X11 (used in ttys and X11 sessions)
+  services.xserver.xkb = {
+    layout = "us";
+    options = "ctrl:nocaps";
+  };
+
   services.tailscale.enable = true;
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
@@ -239,7 +217,12 @@ in {
   hardware.bluetooth.enable = true;
   services.flatpak.enable = true;
 
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # services.xserver.enable = true; # optional
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
   xdg.portal.config.common.default = "gtk";
 
   services.sunshine = {
@@ -258,6 +241,103 @@ in {
 
       default_session = {
         command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
+      };
+    };
+  };
+
+  home-manager.users.nr = let
+    servicesDir = ../linux-desktop/dot-local/services;
+  in {
+    imports = [
+      ./modules/cli.nix
+      ./modules/desktop.nix
+    ];
+    nixpkgs.config.allowUnfree = true;
+    home.stateVersion = "25.05";
+
+    # Enable systemd user services for desktop environment
+    systemd.user.services = {
+      wallpaper = {
+        Unit = {
+          PartOf = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${servicesDir}/wallpaper/run";
+          Restart = "on-failure";
+          RestartSec = 3;
+        };
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+
+      # waybar = {
+      #   Unit = {
+      #     Description = "Waybar status bar";
+      #     PartOf = ["graphical-session.target"];
+      #     After = ["graphical-session.target"];
+      #   };
+      #   Service = {
+      #     Type = "simple";
+      #     ExecStart = "${servicesDir}/waybar/run";
+      #     Restart = "always";
+      #     RestartSec = 3;
+      #   };
+      #   Install = {
+      #     WantedBy = ["graphical-session.target"];
+      #   };
+      # };
+
+      cliphist = {
+        Unit = {
+          PartOf = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+          ConditionEnvironment = "WAYLAND_DISPLAY";
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${servicesDir}/cliphist/run";
+          Restart = "on-failure";
+          RestartSec = 3;
+        };
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+
+      color-scheme-watch = {
+        Unit = {
+          PartOf = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${servicesDir}/color-scheme-watch/run";
+          Restart = "on-failure";
+          RestartSec = 3;
+        };
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+
+      icloudpd = {
+        Unit = {
+          Description = "iCloud Photos downloader";
+          After = ["network-online.target"];
+          Wants = ["network-online.target"];
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${servicesDir}/icloudpd/run";
+          Restart = "on-failure";
+          RestartSec = 60;
+        };
+        Install = {
+          WantedBy = ["default.target"];
+        };
       };
     };
   };

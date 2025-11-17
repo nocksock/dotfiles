@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "undotree": {
+      "rev": "0f1c981",
+      "src": "https://github.com/mbbill/undotree"
+    }
+  }
+}

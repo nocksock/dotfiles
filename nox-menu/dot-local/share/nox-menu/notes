@@ -20,6 +20,7 @@ if [[ "$file" == '!'* ]]; then
 fi
 
 if [[ ! -f "$file" ]]; then
+    created_file=true
     mkdir -p "$(dirname "$file")"
     touch "$file"
 fi
@@ -28,6 +29,6 @@ fi
 niri-split nvim "$file"
 
 # clean up if file is empty
-if [[ ! -s "$file" ]]; then
+if [[ ! -s "$file" && "$created_file" == true ]]; then
     rm "$file"
 fi

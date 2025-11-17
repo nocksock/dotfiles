@@ -17,48 +17,48 @@
 in {
   config = {
     services.syncthing = {
-        enable = true;
+      enable = true;
     };
-    home.pointerCursor = {
-      gtk.enable = true;
-      x11.enable = true;
-      name = "apple-cursor";
-      size = 48;
-      package = pkgs.stdenv.mkDerivation {
-        pname = "apple-cursor";
-        version = "2.0.1";
-        src = pkgs.fetchFromGitHub {
-          owner = "ful1e5";
-          repo = "apple_cursor";
-          rev = "v2.0.1";
-          sha256 = "sha256-gWdumtTFeTOu//APtaf255v9Hx61H1KtCfWZ39wPkFo=";
-        };
-        installPhase = ''
-          mkdir -p $out/share/icons/apple
-          cp -r * $out/share/icons/apple/
-        '';
-      };
-    };
+    # home.pointerCursor = {
+    #   gtk.enable = true;
+    #   x11.enable = true;
+    #   name = "apple-cursor";
+    #   size = 48;
+    #   package = pkgs.stdenv.mkDerivation {
+    #     pname = "apple-cursor";
+    #     version = "2.0.1";
+    #     src = pkgs.fetchFromGitHub {
+    #       owner = "ful1e5";
+    #       repo = "apple_cursor";
+    #       rev = "v2.0.1";
+    #       sha256 = "sha256-gWdumtTFeTOu//APtaf255v9Hx61H1KtCfWZ39wPkFo=";
+    #     };
+    #     installPhase = ''
+    #       mkdir -p $out/share/icons/apple
+    #       cp -r * $out/share/icons/apple/
+    #     '';
+    #   };
+    # };
 
-    home.pointerCursor = let
-      getFrom = url: hash: name: {
-        gtk.enable = true;
-        x11.enable = true;
-        name = name;
-        size = 48;
-        package = pkgs.runCommand "moveUp" {} ''
-          mkdir -p $out/share/icons
-          ln -s ${pkgs.fetchzip {
-            url = url;
-            hash = hash;
-          }} $out/share/icons/${name}
-        '';
-      };
-    in
-      getFrom
-      "https://github.com/ful1e5/fuchsia-cursor/releases/download/v2.0.0/Fuchsia-Pop.tar.gz"
-      "sha256-BvVE9qupMjw7JRqFUj1J0a4ys6kc9fOLBPx2bGaapTk="
-      "Fuchsia-Pop";
+    # home.pointerCursor = let
+    #   getFrom = url: hash: name: {
+    #     gtk.enable = true;
+    #     x11.enable = true;
+    #     name = name;
+    #     size = 48;
+    #     package = pkgs.runCommand "moveUp" {} ''
+    #       mkdir -p $out/share/icons
+    #       ln -s ${pkgs.fetchzip {
+    #         url = url;
+    #         hash = hash;
+    #       }} $out/share/icons/${name}
+    #     '';
+    #   };
+    # in
+    #   getFrom
+    #   "https://github.com/ful1e5/fuchsia-cursor/releases/download/v2.0.0/Fuchsia-Pop.tar.gz"
+    #   "sha256-BvVE9qupMjw7JRqFUj1J0a4ys6kc9fOLBPx2bGaapTk="
+    #   "Fuchsia-Pop";
 
     home.packages = with pkgs; [
       # Terminal emulators

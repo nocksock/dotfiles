@@ -4,7 +4,6 @@
 // https://yalter.github.io/niri/Configuration:-Introduction
 
 
-spawn-sh-at-startup "runsvdir ~/services/"
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 prefer-no-csd
 
@@ -24,6 +23,7 @@ input {
         xkb { 
             layout "eu";
             options "ctrl:nocaps,altwin:swap_lalt_lwin"
+            // options "ctrl:nocaps"
         }
         
         numlock
@@ -31,6 +31,7 @@ input {
 
     touchpad {
         tap
+        dwt
         natural-scroll
         accel-speed 0.2
         // scroll-factor 0.1
@@ -321,12 +322,15 @@ binds {
 
     Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
+    Mod+Backslash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
     Mod+Semicolon   repeat=false { spawn-sh "kitten quick-access-terminal"; }
 
     Alt+Tab     repeat=false hotkey-overlay-title="Goto"  { spawn-sh "nox-menu niri-window-search"; }
+    Mod+Ctrl+T  repeat=false hotkey-overlay-title="Teams"  { spawn-sh "niri-focus-or-spawn Teams"; }
     Mod+X       repeat=false hotkey-overlay-title="Nox"   { spawn "nox-menu"; }
     Mod+N       repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
-    Mod+Shift+N repeat=false hotkey-overlay-title="Notes" { spawn-sh "kitty -1 --class=float.sm vim ~/now"; }
+    Mod+Shift+N repeat=false hotkey-overlay-title="Notes" { spawn-sh "niri-split vim ~/now"; }
+    Mod+Ctrl+N repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes '!!'"; }
 
     Mod+E  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
     Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
@@ -404,10 +408,10 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    // Mod+Shift+Left  { focus-monitor-left; }
-    // Mod+Shift+Down  { focus-monitor-down; }
-    // Mod+Shift+Up    { focus-monitor-up; }
-    // Mod+Shift+Right { focus-monitor-right; }
+    Mod+Shift+Left  { focus-monitor-left; }
+    Mod+Shift+Down  { focus-monitor-down; }
+    Mod+Shift+Up    { focus-monitor-up; }
+    Mod+Shift+Right { focus-monitor-right; }
     Mod+Shift+H     { focus-monitor-left; }
     Mod+Shift+J     { focus-monitor-down; }
     Mod+Shift+K     { focus-monitor-up; }
@@ -461,4 +465,40 @@ binds {
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
     // Mod+Shift+P { power-off-monitors; }
+}
+
+output "eDP-2" {
+    // off
+    // mode "1920x1080@120.030"
+    scale 1.25
+    // scale 2
+    // transform "90"
+    position x=890 y=1440
+    // variable-refresh-rate // on-demand=true
+    // focus-at-startup
+    // backdrop-color "#001100"
+    //
+    // hot-corners {
+    //     // off
+    //     top-left
+    //     // top-right
+    //     // bottom-left
+    //     // bottom-right
+    // }
+    //
+    // layout {
+    //     // ...layout settings for eDP-1...
+    // }
+
+    // Custom modes. Caution: may damage your display.
+    // mode custom=true "1920x1080@100"
+    // modeline 173.00  1920 2048 2248 2576  1080 1083 1088 1120 "-hsync" "+vsync"
+}
+
+output "DP-5" {
+    position x=0 y=0
+}
+
+output "Some Company CoolMonitor 1234" {
+    // ...settings for CoolMonitor...
 }

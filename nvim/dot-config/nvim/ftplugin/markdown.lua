@@ -11,6 +11,8 @@ vim.opt_local.wrapmargin = 0
 
 -- Key mapping
 vim.keymap.set('n', '<F5>', ':Glow %<CR>', { buffer = true, silent = true })
+vim.keymap.set('n', '<leader>h1', 'VypVr=<cr>', { buffer = true, silent = true })
+vim.keymap.set('n', '<leader>h2', 'VypVr-<cr>', { buffer = true, silent = true })
 
 vim.cmd([[
   augroup markdown

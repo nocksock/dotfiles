@@ -22,7 +22,7 @@ cmp.setup({-- {{{
     documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
-    ["<A-y>"] = require('minuet').make_cmp_map(),
+    -- ["<A-y>"] = require('minuet').make_cmp_map(),
     ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<CR>'] = cmp.mapping.confirm({ select = false }),

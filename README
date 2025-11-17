@@ -1,4 +1,4 @@
 dotfiles
 ========
 
-run ./setup-<system>.sh to stow configurations.
+run ./setup-<system> to stow configurations.

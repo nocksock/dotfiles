@@ -1,0 +1,19 @@
+[Unit]
+Description=Waybar status bar
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c '\
+  current=$(gsettings get org.gnome.desktop.interface color-scheme); \
+  if [[ "$current" == *"dark"* ]]; then \
+    exec waybar --style ~/.config/waybar/dark.css; \
+  else \
+    exec waybar --style ~/.config/waybar/light.css; \
+  fi'
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=graphical-session.target

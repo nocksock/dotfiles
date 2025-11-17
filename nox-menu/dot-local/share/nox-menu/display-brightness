@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+# always uses the builtin amd backlight device if available
+device=$(ls /sys/class/backlight/ | rg '^amd\w+' -o)
+
+if [ -z "$device" ]; then
+    device=$(brightnessctl --list-devices | head -n1)
+fi
+
+current_brightness=$(brightnessctl --device="$device" get)
+current_in_percent=$(( current_brightness * 100 / $(brightnessctl --device="$device" max) ))
+brightness=${1-$(fuzzel --lines=0 --dmenu --prompt "[$current_in_percent%] \$ set ")} || exit 0
+brightnessctl --device="$device" set "$brightness"%

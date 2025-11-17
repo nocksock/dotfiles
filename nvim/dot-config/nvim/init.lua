@@ -110,6 +110,17 @@ vim.g.easy_align_delimiters = {
 
 -- }}}
 
+vim.lsp.config('*', {
+    capabilities = {
+        textDocument = {
+            semanticTokens = {
+                multilineTokenSupport = true,
+            }
+        }
+    },
+    root_markers = { '.git' },
+})
+
 vim.cmd([[
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
