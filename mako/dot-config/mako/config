@@ -1,0 +1,26 @@
+# Mako notification configuration
+# Colors are set dynamically via command-line args in the service script
+
+# Layout
+width=350
+height=150
+margin=10
+padding=15
+
+# Border styling
+border-size=2
+border-radius=4
+
+# Icons
+icons=1
+max-icon-size=48
+
+# Behavior
+default-timeout=5000
+max-history=20
+sort=-time
+
+# Bindings
+on-button-left=dismiss
+on-button-right=dismiss-all
+on-touch=dismiss
