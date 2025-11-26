@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# Get current color scheme from gsettings
+current=$(gsettings get org.gnome.desktop.interface color-scheme)
+
+# Set colors based on color scheme
+if [[ "$current" == *"dark"* ]]; then
+    # Dark mode: white text on black background
+    exec mako \
+        --background-color=#000000FF \
+        --text-color=#FFFFFFFF \
+        --border-color=#333333FF \
+        --progress-color=over\ #FFFFFFFF
+else
+    # Light mode: black text on white background
+    exec mako \
+        --background-color=#FFFFFFFF \
+        --text-color=#000000FF \
+        --border-color=#CCCCCCFF \
+        --progress-color=over\ #000000FF
+fi
