@@ -5,4 +5,5 @@
 gsettings monitor org.gnome.desktop.interface color-scheme | while read -r line; do
     pkill waybar
     pkill swaybg
+    pkill mako
 done
