@@ -14,6 +14,7 @@ in {
   # System {{{
   # Boot {{{
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = ["button.lid_init_state=open"];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
@@ -145,6 +146,7 @@ in {
     brightnessctl
     powertop
     blueberry # bluetooth manager
+    hyprland
   ];
 
   # }}}
@@ -210,20 +212,26 @@ in {
   services.tailscale.enable = true;
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
-  programs.xwayland.enable = true;
-  programs.hyprland.enable = true;
   programs.nix-ld.enable = true;
   security.rtkit.enable = true;
   hardware.bluetooth.enable = true;
-  services.flatpak.enable = true;
+  # services.gnome.core-apps.enable = false;
+  # services.gnome.core-developer-tools.enable = false;
+  # services.gnome.games.enable = false;
+  # environment.gnome.excludePackages = with pkgs; [ gnome-tour gnome-user-docs ];
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
-  # services.xserver.enable = true; # optional
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
-  xdg.portal.config.common.default = "gtk";
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  programs.xwayland.enable = true;
+  services.xserver.enable = true; # optional
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-wlr];
+  };
 
   services.sunshine = {
     enable = true;
@@ -234,10 +242,10 @@ in {
   services.greetd = {
     enable = true;
     settings = {
-      initial_session = {
-        command = "niri-session";
-        user = "nr";
-      };
+      # initial_session = {
+      #   command = "niri-session";
+      #   user = "nr";
+      # };
 
       default_session = {
         command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";

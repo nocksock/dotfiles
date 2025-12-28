@@ -100,23 +100,23 @@ in {
         };
       };
 
-      niri-display-monitor = {
-        Unit = {
-          Description = "Niri display monitor - auto-configure on external display changes";
-          PartOf = ["graphical-session.target"];
-          After = ["graphical-session.target"];
-          ConditionEnvironment = "WAYLAND_DISPLAY";
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${servicesDir}/niri-display-monitor/run";
-          Restart = "on-failure";
-          RestartSec = 3;
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
+      # niri-display-monitor = {
+      #   Unit = {
+      #     Description = "Niri display monitor - auto-configure on external display changes";
+      #     PartOf = ["graphical-session.target"];
+      #     After = ["graphical-session.target"];
+      #     ConditionEnvironment = "WAYLAND_DISPLAY";
+      #   };
+      #   Service = {
+      #     Type = "simple";
+      #     ExecStart = "${servicesDir}/niri-display-monitor/run";
+      #     Restart = "on-failure";
+      #     RestartSec = 3;
+      #   };
+      #   Install = {
+      #     WantedBy = ["graphical-session.target"];
+      #   };
+      # };
 
       icloudpd = {
         Unit = {

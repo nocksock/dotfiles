@@ -1,0 +1,202 @@
+#!/usr/bin/env bash
+
+# set -euo pipefail
+#
+# CONFIG_FILE="$HOME/.config/niri/config.kdl"
+# # Resolve symlink to actual file
+# if [[ -L "$CONFIG_FILE" ]]; then
+#     CONFIG_FILE=$(readlink -f "$CONFIG_FILE")
+# fi
+# EXTERNAL_DISPLAY="DP-6"
+#
+# log() {
+#     echo "[niri-display-monitor] $*" >&2
+# }
+#
+# # Function to check if external display is connected
+# is_external_connected() {
+#     niri msg -j outputs | jq -e --arg display "$EXTERNAL_DISPLAY" '.[] | select(.name == $display)' > /dev/null 2>&1
+# }
+#
+# # Function to get all connected outputs
+# get_outputs() {
+#     niri msg -j outputs
+# }
+#
+# # Function to update keyboard layout in config
+# update_keyboard_layout() {
+#     local mode="$1"  # "laptop" or "desktop"
+#     local temp_file="${CONFIG_FILE}.tmp"
+#
+#     log "Updating keyboard layout for $mode mode"
+#
+#     if [[ ! -f "$CONFIG_FILE" ]]; then
+#         log "ERROR: Config file not found: $CONFIG_FILE"
+#         return 1
+#     fi
+#
+#     # Create backup
+#     cp "$CONFIG_FILE" "${CONFIG_FILE}.bak"
+#
+#     if [[ "$mode" == "desktop" ]]; then
+#         # Enable desktop mode (ctrl:nocaps only)
+#         # Comment out laptop section, uncomment desktop section
+#         awk '
+#             /<on-laptop>/ { in_laptop=1; print; next }
+#             /<\/on-laptop>/ { in_laptop=0; print; next }
+#             /<on-desktop>/ { in_desktop=1; print; next }
+#             /<\/on-desktop>/ { in_desktop=0; print; next }
+#
+#             in_laptop && /^[[:space:]]*options/ {
+#                 # Comment out if not already commented
+#                 if (!/^[[:space:]]*\/\//) {
+#                     sub(/^([[:space:]]*)/, "\\1// ")
+#                 }
+#                 print
+#                 next
+#             }
+#
+#             in_desktop && /^[[:space:]]*\/\/[[:space:]]*options/ {
+#                 # Uncomment if commented
+#                 sub(/^([[:space:]]*)\/\/[[:space:]]*/, "\\1")
+#                 print
+#                 next
+#             }
+#
+#             { print }
+#         ' "$CONFIG_FILE" > "$temp_file"
+#     else
+#         # Enable laptop mode (ctrl:nocaps,altwin:swap_lalt_lwin)
+#         # Uncomment laptop section, comment out desktop section
+#         awk '
+#             /<on-laptop>/ { in_laptop=1; print; next }
+#             /<\/on-laptop>/ { in_laptop=0; print; next }
+#             /<on-desktop>/ { in_desktop=1; print; next }
+#             /<\/on-desktop>/ { in_desktop=0; print; next }
+#
+#             in_laptop && /^[[:space:]]*\/\/[[:space:]]*options/ {
+#                 # Uncomment if commented
+#                 sub(/^([[:space:]]*)\/\/[[:space:]]*/, "\\1")
+#                 print
+#                 next
+#             }
+#
+#             in_desktop && /^[[:space:]]*options/ {
+#                 # Comment out if not already commented
+#                 if (!/^[[:space:]]*\/\//) {
+#                     sub(/^([[:space:]]*)/, "\\1// ")
+#                 }
+#                 print
+#                 next
+#             }
+#
+#             { print }
+#         ' "$CONFIG_FILE" > "$temp_file"
+#     fi
+#
+#     # Atomically replace config file
+#     mv "$temp_file" "$CONFIG_FILE"
+#     log "Keyboard layout updated successfully"
+# }
+#
+# # Function to update output blocks in config
+# update_output_blocks() {
+#     local outputs_json="$1"
+#     local temp_file="${CONFIG_FILE}.tmp"
+#
+#     log "Updating output blocks"
+#
+#     # Extract output configurations from JSON
+#     local output_configs=""
+#
+#     # Parse each output and generate KDL config
+#     while IFS= read -r output; do
+#         local name=$(echo "$output" | jq -r '.name')
+#         local x=$(echo "$output" | jq -r '.logical.x // 0')
+#         local y=$(echo "$output" | jq -r '.logical.y // 0')
+#
+#         # Skip if output already has detailed config (for eDP-1, keep existing config)
+#         if [[ "$name" == "eDP-1" ]]; then
+#             continue
+#         fi
+#
+#         output_configs+="
+# output \"$name\" {
+#     position x=$x y=$y
+# }
+# "
+#     done < <(echo "$outputs_json" | jq -c '.[]')
+#
+#     # Remove old output blocks (except eDP-1 which we preserve) and add new ones
+#     # This is a simplified approach - in practice, you might want more sophisticated merging
+#     awk -v new_outputs="$output_configs" '
+#         /^output "eDP-1"/ { in_edp=1; brace_count=0 }
+#         in_edp {
+#             print
+#             if (/\{/) brace_count++
+#             if (/\}/) brace_count--
+#             if (brace_count == 0 && /\}/) {
+#                 in_edp=0
+#                 # After eDP-1 block, add other output configs
+#                 if (!outputs_added) {
+#                     print new_outputs
+#                     outputs_added=1
+#                 }
+#             }
+#             next
+#         }
+#         /^output "[^e]/ { in_other=1; brace_count=0 }
+#         in_other {
+#             if (/\{/) brace_count++
+#             if (/\}/) brace_count--
+#             if (brace_count == 0 && /\}/) in_other=0
+#             next
+#         }
+#         { print }
+#     ' "$CONFIG_FILE" > "$temp_file"
+#
+#     mv "$temp_file" "$CONFIG_FILE"
+#     log "Output blocks updated successfully"
+# }
+#
+# # Function to handle display change
+# handle_display_change() {
+#     log "Checking display configuration..."
+#
+#     local outputs=$(get_outputs)
+#
+#     if is_external_connected; then
+#         log "External display $EXTERNAL_DISPLAY detected - switching to desktop mode"
+#         update_keyboard_layout "desktop"
+#     else
+#         log "External display $EXTERNAL_DISPLAY not detected - switching to laptop mode"
+#         update_keyboard_layout "laptop"
+#     fi
+#
+#     # Update output blocks with current displays
+#     update_output_blocks "$outputs"
+# }
+#
+# # Initial check on startup
+# log "Starting niri display monitor service"
+# handle_display_change
+#
+# # Monitor niri event stream for changes
+# log "Monitoring for display changes..."
+#
+# # Track last check time to avoid too frequent checks
+# last_check=0
+# check_interval=2  # Check at most every 2 seconds
+#
+# niri msg -j event-stream | while IFS= read -r event; do
+#     # Check on any event, but throttle to avoid excessive checks
+#     current_time=$(date +%s)
+#     time_since_last=$((current_time - last_check))
+#
+#     if [[ $time_since_last -ge $check_interval ]]; then
+#         # Could be an output event - check if displays have changed
+#         # We'll check on all events since we don't know the exact event type for outputs
+#         handle_display_change
+#         last_check=$current_time
+#     fi
+# done

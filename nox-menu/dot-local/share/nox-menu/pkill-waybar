@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-# kill waybar (restarted by systemd/runit)
-kill $(pgrep waybar) 

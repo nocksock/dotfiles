@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    polypane.url = "github:mrtrimble/polypane-flake";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +27,7 @@
     self,
     nixpkgs,
     agenix,
+    polypane,
     home-manager,
     ...
   } @ inputs: let
@@ -45,7 +47,13 @@
             {networking.hostName = "blade";}
             {home-manager = {extraSpecialArgs = {inherit inputs;};};}
             ./nixos/desktop.nix
-            ./nixos/hosts/blade
+            ./nixos/hosts/blade/configuration.nix
+            ./nixos/home/common.nix
+            {
+              environment.systemPackages = [
+                polypane.packages.x86_64-linux.polypane
+              ];
+            }
           ];
       };
 

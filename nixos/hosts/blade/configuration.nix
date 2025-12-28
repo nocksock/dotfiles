@@ -5,20 +5,21 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ./home-manager.nix
   ];
 
   environment.systemPackages = with pkgs; [
     nvitop
   ];
+  services.flatpak.enable = true;
 
   services.printing = {
     enable = true;
     drivers = with pkgs; [splix];
   };
 
-  services.logind.lidSwitch = "suspend-then-hibernate";
-  services.logind.lidSwitchExternalPower = "suspend-then-hibernate";
+  services.mullvad-vpn.enable = true;
+  services.logind.lidSwitch = "suspend";
+  services.logind.lidSwitchExternalPower = "suspend";
   services.logind.lidSwitchDocked = "lock";
   # one of "ignore", "poweroff", "reboot", "halt", "kexec", "suspend", "hibernate", "hybrid-sleep", "suspend-then-hibernate", "lock"
 

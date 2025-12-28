@@ -23,10 +23,10 @@ input {
         xkb { 
             layout "eu";
             // <on-laptop>
-            options "ctrl:nocaps,altwin:swap_lalt_lwin"
+            // options "ctrl:nocaps,altwin:swap_lalt_lwin"
             // </on-laptop>
             // <on-desktop>
-            // options "ctrl:nocaps"
+            options "ctrl:nocaps"
             // </on-desktop>
         }
         
@@ -72,7 +72,7 @@ layout {
     default-column-width { proportion 0.5; }
     // default-column-width {}
     focus-ring {
-       width 3;
+       width 0.5
        // active-color "#00ff0088"
        // inactive-color "red"
        urgent-color "#ff0000"
@@ -98,12 +98,12 @@ layout {
         color "0008"
     }
 
-    struts {
-        left 32
-        right 32
-        top 0
-        bottom 0
-    }
+    // struts {
+    //     left 32
+    //     right 32
+    //     top 0
+    //     bottom 0
+    // }
 
     tab-indicator {
       place-within-column
@@ -256,7 +256,6 @@ window-rule {
     match app-id=r#"float.md$"#
     match app-id=r#"1Password$"#
     match app-id=r#"waypaper$"#
-    match app-id=r#"pavucontrol$"#
     open-floating true
     default-column-width { fixed 960; }
     default-window-height { fixed 800; }
@@ -276,6 +275,13 @@ window-rule {
     open-floating true
     default-column-width { fixed 1200; }
     default-window-height { fixed 960; }
+}
+
+window-rule {
+    match app-id=r#"pavucontrol$"#
+    open-floating true
+    default-column-width { fixed 480; }
+    default-window-height { fixed 480; }
 }
 
 window-rule {
@@ -311,38 +317,35 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty" "-1"; }
     Mod+Space       repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel" "--list-executables-in-path"; }
+    Mod+D repeat=false hotkey-overlay-title="Edit Dotfiles" { spawn-sh "kitty -1 -d $DOTDIR nvim index"; }
 
-    //  Launching
+    Mod+B           repeat=false hotkey-overlay-title="Focus or spawn Brave" { spawn-sh "niri-focus-or-spawn Brave"; }
 
-    Alt+Tab        repeat=false hotkey-overlay-title="Goto"  { spawn-sh "nox-menu niri-window-search"; }
+    Mod+Mod5+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
     Mod+Alt+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
-    Mod+Alt+Comma  repeat=false hotkey-overlay-title="Focus or spawn Zeal" { spawn-sh "niri-focus-or-spawn Zeal"; }
-    Mod+Backslash  repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
-    Mod+Ctrl+B     repeat=false hotkey-overlay-title="Focus or spawn Brave" { spawn-sh "niri-focus-or-spawn Brave"; }
-    Mod+Ctrl+Comma repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
-    Mod+Ctrl+D     repeat=false hotkey-overlay-title="LazyDocker"  { spawn-sh "kitty -1 lazydocker"; }
-    Mod+Ctrl+N     repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes '!!'"; }
-    Mod+Ctrl+T     repeat=false hotkey-overlay-title="Teams"  { spawn-sh "niri-focus-or-spawn Teams"; }
-    Mod+Ctrl+W     repeat=false hotkey-overlay-title="Focus or spawn WhatsApp" { spawn-sh "niri-focus-or-spawn whatsapp"; }
-    Mod+Ctrl+Y     repeat=false hotkey-overlay-title="Spawn Yazi" { spawn-sh "kitty -1 yazi"; }
-    Mod+D          repeat=false hotkey-overlay-title="Edit Dotfiles" { spawn-sh "kitty -1 -d $DOTDIR nvim index"; }
-    Mod+Delete     repeat=false hotkey-overlay-title="Clear Notifications" { spawn "makoctl" "dismiss" "--all"; }
-    Mod+E          repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
-    Mod+Mod5+C     repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
-    Mod+N          repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
-    Mod+Ctrl+Semicolon   { spawn "kitten" "quick-access-terminal"; }
-    Mod+Shift+N    repeat=false hotkey-overlay-title="Notes" { spawn-sh "niri-split vim ~/now"; }
-    Mod+Slash      repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
-    Mod+X          repeat=false hotkey-overlay-title="Nox"   { spawn "nox-menu"; }
 
-    // Screensharing utils
+    
+    Mod+Delete { spawn "makoctl" "dismiss" "--all"; }
 
-    Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
-    Mod+Ctrl+P       repeat=false { toggle-windowed-fullscreen; }
+    Mod+Ctrl+Comma  repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
+    Mod+Slash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
+    Mod+Backslash       repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
+    Mod+Semicolon   repeat=false { spawn-sh "kitten quick-access-terminal"; }
 
-    // Layout Controls
+    Alt+Tab     repeat=false hotkey-overlay-title="Goto"  { spawn-sh "nox-menu niri-window-search"; }
+    Mod+Ctrl+T  repeat=false hotkey-overlay-title="Teams"  { spawn-sh "niri-focus-or-spawn Teams"; }
+    Mod+Ctrl+D  repeat=false hotkey-overlay-title="LazyDocker"  { spawn-sh "kitty -1 lazydocker"; }
+    Mod+X       repeat=false hotkey-overlay-title="Nox"   { spawn "nox-menu"; }
+    Mod+N       repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
+    Mod+Shift+N repeat=false hotkey-overlay-title="Notes" { spawn-sh "niri-split vim ~/now"; }
+    Mod+Ctrl+N repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes '!!'"; }
 
+    Mod+E  repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
     Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
+    Mod+Ctrl+P       repeat=false { toggle-windowed-fullscreen; }
+    Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
+    Mod+Y { spawn-sh "kitty -1 yazi"; }
+
     Mod+M { spawn-sh "niri msg action set-column-width 80%; niri msg action center-column"; }
     Mod+S { spawn "niri-split"; }
     Mod+Tab { focus-workspace-previous; }
@@ -470,22 +473,22 @@ binds {
 
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
-    Mod+Shift+Escape { power-off-monitors; }
+    // Mod+Shift+P { power-off-monitors; }
 }
 
-output "eDP-2" {
+output "eDP-1" {
     // off
     // mode "1920x1080@120.030"
     // scale 1
     // scale 1.3
     // scale 1.25
-    // scale 1.5
-    // scale 1.5
+    scale 1.5
+    // scale 2
     // transform "90"
     position x=890 y=1440
     // variable-refresh-rate // on-demand=true
     // focus-at-startup
-    backdrop-color "#000000"
+    // backdrop-color "#001100"
     //
     // hot-corners {
     //     // off
@@ -506,5 +509,4 @@ output "eDP-2" {
 
 output "DP-5" {
     position x=0 y=0
-    scale 1
 }

@@ -45,6 +45,24 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -102,6 +120,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1751984180,
+        "narHash": "sha256-LwWRsENAZJKUdD3SpLluwDmdXY9F45ZEgCb0X+xgOL0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9807714d6944a957c2e036f84b0ff8caf9930bc0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "noctalia": {
       "inputs": {
         "nixpkgs": [
@@ -123,6 +157,25 @@
       "original": {
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
+        "type": "github"
+      }
+    },
+    "polypane": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1759741833,
+        "narHash": "sha256-GougEFUU3GEjweEcSxG+INHXriJkzcGaczgYUoxJVdo=",
+        "owner": "mrtrimble",
+        "repo": "polypane-flake",
+        "rev": "8b96155af1db4c5f2b546c20f87f4ffaa751bdd8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mrtrimble",
+        "repo": "polypane-flake",
         "type": "github"
       }
     },
@@ -152,6 +205,7 @@
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",
+        "polypane": "polypane",
         "quickshell": "quickshell"
       }
     },
@@ -171,6 +225,21 @@
       }
     },
     "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_3": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

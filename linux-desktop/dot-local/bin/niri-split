@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 display_name=$(niri msg -j outputs | jq '.[] | select(.current_mode) | .name' --raw-output)
 
-if [[ "$display_name" == "DP-5" ]]; then
+if [[ "$display_name" == "DP-1" ]]; then
     width=33%
 else
     width=50%

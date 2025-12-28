@@ -39,7 +39,8 @@ button:hover {
 #bluetooth,
 #wireplumber,
 #tray,
-#clock {
+#clock,
+#custom-keylight {
     min-width: 12px;
     padding: 0px 4px;
 }
@@ -115,7 +116,7 @@ tooltip label {
 
 #custom-now {
     margin-left: 1rem;
-    color: @fg-high;
+    color: @fg;
 }
 
 menu {
@@ -132,4 +133,19 @@ widget {}
 
 #battery.charging {
     color: #008800;
+}
+
+#custom-waypick {
+    color: @fg;
+    border-bottom: 2px solid @foreground;
+    font-family: monospace;
+}
+
+#custom-keylight {
+    color: @fg;
+}
+
+#custom-keylight.offline {
+    opacity: 0.5;
+    color: #888888;
 }

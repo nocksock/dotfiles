@@ -205,9 +205,10 @@ alias ls='eza'
 alias ll='ls -lah'
 alias dcu='docker compose up'
 alias dcb='docker compose build'
+
+alias oc="nix-shell -p bun --command 'bun run --cwd ~/oss/opencode/packages/opencode/ dev'"
 # zprof # show profiling result
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/nr/.lmstudio/bin"
 # End of LM Studio CLI section
-

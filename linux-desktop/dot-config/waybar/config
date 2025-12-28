@@ -1,151 +1,213 @@
 [
-  {
-    "height": 26,
-    "reload_style_on_change": true,
-    "spacing": 4,
-    "layer": "top",
-    "position": "top",
-    "modules-left": [
-      "power-profiles-daemon",
-      "temperature",
-      "cpu",
-      "memory",
-      "niri/window",
-      "custom/now"
-    ],
-    "modules-center": [
-      "niri/workspaces"
-    ],
-    "modules-right": [
-      "tray",
-      "bluetooth",
-      "network",
-      "wireplumber",
-      "clock",
-      "upower",
-      "battery"
-    ],
-    "custom/now": {
-        "interval": 1,
-        "exec": "cat ~/now | head -n1"
-    },
-    "upower": {
-        "icon-size": 16,
-        "tooltip": true,
-        "tooltip-format": "{time}"
-    },
-    "battery": {
-      "format": "BAT {capacity}% {icon}",
-      "format-charging": "{capacity}% {icon}",
-      "format-discharging": "{power} {icon}",
-      "format-full": "Charged ",
-      "format-icons": {
-        "charging": [
-          "󰢜",
-          "󰂆",
-          "󰂇",
-          "󰂈",
-          "󰢝",
-          "󰂉",
-          "󰢞",
-          "󰂊",
-          "󰂋",
-          "󰂅"
+    {
+        "height": 26,
+        "reload_style_on_change": true,
+        "spacing": 4,
+        "layer": "top",
+        "position": "top",
+        "modules-left": [
+            "custom/waypick",
+            "power-profiles-daemon",
+            "temperature",
+            "cpu",
+            "memory",
+            "niri/window",
+            "custom/now"
         ],
-        "default": [
-          "󰁺",
-          "󰁻",
-          "󰁼",
-          "󰁽",
-          "󰁾",
-          "󰁿",
-          "󰂀",
-          "󰂁",
-          "󰂂",
-          "󰁹"
-        ]
-      },
-      "format-plugged": "",
-      "interval": 5,
-      "states": {
-        "critical": 10,
-        "warning": 20
-      },
-      "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
-      "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%"
-    },
-    "bluetooth": {
-      "format": "󰂯",
-      "format-connected": "",
-      "format-disabled": "󰂲",
-      "on-click": "blueberry",
-      "tooltip-format": "Devices connected: {num_connections}"
-    },
-    "clock": {
-      "format-alt": " {:%H:%M}",
-      "format": " {:%d %b W%V %H:%M}",
-      "tooltip": true
-    },
-    "cpu": {
-      "format": "󰍛 {usage}%",
-      "interval": 5,
-      "on-click": "kitty --class=float.sm btop"
-    },
-    "memory": {
-      "interval": 5,
-      "format": " RAM {percentage}% ",
-      "on-click": "kitty --class=float.lg btop"
-    },
-    "network": {
-      "format": "{icon}",
-      "format-disconnected": "󰖪",
-      "format-ethernet": "󰀂",
-      "format-icons": [
-        "󰤯",
-        "󰤟",
-        "󰤢",
-        "󰤥",
-        "󰤨"
-      ],
-      "format-wifi": "{icon}",
-      "interval": 3,
-      "nospacing": 1,
-      "on-click": "ghostty -e nmcli",
-      "tooltip-format-disconnected": "Disconnected",
-      "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-      "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}"
-    },
-    "niri/window": {
-        "format": "{title}",
-        "icon": false,
-        "rewrite": {
+        "modules-center": [
+            "niri/workspaces"
+        ],
+        "modules-right": [
+            "tray",
+            "custom/keylight",
+            "custom/mullvad",
+            "bluetooth",
+            "network",
+            "wireplumber",
+            "clock",
+            "upower",
+            "battery"
+        ],
+        "custom/waypick": {
+            "format": "{}",
+            "return-type": "json",
+            "interval": "once",
+            "exec": "$HOME/.config/waybar/modules/waypick/waypick.sh",
+            "on-click": "$HOME/.config/waybar/modules/waypick/waypick.sh pick && pkill -RTMIN+9 waybar",
+            "on-click-right": "$HOME/.config/waybar/modules/waypick/waypick.sh copy",
+            "signal": 9,
+            "tooltip": true,
+            "escape": false
+        },
+        "custom/now": {
+            "interval": 1,
+            "exec": "cat ~/now | head -n1"
+        },
+        "custom/keylight": {
+            "format": "{}",
+            "return-type": "json",
+            "interval": 60,
+            "exec": "$HOME/.config/waybar/modules/keylight/keylight.sh",
+            "on-click": "$HOME/.config/waybar/modules/keylight/keylight.sh toggle && pkill -RTMIN+10 waybar",
+            "on-scroll-up": "$HOME/.config/waybar/modules/keylight/keylight.sh temp-cooler && pkill -RTMIN+10 waybar",
+            "on-scroll-down": "$HOME/.config/waybar/modules/keylight/keylight.sh temp-warmer && pkill -RTMIN+10 waybar",
+            "menu": "on-click-right",
+            "menu-file": "$HOME/.config/waybar/modules/keylight/keylight_menu.xml",
+            "menu-actions": {
+                "bright-10": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 10 && pkill -RTMIN+10 waybar",
+                "bright-20": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 20 && pkill -RTMIN+10 waybar",
+                "bright-30": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 30 && pkill -RTMIN+10 waybar",
+                "bright-40": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 40 && pkill -RTMIN+10 waybar",
+                "bright-50": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 50 && pkill -RTMIN+10 waybar",
+                "bright-60": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 60 && pkill -RTMIN+10 waybar",
+                "bright-70": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 70 && pkill -RTMIN+10 waybar",
+                "bright-80": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 80 && pkill -RTMIN+10 waybar",
+                "bright-90": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 90 && pkill -RTMIN+10 waybar",
+                "bright-100": "$HOME/.config/waybar/modules/keylight/keylight.sh set-brightness 100 && pkill -RTMIN+10 waybar",
+                "temp-warm": "$HOME/.config/waybar/modules/keylight/keylight.sh set-temperature 2900 && pkill -RTMIN+10 waybar",
+                "temp-neutral": "$HOME/.config/waybar/modules/keylight/keylight.sh set-temperature 5000 && pkill -RTMIN+10 waybar",
+                "temp-cool": "$HOME/.config/waybar/modules/keylight/keylight.sh set-temperature 7000 && pkill -RTMIN+10 waybar"
+            },
+            "signal": 10,
+            "tooltip": true,
+            "escape": false
+        },
+        "custom/mullvad": {
+            "format": "{}",
+            "return-type": "json",
+            "interval": 5,
+            "exec": "$HOME/.config/waybar/modules/mullvad/mullvad.sh",
+            "on-click": "$HOME/.config/waybar/modules/mullvad/mullvad.sh toggle && pkill -RTMIN+11 waybar",
+            "menu": "on-click-right",
+            "menu-file": "$HOME/.config/waybar/modules/mullvad/mullvad_menu.xml",
+            "menu-actions": {
+                "connect-se": "$HOME/.config/waybar/modules/mullvad/mullvad.sh connect se && pkill -RTMIN+11 waybar",
+                "connect-de": "$HOME/.config/waybar/modules/mullvad/mullvad.sh connect de && pkill -RTMIN+11 waybar",
+                "connect-nl": "$HOME/.config/waybar/modules/mullvad/mullvad.sh connect nl && pkill -RTMIN+11 waybar",
+                "connect-us": "$HOME/.config/waybar/modules/mullvad/mullvad.sh connect us && pkill -RTMIN+11 waybar",
+                "connect-gb": "$HOME/.config/waybar/modules/mullvad/mullvad.sh connect gb && pkill -RTMIN+11 waybar"
+            },
+            "signal": 11,
+            "tooltip": true,
+            "escape": false
+        },
+        "upower": {
+            "icon-size": 16,
+            "tooltip": true,
+            "tooltip-format": "{time}"
+        },
+        "battery": {
+            "format": "BAT {capacity}% {icon}",
+            "format-charging": "{capacity}% {icon}",
+            "format-discharging": "{power} {icon}",
+            "format-full": "Charged ",
+            "format-icons": {
+                "charging": [
+                    "󰢜",
+                    "󰂆",
+                    "󰂇",
+                    "󰂈",
+                    "󰢝",
+                    "󰂉",
+                    "󰢞",
+                    "󰂊",
+                    "󰂋",
+                    "󰂅"
+                ],
+                "default": [
+                    "󰁺",
+                    "󰁻",
+                    "󰁼",
+                    "󰁽",
+                    "󰁾",
+                    "󰁿",
+                    "󰂀",
+                    "󰂁",
+                    "󰂂",
+                    "󰁹"
+                ]
+            },
+            "format-plugged": "",
+            "interval": 5,
+            "states": {
+                "critical": 10,
+                "warning": 20
+            },
+            "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+            "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%"
+        },
+        "bluetooth": {
+            "format": "󰂯",
+            "format-connected": "",
+            "format-disabled": "󰂲",
+            "on-click": "blueberry",
+            "tooltip-format": "Devices connected: {num_connections}"
+        },
+        "clock": {
+            "format-alt": " {:%H:%M}",
+            "format": " {:%d %b W%V %H:%M}",
+            "tooltip": true
+        },
+        "cpu": {
+            "format": "󰍛 {usage}%",
+            "interval": 5,
+            "on-click": "kitty --class=float.sm btop"
+        },
+        "memory": {
+            "interval": 5,
+            "format": " RAM {percentage}% ",
+            "on-click": "kitty --class=float.lg btop"
+        },
+        "network": {
+            "format": "{icon}",
+            "format-disconnected": "󰖪",
+            "format-ethernet": "󰀂",
+            "format-icons": [
+                "󰤯",
+                "󰤟",
+                "󰤢",
+                "󰤥",
+                "󰤨"
+            ],
+            "format-wifi": "{icon}",
+            "interval": 3,
+            "nospacing": 1,
+            "on-click": "ghostty -e nmcli",
+            "tooltip-format-disconnected": "Disconnected",
+            "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+            "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}"
+        },
+        "niri/window": {
+            "format": "{title}",
+            "icon": false,
+            "rewrite": {
             // "(.*) - Brave": "$1"
+            }
+        },
+        "niri/workspaces": {
+            "format": ""
+        },
+        "power-profiles-daemon": {
+            "format": "{icon}",
+            "format-icons": {
+                "balanced": "󰊚 BLNC",
+                "performance": "󰡴 PERF",
+                "power-saver": "󰡳 SAVR"
+            },
+            "tooltip": true,
+            "tooltip-format": "Power profile: {profile}\nDriver: {driver}"
+        },
+        "tray": {
+            "spacing": 12
+        },
+        "wireplumber": {
+            "format": "",
+            "format-muted": "󰝟",
+            "max-volume": 150,
+            "on-click": "pavucontrol",
+            "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+            "scroll-step": 5,
+            "tooltip-format": "Playing at {volume}%"
         }
-    },
-    "niri/workspaces": {
-      "format": ""
-    },
-    "power-profiles-daemon": {
-      "format": "{icon}",
-      "format-icons": {
-        "balanced": "󰊚 BLNC",
-        "performance": "󰡴 PERF",
-        "power-saver": "󰡳 SAVR"
-      },
-      "tooltip": true,
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}"
-    },
-    "tray": {
-      "spacing": 12
-    },
-    "wireplumber": {
-      "format": "",
-      "format-muted": "󰝟",
-      "max-volume": 150,
-      "on-click": "pavucontrol",
-      "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-      "scroll-step": 5,
-      "tooltip-format": "Playing at {volume}%"
     }
-  }
 ]

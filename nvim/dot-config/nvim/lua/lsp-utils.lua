@@ -51,10 +51,10 @@ M.on_attach = function(args, fn)
     bufopts)
   vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 
-  vim.keymap.set('n', 'gr', ':Telescope lsp_references<CR>', bufopts)
-  vim.keymap.set('n', 'gi', ':Telescope lsp_type_implementations<cr>', bufopts)
+  vim.keymap.set('n', 'gr', ':FzfLua lsp_references<CR>', bufopts)
+  vim.keymap.set('n', 'gi', ':FzfLua lsp_type_implementations<cr>', bufopts)
   vim.keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration<cr>', bufopts)
-  vim.keymap.set('n', 'gO', ':Telescope lsp_document_symbols<cr>', bufopts)
+  vim.keymap.set('n', 'gO', ':FzfLua lsp_document_symbols<cr>', bufopts)
 
   vim.keymap.set('n', '<c-w>d', ':vs<cr>:lua vim.lsp.buf.definition()<cr>zt', bufopts)
   vim.keymap.set('n', 'gd', ':lua vim.lsp.buf.definition()<cr>zt', bufopts)

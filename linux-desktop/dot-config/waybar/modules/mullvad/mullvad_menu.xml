@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_pipe_menu>
+  <item label="Sweden">
+    <action name="Execute"><command>connect-se</command></action>
+  </item>
+  <item label="Germany">
+    <action name="Execute"><command>connect-de</command></action>
+  </item>
+  <item label="Netherlands">
+    <action name="Execute"><command>connect-nl</command></action>
+  </item>
+  <item label="USA">
+    <action name="Execute"><command>connect-us</command></action>
+  </item>
+  <item label="UK">
+    <action name="Execute"><command>connect-gb</command></action>
+  </item>
+</openbox_pipe_menu>

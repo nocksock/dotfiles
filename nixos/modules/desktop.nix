@@ -19,6 +19,7 @@ in {
     services.syncthing = {
       enable = true;
     };
+
     # home.pointerCursor = {
     #   gtk.enable = true;
     #   x11.enable = true;
@@ -93,7 +94,6 @@ in {
       brave
       ungoogled-chromium
       qutebrowser
-      thunderbird
 
       # Password managers
       _1password-cli
@@ -126,7 +126,6 @@ in {
       cider-2
       syncthing
       icloudpd
-      obs-studio
       wl-mirror
       appimage-run
 
@@ -167,6 +166,20 @@ in {
         name = "Fastmail";
         url = "https://www.fastmail.com/";
         icon = ./icons/fastmail.com.png;
+      };
+
+      tidewave = {
+        name = "Tidewave";
+        type = "Application";
+        terminal = false;
+        exec = "${pkgs.appimage-run}/bin/appimage-run ${config.home.homeDirectory}/.local/bin/tidewave-app-amd64.AppImage";
+      };
+
+      polypane = {
+        name = "Polypane";
+        type = "Application";
+        terminal = false;
+        exec = "${pkgs.appimage-run}/bin/appimage-run ${config.home.homeDirectory}/.local/bin/Polypane-27.0.2.AppImage";
       };
 
       tableplus = {

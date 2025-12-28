@@ -40,7 +40,7 @@
     yazi
 
     # Dev tools
-    devenv
+    # devenv
     direnv
     lazydocker
     neovim

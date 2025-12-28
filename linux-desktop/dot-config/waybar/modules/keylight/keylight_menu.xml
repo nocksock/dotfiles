@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkMenu" id="menu">
+    <!-- Brightness Submenu -->
+    <child>
+      <object class="GtkMenuItem" id="brightness-menu">
+        <property name="label">Brightness →</property>
+        <child type="submenu">
+          <object class="GtkMenu">
+            <child>
+              <object class="GtkMenuItem" id="bright-10">
+                <property name="label">10%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-20">
+                <property name="label">20%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-30">
+                <property name="label">30%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-40">
+                <property name="label">40%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-50">
+                <property name="label">50%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-60">
+                <property name="label">60%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-70">
+                <property name="label">70%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-80">
+                <property name="label">80%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-90">
+                <property name="label">90%</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="bright-100">
+                <property name="label">100%</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <!-- Separator -->
+    <child>
+      <object class="GtkSeparatorMenuItem"/>
+    </child>
+
+    <!-- Temperature Submenu -->
+    <child>
+      <object class="GtkMenuItem" id="temperature-menu">
+        <property name="label">Temperature →</property>
+        <child type="submenu">
+          <object class="GtkMenu">
+            <child>
+              <object class="GtkMenuItem" id="temp-warm">
+                <property name="label">Warm (2900K)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="temp-neutral">
+                <property name="label">Neutral (5000K)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="temp-cool">
+                <property name="label">Cool (7000K)</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

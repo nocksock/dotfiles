@@ -14,6 +14,10 @@ vim.keymap.set('n', '<F5>', ':Glow %<CR>', { buffer = true, silent = true })
 vim.keymap.set('n', '<leader>h1', 'VypVr=<cr>', { buffer = true, silent = true })
 vim.keymap.set('n', '<leader>h2', 'VypVr-<cr>', { buffer = true, silent = true })
 
+vim.keymap.set({'i'}, '<c-t>', function ()
+    vim.api.nvim_put({"- [ ] "}, 'c', true, true)
+end, opts)
+
 vim.cmd([[
   augroup markdown
     autocmd!
