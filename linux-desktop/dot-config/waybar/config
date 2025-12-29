@@ -8,6 +8,7 @@
         "modules-left": [
             "custom/waypick",
             "power-profiles-daemon",
+            "custom/nvidia-gpu",
             "temperature",
             "cpu",
             "memory",
@@ -88,6 +89,15 @@
                 "connect-gb": "$HOME/.config/waybar/modules/mullvad/mullvad.sh connect gb && pkill -RTMIN+11 waybar"
             },
             "signal": 11,
+            "tooltip": true,
+            "escape": false
+        },
+        "custom/nvidia-gpu": {
+            "format": "{}",
+            "return-type": "json",
+            "interval": 3,
+            "exec": "$HOME/.config/waybar/modules/nvidia-gpu/nvidia-gpu.sh",
+            "on-click": "$HOME/.config/waybar/modules/nvidia-gpu/nvidia-gpu.sh show",
             "tooltip": true,
             "escape": false
         },

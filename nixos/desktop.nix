@@ -104,8 +104,45 @@ in {
 
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia.open = true;
-  hardware.nvidia.nvidiaSettings = true;
+
+  hardware.nvidia = {
+    # Use open kernel modules (good support for RTX 50-series)
+    open = true;
+    
+    # Enable nvidia-settings GUI tool
+    nvidiaSettings = true;
+    
+    # CRITICAL: Enable kernel modesetting (required for Wayland)
+    modesetting.enable = true;
+    
+    # CRITICAL: Enable power management (fixes suspend/resume)
+    powerManagement.enable = true;
+    
+    # Enable fine-grained power management (experimental)
+    # Allows NVIDIA GPU to fully power off (0W) when not in use
+    # Can be disabled later if unstable (set to false)
+    powerManagement.finegrained = true;
+    
+    # Configure PRIME offload (AMD primary, NVIDIA on-demand)
+    prime = {
+      # Enable offload mode
+      offload.enable = true;
+      
+      # Add nvidia-offload command to PATH
+      offload.enableOffloadCmd = true;
+      
+      # PCI Bus IDs (c4:00.0 = 196:0:0, c5:00.0 = 197:0:0 in decimal)
+      nvidiaBusId = "PCI:196:0:0";
+      amdgpuBusId = "PCI:197:0:0";
+    };
+  };
+  
+  # Override NixOS default: Force DPM=3 (true fine-grained) instead of DPM=2 (coarse)
+  # This allows GPU to suspend even when apps have small contexts open (like Niri's 2MB)
+  # NixOS uses 0x02 by default, but we need 0x03 for full D3cold suspend
+  boot.extraModprobeConfig = ''
+    options nvidia "NVreg_DynamicPowerManagement=0x03"
+  '';
 
   # }}}
   # Audio {{{

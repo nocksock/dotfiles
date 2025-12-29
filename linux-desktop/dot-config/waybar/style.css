@@ -149,3 +149,20 @@ widget {}
     opacity: 0.5;
     color: #888888;
 }
+
+/* NVIDIA GPU Monitor */
+#custom-nvidia-gpu.suspended {
+    color: #a6e3a1; /* Green - GPU off, good! */
+}
+
+#custom-nvidia-gpu.idle {
+    color: #f9e2af; /* Yellow - GPU on but idle */
+}
+
+#custom-nvidia-gpu.active {
+    color: #f38ba8; /* Red - GPU under load */
+}
+
+#custom-nvidia-gpu.error {
+    color: #f38ba8; /* Red - Error state */
+}

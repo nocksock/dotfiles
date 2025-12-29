@@ -16,6 +16,12 @@ environment {
     ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
 
+// Force niri to use AMD GPU (integrated) for rendering instead of NVIDIA
+// This enables PRIME offload: AMD renders desktop, NVIDIA available via nvidia-offload command
+debug {
+    render-drm-device "/dev/dri/renderD128"
+}
+
 input {
     workspace-auto-back-and-forth
 
