@@ -346,6 +346,10 @@ binds {
     Mod+Shift+P repeat=false { spawn-sh "wl-mirror $(niri msg --json focused-output | jq -r .name)"; }
     Mod+Ctrl+P       repeat=false { toggle-windowed-fullscreen; }
 
+    // Power management
+
+    Mod+Shift+H repeat=false hotkey-overlay-title="Hibernate Now" { spawn "systemctl" "hibernate"; }
+
     // Layout Controls
 
     Mod+P       repeat=false { spawn-sh "niri msg action set-dynamic-cast-window"; }
