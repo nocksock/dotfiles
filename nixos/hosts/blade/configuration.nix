@@ -32,12 +32,20 @@
   };
 
   services.mullvad-vpn.enable = true;
+
+  # Suspend-then-hibernate: quick suspend for fast resume,
+  # auto-hibernate after 15min for full encryption at rest
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";
-    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "suspend-then-hibernate";
     HandleLidSwitchDocked = "lock";
+    HandleSuspendKey = "suspend-then-hibernate";
   };
-  # one of "ignore", "poweroff", "reboot", "halt", "kexec", "suspend", "hibernate", "hybrid-sleep", "suspend-then-hibernate", "lock"
+
+  # Hibernate delay configuration
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=15min
+  '';
 
   hardware.openrazer.enable = true;
   services.thermald.enable = true;
