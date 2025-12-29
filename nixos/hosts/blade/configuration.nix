@@ -7,8 +7,22 @@
     ./hardware-configuration.nix
   ];
 
+  # TPM2 support for LUKS auto-unlock
+  boot.initrd.systemd.enable = true;
+  security.tpm2.enable = true;
+  security.tpm2.pkcs11.enable = true;
+  security.tpm2.tctiEnvironment.enable = true;
+
+  # Resume from swapfile for hibernate
+  boot.resumeDevice = "/dev/disk/by-uuid/ec443945-1428-4406-89e6-07eadb63a71d";
+  boot.kernelParams = [
+    "resume_offset=9150464"
+  ];
+
   environment.systemPackages = with pkgs; [
     nvitop
+    amdgpu_top
+    radeontop
   ];
   services.flatpak.enable = true;
 
@@ -18,9 +32,11 @@
   };
 
   services.mullvad-vpn.enable = true;
-  services.logind.lidSwitch = "suspend";
-  services.logind.lidSwitchExternalPower = "suspend";
-  services.logind.lidSwitchDocked = "lock";
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitchDocked = "lock";
+  };
   # one of "ignore", "poweroff", "reboot", "halt", "kexec", "suspend", "hibernate", "hybrid-sleep", "suspend-then-hibernate", "lock"
 
   hardware.openrazer.enable = true;
