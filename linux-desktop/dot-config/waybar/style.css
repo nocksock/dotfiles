@@ -40,7 +40,8 @@ button:hover {
 #wireplumber,
 #tray,
 #clock,
-#custom-keylight {
+#custom-keylight,
+#custom-airpods {
     min-width: 12px;
     padding: 0px 4px;
 }
@@ -148,6 +149,10 @@ widget {}
 #custom-keylight.offline {
     opacity: 0.5;
     color: #888888;
+}
+
+#custom-airpods.offline {
+    opacity: 0.5;
 }
 
 /* NVIDIA GPU Monitor */

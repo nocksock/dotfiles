@@ -22,6 +22,7 @@
             "tray",
             "custom/keylight",
             "custom/mullvad",
+            "custom/airpods",
             "bluetooth",
             "network",
             "wireplumber",
@@ -89,6 +90,16 @@
                 "connect-gb": "$HOME/.config/waybar/modules/mullvad/mullvad.sh connect gb && pkill -RTMIN+11 waybar"
             },
             "signal": 11,
+            "tooltip": true,
+            "escape": false
+        },
+        "custom/airpods": {
+            "format": "{}",
+            "return-type": "json",
+            "interval": 5,
+            "exec": "$HOME/.config/waybar/modules/airpods/airpods.sh",
+            "on-click": "$HOME/.config/waybar/modules/airpods/airpods.sh toggle && pkill -RTMIN+12 waybar",
+            "signal": 12,
             "tooltip": true,
             "escape": false
         },
