@@ -34,6 +34,13 @@
 
   services.mullvad-vpn.enable = true;
 
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession.enable = true;
+  };
+  programs.gamemode.enable = true;
   # Suspend-then-hibernate: quick suspend for fast resume,
   # auto-hibernate after 15min for full encryption at rest
   services.logind.settings.Login = {
