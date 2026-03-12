@@ -316,7 +316,8 @@ binds {
 
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Return      repeat=false hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty" "-1"; }
-    Mod+Space       repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel" "--list-executables-in-path"; }
+    Mod+Space       repeat=false hotkey-overlay-title="Run an Application: fuzzel" { spawn "vicinae" "toggle"; }
+    Mod+Ctrl+Space  repeat=false hotkey-overlay-title="Emoji Picker" { spawn "vicinae" "vicinae://extensions/vicinae/core/search-emojis"; }
 
     //  Launching
 
@@ -334,7 +335,8 @@ binds {
     Mod+D          repeat=false hotkey-overlay-title="Edit Dotfiles" { spawn-sh "kitty -1 -d $DOTDIR nvim index"; }
     Mod+Delete     repeat=false hotkey-overlay-title="Clear Notifications" { spawn "makoctl" "dismiss" "--all"; }
     Mod+E          repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
-    Mod+Mod5+C     repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
+    // Mod+Mod5+C     repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
+    Mod+Mod5+C repeat=false { spawn "vicinae" "vicinae://extensions/vicinae/clipboard/history"; }
     Mod+N          repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
     Mod+Ctrl+Semicolon   { spawn "kitten" "quick-access-terminal"; }
     Mod+Shift+N    repeat=false hotkey-overlay-title="Notes" { spawn-sh "niri-split vim ~/now"; }

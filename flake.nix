@@ -21,6 +21,7 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vicinae.url = "github:vicinaehq/vicinae";
   };
 
   outputs = {
@@ -53,6 +54,21 @@
               environment.systemPackages = [
                 polypane.packages.x86_64-linux.polypane
               ];
+            }
+            {
+              home-manager.users.nr = {
+                imports = [inputs.vicinae.homeManagerModules.default];
+                services.vicinae = {
+                  enable = true;
+                  systemd = {
+                    enable = true;
+                    autoStart = true;
+                    environment = {
+                      USE_LAYER_SHELL = "1";
+                    };
+                  };
+                };
+              };
             }
           ];
       };
