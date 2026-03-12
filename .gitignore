@@ -5,3 +5,5 @@ core/dot-vim/.netrwbook
 scratch
 result
 ags/@girs
+linux-desktop/dot-config/waybar/modules/waypick/color_history
+linux-desktop/dot-config/waybar/modules/waypick/last_color
