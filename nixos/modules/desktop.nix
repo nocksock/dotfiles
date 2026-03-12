@@ -109,8 +109,6 @@ in {
 
       # Communication
       discord
-      signal-desktop
-      signal-cli
       teams-for-linux
 
       # AI/ML tools
