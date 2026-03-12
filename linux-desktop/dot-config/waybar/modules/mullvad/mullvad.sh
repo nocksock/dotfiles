@@ -98,6 +98,10 @@ display_state() {
         local tooltip="VPN: Disconnected\nVisible location: ${location}\nIP: ${ip}"
         
         echo "{\"text\":\"${text}\",\"tooltip\":\"${tooltip}\",\"class\":\"disconnected\"}"
+    elif [[ "$state" == "Connecting"* ]]; then
+        local text="! Connecting"
+        
+        echo "{\"text\":\"${text}\",\"class\":\"connecting\"}"
     else
         # Unknown state
         echo '{"text":"⚠️ ERR","tooltip":"Unknown VPN state","class":"error"}'
