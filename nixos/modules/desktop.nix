@@ -89,6 +89,9 @@ in {
       gradia
       pavucontrol
 
+      wiremix
+      bluetui
+
       # Browsers etc
       firefox
       brave
