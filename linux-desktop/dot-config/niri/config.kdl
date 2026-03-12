@@ -29,10 +29,10 @@ input {
         xkb { 
             layout "eu";
             // <on-laptop>
-            options "ctrl:nocaps,altwin:swap_lalt_lwin"
+            // options "ctrl:nocaps,altwin:swap_lalt_lwin"
             // </on-laptop>
             // <on-desktop>
-            // options "ctrl:nocaps"
+            options "ctrl:nocaps"
             // </on-desktop>
         }
         
@@ -64,8 +64,9 @@ input {
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
     gaps 16
+    center-focused-column "always"
     // center-focused-column "on-overflow"
-    always-center-single-column
+    // always-center-single-column
     empty-workspace-above-first
 
     preset-column-widths {
@@ -349,7 +350,8 @@ binds {
 
     // Power management
 
-    Mod+Shift+H repeat=false hotkey-overlay-title="Hibernate Now" { spawn "systemctl" "hibernate"; }
+    // Mod+Shift+H repeat=false hotkey-overlay-title="Hibernate Now" { spawn "systemctl" "hibernate"; }
+    Mod+Shift+Delete repeat=false hotkey-overlay-title="Lock Screen" { spawn "swaylock" "-f"; }
 
     // Layout Controls
 
@@ -410,8 +412,7 @@ binds {
     Mod+Up         { focus-window-or-workspace-up; }
     Mod+Down       { focus-window-or-workspace-down; }
 
-    // + Ctrl to move
-    Mod+Ctrl+H     { move-column-left; }
+    // + Ctrl to move Mod+Ctrl+H     { move-column-left; }
     Mod+Ctrl+L     { move-column-right; }
     Mod+Ctrl+K     { move-column-to-workspace-up; }
     Mod+Ctrl+J     { move-column-to-workspace-down; }
@@ -450,24 +451,27 @@ binds {
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
 
-    Mod+1 { focus-workspace 1; }
-    Mod+2 { focus-workspace 2; }
-    Mod+3 { focus-workspace 3; }
-    Mod+4 { focus-workspace 4; }
-    Mod+5 { focus-workspace 5; }
-    Mod+6 { focus-workspace 6; }
-    Mod+7 { focus-workspace 7; }
-    Mod+8 { focus-workspace 8; }
-    Mod+9 { focus-workspace 9; }
-    Mod+Ctrl+1 { move-window-to-workspace 1; }
-    Mod+Ctrl+2 { move-window-to-workspace 2; }
-    Mod+Ctrl+3 { move-window-to-workspace 3; }
-    Mod+Ctrl+4 { move-window-to-workspace 4; }
-    Mod+Ctrl+5 { move-window-to-workspace 5; }
-    Mod+Ctrl+6 { move-window-to-workspace 6; }
-    Mod+Ctrl+7 { move-window-to-workspace 7; }
-    Mod+Ctrl+8 { move-window-to-workspace 8; }
-    Mod+Ctrl+9 { move-window-to-workspace 9; }
+    // offsetting by one so it focusses the first workspace with a window,
+    // which is more intuitive for me rn.
+    Mod+1 { focus-workspace 2; }
+    Mod+2 { focus-workspace 3; }
+    Mod+3 { focus-workspace 4; }
+    Mod+4 { focus-workspace 5; }
+    Mod+5 { focus-workspace 6; }
+    // rarely accessing these via keyboard since it's a r+l combo
+    Mod+6 { focus-workspace 7; }
+    Mod+7 { focus-workspace 8; }
+    Mod+8 { focus-workspace 9; }
+    Mod+9 { focus-workspace 0; }
+    Mod+Ctrl+1 { move-window-to-workspace 2; }
+    Mod+Ctrl+2 { move-window-to-workspace 3; }
+    Mod+Ctrl+3 { move-window-to-workspace 4; }
+    Mod+Ctrl+4 { move-window-to-workspace 5; }
+    Mod+Ctrl+5 { move-window-to-workspace 6; }
+    Mod+Ctrl+6 { move-window-to-workspace 7; }
+    Mod+Ctrl+7 { move-window-to-workspace 8; }
+    Mod+Ctrl+8 { move-window-to-workspace 9; }
+    Mod+Ctrl+9 { move-window-to-workspace 0; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
@@ -484,16 +488,18 @@ binds {
     Mod+Shift+Escape { power-off-monitors; }
 }
 
-output "eDP-2" {
-    // off
-    // mode "1920x1080@120.030"
-    // scale 1
-    // scale 1.3
-    // scale 1.25
-    // scale 1.5
+output "HDMI-A-1" {
+    // reminder: use logical size of `niri msg outputs`
+    position x=1920 y=0
+    scale 1.00
+    // transform "90"
+}
+
+output "eDP-1" {
+    scale 1.5
     // scale 1.5
     // transform "90"
-    position x=890 y=1440
+    position x=0 y=720
     // variable-refresh-rate // on-demand=true
     // focus-at-startup
     backdrop-color "#000000"
@@ -509,13 +515,5 @@ output "eDP-2" {
     // layout {
     //     // ...layout settings for eDP-1...
     // }
-
-    // Custom modes. Caution: may damage your display.
-    // mode custom=true "1920x1080@100"
-    // modeline 173.00  1920 2048 2248 2576  1080 1083 1088 1120 "-hsync" "+vsync"
 }
 
-output "DP-5" {
-    position x=0 y=0
-    scale 1
-}
