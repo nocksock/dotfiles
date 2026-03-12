@@ -61,8 +61,14 @@ in {
     48010
     # syncthing
     22000
+
+    # localsend
+    53317
   ];
   networking.firewall.allowedUDPPorts = [
+    # localsend
+    53317
+
     # sunshine/moonlight
     47998
     47999

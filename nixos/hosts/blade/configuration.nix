@@ -23,6 +23,7 @@
     nvitop
     amdgpu_top
     radeontop
+    localsend
   ];
   services.flatpak.enable = true;
 
