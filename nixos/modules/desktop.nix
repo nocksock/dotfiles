@@ -168,6 +168,19 @@ in {
         icon = ./icons/fastmail.com.png;
       };
 
+      notion = mkPWA {
+        name = "Notion";
+        url = "https://notion.so/";
+        icon = ./icons/notion-logo.png;
+      };
+
+      notion-calendar = mkPWA {
+        name = "Notion Calendar";
+        url = "https://calendar.notion.so/";
+        icon = ./icons/notion-logo.png;
+      };
+
+
       tidewave = {
         name = "Tidewave";
         type = "Application";
