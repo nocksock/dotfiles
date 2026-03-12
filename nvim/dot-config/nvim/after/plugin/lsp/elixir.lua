@@ -8,12 +8,12 @@ local on_attach = function(_client, bufnr)
     end, { buffer = bufnr, noremap = true })
 end
 
-require("elixir").setup({
-    nextls = { enable = false },
-    elixirls = {
-        enable = true,
-        on_attach = on_attach,
-        cmd = { "elixir-ls" }
-    },
-    projectionist = { enable = true, on_attach = on_attach },
-})
+require('lspconfig').lexical.setup {
+  cmd = { "/home/nr/.local/bin/expert", "--stdio" },
+  root_dir = function(fname)
+    return require('lspconfig').util.root_pattern("mix.exs", ".git")(fname) or vim.loop.cwd()
+  end,
+  filetypes = { "elixir", "eelixir", "heex" },
+  -- optional settings
+  settings = {}
+}
