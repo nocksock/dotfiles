@@ -1,3 +1,4 @@
+# Host configuration for 'repo' (GitLab server with container registry)
 {
   config,
   pkgs,

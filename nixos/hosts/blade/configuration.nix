@@ -1,3 +1,4 @@
+# Host configuration for 'blade' (Razer Blade laptop with TPM and gaming packages)
 {
   config,
   pkgs,
@@ -17,14 +18,19 @@
   boot.resumeDevice = "/dev/disk/by-uuid/ec443945-1428-4406-89e6-07eadb63a71d";
   boot.kernelParams = [
     "resume_offset=9150464"
+    "mem_sleep_default=deep" # Use S3 sleep instead of s2idle for reliable suspend
   ];
 
   environment.systemPackages = with pkgs; [
     nvitop
     amdgpu_top
     radeontop
+
+    libreoffice
     localsend
+    freecad
   ];
+
   services.flatpak.enable = true;
 
   services.printing = {
@@ -41,23 +47,20 @@
     gamescopeSession.enable = true;
   };
   programs.gamemode.enable = true;
+
   # Suspend-then-hibernate: quick suspend for fast resume,
   # auto-hibernate after 15min for full encryption at rest
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend-then-hibernate";
-    HandleLidSwitchExternalPower = "suspend-then-hibernate";
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
     HandleLidSwitchDocked = "lock";
-    HandleSuspendKey = "suspend-then-hibernate";
+    HandleSuspendKey = "suspend";
   };
 
-  # Hibernate delay configuration
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=15min
-  '';
-
   hardware.openrazer.enable = true;
+  hardware.openrazer.users = ["nr"];
   services.thermald.enable = true;
-  powerManagement.powertop.enable = true;
+  powerManagement.powertop.enable = false;  # Disabled: was turning off eDP-1 when HDMI connected
   powerManagement.enable = true;
 
   # # Wrap brightnessctl to use amdgpu_bl1.

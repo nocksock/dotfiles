@@ -1,96 +1,59 @@
+# Base NixOS configuration for desktop machines
 {
   lib,
   pkgs,
   ...
-} @ inputs: let
-  inherit (pkgs.stdenv.hostPlatform) system;
-in {
-  imports = [];
-
-  virtualisation.docker = {
-    enable = true;
-  };
-
-  # System {{{
-  # Boot {{{
-
+}: {
+  # Boot
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = ["button.lid_init_state=open"];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
-  # }}}
-  # Nix {{{
+  # Nix
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnsupportedSystem = true; # eg. for tableplus
+  nixpkgs.config.allowUnsupportedSystem = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.trusted-users = ["nr" "root"];
   nix.extraOptions = ''
     extra-substituters = https://devenv.cachix.org https://vicinae.cachix.org
     extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw= vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc=
   '';
+  system.stateVersion = "25.05";
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
-
-  # }}}
-  # Network {{{
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  # Networking
   networking.networkmanager.enable = true;
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     # sunshine/moonlight
     47984
     47987
     47989
-    48010
+    48010 
     # syncthing
-    22000
-
+    22000 
     # localsend
-    53317
+    53317 
   ];
   networking.firewall.allowedUDPPorts = [
     # localsend
-    53317
-
+    53317 
     # sunshine/moonlight
     47998
     47999
     48000
     48002
-    48010
-
+    48010 
     # syncthing
     22000
-    21027
+    21027 
   ];
-
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   networking.hosts = {
     "188.245.39.71" = ["blpblp.io" "budget.blpblp.io"];
   };
 
-  # }}}
-  # locale {{{
-
+  # Locale
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
@@ -105,67 +68,33 @@ in {
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # }}}
-  # GPU {{{
-
-  hardware.graphics.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    # Use open kernel modules (good support for RTX 50-series)
-    open = true;
-    
-    # Enable nvidia-settings GUI tool
-    nvidiaSettings = true;
-    
-    # CRITICAL: Enable kernel modesetting (required for Wayland)
-    modesetting.enable = true;
-    
-    # CRITICAL: Enable power management (fixes suspend/resume)
-    powerManagement.enable = true;
-    
-    # Enable fine-grained power management (experimental)
-    # Allows NVIDIA GPU to fully power off (0W) when not in use
-    # Can be disabled later if unstable (set to false)
-    powerManagement.finegrained = true;
-    
-    # Configure PRIME offload (AMD primary, NVIDIA on-demand)
-    prime = {
-      # Enable offload mode
-      offload.enable = true;
-      
-      # Add nvidia-offload command to PATH
-      offload.enableOffloadCmd = true;
-      
-      # PCI Bus IDs (c4:00.0 = 196:0:0, c5:00.0 = 197:0:0 in decimal)
-      nvidiaBusId = "PCI:196:0:0";
-      amdgpuBusId = "PCI:197:0:0";
-    };
+  # Keyboard
+  services.xserver.xkb = {
+    layout = "eu";
+    options = "ctrl:nocaps";
   };
-  
-  # Override NixOS default: Force DPM=3 (true fine-grained) instead of DPM=2 (coarse)
-  # This allows GPU to suspend even when apps have small contexts open (like Niri's 2MB)
-  # NixOS uses 0x02 by default, but we need 0x03 for full D3cold suspend
-  boot.extraModprobeConfig = ''
-    options nvidia "NVreg_DynamicPowerManagement=0x03"
-  '';
+  console.useXkbConfig = true;
 
-  # }}}
-  # Audio {{{
+  # Shell
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
 
-  services.pulseaudio.enable = false;
-  services.pipewire = {
+  # Wayland/X11
+  programs.xwayland.enable = true;
+  services.xserver.enable = true;
+  xdg.portal = {
     enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-    jack.enable = true;
+    wlr.enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-wlr];
   };
 
-  # }}}
-  # }}}
-  # System Level Packages {{{
+  # Hardware
+  hardware.bluetooth.enable = true;
+  hardware.opentabletdriver.enable = true;
+
+  # Core system packages
   environment.systemPackages = with pkgs; [
-    # Core system utilities
     zsh
     git
     vim
@@ -174,222 +103,16 @@ in {
     rsync
     unzip
     starship
-
     xwayland
     xwayland-satellite
-
     libnotify
     wl-clipboard
     darkman
-    mako # notification daemon
-
-    # Hardware control
+    mako
     pamixer
     playerctl
     brightnessctl
     powertop
-    blueberry # bluetooth manager
-    hyprland
+    blueman
   ];
-
-  # }}}
-  # User Setup {{{
-
-  users.users.nr = {
-    isNormalUser = true;
-    description = "nils riedemann";
-    extraGroups = ["networkmanager" "openrazer" "wheel" "video" "input" "docker"];
-  };
-
-  # }}}
-  # Fonts {{{
-
-  fonts.enableDefaultPackages = true;
-  fonts.packages = with pkgs; [
-    dina-font
-    fira-code
-    fira-code-symbols
-    fira-sans
-    ibm-plex
-    liberation_ttf
-    mplus-outline-fonts.githubRelease
-    nerd-fonts.caskaydia-mono
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-color-emoji
-    proggyfonts
-  ];
-
-  # }}}
-  # Niri {{{
-
-  programs.niri.enable = true;
-
-  # }}}
-  # 1Password {{{
-
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "1password-gui"
-      "1password"
-    ];
-
-  programs._1password.enable = true;
-  programs._1password-gui = {
-    enable = true;
-    # Certain features, including CLI integration and system authentication support,
-    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = ["nr"];
-  };
-
-  # }}}
-
-  # Miscellaneous
-
-  # Configure keymap in X11 (used in ttys and X11 sessions)
-  services.xserver.xkb = {
-    layout = "us";
-    options = "ctrl:nocaps";
-  };
-
-  services.tailscale.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-  programs.nix-ld.enable = true;
-  security.rtkit.enable = true;
-  hardware.bluetooth.enable = true;
-  # services.gnome.core-apps.enable = false;
-  # services.gnome.core-developer-tools.enable = false;
-  # services.gnome.games.enable = false;
-  # environment.gnome.excludePackages = with pkgs; [ gnome-tour gnome-user-docs ];
-  # services.displayManager.sddm.enable = true;
-  # services.displayManager.sddm.wayland.enable = true;
-  # services.desktopManager.plasma6.enable = true;
-
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  programs.xwayland.enable = true;
-  services.xserver.enable = true; # optional
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-wlr];
-  };
-
-  services.sunshine = {
-    enable = true;
-    autoStart = true;
-    capSysAdmin = true;
-  };
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      # initial_session = {
-      #   command = "niri-session";
-      #   user = "nr";
-      # };
-
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
-      };
-    };
-  };
-
-  home-manager.users.nr = let
-    servicesDir = ../linux-desktop/dot-local/services;
-  in {
-    imports = [
-      ./modules/cli.nix
-      ./modules/desktop.nix
-    ];
-    nixpkgs.config.allowUnfree = true;
-    home.stateVersion = "25.05";
-
-    # Enable systemd user services for desktop environment
-    systemd.user.services = {
-      wallpaper = {
-        Unit = {
-          PartOf = ["graphical-session.target"];
-          After = ["graphical-session.target"];
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${servicesDir}/wallpaper/run";
-          Restart = "on-failure";
-          RestartSec = 3;
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
-
-      # waybar = {
-      #   Unit = {
-      #     Description = "Waybar status bar";
-      #     PartOf = ["graphical-session.target"];
-      #     After = ["graphical-session.target"];
-      #   };
-      #   Service = {
-      #     Type = "simple";
-      #     ExecStart = "${servicesDir}/waybar/run";
-      #     Restart = "always";
-      #     RestartSec = 3;
-      #   };
-      #   Install = {
-      #     WantedBy = ["graphical-session.target"];
-      #   };
-      # };
-
-      cliphist = {
-        Unit = {
-          PartOf = ["graphical-session.target"];
-          After = ["graphical-session.target"];
-          ConditionEnvironment = "WAYLAND_DISPLAY";
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${servicesDir}/cliphist/run";
-          Restart = "on-failure";
-          RestartSec = 3;
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
-
-      color-scheme-watch = {
-        Unit = {
-          PartOf = ["graphical-session.target"];
-          After = ["graphical-session.target"];
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${servicesDir}/color-scheme-watch/run";
-          Restart = "on-failure";
-          RestartSec = 3;
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
-
-      icloudpd = {
-        Unit = {
-          Description = "iCloud Photos downloader";
-          After = ["network-online.target"];
-          Wants = ["network-online.target"];
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${servicesDir}/icloudpd/run";
-          Restart = "on-failure";
-          RestartSec = 60;
-        };
-        Install = {
-          WantedBy = ["default.target"];
-        };
-      };
-    };
-  };
 }

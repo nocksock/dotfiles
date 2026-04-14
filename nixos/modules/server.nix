@@ -1,3 +1,4 @@
+# Base NixOS configuration shared by all server machines
 {
   config,
   lib,

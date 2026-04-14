@@ -1,3 +1,4 @@
+# Host configuration for 'studio' (VPS for studio/production workloads)
 {...}: {
   imports = [
     ./hardware-configuration.nix

@@ -1,3 +1,4 @@
+# Agenix secrets configuration defining which keys can decrypt which secrets
 let
   keys = import globals/keys.nix;
 

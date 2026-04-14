@@ -1,3 +1,4 @@
+# Host configuration for 'coworker' (VPS for coworker access/collaboration)
 {...}: {
   imports = [
     ./hardware-configuration.nix

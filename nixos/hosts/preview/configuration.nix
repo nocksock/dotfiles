@@ -1,3 +1,4 @@
+# Host configuration for 'preview' (minimal VPS for preview deployments)
 {...}: {
   imports = [
     ./hardware-configuration.nix

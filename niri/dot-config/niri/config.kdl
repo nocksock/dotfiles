@@ -16,12 +16,6 @@ environment {
     ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
 
-// Force niri to use AMD GPU (integrated) for rendering instead of NVIDIA
-// This enables PRIME offload: AMD renders desktop, NVIDIA available via nvidia-offload command
-debug {
-    render-drm-device "/dev/dri/renderD128"
-}
-
 input {
     workspace-auto-back-and-forth
 
@@ -29,10 +23,10 @@ input {
         xkb { 
             layout "eu";
             // <on-laptop>
-            // options "ctrl:nocaps,altwin:swap_lalt_lwin"
+            options "ctrl:nocaps,altwin:swap_lalt_lwin"
             // </on-laptop>
             // <on-desktop>
-            options "ctrl:nocaps"
+            // options "ctrl:nocaps"
             // </on-desktop>
         }
         
@@ -64,9 +58,9 @@ input {
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
     gaps 16
-    center-focused-column "always"
-    // center-focused-column "on-overflow"
-    // always-center-single-column
+    // center-focused-column "always"
+    center-focused-column "on-overflow"
+    always-center-single-column
     empty-workspace-above-first
 
     preset-column-widths {
@@ -334,14 +328,16 @@ binds {
     Mod+Ctrl+W     repeat=false hotkey-overlay-title="Focus or spawn WhatsApp" { spawn-sh "niri-focus-or-spawn whatsapp"; }
     Mod+Ctrl+Y     repeat=false hotkey-overlay-title="Spawn Yazi" { spawn-sh "kitty -1 yazi"; }
     Mod+Delete     repeat=false hotkey-overlay-title="Clear Notifications" { spawn "makoctl" "dismiss" "--all"; }
-    Mod+E          repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
     // Mod+Mod5+C     repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
     Mod+Mod5+C repeat=false { spawn "vicinae" "vicinae://extensions/vicinae/clipboard/history"; }
     Mod+N          repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
-    Mod+Ctrl+Semicolon   { spawn "kitten" "quick-access-terminal"; }
+    Mod+Semicolon   { spawn "kitten" "quick-access-terminal"; }
     Mod+Shift+N    repeat=false hotkey-overlay-title="Notes" { spawn-sh "niri-split vim ~/now"; }
     Mod+Slash      repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
     Mod+D          repeat=false hotkey-overlay-title="Nox"   { spawn "nox-menu"; }
+
+    Mod+T     repeat=false hotkey-overlay-title="Spawn Tmux" { spawn-sh "tmux-pick-session"; }
+    Mod+E          repeat=false hotkey-overlay-title="Edit Project" { spawn-sh "tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d "; }
 
     // Screensharing utils
 
@@ -412,7 +408,8 @@ binds {
     Mod+Up         { focus-window-or-workspace-up; }
     Mod+Down       { focus-window-or-workspace-down; }
 
-    // + Ctrl to move Mod+Ctrl+H     { move-column-left; }
+    // + Ctrl to move
+    Mod+Ctrl+H     { move-column-left; }
     Mod+Ctrl+L     { move-column-right; }
     Mod+Ctrl+K     { move-column-to-workspace-up; }
     Mod+Ctrl+J     { move-column-to-workspace-down; }
@@ -488,21 +485,20 @@ binds {
     Mod+Shift+Escape { power-off-monitors; }
 }
 
+// reminder: use logical size of `niri msg outputs` for positions
 output "HDMI-A-1" {
-    // reminder: use logical size of `niri msg outputs`
-    position x=1920 y=0
+    position x=0 y=0
     scale 1.00
-    // transform "90"
 }
 
 output "eDP-1" {
     scale 1.5
-    // scale 1.5
+    position x=900 y=1440
+    backdrop-color "#000000"
+
     // transform "90"
-    position x=0 y=720
     // variable-refresh-rate // on-demand=true
     // focus-at-startup
-    backdrop-color "#000000"
     //
     // hot-corners {
     //     // off

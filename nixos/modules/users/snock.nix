@@ -1,3 +1,4 @@
+# User configuration for 'snock' (primary admin user on servers)
 {pkgs, ...}: let
   keys = import ../globals/keys.nix;
 in {

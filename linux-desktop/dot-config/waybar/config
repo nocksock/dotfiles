@@ -8,7 +8,6 @@
         "modules-left": [
             "custom/waypick",
             "power-profiles-daemon",
-            "custom/nvidia-gpu",
             "temperature",
             "cpu",
             "memory",
@@ -26,9 +25,11 @@
             "bluetooth",
             "network",
             "wireplumber",
-            "clock",
+
             "upower",
-            "battery"
+            // "custom/nvidia-gpu",
+            // "battery",
+            "clock"
         ],
         "custom/waypick": {
             "format": "{}",

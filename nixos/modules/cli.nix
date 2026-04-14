@@ -1,3 +1,4 @@
+# Home Manager module for CLI tools and development packages
 {pkgs, ...}: {
   home.packages = with pkgs; [
     # Shells
@@ -12,6 +13,9 @@
     nodejs
     python3
     alejandra
+
+    asdf-vm
+    elixir_1_18
 
     # CLI utilities
     atuin
@@ -56,7 +60,9 @@
     unzip
     curl
     wget
-    runit
+
+    gitbutler
+    icu
   ];
 
   programs.direnv.enable = true;

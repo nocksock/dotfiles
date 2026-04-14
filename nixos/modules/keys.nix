@@ -1,3 +1,4 @@
+# SSH public keys for users and machines used across the infrastructure
 {
   users = {
     snock = {

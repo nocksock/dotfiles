@@ -1,3 +1,4 @@
+# User configuration for 'agent' (automated CI/CD user)
 {
   pkgs,
   config,
