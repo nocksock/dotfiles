@@ -1,1 +1,1 @@
--- vim.lsp.config("marksman",{})
+vim.lsp.config("marksman",{})

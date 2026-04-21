@@ -1,4 +1,4 @@
--- vim.cmd.LspStart("marksman")
+vim.cmd.LspStart("marksman")
 
 vim.opt_local.formatoptions:remove({ 't', 'c' }) -- do not autowrap text at width
 vim.opt_local.wrap = true
@@ -24,5 +24,18 @@ vim.cmd([[
     autocmd BufEnter *.md let b:copilot_enabled = v:false
   augroup END
 ]])
+
+-- run current line as ex on enter if first non-white character is :
+vim.keymap.set('n', '<CR>', function ()
+    local line = vim.api.nvim_get_current_line()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local before_cursor = line:sub(1, col)
+    if before_cursor:match('^%s*:%S*') then
+        P(vim.api.nvim_get_current_line())
+        return '<Esc>:<C-u>' .. before_cursor:match('^%s*:(%S*)') .. '<CR>'
+    else
+        return '<CR>'
+    end
+end, { buffer = true, expr = true })
 
 -- vim.cmd.Num()
