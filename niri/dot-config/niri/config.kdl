@@ -318,8 +318,7 @@ binds {
 
     Alt+Tab        repeat=false hotkey-overlay-title="Goto"  { spawn-sh "nox-menu niri-window-search"; }
     Mod+Alt+C      repeat=false hotkey-overlay-title="Cliboard History" { spawn-sh "clipboard-history"; }
-    Mod+Alt+Comma  repeat=false hotkey-overlay-title="Focus or spawn Zeal" { spawn-sh "niri-focus-or-spawn Zeal"; }
-    Mod+Backslash  repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
+    Mod+Alt+Comma  repeat=false hotkey-overlay-title="Focus or spawn devdocs" { spawn-sh "niri-focus-or-spawn DevDocs"; }
     Mod+Ctrl+B     repeat=false hotkey-overlay-title="Focus or spawn Brave" { spawn-sh "niri-focus-or-spawn Brave"; }
     Mod+Ctrl+Comma repeat=false hotkey-overlay-title="Run Obsidian" { spawn "obsidian"; }
     Mod+Ctrl+D     repeat=false hotkey-overlay-title="LazyDocker"  { spawn-sh "kitty -1 lazydocker"; }
@@ -333,7 +332,8 @@ binds {
     Mod+N          repeat=false hotkey-overlay-title="Notes" { spawn-sh "nox-menu notes"; }
     Mod+Semicolon   { spawn "kitten" "quick-access-terminal"; }
     Mod+Shift+N    repeat=false hotkey-overlay-title="Notes" { spawn-sh "niri-split vim ~/now"; }
-    Mod+Slash      repeat=false hotkey-overlay-title="1password" { spawn "1password"; }
+    Mod+Slash      repeat=false hotkey-overlay-title="1password" { spawn-sh "1password --quick-access" ; }
+    Mod+Backslash  repeat=false hotkey-overlay-title="1password" { spawn "1password" "--quick-access" ; }
     Mod+D          repeat=false hotkey-overlay-title="Nox"   { spawn "nox-menu"; }
 
     Mod+T     repeat=false hotkey-overlay-title="Spawn Tmux" { spawn-sh "tmux-pick-session"; }
