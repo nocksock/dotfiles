@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+nix flake update nixpkgs --flake .
+sudo nixos-rebuild switch --flake '.#blade'
