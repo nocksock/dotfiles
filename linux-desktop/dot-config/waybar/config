@@ -6,31 +6,58 @@
         "layer": "top",
         "position": "top",
         "modules-left": [
+            "hyprland/workspaces",
             "custom/waypick",
-            "power-profiles-daemon",
-            "temperature",
-            "cpu",
-            "memory",
-            "niri/window",
             "custom/now"
         ],
         "modules-center": [
-            "niri/workspaces"
+            "niri/workspaces",
+            "hyprland/window"
         ],
         "modules-right": [
-            "tray",
-            "custom/keylight",
-            "custom/mullvad",
-            "custom/airpods",
-            "bluetooth",
-            "network",
-            "wireplumber",
-
-            "upower",
-            // "custom/nvidia-gpu",
-            // "battery",
+            "group/aux",
+            "group/apps",
+            "group/hardware",
+            "power-profiles-daemon",
             "clock"
         ],
+        "group/aux": {
+            "orientation": "horizontal",
+            "modules": [
+                "custom/caret",
+                "custom/keylight",
+                "custom/mullvad",
+                "network",
+                "upower",
+                "custom/nvidia-gpu",
+                "bluetooth",
+                "wireplumber"
+            ],
+            "drawer": {
+                "transition-duration": 500,
+                "children-class": "not-power",
+                "transition-left-to-right": false
+            }
+        },
+        "group/apps" : {
+            "orientation": "horizontal",
+            "modules": [
+                "tray",
+                "custom/airpods"
+            ]
+        },
+        "group/hardware": {
+            "orientation": "horizontal",
+		"modules": [
+			"load",
+			"cpu",
+			"memory",
+			"battery"
+		]
+	},
+        "custom/caret": {
+            "format": ""
+        },
         "custom/waypick": {
             "format": "{}",
             "return-type": "json",
@@ -208,6 +235,14 @@
         },
         "niri/workspaces": {
             "format": ""
+        },
+        "hyprland/workspaces": {
+            "format": "{name}",
+            "format-focused": "<b>{name}</b>",
+            "format-occupied": "{name}",
+            "format-urgent": "<span color='red'>{name}</span>",
+            "format-empty": "",
+            "on-click": "hyprctl dispatch workspace {name}"
         },
         "power-profiles-daemon": {
             "format": "{icon}",

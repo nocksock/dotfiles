@@ -1,3 +1,7 @@
+/* 
+ * @see https://github.com/Alexays/Waybar/wiki/Styling 
+ **/
+
 * {
     all: initial;
     font-family: CaskaydiaMono Nerd Font;
@@ -15,21 +19,21 @@ button:hover {
 #workspaces button {
     min-width: 8px;
     border-radius: 99px;
-    margin: 2px 4px;
+    margin: 0px 2px;
+    padding: 4px;
     transition: opacity 0.2s;
-}
-
-#workspaces button:first-child,
-#workspaces button:last-child {
-    /* these are always empty in my niri config */
+    color: @fg;
+    background: @bg;
     opacity: 0.5;
 }
 
-#workspaces button.active {
-    color: @fg;
-    background: @fg;
+#workspaces {
+    margin-right: 16px;
 }
 
+#workspaces button.active {
+    opacity: 1;
+}
 
 #custom-dropbox,
 #cpu,
@@ -170,4 +174,19 @@ widget {}
 
 #custom-nvidia-gpu.error {
     color: #f38ba8; /* Red - Error state */
+}
+
+#aux,
+#apps,
+#hardware {
+    margin: 0 10px;
+}
+
+revealer>box {
+    padding: 0 8px;
+}
+
+
+#caret {
+    margin: 10px;
 }
