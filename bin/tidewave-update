@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+TARGET_DIR="$HOME/.local/bin"
+
+cd "$(dirname "$0")" || exit 1
+
+gh release download                         \
+    --repo tidewave-ai/tidewave_app         \
+    --pattern "tidewave-app-amd64.AppImage" \
+    --clobber \
+    --output "$TARGET_DIR/tidewave-app-amd64.AppImage"
+
+chmod +x "$TARGET_DIR/tidewave-app-amd64.AppImage"
