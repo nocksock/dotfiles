@@ -128,3 +128,4 @@ fi
 # }}}
 
 export OP_APP_VAULT=bleepbloop
+export GRIMBLAST_EDITOR="gradia"

@@ -1,5 +1,8 @@
 /* 
  * @see https://github.com/Alexays/Waybar/wiki/Styling 
+ * @see https://docs.gtk.org/gtk3/css-overview.html
+ *
+ * NOTE: waybar uses GTK3, sadly not 4
  **/
 
 * {
@@ -186,7 +189,15 @@ revealer>box {
     padding: 0 8px;
 }
 
+#aux revealer .module {
+    margin: 0 4;
+}
+
 
 #caret {
     margin: 10px;
+}
+
+#upower {
+    margin-left: 8px;
 }

@@ -19,19 +19,19 @@
             "group/apps",
             "group/hardware",
             "power-profiles-daemon",
-            "clock"
+            "clock",
+            "upower"
         ],
         "group/aux": {
             "orientation": "horizontal",
             "modules": [
-                "custom/caret",
-                "custom/keylight",
+                "custom/airpods",
                 "custom/mullvad",
                 "network",
-                "upower",
                 "custom/nvidia-gpu",
-                "bluetooth",
-                "wireplumber"
+                "wireplumber",
+                "custom/keylight",
+                "bluetooth"
             ],
             "drawer": {
                 "transition-duration": 500,
@@ -42,8 +42,7 @@
         "group/apps" : {
             "orientation": "horizontal",
             "modules": [
-                "tray",
-                "custom/airpods"
+                "tray"
             ]
         },
         "group/hardware": {
@@ -51,8 +50,7 @@
 		"modules": [
 			"load",
 			"cpu",
-			"memory",
-			"battery"
+			"memory"
 		]
 	},
         "custom/caret": {
