@@ -408,6 +408,11 @@ in {
         appImage = "${config.home.homeDirectory}/.local/bin/TablePlus-x64.AppImage";
       };
 
+      livebook = mkApp {
+        name = "Livebook";
+        appImage = "${config.home.homeDirectory}/.local/bin/Livebook-linux-amd64.AppImage";
+      };
+
       horse = mkApp {
         name = "Horse";
         appImage = "${config.home.homeDirectory}/.local/bin/Horse-0.75.2-x64.AppImage";
