@@ -48,15 +48,6 @@
   };
   programs.gamemode.enable = true;
 
-  # Suspend-then-hibernate: quick suspend for fast resume,
-  # auto-hibernate after 15min for full encryption at rest
-  services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";
-    HandleLidSwitchExternalPower = "suspend";
-    HandleLidSwitchDocked = "lock";
-    HandleSuspendKey = "suspend";
-  };
-
   hardware.openrazer.enable = true;
   hardware.openrazer.users = ["nr"];
   services.thermald.enable = true;
