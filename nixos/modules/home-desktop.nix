@@ -317,7 +317,6 @@ in {
       figma-linux
       transmission_4
       sox
-      hyprland
 
       # libraries, file formats
       libheif
@@ -331,6 +330,22 @@ in {
         sansSerif = ["Noto Sans"];
         monospace = ["Caskaydia Mono Nerd Font"];
       };
+    };
+
+
+    programs.starship = {
+        enable = true;
+        # Configuration written to ~/.config/starship.toml
+        settings = {
+        # add_newline = false;
+
+        # character = {
+        #   success_symbol = "[➜](bold green)";
+        #   error_symbol = "[➜](bold red)";
+        # };
+
+        # package.disabled = true;
+        };
     };
 
     xdg.desktopEntries = {

@@ -114,5 +114,14 @@
     brightnessctl
     powertop
     blueman
+
+    hyprlock
+    hypridle
+    hyprpicker
+    grimblast
+    gpu-screen-recorder
+    hyprsunset
   ];
+
+  programs.hyprland.enable = true;
 }

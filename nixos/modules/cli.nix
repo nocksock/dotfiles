@@ -54,6 +54,7 @@
     htmlq
     jujutsu
     podman
+    cloudflared
 
     # Server utilities
     rsync
