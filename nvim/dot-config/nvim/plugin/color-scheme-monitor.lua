@@ -1,22 +1,16 @@
-local initial = vim.fn.system("gsettings get org.gnome.desktop.interface color-scheme")
-
-if initial:match("'prefer%-dark'") then
-  vim.o.background = "dark"
-else
-  vim.o.background = "light"
+local function apply(mode) 
+    vim.schedule(function() 
+        vim.o.background = mode 
+    end)
 end
 
 local function watch_color_scheme()
   local job_id = vim.fn.jobstart(
-    {'gsettings', 'monitor', 'org.gnome.desktop.interface'},
+    {'darkman', 'watch'},
     {
       on_stdout = function(_, data, _)
-        for _, line in ipairs(data) do
-          if line:match("color%-scheme:") then
-            local scheme = line:match("'prefer%-([^']+)'")
-            vim.schedule(function() vim.o.background = scheme end)
-          end
-        end
+        mode = string.gsub(data[1], "\n", "")
+        apply(mode)
       end,
       stdout_buffered = false,
     }
