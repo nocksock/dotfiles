@@ -1,0 +1,161 @@
+#compdef mix
+# Zsh completion for Elixir's mix build tool.
+# Caches task lists and switches per project, invalidated when mix.exs or mix.lock change.
+
+# Parse switches from `mix help <task>` output (markdown-style: * `--flag` - description)
+# Reads from stdin
+_mix_parse_mix_help() {
+  local joined
+  joined=$(awk '
+    /^[[:space:]]+\* `-/ {
+      if (line != "") print line
+      line = $0
+      next
+    }
+    line != "" && /^[[:space:]]+[^*]/ {
+      gsub(/^[[:space:]]+/, " ", $0)
+      line = line $0
+      next
+    }
+    { if (line != "") { print line; line = "" } }
+    END { if (line != "") print line }
+  ')
+  # --long-flag:description
+  echo "$joined" | sed -nE 's/^[[:space:]]+\* `(--[a-zA-Z0-9_-]+)`.* - (.*)/\1:\2/p'
+  # --no-* variants
+  echo "$joined" | sed -nE 's/^[[:space:]]+\* `--[a-zA-Z0-9_-]+`[[:space:]]+\(`(--no-[a-zA-Z0-9_-]+)`\).* - (.*)/\1:disable \2/p'
+  # -short flags
+  echo "$joined" | sed -nE 's/^[[:space:]]+\* `(-[a-zA-Z])`,? `--[a-zA-Z0-9_-]+`.* - (.*)/\1:\2/p'
+}
+
+# Parse switches from `<task> --help` output (CLI-style: -s, --long-flag  Description)
+# Reads from stdin
+_mix_parse_cli_help() {
+  local input
+  input=$(cat)
+  # -s, --long-flag  description
+  echo "$input" | sed -nE 's/^[[:space:]]+(-[a-zA-Z]),?[[:space:]]+(--[a-zA-Z0-9_-]+)[[:space:]]+(.*)/\1:\3\n\2:\3/p'
+  # --[no-]flag  description -> --flag and --no-flag
+  echo "$input" | sed -nE 's/^[[:space:]]+--\[no-\]([a-zA-Z0-9_-]+)[[:space:]]+(.*)/--\1:\2\n--no-\1:\2/p'
+  # --long-flag-only  description (no short flag)
+  echo "$input" | sed -nE 's/^[[:space:]]+(--[a-zA-Z0-9_-]+)[[:space:]]+(.*)/\1:\2/p'
+}
+
+_mix() {
+  local cache_dir="$HOME/.cache/completions/mix"
+  mkdir -p "$cache_dir"
+
+  # Find the project root by walking up to find mix.exs
+  local project_dir="$PWD"
+  while [[ "$project_dir" != "/" ]]; do
+    [[ -f "$project_dir/mix.exs" ]] && break
+    project_dir="${project_dir:h}"
+  done
+
+  # No mix.exs found — offer a minimal set of global tasks
+  if [[ ! -f "$project_dir/mix.exs" ]]; then
+    local -a global_tasks=(
+      "new:Create a new Elixir project"
+      "help:Print help for mix or a task"
+      "local:Manage local tasks"
+      "archive:Manage archives"
+      "hex.info:Print Hex information"
+    )
+    _describe 'mix task' global_tasks
+    return
+  fi
+
+  # Build a cache key from project path + mtimes of mix.exs and mix.lock
+  local project_hash=$(echo -n "$project_dir" | shasum -a 256 | cut -c1-16)
+  local project_cache_dir="$cache_dir/$project_hash"
+  mkdir -p "$project_cache_dir"
+  local tasks_cache="$project_cache_dir/tasks"
+  local mix_exs_mtime=$(stat -f %m "$project_dir/mix.exs" 2>/dev/null || echo 0)
+  local mix_lock_mtime=0
+  [[ -f "$project_dir/mix.lock" ]] && mix_lock_mtime=$(stat -f %m "$project_dir/mix.lock" 2>/dev/null || echo 0)
+  local cache_key="$mix_exs_mtime:$mix_lock_mtime"
+
+  # Check if task list cache is valid
+  local needs_refresh=1
+  if [[ -f "$tasks_cache" ]]; then
+    local stored_key=$(head -1 "$tasks_cache")
+    if [[ "$stored_key" == "$cache_key" ]]; then
+      needs_refresh=0
+    else
+      # Cache key changed — clear all switch caches too
+      rm -f "$project_cache_dir"/switch_*
+    fi
+  fi
+
+  # Refresh task list cache if needed
+  if (( needs_refresh )); then
+    local task_output
+    task_output=$(cd "$project_dir" && mix help 2>/dev/null | grep '^mix ' | sed 's/^mix //' | sed 's/ *# /:/') || return
+    rm -f "$tasks_cache"
+    {
+      echo "$cache_key"
+      echo "$task_output"
+    } > "$tasks_cache"
+  fi
+
+  if (( CURRENT == 2 )); then
+    # First argument: complete task names
+    local -a tasks
+    tasks=(${(f)"$(tail -n +2 "$tasks_cache")"})
+    _describe 'mix task' tasks
+  else
+    # Subsequent arguments: complete switches and files
+    local task="${words[2]}"
+
+    # Credo has its own subcommand structure
+    if [[ "$task" == "credo" ]] && grep -q '^credo' "$tasks_cache" 2>/dev/null; then
+      local credo_subcmd="${words[3]}"
+      local -a credo_subcmds=(
+        "suggest:Suggest improvements (default)"
+        "explain:Explain a specific issue"
+        "diff:Show issues from recent changes"
+        "info:Show info about the Credo setup"
+        "list:List all issues"
+      )
+
+      if (( CURRENT == 3 )); then
+        _describe 'credo command' credo_subcmds
+        return
+      fi
+
+      # Complete switches for credo subcommands
+      local switch_cache="$project_cache_dir/switch_credo_${credo_subcmd}"
+      if [[ ! -f "$switch_cache" ]]; then
+        local help_output
+        (cd "$project_dir" && mix credo "$credo_subcmd" --help 2>/dev/null) \
+          | _mix_parse_cli_help > "$switch_cache" || { _files; return; }
+      fi
+
+      if [[ -s "$switch_cache" ]]; then
+        local -a switches
+        switches=(${(f)"$(cat "$switch_cache")"})
+        _describe 'switch' switches -- && return
+      fi
+      _files
+      return
+    fi
+
+    # Fetch switches for this task (cached per task)
+    local switch_cache="$project_cache_dir/switch_${task//[\/.]/_}"
+    if [[ ! -f "$switch_cache" ]]; then
+      local help_output
+      (cd "$project_dir" && mix help "$task" 2>/dev/null) \
+        | _mix_parse_mix_help > "$switch_cache" || { _files; return; }
+    fi
+
+    if [[ -s "$switch_cache" ]]; then
+      local -a switches
+      switches=(${(f)"$(cat "$switch_cache")"})
+      _describe 'switch' switches -- && return
+    fi
+
+    _files
+  fi
+}
+
+_mix "$@"
