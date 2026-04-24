@@ -97,7 +97,7 @@ bindkey -M emacs '^N' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-export WORDCHARS="*?_.[]~!#$%^(){}<>" # removed =/&;.-
+export WORDCHARS="*?_.[]~!$%^(){}<>" # removed =/&;.-#
 
 # }}}
 # switch from bar to block depending on input mode {{{
