@@ -44,7 +44,7 @@
     yazi
 
     # Dev tools
-    # devenv
+    devenv
     direnv
     lazydocker
     neovim
@@ -60,8 +60,6 @@
     unzip
     curl
     wget
-
-    gitbutler
     icu
   ];
 

@@ -17,6 +17,16 @@
     icon = icon;
   };
 
+  mkApp = {
+    name,
+    appImage
+  }: {
+    inherit name;
+    type = "Application";
+    terminal = false;
+    exec = "${pkgs.appimage-run}/bin/appimage-run ${appImage}";
+  };
+
   # Wrap a package to use NVIDIA GPU via PRIME offload
   wrapWithNvidia = pkg: pkgs.symlinkJoin {
     name = "${pkg.pname or pkg.name}-nvidia";
@@ -296,11 +306,6 @@ in {
       teams-for-linux
       beeper
 
-      # AI/ML tools (ollama in nvidiaPackages below)
-      n8n
-      crush
-      open-webui
-
       # Other apps
       zeal
       obsidian
@@ -329,6 +334,14 @@ in {
     };
 
     xdg.desktopEntries = {
+      # reminder: there is ./icons/get-icon.sh <url>
+
+      devdocs = mkPWA {
+        name = "Feedbin";
+        url = "https://devdocs.com";
+        icon = ./icons/devdocs.io.png;
+      };
+
       feedbin = mkPWA {
         name = "Feedbin";
         url = "https://feedbin.com";
@@ -365,26 +378,24 @@ in {
         icon = ./icons/notion-logo.png;
       };
 
-
-      tidewave = {
+      tidewave = mkApp {
         name = "Tidewave";
-        type = "Application";
-        terminal = false;
-        exec = "${pkgs.appimage-run}/bin/appimage-run ${config.home.homeDirectory}/.local/bin/tidewave-app-amd64.AppImage";
+        appImage = "${config.home.homeDirectory}/.local/bin/tidewave-app-amd64.AppImage";
       };
 
-      polypane = {
+      polypane = mkApp {
         name = "Polypane";
-        type = "Application";
-        terminal = false;
-        exec = "${pkgs.appimage-run}/bin/appimage-run ${config.home.homeDirectory}/.local/bin/Polypane-27.0.2.AppImage";
+        appImage = "${config.home.homeDirectory}/.local/bin/Polypane-27.0.2.AppImage";
       };
 
-      tableplus = {
+      tableplus = mkApp {
         name = "TablePlus";
-        type = "Application";
-        terminal = false;
-        exec = "${pkgs.appimage-run}/bin/appimage-run ${config.home.homeDirectory}/.local/bin/TablePlus-x64.AppImage";
+        appImage = "${config.home.homeDirectory}/.local/bin/TablePlus-x64.AppImage";
+      };
+
+      horse = mkApp {
+        name = "Horse";
+        appImage = "${config.home.homeDirectory}/.local/bin/Horse-0.75.2-x64.AppImage";
       };
 
       btop = {
