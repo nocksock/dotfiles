@@ -8,6 +8,7 @@
         "modules-left": [
             "hyprland/workspaces",
             "custom/waypick",
+            "hyprland/submap",
             "custom/now"
         ],
         "modules-center": [
@@ -16,16 +17,18 @@
         ],
         "modules-right": [
             "group/aux",
-            "group/apps",
             "group/hardware",
             "power-profiles-daemon",
-            "clock",
-            "upower"
+            "custom/space",
+            "battery",
+            "clock"
         ],
         "group/aux": {
             "orientation": "horizontal",
             "modules": [
+                "custom/caffeine",
                 "custom/airpods",
+                "tray",
                 "custom/mullvad",
                 "network",
                 "custom/nvidia-gpu",
@@ -35,7 +38,6 @@
             ],
             "drawer": {
                 "transition-duration": 500,
-                "children-class": "not-power",
                 "transition-left-to-right": false
             }
         },
@@ -138,15 +140,24 @@
             "tooltip": true,
             "escape": false
         },
+        "custom/caffeine": {
+            "format": "{}",
+            "return-type": "json",
+            "interval": "once",
+            "exec": "$HOME/.config/waybar/modules/caffeine/caffeine.sh",
+            "on-click": "$HOME/.config/waybar/modules/caffeine/caffeine.sh toggle && pkill -RTMIN+13 waybar",
+            "signal": 13,
+            "tooltip": true,
+            "escape": false
+        },
         "upower": {
             "icon-size": 16,
             "tooltip": true,
             "tooltip-format": "{time}"
         },
         "battery": {
-            "format": "BAT {capacity}% {icon}",
-            "format-charging": "{capacity}% {icon}",
-            "format-discharging": "{power} {icon}",
+            "format-charging": "{capacity}% {icon} 󰚥",
+            "format-discharging": "{capacity}% {icon} ⌁",
             "format-full": "Charged ",
             "format-icons": {
                 "charging": [
@@ -240,7 +251,9 @@
             "format-occupied": "{name}",
             "format-urgent": "<span color='red'>{name}</span>",
             "format-empty": "",
-            "on-click": "hyprctl dispatch workspace {name}"
+            "on-click": "hyprctl dispatch workspace {name}",
+            "show-special": true,
+            "special-visible-only": true
         },
         "power-profiles-daemon": {
             "format": "{icon}",
