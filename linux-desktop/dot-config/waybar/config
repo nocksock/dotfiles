@@ -251,7 +251,7 @@
             "format-occupied": "{name}",
             "format-urgent": "<span color='red'>{name}</span>",
             "format-empty": "",
-            "on-click": "hyprctl dispatch workspace {name}",
+            "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"{name}\" })'",
             "show-special": true,
             "special-visible-only": true
         },

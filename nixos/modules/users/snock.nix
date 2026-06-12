@@ -1,6 +1,6 @@
 # User configuration for 'snock' (primary admin user on servers)
 {pkgs, ...}: let
-  keys = import ../globals/keys.nix;
+  keys = import ../keys.nix;
 in {
   users.users.snock = {
     isNormalUser = true;
@@ -29,8 +29,7 @@ in {
       syncthing
 
       asdf-vm
-      elixir_1_18
-      nodejs_23
+      nodejs # default LTS; nodejs_23 was removed from nixpkgs
     ];
 
     programs = {

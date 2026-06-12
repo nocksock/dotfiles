@@ -1,6 +1,4 @@
 {
-  description = "My NixOS configuration with Home Manager";
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     polypane.url = "github:mrtrimble/polypane-flake";
@@ -15,7 +13,6 @@
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell"; # Use same quickshell version
     };
     agenix = {
       url = "github:ryantm/agenix";
@@ -36,8 +33,28 @@
       agenix.nixosModules.default
       home-manager.nixosModules.home-manager
       ./nixos/modules/server.nix
+      ./nixos/modules/docker.nix
     ];
   in {
+    # Reusable user modules for external flakes (e.g. studio infra).
+    # Each bundles the home-manager NixOS module so consumers only need
+    # this flake as input.
+    nixosModules = {
+      user-snock.imports = [
+        home-manager.nixosModules.home-manager
+        ./nixos/modules/users/snock.nix
+      ];
+      user-machine.imports = [
+        home-manager.nixosModules.home-manager
+        ./nixos/modules/users/machine.nix
+      ];
+      user-nr.imports = [
+        home-manager.nixosModules.home-manager
+        ./nixos/modules/users/nr.nix
+      ];
+      default = self.nixosModules.user-snock;
+    };
+
     nixosConfigurations = {
       blade = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -47,42 +64,23 @@
           ++ [
             {networking.hostName = "blade";}
             {home-manager = {extraSpecialArgs = {inherit inputs;};};}
-            ./nixos/desktop.nix
             ./nixos/hosts/blade/configuration.nix
-            ./nixos/home/common.nix
-            {
-              environment.systemPackages = [
-                polypane.packages.x86_64-linux.polypane
-              ];
-            }
-            {
-              home-manager.users.nr = {
-                imports = [inputs.vicinae.homeManagerModules.default];
-                services.vicinae = {
-                  enable = true;
-                  systemd = {
-                    enable = true;
-                    autoStart = true;
-                    environment = {
-                      USE_LAYER_SHELL = "1";
-                    };
-                  };
-                };
-              };
-            }
-          ];
-      };
-
-      nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules =
-          baseline
-          ++ [
-            {networking.hostName = "nixos";}
-            {home-manager = {extraSpecialArgs = {inherit inputs;};};}
             ./nixos/desktop.nix
-            ./nixos/hosts/nzxt-h1/hardware-configuration.nix # Include the results of the hardware scan.
+            ./nixos/modules/greetd.nix
+            ./nixos/modules/de/gnome.nix
+            { hardware.keyboard.qmk.enable = true; }
+            # System modules
+            ./nixos/modules/nvidia.nix
+            ./nixos/modules/audio.nix
+            ./nixos/modules/bluetooth.nix
+            ./nixos/modules/fonts.nix
+            ./nixos/modules/tailscale.nix
+            ./nixos/modules/1password.nix
+            ./nixos/modules/caddy.nix
+            ./nixos/modules/hosts.nix
+            ./nixos/modules/postgres.nix
+
+            ./nixos/modules/users/nr.nix
           ];
       };
 

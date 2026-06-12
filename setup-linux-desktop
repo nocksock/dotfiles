@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 ./setup-core
 
-stow --restow --target="$HOME" --dotfiles \
-    nox-menu linux-desktop mako hyprland vicinae
+stow --restow --target="$HOME" --adopt --dotfiles \
+    nox-menu linux-desktop mako hyprland vicinae niri darkman

@@ -1,21 +1,18 @@
 #!/usr/bin/env zsh
 
-PROJECTS_FILE="$HOME/.tm_projects"
-
-if [[ ! -f $PROJECTS_FILE ]]; then
-  echo "The file $PROJECTS_FILE does not exist"
+if [[ -z $TM_PROJECTS ]]; then
+  echo "TM_PROJECTS is not set" >&2
   exit 1
 fi
 
-while IFS= read -r dir; do
+for dir in "${(@s.:.)TM_PROJECTS}"; do
   dir="${dir#"${dir%%[![:space:]]*}"}"  # Trim leading whitespace
   dir="${dir%"${dir##*[![:space:]]}"}"  # Trim trailing whitespace
-  dir="${dir/\~/$HOME}"
+  dir="${dir/#\~/$HOME}"
 
-  if [[ "$dir" == *\** ]]; then
-    dir="${dir//\*/}" # remove trailing *
-    fd -td --max-depth=1 . "$dir"
+  if [[ "$dir" == *\* ]]; then
+    fd --type d --max-depth 1 . "${dir%\*}"
   else
-    echo "${expanded_dir}"
+    echo "${dir}"
   fi
-done < $PROJECTS_FILE
+done

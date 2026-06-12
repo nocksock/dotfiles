@@ -27,9 +27,8 @@ require('lualine').setup({
         symbols = symbols
       }
     },
-    lualine_x = { 'diagnostics', 'branch' },
-    lualine_y = { 'searchcount' },
-    lualine_z = {}
+    lualine_x = { 'diagnostics', 'lsp_status', 'branch' },
+    lualine_y = { 'searchcount' }
   },
   inactive_sections = {
     lualine_a = {},

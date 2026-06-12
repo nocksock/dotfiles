@@ -17,8 +17,6 @@ button:hover {
     opacity: 0.5;
 }
 
-#workspaces {}
-
 #workspaces button {
     min-width: 8px;
     border-radius: 99px;
@@ -162,6 +160,20 @@ widget {}
     opacity: 0.5;
 }
 
+/* Caffeine - idle inhibitor */
+#custom-caffeine {
+    min-width: 12px;
+    padding: 0px 4px;
+}
+
+#custom-caffeine.active {
+    color: #f9e2af; /* Yellow - idle inhibited */
+}
+
+#custom-caffeine.inactive {
+    opacity: 0.5;
+}
+
 /* NVIDIA GPU Monitor */
 #custom-nvidia-gpu.suspended {
     color: #a6e3a1; /* Green - GPU off, good! */
@@ -190,7 +202,7 @@ revealer>box {
 }
 
 #aux revealer .module {
-    margin: 0 4;
+    margin: 0px 4px;
 }
 
 

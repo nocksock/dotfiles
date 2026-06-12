@@ -18,7 +18,6 @@
   boot.resumeDevice = "/dev/disk/by-uuid/ec443945-1428-4406-89e6-07eadb63a71d";
   boot.kernelParams = [
     "resume_offset=9150464"
-    "mem_sleep_default=deep" # Use S3 sleep instead of s2idle for reliable suspend
   ];
 
   environment.systemPackages = with pkgs; [
@@ -50,7 +49,7 @@
 
   hardware.openrazer.enable = true;
   hardware.openrazer.users = ["nr"];
-  services.thermald.enable = true;
+  services.thermald.enable = false;  # Disabled: thermald is for Intel CPUs, this system has AMD
   powerManagement.powertop.enable = false;  # Disabled: was turning off eDP-1 when HDMI connected
   powerManagement.enable = true;
 

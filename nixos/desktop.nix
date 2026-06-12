@@ -13,6 +13,9 @@
   # Nix
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnsupportedSystem = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10"
+  ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.trusted-users = ["nr" "root"];
   nix.extraOptions = ''
@@ -25,33 +28,31 @@
   networking.networkmanager.enable = true;
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [
-    # sunshine/moonlight
-    47984
-    47987
-    47989
-    48010 
+    # # sunshine/moonlight
+    # 47984
+    # 47987
+    # 47989
+    # 48010 
     # syncthing
     22000 
+    4000
     # localsend
     53317 
   ];
   networking.firewall.allowedUDPPorts = [
-    # localsend
-    53317 
-    # sunshine/moonlight
-    47998
-    47999
-    48000
-    48002
-    48010 
+    # # sunshine/moonlight
+    # 47998
+    # 47999
+    # 48000
+    # 48002
+    # 48010 
     # syncthing
+    4000
     22000
     21027 
+    # localsend
+    53317 
   ];
-
-  networking.hosts = {
-    "188.245.39.71" = ["blpblp.io" "budget.blpblp.io"];
-  };
 
   # Locale
   time.timeZone = "Europe/Berlin";
@@ -77,8 +78,6 @@
 
   # Shell
   users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-  programs.nix-ld.enable = true;
 
   # Wayland/X11
   programs.xwayland.enable = true;
@@ -90,7 +89,6 @@
   };
 
   # Hardware
-  hardware.bluetooth.enable = true;
   hardware.opentabletdriver.enable = true;
 
   # Core system packages
@@ -109,11 +107,8 @@
     wl-clipboard
     darkman
     mako
-    pamixer
-    playerctl
     brightnessctl
     powertop
-    blueman
 
     hyprlock
     hypridle
@@ -124,4 +119,10 @@
   ];
 
   programs.hyprland.enable = true;
+  programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
+
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
+  services.mullvad-vpn.enable = true;
 }

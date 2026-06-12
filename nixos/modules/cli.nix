@@ -15,7 +15,6 @@
     alejandra
 
     asdf-vm
-    elixir_1_18
 
     # CLI utilities
     atuin
@@ -44,7 +43,6 @@
     yazi
 
     # Dev tools
-    devenv
     direnv
     lazydocker
     neovim
@@ -55,6 +53,7 @@
     jujutsu
     podman
     cloudflared
+    terraform
 
     # Server utilities
     rsync

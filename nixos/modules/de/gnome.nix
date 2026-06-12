@@ -1,9 +1,7 @@
 # GNOME desktop environment
 { pkgs, ... }: {
   services.desktopManager.gnome.enable = true;
-
-  # Uncomment to use GDM as display manager
-  # services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Uncomment to disable unwanted GNOME components
   # services.gnome.core-apps.enable = false;

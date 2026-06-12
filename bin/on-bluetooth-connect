@@ -1,0 +1,22 @@
+#!/usr/bin/env bash 
+# 
+# $ udevadm monitor --environemtn --udev     # then connecting
+# UDEV  [94199.589888] add      /devices/virtual/input/input49/event20 (input)
+# ACTION=add
+# DEVPATH=/devices/virtual/input/input49/event20
+# SUBSYSTEM=input
+# DEVNAME=/dev/input/event20
+# SEQNUM=7620
+# USEC_INITIALIZED=94199560732
+# PATH=/nix/store/9cp1jf29x73z0wwkza7a4s2qv0y2lx4c-udev-path/bin:/nix/store/9cp1jf29x73z0wwkza7a4s2qv0y2lx4c-udev-path/sbin
+# ID_INPUT=1
+# ID_INPUT_KEY=1
+# ID_BUS=bluetooth
+# LIBINPUT_DEVICE_GROUP=5/4c/2024:50:bb:b5:0a:f8:93
+# MAJOR=13
+# MINOR=84
+# TAGS=:power-switch:
+# CURRENT_TAGS=:power-switch:
+
+
+echo $@ >> /tmp/bluetooth-udev.log

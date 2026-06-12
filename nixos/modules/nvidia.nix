@@ -16,10 +16,6 @@
     # CRITICAL: Enable power management (fixes suspend/resume)
     powerManagement.enable = true;
 
-    # Enable fine-grained power management (experimental)
-    # Allows NVIDIA GPU to fully power off (0W) when not in use
-    powerManagement.finegrained = true;
-
     # Configure PRIME offload (AMD primary, NVIDIA on-demand)
     prime = {
       offload.enable = true;
@@ -30,9 +26,4 @@
       amdgpuBusId = "PCI:197:0:0";
     };
   };
-
-  # Force DPM=3 for full D3cold suspend
-  boot.extraModprobeConfig = ''
-    options nvidia "NVreg_DynamicPowerManagement=0x03"
-  '';
 }

@@ -50,21 +50,59 @@ if [[ $mode = "preview" ]]; then
     return 1
   fi
 
-  file_type=$(file -b --mime-type "$1")
-  extension="${1##*.}"
+  # Resolve relative paths (index entries are relative to $ROOT_DIR)
+  if [[ "$1" = /* ]]; then
+    target="$1"
+  else
+    target="$ROOT_DIR/$1"
+  fi
+
+  file_type=$(command file -b --mime-type "$target" 2>/dev/null)
+  extension="${target:l:e}"
+
+  # Fall back to extension when `file` is unavailable / inconclusive
+  if [[ -z $file_type || $file_type == "application/octet-stream" ]]; then
+    case "$extension" in
+      png|jpg|jpeg|gif|webp|bmp|svg|avif) file_type="image/$extension" ;;
+      mp4|mkv|webm|mov|avi|m4v)           file_type="video/$extension" ;;
+    esac
+  fi
 
   echo "\x1b[32m$file_type\x1b[0m"
 
-  # TODO: icat not working atm for some reason
-  if [[ "$file_type" == "image/"* ]]; then
-    kitty +kitten icat "$1"
+  # icat opts so it renders inside the fzf preview pane
+  icat=(kitten icat --clear --transfer-mode=memory --stdin=yes --place=${FZF_PREVIEW_COLUMNS:-80}x${FZF_PREVIEW_LINES:-24}@0x1)
 
-  elif [[ "$extension" == "json" ]]; then
-    cat $1 | jq -C
+  show-meta() {
+    echo
+    echo "\x1b[1mFile:\x1b[0m     $target"
+    stat -c $'\e[1mSize:\e[0m     %s bytes (%n)\n\e[1mModified:\e[0m %y\n\e[1mPerms:\e[0m    %A  \e[1mOwner:\e[0m %U:%G' "$target" 2>/dev/null
+  }
 
-  else
-    bat --color=always -pp "$1" 2> /dev/null || cat "cannot preview $1"
-  fi
+  case "$file_type" in
+    image/*)
+      $icat < "$target" || show-meta
+      ;;
+    video/*)
+      # grab the first frame and pipe to icat
+      ffmpeg -loglevel error -i "$target" -frames:v 1 -f image2 -vcodec png - 2>/dev/null | $icat || show-meta
+      ;;
+    *)
+      case "$extension" in
+        json)
+          jq -C . "$target" 2>/dev/null || cat "$target"
+          ;;
+        *)
+          # `grep -I` treats binary files as non-matching; use it to gate `cat`
+          if grep -Iq . "$target" 2>/dev/null; then
+            cat "$target"
+          else
+            show-meta
+          fi
+          ;;
+      esac
+      ;;
+  esac
 
   return 0
 fi
@@ -94,7 +132,9 @@ if [[ $mode = "browse" ]]; then
   fi
 
   BINDINGS=(
-		"ctrl-o:execute(zsh -c 'open -a Kitty $ROOT_DIR/{}')"
+    "ctrl-o:execute-silent(xdg-open $ROOT_DIR/{} >/dev/null 2>&1 &)"
+    "ctrl-t:execute-silent(kitten @ launch --type=tab --cwd=$ROOT_DIR --tab-title {} \$EDITOR $ROOT_DIR/{})"
+    "ctrl-d:become(cd \"\$(dirname $ROOT_DIR/{})\" && exec \$SHELL)"
   )
 
   if [[ -n ${opts[(i)-p]} ]]; then
@@ -103,9 +143,9 @@ if [[ $mode = "browse" ]]; then
 
   EXECUTE_CMD=${opts[-x]}
   if [[ -n $EXECUTE_CMD ]]; then
-    BINDINGS+=("ctrl-m:execute(echo $ROOT_DIR/{} | $EXECUTE_CMD)")
+    BINDINGS+=("enter:execute(echo $ROOT_DIR/{} | $EXECUTE_CMD)")
   elif [[ -z ${opts[(i)-p]} ]]; then
-    BINDINGS+="ctrl-m:execute(qufo -m open -e $ROOT_DIR/{})"
+    BINDINGS+=("enter:become(\$EDITOR $ROOT_DIR/{})")
   fi
 
   cat ~/file_index |                           \

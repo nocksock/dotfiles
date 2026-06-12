@@ -1,1 +1,3 @@
 linux-desktop/dot-config/waybar/config
+hyprland/dot-config/hypr/hypridle.conf
+dot-config/hypr/lua/binds.lua

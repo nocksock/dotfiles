@@ -1,6 +1,6 @@
 # User configuration for 'machine' (service account for Docker containers)
 {pkgs, ...}: let
-  keys = import ../globals/keys.nix;
+  keys = import ../keys.nix;
 in {
   users.users.machine = {
     isNormalUser = true;

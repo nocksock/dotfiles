@@ -2,13 +2,11 @@
 zparseopts -D -E -F -A args t:: c:: l:: s::
 
 SBOX_LAUNCHER=${SBOX_LAUNCHER:-tmux}
-SBOX_DIR="${SBOX_DIR:-$SBOX_DIR}"
 
-export SBOX_PATHS=(
-	"$HOME/code/sandboxes"
-	"$HOME/code/bleepbloop.git/main/packages"
-	"$HOME/code/bleepbloop.git/main/apps"
-)
+if [[ -z "$SBOX_DIR" ]]; then
+	echo "\$SBOX_DIR not set"
+	exit 1
+fi
 
 if [[ -z "$SBOX_PATHS" ]]; then
 	echo "\$SBOX_PATHS not set"

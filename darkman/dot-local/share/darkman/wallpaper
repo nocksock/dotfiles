@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+pkill swaybg
+
+if [[ "$1" == "dark" ]]; then
+    bg="$HOME/Pictures/Wallpapers/a_mountain_with_snow_on_it.jpg"
+else
+    bg="$HOME/Pictures/Wallpapers/a_snowy_mountain_tops.jpg"
+fi
+
+hyprctl dispatch "hl.dsp.exec_cmd(\"swaybg -m fill -i $bg\")"

@@ -1,0 +1,118 @@
+(
+    (modifiers: [Super], key: "Return"): Spawn("kitty"),
+    (modifiers: [Super, Shift], key: "Return"): Spawn("tmux-pick-session"),
+
+    (modifiers: [Super], key: "Space"): Spawn("vicinae toggle"),
+    (modifiers: [Super, Ctrl], key: "Space"): Spawn("vicinae vicinae::extensions/vicinae/core/search-emojis"),
+
+    (modifiers: [Super], key: "n"): Spawn("nox-menu notes"),
+    (modifiers: [Super, Shift], key: "n"): Spawn("niri-split vim ~/now"),
+    (modifiers: [Super, Ctrl], key: "n"): Spawn("nox-menu notes '!!'"),
+
+    (modifiers: [Super], key: "d"): Spawn("nox-menu"),
+    (modifiers: [Super], key: "t"): Spawn("tmux-pick-session"),
+    (modifiers: [Super], key: "e"): Spawn("tm-list-projects | fuzzel --dmenu | xargs kitty --single-instance -d"),
+
+    (modifiers: [Super, Mod5], key: "c"): Spawn("vicinae vicinae::extensions/vicinae/clipboard/history"),
+    (modifiers: [Super], key: "semicolon"): Spawn("kitten quick-access-terminal"),
+
+    (modifiers: [Super], key: "slash"): Spawn("1password --quick-access"),
+    (modifiers: [Super], key: "backslash"): Spawn("1password --quick-access"),
+
+    (modifiers: [Super], key: "a"): System(AppLibrary),
+    (modifiers: [Super], key: "w"): System(WorkspaceOverview),
+    (modifiers: [Super], key: "f"): System(HomeFolder),
+    (modifiers: [Super], key: "t"): System(Terminal),
+
+    (modifiers: [Alt], key: "Tab"): System(WindowSwitcher),
+    (modifiers: [Alt, Shift], key: "Tab"): System(WindowSwitcherPrevious),
+
+    (modifiers: [Super, Alt], key: "c"): Spawn("clipboard-history"),
+
+    (modifiers: [Super, Ctrl], key: "b"): Spawn("Brave"),
+    (modifiers: [Super, Ctrl], key: "d"): Spawn("kitty -1 lazydocker"),
+    (modifiers: [Super, Ctrl], key: "t"): Spawn("Teams"),
+    (modifiers: [Super, Ctrl], key: "w"): Spawn("whatsapp"),
+    (modifiers: [Super, Ctrl], key: "y"): Spawn("kitty -1 yazi"),
+    (modifiers: [Super, Ctrl], key: "comma"): Spawn("obsidian"),
+
+    (modifiers: [Super], key: "q"): Close,
+    (modifiers: [Alt], key: "F4"): Close,
+
+    (modifiers: [Super], key: "m"): Maximize,
+    (modifiers: [Super, Shift], key: "f"): Fullscreen,
+
+    (modifiers: [Super], key: "g"): ToggleWindowFloating,
+    (modifiers: [Super], key: "y"): ToggleTiling,
+    (modifiers: [Super], key: "x"): SwapWindow,
+    (modifiers: [Super], key: "s"): ToggleStacking,
+    (modifiers: [Super], key: "o"): ToggleOrientation,
+
+    (modifiers: [Super], key: "h"): Focus(Left),
+    (modifiers: [Super], key: "j"): Focus(Down),
+    (modifiers: [Super], key: "k"): Focus(Up),
+    (modifiers: [Super], key: "l"): Focus(Right),
+
+    (modifiers: [Super], key: "Left"): Focus(Left),
+    (modifiers: [Super], key: "Right"): Focus(Right),
+    (modifiers: [Super], key: "Up"): Focus(Up),
+    (modifiers: [Super], key: "Down"): Focus(Down),
+
+    (modifiers: [Super, Shift], key: "h"): Move(Left),
+    (modifiers: [Super, Shift], key: "j"): Move(Down),
+    (modifiers: [Super, Shift], key: "k"): Move(Up),
+    (modifiers: [Super, Shift], key: "l"): Move(Right),
+
+    (modifiers: [Super, Shift], key: "Left"): Move(Left),
+    (modifiers: [Super, Shift], key: "Right"): Move(Right),
+    (modifiers: [Super, Shift], key: "Up"): Move(Up),
+    (modifiers: [Super, Shift], key: "Down"): Move(Down),
+
+    (modifiers: [Super], key: "1"): Workspace(1),
+    (modifiers: [Super], key: "2"): Workspace(2),
+    (modifiers: [Super], key: "3"): Workspace(3),
+    (modifiers: [Super], key: "4"): Workspace(4),
+    (modifiers: [Super], key: "5"): Workspace(5),
+    (modifiers: [Super], key: "6"): Workspace(6),
+    (modifiers: [Super], key: "7"): Workspace(7),
+    (modifiers: [Super], key: "8"): Workspace(8),
+    (modifiers: [Super], key: "9"): Workspace(9),
+    (modifiers: [Super], key: "0"): LastWorkspace,
+
+    (modifiers: [Super, Shift], key: "1"): MoveToWorkspace(1),
+    (modifiers: [Super, Shift], key: "2"): MoveToWorkspace(2),
+    (modifiers: [Super, Shift], key: "3"): MoveToWorkspace(3),
+    (modifiers: [Super, Shift], key: "4"): MoveToWorkspace(4),
+    (modifiers: [Super, Shift], key: "5"): MoveToWorkspace(5),
+    (modifiers: [Super, Shift], key: "6"): MoveToWorkspace(6),
+    (modifiers: [Super, Shift], key: "7"): MoveToWorkspace(7),
+    (modifiers: [Super, Shift], key: "8"): MoveToWorkspace(8),
+    (modifiers: [Super, Shift], key: "9"): MoveToWorkspace(9),
+    (modifiers: [Super, Shift], key: "0"): MoveToLastWorkspace,
+
+    (modifiers: [Super, Ctrl], key: "h"): PreviousWorkspace,
+    (modifiers: [Super, Ctrl], key: "j"): NextWorkspace,
+    (modifiers: [Super, Ctrl], key: "k"): PreviousWorkspace,
+    (modifiers: [Super, Ctrl], key: "l"): NextWorkspace,
+
+    (modifiers: [Super, Shift, Ctrl], key: "h"): MoveToPreviousWorkspace,
+    (modifiers: [Super, Shift, Ctrl], key: "j"): MoveToNextWorkspace,
+    (modifiers: [Super, Shift, Ctrl], key: "k"): MoveToPreviousWorkspace,
+    (modifiers: [Super, Shift, Ctrl], key: "l"): MoveToNextWorkspace,
+
+    (modifiers: [Super, Alt], key: "h"): SwitchOutput(Left),
+    (modifiers: [Super, Alt], key: "j"): SwitchOutput(Down),
+    (modifiers: [Super, Alt], key: "k"): SwitchOutput(Up),
+    (modifiers: [Super, Alt], key: "l"): SwitchOutput(Right),
+
+    (modifiers: [Super, Shift, Alt], key: "h"): MoveToOutput(Left),
+    (modifiers: [Super, Shift, Alt], key: "j"): MoveToOutput(Down),
+    (modifiers: [Super, Shift, Alt], key: "k"): MoveToOutput(Up),
+    (modifiers: [Super, Shift, Alt], key: "l"): MoveToOutput(Right),
+
+    (modifiers: [Super], key: "Escape"): System(LockScreen),
+    (modifiers: [Super, Shift], key: "Escape"): System(LogOut),
+    (modifiers: [Super, Alt], key: "Escape"): Terminate,
+
+    (modifiers: [], key: "Print"): System(Screenshot),
+)

@@ -5,7 +5,7 @@ export BUN_INSTALL="$HOME/.bun"
 export EDITOR='/usr/local/bin/nvim' # used for commits and such
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
+export CHROMIUM_EXECUTABLE_PATH="$(which chromium-browser)"
 export N_PREFIX="$HOME/n"; 
 
 # {{{ PATH
@@ -33,7 +33,7 @@ path=(
   "$HOME/.cache/lm-studio/bin"
 )
 export PATH
-
+ export NPM_CONFIG_PREFIX="$HOME/.npm-global"
 # }}}
 # brew{{{
 
@@ -51,16 +51,13 @@ fi
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     export PATH="/usr/local/cuda-11.6/bin:$PATH"
     export LD_LIBRARY_PATH="/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH"
+    # Avoid Flatpak browser portal bug (mozilla #1981001) for CLI URL openers
+    # like `mix hex.docs`. xdg-open honours $BROWSER first.
+    export BROWSER=brave
 fi
 
 # }}}
 # {{{ FZF
-
-# check if fzf is installed
-if ! command -v fzf &> /dev/null; then
-    style -fg yellow "Warning: fzf was not found!"
-    return
-fi
 
 export FZF_OPTS=(
   "-m"
@@ -73,7 +70,7 @@ export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
 export FZF_DEFAULT_OPTS="$FZF_OPTS"
 
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview 'bat -pf --line-range :999 {}' --bind='ctrl-o:execute(nvim {})'"
+export FZF_CTRL_T_OPTS="--preview 'cat -pf --line-range :999 {}' --bind='ctrl-o:execute(nvim {})'"
 
 if [[ $OSTYPE == darwin* ]]; then
   test -f /opt/homebrew/opt/fzf/shell/completion.zsh   \

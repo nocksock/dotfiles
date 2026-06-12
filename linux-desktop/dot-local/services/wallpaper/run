@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-current=$(gsettings get org.gnome.desktop.interface color-scheme)
+current=$(darkman get)
 
 echo "Current color scheme: $current"
 

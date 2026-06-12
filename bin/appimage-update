@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+TARGET_DIR="$HOME/.local/bin"
+
+if [[ $1 == "fetch" ]]; then
+    shift
+    echo "Downloading $2 from https://github.com/$1"
+    gh release download \
+        --repo $1       \
+        --pattern $2    \
+        --clobber       \
+        --output "$TARGET_DIR/$2"
+
+    chmod +x "$TARGET_DIR/$2"
+    echo "$1 done"
+    exit 0
+fi
+
+parallel -n2 -j5 $0 fetch -- \
+    tidewave-ai/tidewave_app  tidewave-app-amd64.AppImage \
+    livebook-dev/livebook     Livebook-linux-amd64.AppImage
+
+# $0  fetch  tidewave-ai/tidewave_app  tidewave-app-amd64.AppImage
+# $0  fetch  livebook-dev/livebook     Livebook-linux-amd64.AppImage
+

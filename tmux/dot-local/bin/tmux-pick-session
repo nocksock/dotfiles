@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+picked=$(
+    tmux-list-sessions           \
+        -F '#{session_name}'     \
+    | vicinae dmenu              \
+        -p "Pick a tmux session" \
+        -s "Sessions"
+)
+
+if [ -n "$picked" ]; then
+    kitty -1 --class=tmux-session tmux attach-session -t "$picked"
+fi
+
+# selected_dir=${1:-$(tm-list-projects | fzf --preview="tm-preview {}")} || exit 0
+# tm-open $selected_dir

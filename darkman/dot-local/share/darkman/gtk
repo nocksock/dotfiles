@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+if [[ $1 == "light" ]]; then
+    dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita'"
+    dconf write /org/gnome/desktop/interface/color-scheme "'prefer-light'"
+else
+    dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita-dark'"
+    dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
+fi

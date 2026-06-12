@@ -58,11 +58,15 @@ nnoremap <leader>ii <cmd>Inspect<cr>
 " toggles
 nnoremap <leader>tn <cmd>Num<cr>
 nnoremap <leader>tg <cmd>Gitsigns toggle_signs<cr>
+nnoremap <leader>G <cmd>Git<cr><c-w>T
 nnoremap <leader>tsc <cmd>TSContextToggle<cr>
 nnoremap <leader>tu <cmd>MundoToggle<CR>
 nnoremap <leader>tdb :DBUIToggle<cr>
 nnoremap <leader>tcd :Copilot disable<cr>
 nnoremap <leader>tce :Copilot enable<cr>
+nnoremap <localleader>cp :Copilot! panel<cr>
+nnoremap <localleader>ca :Copilot! attach<cr>
+nnoremap <M-.> <cmd>Copilot! attach<cr>
 nnoremap <leader>do :DoToggle<cr>
 nnoremap <leader>de :DoEdit<cr>
 nnoremap <leader>tch <Cmd>CodeCompanionChat Toggle<CR>

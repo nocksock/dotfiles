@@ -17,9 +17,16 @@
     icon = icon;
   };
 
+  # mkCliApp = {name, cmd}:  {
+  #   inherit name; 
+  #   type = "Application";
+  #   terminal = false;
+  #   exec = "${pkgs.kitty}/bin/kitty  ${cmd}";
+  # };
+
   mkApp = {
     name,
-    appImage
+    appImage,
   }: {
     inherit name;
     type = "Application";
@@ -28,21 +35,22 @@
   };
 
   # Wrap a package to use NVIDIA GPU via PRIME offload
-  wrapWithNvidia = pkg: pkgs.symlinkJoin {
-    name = "${pkg.pname or pkg.name}-nvidia";
-    paths = [ pkg ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      for bin in $out/bin/*; do
-        if [ -f "$bin" ] && [ -x "$bin" ]; then
-          wrapProgram "$bin" \
-            --set __NV_PRIME_RENDER_OFFLOAD 1 \
-            --set __VK_LAYER_NV_optimus NVIDIA_only \
-            --set __GLX_VENDOR_LIBRARY_NAME nvidia
-        fi
-      done
-    '';
-  };
+  wrapWithNvidia = pkg:
+    pkgs.symlinkJoin {
+      name = "${pkg.pname or pkg.name}-nvidia";
+      paths = [pkg];
+      buildInputs = [pkgs.makeWrapper];
+      postBuild = ''
+        for bin in $out/bin/*; do
+          if [ -f "$bin" ] && [ -x "$bin" ]; then
+            wrapProgram "$bin" \
+              --set __NV_PRIME_RENDER_OFFLOAD 1 \
+              --set __VK_LAYER_NV_optimus NVIDIA_only \
+              --set __GLX_VENDOR_LIBRARY_NAME nvidia
+          fi
+        done
+      '';
+    };
 
   # Packages that should use the NVIDIA GPU by default
   nvidiaPackages = [
@@ -77,14 +85,14 @@ in {
       lock-before-sleep = {
         Unit = {
           Description = "Lock screen before sleep";
-          Before = [ "sleep.target" ];
+          Before = ["sleep.target"];
         };
         Service = {
           Type = "oneshot";
           ExecStart = "${pkgs.swaylock}/bin/swaylock -f";
         };
         Install = {
-          WantedBy = [ "sleep.target" ];
+          WantedBy = ["sleep.target"];
         };
       };
 
@@ -252,101 +260,85 @@ in {
     #   "sha256-BvVE9qupMjw7JRqFUj1J0a4ys6kc9fOLBPx2bGaapTk="
     #   "Fuchsia-Pop";
 
-    home.packages = with pkgs; [
-      # Terminal emulators
-      kitty
-      ghostty
+    home.packages = with pkgs;
+      [
+        # Terminal emulators
+        kitty
+        ghostty
 
-      # Screen locker
-      swaylock
+        # Screen locker
+        swaylock
 
-      # Desktop environment components
-      fuzzel
-      tofi
-      zenity
+        # Desktop environment components
+        fuzzel
+        tofi
+        zenity
 
-      waybar
-      swaybg
-      wtype
-      clipse
-      cliphist
-      apple-cursor
-      pkg-config
+        waybar
+        swaybg
+        wtype
+        clipse
+        cliphist
+        apple-cursor
+        pkg-config
 
-      inputs.quickshell.packages.${system}.default
-      inputs.noctalia.packages.${system}.default
+        inputs.quickshell.packages.${system}.default
+        inputs.noctalia.packages.${system}.default
 
-      # GUI file managers & utilities
-      nautilus
-      gnome-font-viewer
-      loupe
-      gradia
-      pavucontrol
+        # GUI file managers & utilities
+        nautilus
+        gnome-font-viewer
+        loupe
+        gradia
 
-      wiremix
-      bluetui
+        # Browsers etc
+        firefox
+        brave
+        ungoogled-chromium
+        qutebrowser
 
-      # Browsers etc
-      firefox
-      brave
-      ungoogled-chromium
-      qutebrowser
+        # Password managers
+        _1password-cli
+        _1password-gui
+        bitwarden-desktop
 
-      # Password managers
-      _1password-cli
-      _1password-gui
-      bitwarden-desktop
+        # Creative apps (GPU apps in nvidiaPackages below)
+        gimp
+        digikam
 
-      # Creative apps (GPU apps in nvidiaPackages below)
-      gimp
-      digikam
+        # Communication
+        discord
+        teams-for-linux
+        beeper
 
-      # Communication
-      discord
-      teams-for-linux
-      beeper
+        # Other apps
+        zeal
+        obsidian
+        cider-2
+        syncthing
+        icloudpd
+        wl-mirror
+        appimage-run
+        figma-linux
+        transmission_4
+        sox
 
-      # Other apps
-      zeal
-      obsidian
-      cider-2
-      syncthing
-      icloudpd
-      wl-mirror
-      appimage-run
-      figma-linux
-      transmission_4
-      sox
-
-      # libraries, file formats
-      libheif
-      pnpm
-    ] ++ nvidiaPackages;
+        # libraries, file formats
+        libheif
+        pnpm
+      ]
+      ++ nvidiaPackages;
 
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
         serif = ["Noto Serif"];
         sansSerif = ["Noto Sans"];
-        monospace = ["Caskaydia Mono Nerd Font"];
+        monospace = ["Rec Mono Linear"];
       };
     };
 
-
-    programs.starship = {
-        enable = true;
-        # Configuration written to ~/.config/starship.toml
-        settings = {
-        # add_newline = false;
-
-        # character = {
-        #   success_symbol = "[➜](bold green)";
-        #   error_symbol = "[➜](bold red)";
-        # };
-
-        # package.disabled = true;
-        };
-    };
+    programs.starship.enable = true;
 
     xdg.desktopEntries = {
       # reminder: there is ./icons/get-icon.sh <url>
@@ -377,7 +369,13 @@ in {
 
       fastmail = mkPWA {
         name = "Fastmail";
-        url = "https://www.fastmail.com/";
+        url = "https://app.fastmail.com/";
+        icon = ./icons/fastmail.com.png;
+      };
+
+      calendar = mkPWA {
+        name = "Calendar";
+        url = "https://app.fastmail.com/calendar/";
         icon = ./icons/fastmail.com.png;
       };
 
@@ -400,7 +398,7 @@ in {
 
       polypane = mkApp {
         name = "Polypane";
-        appImage = "${config.home.homeDirectory}/.local/bin/Polypane-27.0.2.AppImage";
+        appImage = "${config.home.homeDirectory}/.local/bin/Polypane.AppImage";
       };
 
       tableplus = mkApp {
@@ -422,7 +420,14 @@ in {
         name = "btop";
         type = "Application";
         terminal = false;
-        exec = "${pkgs.kitty}/bin/kitty  ${pkgs.btop}/bin/btop";
+        exec = "${pkgs.kitty}/bin/kitty -e ${pkgs.btop}/bin/btop";
+      };
+
+      bluetui = {
+        name = "bluetui";
+        type = "Application";
+        terminal = false;
+        exec = "${pkgs.kitty}/bin/kitty -e ${pkgs.bluetui}/bin/bluetui";
       };
     };
   };

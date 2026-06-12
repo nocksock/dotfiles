@@ -7,12 +7,19 @@ export EDITOR=nvim
 # export PAGER="nvim +Man! -R"
 # export MANPAGER='nvim +Man!'
 export HOMEBREW_NO_AUTO_UPDATE=1
-export SBOX_DIR="$HOME/code/sandboxes/"
-export SBOX_PATHS=(
-    "$HOME/code/sandboxes"
-    "$HOME/code/bleepbloop.git/main/packages"
-    "$HOME/code/bleepbloop.git/main/apps"
+export SBOX_DIR="$HOME/sandboxes"
+export SBOX_PATHS="$SBOX_DIR"
+typeset -T TM_PROJECTS tm_projects ':'
+tm_projects=(
+  '~/projects/*'
+  '~/projects/edk/*'
+  '~/projects/studio/*'
+  '~/projects/wag/*'
+  '~/dotfiles/*'
+  '~/dotfiles/'
+  '~/.pi/'
 )
+export TM_PROJECTS
 
 # {{{ compinit
 
@@ -100,11 +107,17 @@ bindkey -M vicmd 'j' history-substring-search-down
 export WORDCHARS="*?_.[]~!$%^(){}<>" # removed =/&;.-#
 
 # }}}
-# switch from bar to block depending on input mode {{{
+# switch cursor shape depending on vi mode {{{
+# block in command mode, beam in insert mode
 
-set show-mode-in-prompt on
-set vi-cmd-mode-string "\1\e[2 q\2"
-set vi-ins-mode-string "\1\e[6 q\2"
+function zle-line-init zle-keymap-select {
+    case ${KEYMAP} in
+        vicmd) printf '\e[2 q' ;;  # block
+        *)     printf '\e[6 q' ;;  # beam
+    esac
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
 
 # }}}
 # {{{ history settings
@@ -179,7 +192,7 @@ fi
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
-source <(fzf --zsh) 
+eval "$(fzf --zsh)"
 
 if [[ -n $KITTY_PID ]]; then
         alias ssh="kitty +kitten ssh"

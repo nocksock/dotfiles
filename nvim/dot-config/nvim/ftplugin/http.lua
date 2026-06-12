@@ -1,3 +1,4 @@
+
 require 'baggage'.from {
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/rest-nvim/rest.nvim"
@@ -38,4 +39,7 @@ rest.setup({
   yank_dry_run = true,
 })
 
-vim.keymap.set('n', '<CR>', function() rest.run() end, { buffer = 0 })
+-- rest.run no longer exists, run via :Run
+vim.api.nvim_set_keymap('n', '<leader>rr', ':Rest run<CR>', { noremap = true, silent = true })
+
+

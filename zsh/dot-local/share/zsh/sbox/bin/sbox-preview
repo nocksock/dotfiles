@@ -7,13 +7,15 @@ if [[ -f "package.json" ]]; then
 	cat "package.json" | jq -r '[.name, .description] | .[] | select(. != null)'
 fi
 
-if [[ $(git rev-parse --is-inside-work-tree) ]]; then
-	echo "--- git:"
-	git log --oneline . | head -n 4
+if [[ -f ".git" ]]; then
+    if [[ $(git rev-parse --is-inside-work-tree) ]]; then
+	    echo "--- git:"
+	    git log --oneline . | head -n 4
+    fi
 fi
 
 if [[ -f "$1/README.md" ]]; then
-	echo "--- REDAME.md"
+	echo "--- README.md"
 	echo
 	cat "$1/README.md"
 fi
