@@ -4,8 +4,8 @@ local theme = require("lua.theme")
 
 hl.config({
     general = {
-        gaps_in  = theme.SPACE_MD,
-        gaps_out = theme.SPACE_LG,
+        gaps_in  = theme.SPACE_SM,
+        gaps_out = theme.SPACE_MD,
         border_size = theme.BORDER_SIZE_DEFAULT,
 
         col = {
@@ -20,7 +20,7 @@ hl.config({
 
     decoration = {
         rounding       = 8,
-        rounding_power = 8,
+        rounding_power = 4,
 
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
@@ -63,8 +63,8 @@ hl.curve("easeOutQuad", { type = "bezier", points = { {0.25, 0.46}, {0.45, 0.94}
 
 -- Animations
 hl.animation({ leaf = "workspaces",         enabled = false, speed = 0,   bezier = "default",    style = "slidefade" })
-hl.animation({ leaf = "specialWorkspaceIn", enabled = true,  speed = 1.5, bezier = "default",    style = "slidefadevert" })
-hl.animation({ leaf = "specialWorkspaceOut",enabled = true,  speed = 2,   bezier = "default",    style = "slidefadevert" })
+hl.animation({ leaf = "specialWorkspaceIn", enabled = true,  speed = 1,   bezier = "default",    style = "fade" })
+hl.animation({ leaf = "specialWorkspaceOut",enabled = true,  speed = 1,   bezier = "default",    style = "slidefadevert" })
 hl.animation({ leaf = "windows",            enabled = true,  speed = 1,   bezier = "default",    style = "popin" })
 hl.animation({ leaf = "windowsIn",          enabled = true,  speed = 2,   bezier = "easeOutExpo", style = "slide 20%" })
 hl.animation({ leaf = "windowsOut",         enabled = true,  speed = 1,   bezier = "easeOutQuad", style = "slide 20%" })

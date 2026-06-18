@@ -107,6 +107,12 @@ function M.border(n)
     return M.border_base * n
 end
 
+-- Replace the alpha channel of an rgba(RRGGBBAA) color string.
+-- a is an integer 0-255 (255 = opaque, 128 = 50% transparent).
+function M.alpha(color, a)
+    return (color:gsub("(rgba%(%x%x%x%x%x%x)%x%x%)", string.format("%%1%02X)", a)))
+end
+
 -- Semantic spacing
 M.SPACE_XS = M.space(1)
 M.SPACE_SM = M.space(2)
@@ -118,13 +124,14 @@ M.SPACE_3XL = M.space(48)
 M.SPACE_4XL = M.space(72)
 
 -- Semantic borders
-M.BORDER_SIZE_DEFAULT = M.border_base
+M.BORDER_SIZE_DEFAULT = M.border(2)
 M.BORDER_SIZE_THIN = 1
 M.BORDER_SIZE_THICK = M.border(3)
+M.BORDER_SIZE_FULLSCREEN = M.border(16)
 
 -- Semantic colors
-M.COLOR_BORDER_ACTIVE = M.COLOR.LILAC_300
-M.COLOR_BORDER_INACTIVE = M.COLOR.STONE_700
+M.COLOR_BORDER_ACTIVE = M.COLOR.GREEN_400
+M.COLOR_BORDER_INACTIVE = M.COLOR.STONE_800
 
 -- Shadow
 M.SHADOW_OFFSET_X = M.space(3)

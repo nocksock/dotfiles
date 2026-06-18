@@ -13,13 +13,14 @@ hl.workspace_rule({ workspace = "6", monitor = "desc:" .. monitors.LAPTOP,   per
 
 -- Gap rules for visible workspaces
 hl.workspace_rule({ workspace = "w[v1]",         gaps_in = theme.SPACE_LG, gaps_out = theme.SPACE_MD })
-hl.workspace_rule({ workspace = "w[v1]s[true]",  gaps_in = theme.SPACE_LG, gaps_out = theme.SPACE_2XL })
+hl.workspace_rule({ workspace = "w[v1]s[true]",  gaps_in = theme.SPACE_LG, gaps_out = theme.SPACE_LG })
 hl.workspace_rule({ workspace = "f[0]",          gaps_in = theme.SPACE_LG, gaps_out = theme.SPACE_2XL })
-hl.workspace_rule({ workspace = "f[1]",          gaps_out = theme.SPACE_XL })
+hl.workspace_rule({ workspace = "f[1]",          gaps_out = theme.SPACE_LG })
 
 -- Special workspaces
 hl.workspace_rule({ workspace = "name:special:notes",  layout = "master" })
 hl.workspace_rule({ workspace = "name:special:term",   layout = "master" })
+hl.workspace_rule({ workspace = "name:special:docs", layout = "scrolling" })
 hl.workspace_rule({ workspace = "name:special:hidden", layout = "scrolling" })
 
 -- HDMI monitor specific

@@ -66,8 +66,15 @@ hl.window_rule({
 hl.window_rule({
     name  = "fullscreen-border",
     match = { fullscreen = true },
-    border_color = { colors = {theme.COLOR.GREY_800, theme.COLOR.LILAC_200}, angle = 90 },
-    border_size  = theme.BORDER_SIZE_THICK,
+    border_color = {
+        colors = {
+            theme.alpha(theme.COLOR.GREY_950, 255),
+            theme.alpha(theme.COLOR.LILAC_600, 255),
+        },
+        angle = 90,
+    },
+
+    border_size  = theme.BORDER_SIZE_FULLSCREEN,
 })
 
 hl.window_rule({
@@ -107,6 +114,15 @@ hl.window_rule({
     float = true,
 })
 
+hl.window_rule({
+    name  = "noctalia",
+    match = { 
+        class = "^dev.noctalia.noctalia-qs$"
+    },
+    float = true,
+})
+
+
 -- 1Password
 hl.window_rule({
     name  = "1password-float",
@@ -136,3 +152,13 @@ hl.window_rule({
     match = { title = ".*Livebook$" },
     fullscreen_state = "0 2",
 })
+
+-- float.md
+hl.window_rule({
+    name  = "floatmd",
+    match = { class = "float.md" },
+    float = true,
+    pin   = false,
+    size  = "1200 960",
+})
+

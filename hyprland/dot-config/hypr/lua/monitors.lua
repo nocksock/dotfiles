@@ -6,6 +6,7 @@ local M = {}
 M.LAPTOP = "Samsung Display Corp. ATNA40CU05-0"
 M.DELL = "Dell Inc. DELL U2515H 9X2VY5C71BTL"
 M.LG = "LG Electronics LG ULTRAWIDE 0x00012CF1"
+M.EDK = "NEC Corporation EA273WMi 77307568NB"
 M.EXTERNAL = M.DELL
 
 hl.monitor({
@@ -22,26 +23,37 @@ hl.monitor({
     scale    = 1.0,
 })
 
+--  to the left
+-- hl.monitor({
+--     output   = "eDP-2",
+--     mode     = "preferred",
+--     position = "-2159x720",
+--     position = "auto-center-left",
+--     scale    = 1.33,
+-- })
+
+-- below centered
 hl.monitor({
-    output   = "eDP-1",
+    output   = "eDP-8",
     mode     = "preferred",
-    position = "560x1440",
+    position = "auto-center-down",
     scale    = 1.33,
 })
 
+-- below centered
 hl.monitor({
     output   = "eDP-2",
     mode     = "preferred",
-    position = "-2160x720",
+    position = "auto-center-down",
     scale    = 1.33,
 })
 
--- Fallback for other monitors
-hl.monitor({
-    output   = "",
-    mode     = "preferred",
-    position = "auto",
-    scale    = "auto",
-})
+-- -- Fallback for other monitors
+-- hl.monitor({
+--     output   = "",
+--     mode     = "preferred",
+--     position = "auto",
+--     scale    = "auto",
+-- })
 
 return M

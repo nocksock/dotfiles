@@ -11,8 +11,9 @@ hl.bind("SUPER + CTRL + Space", hl.dsp.exec_cmd("vicinae vicinae://extensions/vi
 -- Utilities and apps
 hl.bind("SUPER + E", hl.dsp.exec_cmd("sh -c 'tm-list-projects | fuzzel --dmenu | xargs kitty -d'"))
 hl.bind("SUPER + CTRL + Y", hl.dsp.exec_cmd("kitty yazi"))
+hl.bind("SUPER + CTRL + M", hl.dsp.exec_cmd("kitty --class float.md -e wiremix"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("~/.local/bin/nox-menu"))
-hl.bind("SUPER + Slash", hl.dsp.exec_cmd("1password"))
+hl.bind("SUPER + Backslash", hl.dsp.exec_cmd("1password"))
 hl.bind("SUPER + CTRL + Comma", hl.dsp.exec_cmd("obsidian"))
 hl.bind("SUPER + CTRL + D", hl.dsp.exec_cmd("kitty lazydocker"))
 hl.bind("SUPER + Delete", hl.dsp.exec_cmd("makoctl dismiss --all"))
@@ -131,10 +132,8 @@ for i = 1, 8 do
 end
 
 -- next workspace
-hl.bind("SUPER + BracketRight", hl.dsp.focus({ workspace = "next" }))
-hl.bind("SUPER + BracketLeft", hl.dsp.focus({ workspace = "previous" }))
-
-hl.bind("SUPER + Tab", hl.dsp.focus({ workspace = "previous" }))
+hl.bind("SUPER + BracketRight", hl.dsp.focus({ workspace = "+1" }))
+hl.bind("SUPER + BracketLeft", hl.dsp.focus({ workspace = "-1" }))
 
 -- Special Workspaces
 hl.bind("SUPER + Semicolon", hl.dsp.workspace.toggle_special("term"))
@@ -145,6 +144,10 @@ hl.bind("SUPER + CTRL + Comma", hl.dsp.window.move({ workspace = "special:term",
 
 hl.bind("SUPER + Period", hl.dsp.workspace.toggle_special("notes"))
 hl.bind("SUPER + CTRL + Period", hl.dsp.window.move({ workspace = "special:notes" }))
+
+hl.bind("SUPER + Slash", hl.dsp.workspace.toggle_special("docs"))
+hl.bind("SUPER + CTRL + Slash", hl.dsp.window.move({ workspace = "special:docs", silent = true }))
+
 
 hl.bind("SUPER + Delete", hl.dsp.workspace.toggle_special("hidden"))
 hl.bind("SUPER + CTRL + Delete", hl.dsp.window.move({ workspace = "special:hidden", silent = true }))
@@ -200,3 +203,7 @@ hl.bind("SUPER + CTRL + 0", hl.dsp.exec_cmd("hyprctl -q keyword cursor:zoom_fact
 
 -- Lid switch
 hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("hyprlock"), { locked = true })
+
+hl.bind("SUPER + Tab", function()
+    hl.dispatch(hl.dsp.focus({workspace = "+1"}))    -- Change focus to another window
+end)
