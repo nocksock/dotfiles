@@ -118,6 +118,8 @@
     hyprsunset
   ];
 
+
+  programs.gpu-screen-recorder.enable = true; 
   programs.hyprland.enable = true;
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
