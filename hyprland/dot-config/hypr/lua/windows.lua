@@ -2,6 +2,21 @@
 
 local theme = require("lua.theme")
 
+-- Fullscreen border styling
+hl.window_rule({
+    name  = "fullscreen-border",
+    match = { fullscreen = true },
+    border_color = {
+        colors = {
+            theme.alpha(theme.COLOR.GREY_950, 255),
+            theme.alpha(theme.COLOR.GREY_950, 255),
+        },
+        angle = 90,
+    },
+    border_size  = theme.BORDER_SIZE_BLOCK,
+})
+
+
 -- Block from screen capture
 hl.window_rule({
     name  = "1password-no-record",
@@ -60,21 +75,6 @@ hl.window_rule({
     match = { class = "float-note" },
     float = true,
     pin   = true,
-})
-
--- Fullscreen border styling
-hl.window_rule({
-    name  = "fullscreen-border",
-    match = { fullscreen = true },
-    border_color = {
-        colors = {
-            theme.alpha(theme.COLOR.GREY_950, 255),
-            theme.alpha(theme.COLOR.LILAC_600, 255),
-        },
-        angle = 90,
-    },
-
-    border_size  = theme.BORDER_SIZE_FULLSCREEN,
 })
 
 hl.window_rule({

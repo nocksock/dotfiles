@@ -6,8 +6,8 @@ hl.config({
         kb_variant = "",
         kb_model   = "",
         kb_rules   = "",
-        -- kb_options = "ctrl:nocaps",
-        kb_options = "ctrl:nocaps,altwin:swap_lalt_lwin",
+        kb_options = "ctrl:nocaps",
+        -- kb_options = "ctrl:nocaps,altwin:swap_lalt_lwin",
 
         follow_mouse     = 2,
         numlock_by_default = true,
@@ -30,6 +30,10 @@ hl.config({
     cursor = {
         persistent_warps         = true,
         warp_on_change_workspace = true,
+        -- NVIDIA: avoid the stale hardware-cursor plane left by GNOME/GDM
+        -- showing as a frozen second cursor. Software cursors are composited
+        -- into Hyprland's own framebuffer, so no separate HW plane can ghost.
+        no_hardware_cursors      = true,
     },
 })
 

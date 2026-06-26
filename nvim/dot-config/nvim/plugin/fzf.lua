@@ -66,6 +66,13 @@ vim.keymap.set({'n'} , '<leader>g'     , fzf 'live_grep')
 vim.keymap.set({'n'} , '<leader>s'     , fzf 'lsp_document_symbols')
 vim.keymap.set({'n'} , '<leader>F'     , ':FzfLua<cr>')
 
+vim.keymap.set({'n'} , '<leader>G'     , fzf 'git_status')
+vim.keymap.set({'n'} , '<localleader>gg'     , fzf 'builtin git')
+vim.keymap.set({'n'} , '<localleader>gs'     , fzf 'git_status')
+vim.keymap.set({'n'} , '<localleader>gd'     , fzf 'git_diff')
+vim.keymap.set({'n'} , '<localleader>gc'     , fzf 'git_commits')
+vim.keymap.set({'n'} , '<localleader>gb'     , fzf 'git_branches')
+
 vim.keymap.set({'n'}, '<leader>E', function()
   local filename = vim.fn.expand('%:t:r');
   require('fzf-lua').files({

@@ -14,6 +14,8 @@ tm_projects=(
   '~/projects/*'
   '~/projects/edk/*'
   '~/projects/studio/*'
+  '~/projects/knubbel/apps/*'
+  '~/projects/knubbel/packages/*'
   '~/projects/wag/*'
   '~/dotfiles/*'
   '~/dotfiles/'
@@ -225,3 +227,6 @@ alias oc="nix-shell -p bun --command 'bun run --cwd ~/oss/opencode/packages/open
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/nr/.lmstudio/bin"
 # End of LM Studio CLI section
+#
+#
+export PATH="$HOME/.asdf/shims:$PATH"

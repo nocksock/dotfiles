@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/nr/sandboxes/phx-feat-modifier/docs'
+let g:netrw_dirhist_3='/home/nr/sandboxes/phx-feat-modifier/docs/jetons'
+let g:netrw_dirhist_2='/home/nr/sandboxes/phx-feat-modifier/docs'
+let g:netrw_dirhist_1='/home/nr/sandboxes/phx-feat-modifier/docs/spec'
+let g:netrw_dirhist_0='/home/nr/sandboxes/phx-feat-modifier/docs'
+let g:netrw_dirhist_9='/home/nr/sandboxes/phx-feat-modifier/docs/superpowers'
+let g:netrw_dirhist_8='/home/nr/sandboxes/phx-feat-modifier/docs/superpowers/plans'
+let g:netrw_dirhist_7='/home/nr/sandboxes/phx-feat-modifier/docs/superpowers'
+let g:netrw_dirhist_6='/home/nr/sandboxes/phx-feat-modifier/docs/superpowers/specs'
+let g:netrw_dirhist_5='/home/nr/sandboxes/phx-feat-modifier/docs/superpowers'

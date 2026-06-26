@@ -66,7 +66,6 @@
             {home-manager = {extraSpecialArgs = {inherit inputs;};};}
             ./nixos/hosts/blade/configuration.nix
             ./nixos/desktop.nix
-            ./nixos/modules/greetd.nix
             ./nixos/modules/de/gnome.nix
             { hardware.keyboard.qmk.enable = true; }
             # System modules

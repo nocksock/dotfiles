@@ -2,7 +2,7 @@ export DOTLOG="$HOME/.dotfiles.log"
 export DOTDIR="$HOME/dotfiles"
 
 export BUN_INSTALL="$HOME/.bun"
-export EDITOR='/usr/local/bin/nvim' # used for commits and such
+export EDITOR="$(command -v nvim || command -v vim || echo vi)" # used for commits and such (non-interactive); resolved portably across machines
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export CHROMIUM_EXECUTABLE_PATH="$(which chromium-browser)"
@@ -12,25 +12,27 @@ export N_PREFIX="$HOME/n";
 
 declare -U PATH path
 path=(
-  "$HOME/bin"
-  "$HOME/.local/bin"
-  "$DOTDIR/bin"
-        "/opt/homebrew/opt/postgresql@15/bin"
-  "/opt/homebrew/opt/grep/libexec/gnubin" 
-  "/opt/homebrew/bin"
-  "/opt/homebrew/sbin"
-        "$HOME/.deno/bin"
-        "$HOME/.mix/escripts"
-        "$HOME/go/bin"
-  "$HOME/.cargo/bin"
-  "$PNPM_HOME"
-  "$BUN_INSTALL/bin"
-  "$HOME/.composer/vendor/bin"
-  "/usr/local/bin" 
-  "/usr/local/cuda-11.6/bin"
-  "$path[@]"
-  "$N_PREFIX/bin"
-  "$HOME/.cache/lm-studio/bin"
+    "$HOME/bin"
+    "$HOME/.local/bin"
+    "$DOTDIR/bin"
+    "$HOME/.asdf/shims"
+    "$PNPM_HOME"
+    "$PNPM_HOME/bin"
+    "$HOME/.deno/bin"
+    "$HOME/.mix/escripts"
+    "$HOME/go/bin"
+    "$HOME/.cargo/bin"
+    "$BUN_INSTALL/bin"
+    "$HOME/.composer/vendor/bin"
+    "/usr/local/bin" 
+    "/usr/local/cuda-11.6/bin"
+    "$N_PREFIX/bin"
+    "$HOME/.cache/lm-studio/bin"
+    "/opt/homebrew/opt/postgresql@15/bin"
+    "/opt/homebrew/opt/grep/libexec/gnubin" 
+    "/opt/homebrew/bin"
+    "/opt/homebrew/sbin"
+    "$path[@]"
 )
 export PATH
  export NPM_CONFIG_PREFIX="$HOME/.npm-global"

@@ -1,4 +1,5 @@
 -- Keybindings
+-- keynames https://github.com/xkbcommon/libxkbcommon/blob/master/include/xkbcommon/xkbcommon-keysyms.h
 
 local theme = require("lua.theme")
 
@@ -9,8 +10,6 @@ hl.bind("SUPER + SHIFT + Space", hl.dsp.exec_cmd("fuzzel"))
 hl.bind("SUPER + CTRL + Space", hl.dsp.exec_cmd("vicinae vicinae://extensions/vicinae/core/search-emojis"))
 
 -- Utilities and apps
-hl.bind("SUPER + E", hl.dsp.exec_cmd("sh -c 'tm-list-projects | fuzzel --dmenu | xargs kitty -d'"))
-hl.bind("SUPER + CTRL + Y", hl.dsp.exec_cmd("kitty yazi"))
 hl.bind("SUPER + CTRL + M", hl.dsp.exec_cmd("kitty --class float.md -e wiremix"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("~/.local/bin/nox-menu"))
 hl.bind("SUPER + Backslash", hl.dsp.exec_cmd("1password"))
@@ -104,10 +103,11 @@ end)
 
 -- Resize window
 -- TODO: hl.dsp.window.resize requires both x and y as valid resize values
--- hl.bind("SUPER + Minus", hl.dsp.window.resize({ x = "-11%", y = "0" }))
--- hl.bind("SUPER + Equal", hl.dsp.window.resize({ x = "11%", y = "0" }))
--- hl.bind("SUPER + SHIFT + Minus", hl.dsp.window.resize({ x = "0", y = "-11%" }))
--- hl.bind("SUPER + SHIFT + Equal", hl.dsp.window.resize({ x = "0", y = "11%" }))
+local resizeUnit = 100;
+hl.bind("SUPER + Minus", hl.dsp.window.resize({ x = -resizeUnit, y = 0, relative = true }))
+hl.bind("SUPER + Equal", hl.dsp.window.resize({ x = resizeUnit, y = 0, relative = true }))
+hl.bind("SUPER + SHIFT + Minus", hl.dsp.window.resize({ x = 0, y = -resizeUnit, relative = true }))
+hl.bind("SUPER + SHIFT + Equal", hl.dsp.window.resize({ x = 0, y = resizeUnit, relative = true }))
 
 -- Tiling control
 hl.bind("SUPER + R", hl.dsp.layout("togglesplit"))
@@ -126,10 +126,48 @@ hl.bind("SUPER + P", hl.dsp.window.pseudo())
 hl.bind("SUPER + CTRL + P", hl.dsp.window.fullscreen_state({ internal = -1, client = 2 }))
 
 -- Workspace management
-for i = 1, 8 do
+for i = 2, 8 do
     hl.bind("SUPER + " .. i, hl.dsp.focus({ workspace = i }))
     hl.bind("SUPER + CTRL + " .. i, hl.dsp.window.move({ workspace = i }))
 end
+hl.bind("SUPER + SHIFT + Grave", hl.dsp.focus({ workspace = "9" }))
+
+local monitors = require("lua.monitors")
+
+local notify = function(text)
+    hl.notification.create({ timeout = 1000, text = text })
+end
+
+hl.bind("SUPER + Grave", function ()
+    if monitors.is_connected(monitors.DELL) then
+        hl.dispatch(hl.dsp.focus({ workspace = "s1" }))
+        local current = hl.get_active_workspace()
+        local dell = hl.get_monitor("desc:" .. monitors.DELL)
+        local workspace = hl.get_active_workspace(dell)
+
+        if workspace == nil then
+            notify("No active workspace on Dell monitor")
+            return
+        end
+
+        if workspace.name == "9" then
+            hl.dispatch(hl.dsp.focus({ workspace = "0" }))
+        else
+            hl.dispatch(hl.dsp.focus({ workspace = "9" }))
+        end
+
+        hl.dispatch(hl.dsp.focus({ workspace = current }))
+
+
+        -- hl.notification.create({ timeout = 1000, text = active.name })
+        -- if active.name == "1" then
+        --     hl.dispatch(hl.dsp.focus({ workspace = "2" }))
+        -- else
+        --     hl.dispatch(hl.dsp.focus({ workspace = "1" }))
+        -- end
+    end
+end)
+
 
 -- next workspace
 hl.bind("SUPER + BracketRight", hl.dsp.focus({ workspace = "+1" }))
@@ -202,7 +240,18 @@ hl.bind("SUPER + CTRL + Minus", hl.dsp.exec_cmd([[hyprctl -q keyword cursor:zoom
 hl.bind("SUPER + CTRL + 0", hl.dsp.exec_cmd("hyprctl -q keyword cursor:zoom_factor 1"))
 
 -- Lid switch
+-- Lock on any lid event.
 hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("hyprlock"), { locked = true })
+-- Toggle the laptop panel so docking with the lid shut keeps the externals
+-- working: closed (switch on) -> disable eDP-2; open (switch off) -> restore it.
+-- desc-based via the monitors module so it follows the panel, not a connector name.
+local laptop_desc = "desc:" .. require("lua.monitors").LAPTOP
+hl.bind("switch:on:Lid Switch",
+    hl.dsp.exec_cmd('hyprctl keyword monitor "' .. laptop_desc .. ', disable"'),
+    { locked = true })
+hl.bind("switch:off:Lid Switch",
+    hl.dsp.exec_cmd('hyprctl keyword monitor "' .. laptop_desc .. ', preferred, 3440x900, 1.33"'),
+    { locked = true })
 
 hl.bind("SUPER + Tab", function()
     hl.dispatch(hl.dsp.focus({workspace = "+1"}))    -- Change focus to another window

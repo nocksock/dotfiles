@@ -8,45 +8,24 @@ in {
     createHome = true;
     extraGroups = ["wheel" "snock"];
     openssh.authorizedKeys.keys = [keys.users.snock.publicKey];
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
   };
 
   programs.zsh.enable = true;
 
   home-manager.users.snock = {pkgs, ...}: {
-    home.packages = with pkgs; [
-      atuin
-      ack
-      fzf
-      ttyd
-
-      direnv
-      entr
-      just
-
-      gh
-      lazygit
-      syncthing
-
-      asdf-vm
-      nodejs # default LTS; nodejs_23 was removed from nixpkgs
+    imports = [
+      ../home/dotfiles.nix
+      ../cli.nix
     ];
 
-    programs = {
-      atuin = {
-        enable = true;
-        flags = ["--disable-up-arrow"];
-      };
-
-      direnv.enable = true;
-      zsh.enable = true;
-      zsh.initExtra = ''
-        export VISUAL=vim
-        export EDITOR="$VISUAL"
-      '';
-
-      starship.enable = true;
-    };
+    # Server-only extras not already provided by cli.nix
+    home.packages = with pkgs; [
+      ttyd
+      just
+      ack
+      syncthing
+    ];
 
     home.stateVersion = "24.11";
   };
