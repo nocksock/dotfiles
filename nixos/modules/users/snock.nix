@@ -13,6 +13,11 @@ in {
 
   programs.zsh.enable = true;
 
+  # The shared zshrc forces TERM=xterm-kitty (a kitty assumption from the
+  # desktop); ship kitty's terminfo so SSH sessions resolve it instead of
+  # erroring with "can't find terminal definition for xterm-kitty".
+  environment.systemPackages = [pkgs.kitty.terminfo];
+
   # On a server previously set up with stow, pre-existing dotfiles would block
   # activation. Back them up (e.g. ~/dotfiles -> ~/dotfiles.hm-bak) instead of
   # failing; harmless on a fresh server where nothing conflicts.
