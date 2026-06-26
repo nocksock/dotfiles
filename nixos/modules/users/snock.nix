@@ -13,11 +13,20 @@ in {
 
   programs.zsh.enable = true;
 
+  # On a server previously set up with stow, pre-existing dotfiles would block
+  # activation. Back them up (e.g. ~/dotfiles -> ~/dotfiles.hm-bak) instead of
+  # failing; harmless on a fresh server where nothing conflicts.
+  home-manager.backupFileExtension = "hm-bak";
+
   home-manager.users.snock = {pkgs, ...}: {
     imports = [
       ../home/dotfiles.nix
       ../cli.nix
     ];
+
+    # cli.nix pulls in unfree packages (e.g. terraform); allow them here so
+    # `user-snock` stays self-contained for any consuming flake. Mirrors nr.nix.
+    nixpkgs.config.allowUnfree = true;
 
     # Server-only extras not already provided by cli.nix
     home.packages = with pkgs; [
